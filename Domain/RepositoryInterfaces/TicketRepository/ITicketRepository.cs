@@ -4,8 +4,8 @@ namespace Domain.RepositoryInterfaces.TicketRepository
 {
     public interface ITicketRepository
     {
-        Task<bool> AddAsync(AddTicketDTO ticketDTO);
+        Task AddAsync(Ticket ticket);
         Task<Ticket> GetByIdAsync(int id);
-        Task<bool> DeleteAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

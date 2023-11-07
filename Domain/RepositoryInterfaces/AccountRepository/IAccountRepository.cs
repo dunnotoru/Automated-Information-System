@@ -4,7 +4,7 @@ namespace Domain.RepositoryInterfaces.AccountRepository
 {
     public interface IAccountRepository
     {
-        Task AddAsync(AddAccountDTO addAccountDTO);
+        Task AddAsync(Account account);
         Task<Account> GetByNameAsync(string name);
         Task<Account> GetByIdAsync(int id);
         Task UpdateAsync(Account account);

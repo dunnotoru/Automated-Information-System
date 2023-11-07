@@ -4,9 +4,9 @@ namespace Domain.RepositoryInterfaces.PassportRepository
 {
     public interface IPassportRepository
     {
-        Task<bool> AddAsync(Passport passport);
+        Task AddAsync(Passport passport);
         Task<Passport> GetByNumberSeriesAsync();
-        Task<bool> UpdateAsync(Passport passport);
-        Task<bool> DeleteAsync(int number, int series);
+        Task UpdateAsync(Passport passport);
+        Task DeleteAsync(int number, int series);
     }
 }

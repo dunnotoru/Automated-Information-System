@@ -4,13 +4,13 @@ namespace Domain.RepositoryInterfaces.RunRepository
 {
     public interface IRunRepository
     {
-        Task<bool> AddAsync();
+        Task AddAsync();
         Task<Run> GetByIdAsync(int Id);
         Task<Run> GetByTargetPlaceAsync(Station station);
         Task<Run> GetByDeparturePlaceAsync(Station station);
         Task<Run> GetByDepartureDateTimeAsync(DateTime departureTime);
         Task<Run> GetByArrivalDateTimeAsync(DateTime departureTime);
         Task<Run> GetByDriverAsync(DateTime departureTime);
-        Task<bool> DeleteAsync(int id);
+        Task DeleteAsync(int id);
     }
 }

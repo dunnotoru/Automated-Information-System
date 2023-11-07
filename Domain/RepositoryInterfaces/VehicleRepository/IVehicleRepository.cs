@@ -4,9 +4,9 @@ namespace Domain.RepositoryInterfaces.VehicleRepository
 {
     public interface IVehicleRepository
     {
-        Task<bool> AddAsync();
-        Task<bool> DeleteAsync(string licensePlateNumber);
-        Task<bool> UpdateRepairDataAsync(UpdateVehilceRepairDTO vehilceRepairDTO);
+        Task AddAsync();
+        Task DeleteAsync(string licensePlateNumber);
+        Task UpdateRepairDataAsync(UpdateVehilceRepairDTO vehilceRepairDTO);
         Task<Vehicle> GetByLicensPlateNumberAsync(string licensePlateNumber);
     }
 }
