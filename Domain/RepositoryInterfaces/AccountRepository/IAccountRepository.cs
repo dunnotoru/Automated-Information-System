@@ -1,5 +1,4 @@
-﻿using Domain.Entities.Users;
-using Domain.RepositoryInterfaces.AccountRepository.DTOs;
+﻿using Domain.Models.Users;
 
 namespace Domain.RepositoryInterfaces.AccountRepository
 {

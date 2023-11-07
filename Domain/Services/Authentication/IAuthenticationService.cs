@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Users;
+﻿using Domain.Models.Users;
 
 namespace Domain.Services.Authentication
 {

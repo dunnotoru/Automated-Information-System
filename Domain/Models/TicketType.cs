@@ -1,6 +1,6 @@
 ﻿using Domain.Exceptions;
 
-namespace Domain.Entities
+namespace Domain.Models
 {
     public class TicketType
     {

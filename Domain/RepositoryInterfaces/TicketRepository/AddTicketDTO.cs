@@ -1,10 +1,10 @@
-﻿using Domain.Entities;
+﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces.TicketRepository.DTOs
+namespace Domain.RepositoryInterfaces.TicketRepository
 {
-    public class TicketDTO
+    public class AddTicketDTO
     {
-        public TicketDTO(Run run, Passport passport, 
+        public AddTicketDTO(Run run, Passport passport,
             TicketType ticketType)
         {
             Run = run;

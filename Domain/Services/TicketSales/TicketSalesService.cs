@@ -1,7 +1,5 @@
-﻿using Domain.Entities;
-using Domain.RepositoryInterfaces.PassportRepository;
+﻿using Domain.RepositoryInterfaces.PassportRepository;
 using Domain.RepositoryInterfaces.TicketRepository;
-using Domain.RepositoryInterfaces.TicketRepository.DTOs;
 
 namespace Domain.Services.TicketSales
 {
@@ -20,7 +18,7 @@ namespace Domain.Services.TicketSales
         public Task<bool> SellTicket(int number, int series, 
             string name, string surname, string patro, DateOnly birthday)
         {
-            throw new NotImplementedException();
+            throw new NotFiniteNumberException();
         }
     }
 }

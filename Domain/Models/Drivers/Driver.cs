@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities.Drivers
+﻿namespace Domain.Models.Drivers
 {
     public class Driver
     {

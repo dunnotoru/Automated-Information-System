@@ -1,8 +1,9 @@
 ﻿using ConsoleUI.Controllers;
+using Domain.EntityFramework.Entities;
 using Domain.EntityFramework.Repositories;
-using Domain.RepositoryInterfaces.PassportRepository;
-using Domain.RepositoryInterfaces.TicketRepository;
-using Domain.Services.TicketSales;
+using Domain.RepositoryInterfaces.AccountRepository;
+using Domain.Services;
+using Domain.Services.Authentication;
 
 namespace ConsoleUI
 {
@@ -16,16 +17,19 @@ namespace ConsoleUI
 
         static async Task MainAsync(string[] args)
         {
-            IPassportRepository pr = new PassportRepository();
-            ITicketRepository tr = new TicketRepository();
-            TicketSalesService ticketSalesService
-                = new TicketSalesService(pr, tr);
+            List<AccountEntity> a = new List<AccountEntity>();
+            string connectionString = "Data Source=C:\\Users\\DavlaD\\source\\repos\\Automated Information System\\Domain.EntityFramework\\DataBase.db";
 
-            ConsoleTicketSalesController controller
-                = new ConsoleTicketSalesController(ticketSalesService);
+            IAccountRepository repos = new AccountRepository(connectionString);
+            IPasswordHasher hasher = new PasswordHasher();
+            IAuthenticationService service =
+                new AuthenticationService(repos,hasher);
+            AuthenticationController controller 
+                = new AuthenticationController(service);
 
-            await controller.SellTicket(1234, 567890, "sd",
-                "asd","asd",DateOnly.MaxValue);
+            bool result = await controller.Authenticate("Ryan", "Gosling");
+            Console.WriteLine(result);
+            Console.ReadKey();
         }
     }
 }

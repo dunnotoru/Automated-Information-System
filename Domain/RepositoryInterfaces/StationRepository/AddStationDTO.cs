@@ -1,15 +1,13 @@
-﻿namespace Domain.Entities
+﻿namespace Domain.RepositoryInterfaces.StationRepository
 {
-    public class Station
+    public class AddStationDTO
     {
-        public Station(int id, string name, string address)
+        public AddStationDTO(string name, string address)
         {
-            Id = id;
             Name = name;
             Address = address;
         }
 
-        public int Id { get; }
         public string Name { get; }
         public string Address { get; }
     }

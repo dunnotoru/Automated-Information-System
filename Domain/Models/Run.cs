@@ -1,6 +1,6 @@
-﻿using Domain.Entities.Drivers;
+﻿using Domain.Models.Drivers;
 
-namespace Domain.Entities
+namespace Domain.Models
 {
     public class Run
     {

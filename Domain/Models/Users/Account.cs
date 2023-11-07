@@ -1,19 +1,18 @@
-﻿namespace Domain.Entities.Users
+﻿namespace Domain.Models.Users
 {
     public class Account
     {
-        public Account(Permission accountPermissions, int id, 
-            string name, string passwordHash)
+        public Account(int id, string name, string passwordHash, Permission accountPermissions)
         {
-            AccountPermissions = accountPermissions;
             Id = id;
             Name = name;
             PasswordHash = passwordHash;
+            AccountPermissions = accountPermissions;
         }
 
-        public Permission AccountPermissions { get; }
         public int Id { get; }
         public string Name { get; }
         public string PasswordHash { get; }
+        public Permission AccountPermissions { get; }
     }
 }

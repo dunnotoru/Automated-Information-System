@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Users;
+﻿using Domain.Models.Users;
 using Domain.Exceptions;
 using Domain.RepositoryInterfaces.AccountRepository;
 
