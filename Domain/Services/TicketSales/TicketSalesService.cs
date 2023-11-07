@@ -18,7 +18,7 @@ namespace Domain.Services.TicketSales
         public Task<bool> SellTicket(int number, int series, 
             string name, string surname, string patro, DateOnly birthday)
         {
-            throw new NotFiniteNumberException();
+            throw new NotImplementedException();
         }
     }
 }

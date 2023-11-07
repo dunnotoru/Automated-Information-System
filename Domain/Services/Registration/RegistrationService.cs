@@ -3,6 +3,7 @@ using Domain.Models.Users;
 using Domain.RepositoryInterfaces.AccountRepository;
 using Domain.Services.Hash;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 
 namespace Domain.Services.Registration
 {
@@ -25,13 +26,18 @@ namespace Domain.Services.Registration
                 throw new UsernameAlreadyExistException($"User with name {name} already exist.");
 
             if (!String.Equals(password,passwordConfrimation))
-                throw new PasswordConfrimationDoesnotMatch("Password confrimation doesnt match.");
+                throw new PasswordConfrimationDoesnotMatch("Password confrimation doesn't match.");
 
             string hash = await _passwordHasher.HashPasswordAsync(password);
 
             AddAccountDTO dto = new AddAccountDTO(name, hash, permission);
             
             await _accountRepository.AddAsync(dto);
+        }
+
+        public Task RemoveAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

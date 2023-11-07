@@ -2,8 +2,8 @@
 using Domain.EntityFramework.Entities;
 using Domain.EntityFramework.Repositories.AccountRepositoryImpl;
 using Domain.RepositoryInterfaces.AccountRepository;
-using Domain.Services;
 using Domain.Services.Authentication;
+using Domain.Services.Hash;
 
 namespace ConsoleUI
 {

@@ -6,5 +6,6 @@ namespace Domain.Services.Registration
     {
         Task RegisterAsync(string name, string password, 
             string passwordConfrimation, Permission permission);
+        Task RemoveAsync(int id);
     }
 }

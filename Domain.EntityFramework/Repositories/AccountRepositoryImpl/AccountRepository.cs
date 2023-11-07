@@ -3,6 +3,8 @@ using Domain.EntityFramework.Entities;
 using Domain.RepositoryInterfaces.AccountRepository;
 using Microsoft.EntityFrameworkCore;
 using Domain.EntityFramework.Mappers;
+using Domain.Exceptions;
+using Microsoft.EntityFrameworkCore.Update;
 
 namespace Domain.EntityFramework.Repositories.AccountRepositoryImpl
 {
@@ -15,12 +17,12 @@ namespace Domain.EntityFramework.Repositories.AccountRepositoryImpl
             _connectionString = connectionString;
         }
 
-        public Task<bool> AddAsync(AddAccountDTO accountDTO)
+        public async Task AddAsync(AddAccountDTO addAccountDTO)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -44,7 +46,7 @@ namespace Domain.EntityFramework.Repositories.AccountRepositoryImpl
             return AccountMapper.ToDomain(accountEntity);
         }
 
-        public Task<bool> UpdateAsync(AddAccountDTO accountDTO)
+        public Task UpdateAsync(Account account)
         {
             throw new NotImplementedException();
         }
