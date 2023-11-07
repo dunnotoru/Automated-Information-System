@@ -2,9 +2,6 @@
 {
     public class OutOfPercentRangeException : ArgumentOutOfRangeException
     {
-        public OutOfPercentRangeException(string? paramName) : base(paramName)
-        {
-
-        }
+        public OutOfPercentRangeException(string? paramName) : base(paramName) { }
     }
 }

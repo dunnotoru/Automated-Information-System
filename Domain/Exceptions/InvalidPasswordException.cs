@@ -2,9 +2,6 @@
 {
     internal class InvalidPasswordException : AuthenticationException
     {
-        public InvalidPasswordException(string? message) : base(message)
-        {
-
-        }
+        public InvalidPasswordException(string? message) : base(message) { }
     }
 }

@@ -15,7 +15,7 @@ namespace Domain.EntityFramework.Repositories.AccountRepositoryImpl
             _connectionString = connectionString;
         }
 
-        public Task<bool> AddAsync(AccountDTO accountDTO)
+        public Task<bool> AddAsync(AddAccountDTO accountDTO)
         {
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace Domain.EntityFramework.Repositories.AccountRepositoryImpl
             return AccountMapper.ToDomain(accountEntity);
         }
 
-        public Task<bool> UpdateAsync(AccountDTO accountDTO)
+        public Task<bool> UpdateAsync(AddAccountDTO accountDTO)
         {
             throw new NotImplementedException();
         }

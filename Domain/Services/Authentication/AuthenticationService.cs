@@ -1,6 +1,7 @@
 ﻿using Domain.Models.Users;
 using Domain.Exceptions;
 using Domain.RepositoryInterfaces.AccountRepository;
+using Domain.Services.Hash;
 
 namespace Domain.Services.Authentication
 {

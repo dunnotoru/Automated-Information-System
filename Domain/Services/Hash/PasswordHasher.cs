@@ -1,4 +1,4 @@
-﻿namespace Domain.Services
+﻿namespace Domain.Services.Hash
 {
     public class PasswordHasher : IPasswordHasher
     {
