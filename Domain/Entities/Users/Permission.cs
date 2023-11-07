@@ -1,6 +1,6 @@
 ﻿namespace Domain.Core.Users
 {
-    internal class Permission
+    public class Permission
     {
         public bool Read { get; }
         public bool Write { get; }

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Core
 {
-    internal class Passport
+    public class BusRoute
     {
 
     }

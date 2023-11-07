@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace ConsoleUI
 {
     internal class Program
     {
