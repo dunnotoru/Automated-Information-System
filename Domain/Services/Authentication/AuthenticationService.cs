@@ -1,4 +1,4 @@
-﻿using Domain.Core.Users;
+﻿using Domain.Entities.Users;
 using Domain.RepositoryInterfaces;
 
 namespace Domain.Services.Authentication

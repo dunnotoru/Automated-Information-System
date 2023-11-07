@@ -1,4 +1,4 @@
-﻿namespace Domain.Core.Users
+﻿namespace Domain.Entities.Users
 {
     public class Permission
     {

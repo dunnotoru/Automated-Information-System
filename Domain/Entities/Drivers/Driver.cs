@@ -1,6 +1,6 @@
-﻿namespace Domain.Core.Drivers
+﻿namespace Domain.Entities.Drivers
 {
-    internal class Driver
+    public class Driver
     {
         public Driver(string payrollNumber, string name,
             string surname, string patronymic, 

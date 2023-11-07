@@ -1,6 +1,6 @@
-﻿namespace Domain.Core.Drivers
+﻿namespace Domain.Entities.Drivers
 {
-    internal class DriverLicense
+    public class DriverLicense
     {
         public DriverLicense(DateOnly dateOfIssue, DateOnly dateOfExpitarion,
             Dictionary<string, DateOnly> categories, 

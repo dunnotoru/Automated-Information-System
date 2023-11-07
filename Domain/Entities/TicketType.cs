@@ -1,4 +1,6 @@
-﻿namespace Domain.Core
+﻿using Domain.Exceptions;
+
+namespace Domain.Entities
 {
     public class TicketType
     {
@@ -16,9 +18,9 @@
             get => _priceModifierInPercent;
             set
             {
-                if(value < 0 || value > 100)
-                    throw 
-                    
+                if (value < 0 || value > 100)
+                    throw new OutOfPercentRangeException(nameof(PriceModifierInPercent));
+                _priceModifierInPercent = value;
             }
         }
 
