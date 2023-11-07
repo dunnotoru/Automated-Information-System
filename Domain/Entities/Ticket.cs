@@ -2,17 +2,17 @@
 {
     public class Ticket
     {
-        public Ticket(int id, Run route, 
+        public Ticket(int id, Run run, 
             Passport passengerPassport, TicketType type)
         {
             Id = id;
-            Route = route;
+            Run = run;
             PassengerPassport = passengerPassport;
             Type = type;
         }
 
         public int Id { get; }
-        public Run Route { get; }
+        public Run Run { get; }
         public Passport PassengerPassport { get; }
         public TicketType Type { get; }
     }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public class AccountNotFoundException : AuthenticationException
+    public class AuthenticationException : Exception
     {
-        public AccountNotFoundException(string? message) : base(message)
+        public AuthenticationException(string? message) : base(message)  
         {
 
         }
