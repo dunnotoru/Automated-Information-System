@@ -1,13 +1,13 @@
 ﻿namespace Domain.Models
 {
-    public class Vehicle
+    public class Vehicle : DomainObject
     {
-        public Vehicle(string licensePlateNumber, string model,
-            string brand, int capacity,
-            DateOnly manufacture, DateOnly lastRepair, 
-            string lastRepairType, int mileage, 
-            string photography, string freighter, 
-            string insuranceDetails)
+        public Vehicle(int id, string licensePlateNumber,
+            string model, string brand,
+            int capacity, DateOnly manufacture, 
+            DateOnly lastRepair, string lastRepairType, 
+            int mileage, string photography, 
+            string freighter, string insuranceDetails)
         {
             LicensePlateNumber = licensePlateNumber;
             Model = model;

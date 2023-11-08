@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models
 {
-    public class Station
+    public class Station : DomainObject
     {
         public Station(int id, string name, string address)
         {
@@ -9,7 +9,6 @@
             Address = address;
         }
 
-        public int Id { get; }
         public string Name { get; }
         public string Address { get; }
     }

@@ -1,11 +1,12 @@
 ﻿namespace Domain.Models
 {
-    public class Passport
+    public class Passport : DomainObject
     {
-        public Passport(int number, int series, 
+        public Passport(int id, int number, int series, 
             string name, string surname, 
             string patronymic, DateOnly dateOfBirth)
         {
+            Id = id;
             Number = number;
             Series = series;
             Name = name;

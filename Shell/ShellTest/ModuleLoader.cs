@@ -5,7 +5,7 @@ using System.Reflection;
 using System;
 using Contract;
 
-namespace ShellTest
+namespace Shell
 {
     public class ModuleLoader
     {
@@ -34,9 +34,9 @@ namespace ShellTest
 
                 return module;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO: good exception handling 
+                
                 return null;
             }
         }

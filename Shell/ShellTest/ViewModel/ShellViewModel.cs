@@ -2,7 +2,7 @@
 using Contract;
 using System.Collections.ObjectModel;
 
-namespace ShellTest.ViewModel
+namespace Shell.ViewModel
 {
     public class ShellViewModel : PropertyChangedBase
     {

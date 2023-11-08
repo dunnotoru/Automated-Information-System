@@ -2,9 +2,9 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Contract;
-using ShellTest.ViewModel;
+using Shell.ViewModel;
 
-namespace ShellTest
+namespace Shell
 {
     public class ShellInstaller : IWindsorInstaller
     {

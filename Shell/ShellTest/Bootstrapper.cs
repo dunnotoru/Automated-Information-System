@@ -1,13 +1,13 @@
 ﻿using Caliburn.Micro;
 using Castle.Windsor;
-using ShellTest.ViewModel;
+using Shell.ViewModel;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 
-namespace ShellTest
+namespace Shell
 {
     public class Bootstrapper : BootstrapperBase
     {

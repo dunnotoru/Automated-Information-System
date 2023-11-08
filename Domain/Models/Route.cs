@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models
 {
-    public class Route
+    public class Route : DomainObject
     {
         public Route(int id, string name, 
             List<Station> stations)
@@ -10,7 +10,6 @@
             Stations = stations;
         }
 
-        public int Id { get; }
         public string Name { get; }
         public List<Station> Stations { get; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models
 {
-    public class Ticket
+    public class Ticket : DomainObject
     {
         public Ticket(int id, Run run, 
             Passport passengerPassport, TicketType type)
@@ -11,7 +11,6 @@
             Type = type;
         }
 
-        public int Id { get; }
         public Run Run { get; }
         public Passport PassengerPassport { get; }
         public TicketType Type { get; }

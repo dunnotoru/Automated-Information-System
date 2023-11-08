@@ -2,7 +2,7 @@
 
 namespace Domain.Models
 {
-    public class Run
+    public class Run : DomainObject
     {
         public Run(int id, Route runRoute,
             DateTime departure, DateTime extimatedArrival,
@@ -16,7 +16,6 @@ namespace Domain.Models
             Drivers = drivers;
         }
 
-        public int Id { get; }
         public Route RunRoute { get; }
         public DateTime Departure { get; }
         public DateTime ExtimatedArrival { get; }

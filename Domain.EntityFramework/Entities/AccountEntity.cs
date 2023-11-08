@@ -1,5 +1,4 @@
-﻿using Domain.RepositoryInterfaces.AccountRepository;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.EntityFramework.Entities
@@ -20,16 +19,5 @@ namespace Domain.EntityFramework.Entities
         public bool Edit { get; set; }
         [Column("delete")]
         public bool Delete { get; set; }
-
-        public AccountEntity() { }
-        public AccountEntity(AddAccountDTO dto)
-        {
-            Name = dto.Name;
-            PasswordHash = dto.PasswordHash;
-            Read = dto.Permissions.Read;
-            Write = dto.Permissions.Write;
-            Edit = dto.Permissions.Edit;
-            Delete = dto.Permissions.Delete;
-        }
     }
 }

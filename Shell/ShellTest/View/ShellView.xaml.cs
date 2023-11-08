@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ShellTest.View
+namespace Shell.View
 {
     public partial class ShellView : Window
     {

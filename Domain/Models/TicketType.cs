@@ -2,7 +2,7 @@
 
 namespace Domain.Models
 {
-    public class TicketType
+    public class TicketType : DomainObject
     {
         public TicketType(int id, string name, int priceModifierInPercent)
         {
@@ -11,7 +11,6 @@ namespace Domain.Models
             PriceModifierInPercent = priceModifierInPercent;
         }
 
-        public int Id { get; }
         public string Name { get; }
         public int PriceModifierInPercent
         {

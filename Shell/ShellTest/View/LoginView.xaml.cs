@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ShellTest.View
+namespace Shell.View
 {
     /// <summary>
     /// Логика взаимодействия для LoginView.xaml
