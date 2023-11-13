@@ -1,24 +1,20 @@
 ﻿using Domain.EntityFramework.Contexts;
-using Domain.EntityFramework.Entities;
-using Domain.EntityFramework.Mappers;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace Domain.EntityFramework.Repositories
 {
     public class StationRepository : IStationRepository
     {
-        public bool AddAsync(Station run)
+        public bool Add(Station station)
         {
-            StationEntity entity = StationMapper.ToEntity(run);
             try
             {
                 using (DispatcherContext context = new DispatcherContext())
                 {
-                    context.Add(entity);
+                    context.Add(station);
                     context.SaveChanges();
                 }
                 return true;
@@ -29,13 +25,13 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public bool DeleteAsync(int id)
+        public bool Delete(int id)
         {
             try
             {
                 using (DispatcherContext context = new DispatcherContext())
                 {
-                    StationEntity entity = context.Find<StationEntity>(id);
+                    Station entity = context.Find<Station>(id);
                     if(entity != null)
                     {
                         context.Remove(entity);
@@ -50,43 +46,47 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public IEnumerable<Station> GetAllAsync()
+        public IEnumerable<Station> GetAll()
         {
-            List<StationEntity> set = new List<StationEntity>();
             List<Station> result = new List<Station>();
             using (DispatcherContext context = new DispatcherContext())
             {
-                set = context.Stations.ToList();
+                result = context.Stations.ToList();
             }
-            foreach (StationEntity entity in set) 
-                result.Add(StationMapper.ToDomain(entity));
-
             return result;
         }
 
-        public Station GetAsync(Func<Station,bool> predicate)
+        public Station Get(int id)
         {
-            StationEntity entity;
+            return Get(x => x.Id == id).FirstOrDefault();
+        }
+
+        public bool Update(Station station)
+        {
+            try
+            {
+                using (DispatcherContext context = new DispatcherContext())
+                {
+                    context.Update(station);
+                    context.SaveChanges(true);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
+
+        public IEnumerable<Station> Get(Expression<Func<Station, bool>> where)
+        {
+            List<Station> result;
             using (DispatcherContext context = new DispatcherContext())
             {
-                entity = context.Stations.Where(predicate).ToList().FirstOrDefault();
+                result = context.Stations.Where(where).ToList();
             }
-            return StationMapper.ToDomain(entity);
-        }
-
-        public IEnumerable<Station> GetByAddressAsync(string address)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Station> GetByNameAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateAsync(Station run)
-        {
-            throw new NotImplementedException();
+            return result;
         }
     }
 }

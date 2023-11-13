@@ -1,5 +1,5 @@
-﻿using Domain.EntityFramework.Contexts;
-using System.Configuration;
+﻿using Domain.EntityFramework.Repositories;
+using Domain.Models;
 
 namespace ConsoleUI
 {
@@ -7,12 +7,8 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            string path = Path.GetFullPath(Directory.GetCurrentDirectory() +
-                "\\..\\..\\..\\" + "Database.db");
-
-            
-            CasshierContext sc = new CasshierContext(connectionString);
-
+            StationRepository repository = new StationRepository();
+            repository.Add(new Station(1, "nigger", "PRISON")); 
         }
     }
 }

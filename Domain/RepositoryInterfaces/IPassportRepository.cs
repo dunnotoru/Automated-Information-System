@@ -8,7 +8,6 @@ namespace Domain.RepositoryInterfaces
         bool UpdateAsync(Passport passport);
         bool DeleteAsync(int number, int series);
         Passport GetAsync(int number, int series);
-        IEnumerable<Passport> GetAllAsync(string name = "", string surname = "", string patronymic = "");
         IEnumerable<Passport> GetAllAsync();
     }
 }

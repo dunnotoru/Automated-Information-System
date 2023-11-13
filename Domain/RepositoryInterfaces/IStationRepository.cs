@@ -1,15 +1,15 @@
 ﻿using Domain.Models;
+using System.Linq.Expressions;
 
 namespace Domain.RepositoryInterfaces
 {
     public interface IStationRepository
     {
-        bool AddAsync(Station run);
-        bool UpdateAsync(Station run);
-        bool DeleteAsync(int id);
-        Station GetAsync(int id);
-        IEnumerable<Station> GetAllAsync();
-        IEnumerable<Station> GetByAddressAsync(string address);
-        IEnumerable<Station> GetByNameAsync(string name);
+        bool Add(Station run);
+        bool Update(Station run);
+        bool Delete(int id);
+        Station Get(int id);
+        IEnumerable<Station> Get(Expression<Func<Station, bool>> where);
+        IEnumerable<Station> GetAll();
     }
 }

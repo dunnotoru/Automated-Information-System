@@ -19,15 +19,15 @@
             EmploymentBookDetails = employmentBookDetails;
         }
 
-        public string PayrollNumber { get; }
-        public string Name { get; }
-        public string Surname { get; }
-        public string Patronymic { get; }
-        public DateOnly BirthDate { get; }
-        public License License { get; }
-        public string DriverClass { get; } 
-        public string ProfessionalStandartDetails { get; }
-        public string EmploymentBookDetails { get; }
+        public string PayrollNumber { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set;}
+        public string Patronymic { get; set; }
+        public DateOnly BirthDate { get; set; }
+        public License License { get; set; }
+        public string DriverClass { get; set; } 
+        public string ProfessionalStandartDetails { get; set; }
+        public string EmploymentBookDetails { get; set; }
 
     }
 }

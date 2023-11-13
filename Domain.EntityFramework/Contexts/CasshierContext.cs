@@ -1,20 +1,21 @@
-﻿using Domain.EntityFramework.Entities;
+﻿using Domain.Models;
+using Domain.Models.Drivers;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using System.Reflection;
 
 namespace Domain.EntityFramework.Contexts
 {
     public class CasshierContext : DbContext
     {
-        public DbSet<RunEntity> Runs { get; set; }
-        public DbSet<TicketEntity> Tickets { get; set; }
-        public DbSet<PassportEntity> Passports { get; set; }
-        public DbSet<RouteEntity> Routes { get; set; }
-        public DbSet<TicketTypeEntity> TicketTypes { get; set; }
+        public DbSet<Run> Runs { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Passport> Passports { get; set; }
+        public DbSet<Route> Routes { get; set; }
+        public DbSet<TicketType> TicketTypes { get; set; }
 
         public CasshierContext()
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -23,22 +24,21 @@ namespace Domain.EntityFramework.Contexts
             string connectionString = ConfigurationManager
                 .ConnectionStrings["SqliteConnection"].ConnectionString;
 
-            optionsBuilder.UseSqlite();
+            optionsBuilder.UseSqlite(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PassportEntity>()
-                .HasKey(p => new { p.Number, p.Series });
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetCallingAssembly());
 
-            modelBuilder.Entity<DriverEntity>()
+            modelBuilder.Entity<Driver>()
                 .HasKey(d => d.PayrollNumber);
 
-            modelBuilder.Entity<RunEntity>()
+            modelBuilder.Entity<Run>()
                 .HasKey(r => r.Number);
 
-            modelBuilder.Entity<VehicleEntity>()
-                .HasKey(v => v.LicenseNumber);
+            modelBuilder.Entity<Vehicle>()
+                .HasKey(v => v.LicensePlateNumber);
         }
     }
 }

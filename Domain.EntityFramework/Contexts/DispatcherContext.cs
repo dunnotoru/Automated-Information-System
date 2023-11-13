@@ -1,15 +1,15 @@
-﻿using Domain.EntityFramework.Entities;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using System.Reflection;
 
 namespace Domain.EntityFramework.Contexts
 {
-    public class DispatcherContext : DbContext
+    internal class DispatcherContext : DbContext
     {
-        public DbSet<StationEntity> Stations { get; set; }  
-        public DbSet<RouteEntity> Routes { get; set; }  
-        public DbSet<ScheduleLineEntity> ScheduleLines { get; set; }  
-        public DbSet<DriverEntity> Drivers { get; set; }  
+        public DbSet<Station> Stations { get; set; }  
+        //public DbSet<Route> Routes { get; set; }  
+        //public DbSet<Driver> Drivers { get; set; }  
 
         public DispatcherContext()
         {
@@ -22,12 +22,12 @@ namespace Domain.EntityFramework.Contexts
             string connectionString = ConfigurationManager
                 .ConnectionStrings["SqliteConnection"].ConnectionString;
 
-            optionsBuilder.UseSqlite();
+            optionsBuilder.UseSqlite(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetCallingAssembly());
         }
     }
 }
