@@ -1,18 +1,17 @@
 ﻿namespace Domain.Models
 {
-    public class Passport : DomainObject
+    public class Passport
     {
-        public Passport(int id, int number, int series, 
-            string name, string surname, 
+        public Passport(int number, int series,
+            string name, string surname,
             string patronymic, DateOnly dateOfBirth)
         {
-            Id = id;
             Number = number;
             Series = series;
             Name = name;
             Surname = surname;
             Patronymic = patronymic;
-            DateOfBirth = dateOfBirth;
+            BirthDate = dateOfBirth;
         }
 
         public int Number { get; }
@@ -20,6 +19,6 @@
         public string Name { get; }
         public string Surname { get; }
         public string Patronymic { get; }
-        public DateOnly DateOfBirth { get; }
+        public DateOnly BirthDate { get; }
     }
 }

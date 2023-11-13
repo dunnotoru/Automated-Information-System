@@ -1,8 +1,6 @@
-﻿using Domain.Exceptions;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
-    public class TicketType : DomainObject
+    public class TicketType 
     {
         public TicketType(int id, string name, int priceModifierInPercent)
         {
@@ -11,18 +9,8 @@ namespace Domain.Models
             PriceModifierInPercent = priceModifierInPercent;
         }
 
+        public int Id { get; }
         public string Name { get; }
-        public int PriceModifierInPercent
-        {
-            get => _priceModifierInPercent;
-            set
-            {
-                if (value < 0 || value > 100)
-                    throw new OutOfPercentRangeException(nameof(PriceModifierInPercent));
-                _priceModifierInPercent = value;
-            }
-        }
-
-        private int _priceModifierInPercent;
+        public int PriceModifierInPercent { get; }
     }
 }

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\TicketSales\" />
+    <Folder Include="UseCases\" />
   </ItemGroup>
 
 </Project>

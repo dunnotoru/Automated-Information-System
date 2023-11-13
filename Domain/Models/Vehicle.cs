@@ -1,8 +1,8 @@
 ﻿namespace Domain.Models
 {
-    public class Vehicle : DomainObject
+    public class Vehicle
     {
-        public Vehicle(int id, string licensePlateNumber,
+        public Vehicle(string licensePlateNumber,
             string model, string brand,
             int capacity, DateOnly manufacture, 
             DateOnly lastRepair, string lastRepairType, 

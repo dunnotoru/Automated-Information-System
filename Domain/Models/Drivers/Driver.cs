@@ -4,7 +4,7 @@
     {
         public Driver(string payrollNumber, string name,
             string surname, string patronymic, 
-            DateOnly dateOfBirth, DriverLicense license, 
+            DateOnly dateOfBirth, License license, 
             string driverClass, string professionalStandartDetails, 
             string employmentBookDetails)
         {
@@ -12,7 +12,7 @@
             Name = name;
             Surname = surname;
             Patronymic = patronymic;
-            DateOfBirth = dateOfBirth;
+            BirthDate = dateOfBirth;
             License = license;
             DriverClass = driverClass;
             ProfessionalStandartDetails = professionalStandartDetails;
@@ -23,8 +23,8 @@
         public string Name { get; }
         public string Surname { get; }
         public string Patronymic { get; }
-        public DateOnly DateOfBirth { get; }
-        public DriverLicense License { get; }
+        public DateOnly BirthDate { get; }
+        public License License { get; }
         public string DriverClass { get; } 
         public string ProfessionalStandartDetails { get; }
         public string EmploymentBookDetails { get; }

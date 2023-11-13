@@ -1,11 +1,9 @@
 ﻿namespace Domain.Models
 {
-    public class Route : DomainObject
+    public class Route
     {
-        public Route(int id, string name, 
-            List<Station> stations)
+        public Route(string name, List<Station> stations)
         {
-            Id = id;
             Name = name;
             Stations = stations;
         }
