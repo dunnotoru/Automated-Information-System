@@ -4,23 +4,11 @@ namespace Domain.Models
 {
     public class Run
     {
-        public Run(int number, Route runRoute,
-            DateTime departure, DateTime extimatedArrival,
-            Vehicle bus, List<Driver> drivers)
-        {
-            Number = number;
-            RunRoute = runRoute;
-            Departure = departure;
-            ExtimatedArrival = extimatedArrival;
-            Bus = bus;
-            Drivers = drivers;
-        }
-
-        public int Number { get; }
-        public Route RunRoute { get; }
-        public DateTime Departure { get; }
-        public DateTime ExtimatedArrival { get; }
-        public Vehicle Bus { get; }
-        public List<Driver> Drivers { get; }
+        public int Number { get; set; }
+        public Route RunRoute { get; set; }
+        public DateTime Departure { get; set; }
+        public DateTime ExtimatedArrival { get; set; }
+        public Vehicle Bus { get; set; }
+        public List<Driver> Drivers { get; set; }
     }
 }

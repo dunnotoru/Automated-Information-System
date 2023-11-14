@@ -2,25 +2,12 @@
 {
     public class Ticket 
     {
-        public Ticket(int id, Run run, 
-            Passport passengerPassport, TicketType type,
-            int price, DateOnly bookDate, string casshier)
-        {
-            Id = id;
-            Run = run;
-            PassengerPassport = passengerPassport;
-            Type = type;
-            Price = price;
-            BookDate = bookDate;
-            Casshier = casshier;
-        }
-
-        public int Id { get; }
-        public Run Run { get; }
-        public Passport PassengerPassport { get; }
-        public TicketType Type { get; }
-        public int Price { get; }
-        public DateOnly BookDate { get; }
-        public string Casshier { get; }
+        public int Id { get; set; }
+        public Run Run { get; set; }
+        public Passport PassengerPassport { get; set; }
+        public TicketType Type { get; set; }
+        public int Price { get; set; }
+        public DateOnly BookDate { get; set; }
+        public string Casshier { get; set; }
     }
 }

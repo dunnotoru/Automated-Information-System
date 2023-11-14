@@ -1,17 +1,15 @@
-﻿using Domain.Models;
+﻿using Domain.EntityFramework.Configurations;
+using Domain.Models;
+using Domain.Models.Drivers;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Reflection;
 
 namespace Domain.EntityFramework.Contexts
 {
-    internal class DispatcherContext : DbContext
+    public class ApplicationContext : DbContext
     {
-        public DbSet<Station> Stations { get; set; }  
-        //public DbSet<Route> Routes { get; set; }  
-        //public DbSet<Driver> Drivers { get; set; }  
-
-        public DispatcherContext()
+        public ApplicationContext()
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
@@ -27,7 +25,7 @@ namespace Domain.EntityFramework.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetCallingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

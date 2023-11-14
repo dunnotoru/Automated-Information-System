@@ -14,11 +14,16 @@
             BirthDate = dateOfBirth;
         }
 
-        public int Number { get; }
-        public int Series { get; }
-        public string Name { get; }
-        public string Surname { get; }
-        public string Patronymic { get; }
-        public DateOnly BirthDate { get; }
+        private Passport()
+        {
+            
+        }
+
+        public int Number { get; set; }
+        public int Series { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Patronymic { get; set; }
+        public DateOnly BirthDate { get; set; }
     }
 }

@@ -2,36 +2,16 @@
 {
     public class Vehicle
     {
-        public Vehicle(string licensePlateNumber,
-            string model, string brand,
-            int capacity, DateOnly manufacture, 
-            DateOnly lastRepair, string lastRepairType, 
-            int mileage, string photography, 
-            string freighter, string insuranceDetails)
-        {
-            LicensePlateNumber = licensePlateNumber;
-            Model = model;
-            Brand = brand;
-            Capacity = capacity;
-            Manufacture = manufacture;
-            LastRepair = lastRepair;
-            LastRepairType = lastRepairType;
-            Mileage = mileage;
-            Photography = photography;
-            Freighter = freighter;
-            InsuranceDetails = insuranceDetails;
-        }
-
-        public string LicensePlateNumber { get; }
-        public string Model { get; }
-        public string Brand { get; }
-        public int Capacity { get; }
-        public DateOnly Manufacture { get; }
-        public DateOnly LastRepair { get; }
-        public string LastRepairType { get; }
-        public int Mileage { get; }
-        public string Photography { get; }
-        public string Freighter { get; }
-        public string InsuranceDetails { get; }
+        public string LicensePlateNumber { get; set; }
+        public string Model { get; set; }
+        public string Brand { get; set; }
+        public int Capacity { get; set; }
+        public DateOnly Manufacture { get; set; }
+        public DateOnly LastRepair { get; set; }
+        public string LastRepairType { get; set; }
+        public int Mileage { get; set; }
+        public string Photography { get; set; }
+        public string Freighter { get; set; }
+        public string InsuranceDetails { get; set; }
     }
 }

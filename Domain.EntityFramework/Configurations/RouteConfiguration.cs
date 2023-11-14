@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Domain.EntityFramework.Configurations
 {
-    internal class StationConfiguration : IEntityTypeConfiguration<Station>
+    internal class RouteConfiguration : IEntityTypeConfiguration<Route>
     {
-        public void Configure(EntityTypeBuilder<Station> builder)
+        public void Configure(EntityTypeBuilder<Route> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).ValueGeneratedOnAdd();
         }
     }
 }
