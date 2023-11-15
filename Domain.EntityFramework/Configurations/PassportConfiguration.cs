@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Domain.EntityFramework.Configurations
 {
-    internal class PassportConfiguration : IEntityTypeConfiguration<Passport>
+    internal sealed class PassportConfiguration : IEntityTypeConfiguration<Passport>
     {
         public void Configure(EntityTypeBuilder<Passport> builder)
         {

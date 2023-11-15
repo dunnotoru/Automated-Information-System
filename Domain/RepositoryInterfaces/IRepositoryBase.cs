@@ -1,17 +1,13 @@
-﻿using Domain.Models;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Domain.RepositoryInterfaces
 {
-    public interface IRepositoryBase<TEntity> : IDisposable
+    public interface IRepositoryBase<TEntity>
         where TEntity : class
     {
-        void Add(TEntity station);
-        void Update(TEntity station);
-        void Delete(int id);
+        void Add(TEntity entity);
+        void Update(TEntity entity);
+        void Delete(TEntity entity);
         void Save();
-        TEntity Get(int id);
-        IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> where);
-        IEnumerable<TEntity> GetAll();
     }
 }

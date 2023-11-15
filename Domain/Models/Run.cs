@@ -9,6 +9,7 @@ namespace Domain.Models
         public DateTime Departure { get; set; }
         public DateTime ExtimatedArrival { get; set; }
         public Vehicle Bus { get; set; }
-        public List<Driver> Drivers { get; set; }
+        public ICollection<Driver> Drivers { get; set; }
+        public int PassengerNumber { get; set; }
     }
 }

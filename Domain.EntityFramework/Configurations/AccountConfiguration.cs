@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Domain.EntityFramework.Configurations
 {
-    internal class AccountConfiguration : IEntityTypeConfiguration<Account>
+    internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.HasIndex(x => x.Username).IsUnique(true);
         }
     }
 }

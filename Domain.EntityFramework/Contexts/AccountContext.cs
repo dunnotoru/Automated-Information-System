@@ -1,15 +1,14 @@
-﻿using Domain.EntityFramework.Configurations;
-using Domain.Models;
-using Domain.Models.Drivers;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Reflection;
 
 namespace Domain.EntityFramework.Contexts
 {
-    public class ApplicationContext : DbContext
+    public class AccountContext : DbContext
     {
-        public ApplicationContext()
+        public DbSet<Account> Accounts { get; set; }
+        public AccountContext()
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();

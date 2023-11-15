@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Domain.EntityFramework.Configurations
 {
-    internal class RouteConfiguration : IEntityTypeConfiguration<Route>
+    internal sealed class RouteConfiguration : IEntityTypeConfiguration<Route>
     {
         public void Configure(EntityTypeBuilder<Route> builder)
         {
