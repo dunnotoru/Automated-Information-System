@@ -17,9 +17,9 @@ namespace UI.ViewModel
 
         public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
-        public ShellViewModel()
+        public ShellViewModel(RunSearchViewModel runSearchViewModel)
         {
-            CurrentViewModel = new RunSearchViewModel();
+            CurrentViewModel = runSearchViewModel;
             Items = new ObservableCollection<MenuItemViewModel>();
             Items.Add(new MenuItemViewModel() { Header = "Nigger" });
         }

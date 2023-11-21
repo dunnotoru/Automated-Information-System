@@ -26,7 +26,7 @@ namespace UI
 
         private void ChangeLoginToMain()
         {
-            ShellWindow window = new ShellWindow() { DataContext = new ShellViewModel() };
+            ShellWindow window = new ShellWindow() { DataContext = _container.Resolve<ShellViewModel>() };
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             window.Show();
             MainWindow.Close();

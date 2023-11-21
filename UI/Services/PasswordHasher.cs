@@ -1,6 +1,6 @@
 ﻿using Domain.UseCases.AccountUseCases;
 
-namespace UI.Model
+namespace UI.Services
 {
     internal class PasswordHasher : IPasswordHasher
     {

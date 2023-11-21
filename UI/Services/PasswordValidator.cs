@@ -1,7 +1,7 @@
 ﻿using Domain.UseCases.AccountUseCases;
 using System;
 
-namespace UI.Model
+namespace UI.Services
 {
     internal class PasswordValidator : IPasswordValidator
     {

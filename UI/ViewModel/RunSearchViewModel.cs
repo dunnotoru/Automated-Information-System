@@ -1,10 +1,11 @@
 ﻿using Domain.Models;
+using Domain.UseCases.CasshierUseCases;
 using System.Collections.ObjectModel;
 using UI.Command;
 
 namespace UI.ViewModel
 {
-    class RunSearchViewModel : ViewModelBase
+    public class RunSearchViewModel : ViewModelBase
     {
         public ObservableCollection<Station> StationItems {  get; set; }
         public ObservableCollection<Run> RunItems { get; set; }
@@ -62,12 +63,16 @@ namespace UI.ViewModel
 
         }
 
-        public RunSearchViewModel()
+        private readonly GetStationsUseCase _getStations;
+        private readonly FindRunsUseCase _findRuns;
+
+        public RunSearchViewModel(GetStationsUseCase getStations, FindRunsUseCase findRuns)
         {
-            StationItems = new ObservableCollection<Station>();
-            StationItems.Add(new Station { Name = "AMOGUSASASA" });
+            _getStations = getStations;
+            _findRuns = findRuns;
+
+            StationItems = new ObservableCollection<Station>(_getStations.GetStations());
             RunItems = new ObservableCollection<Run>();
-            
         }
     }
 }

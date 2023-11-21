@@ -10,7 +10,6 @@ namespace Domain.EntityFramework.Contexts
         public DbSet<Account> Accounts { get; set; }
         public AccountContext()
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
