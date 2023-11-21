@@ -9,7 +9,7 @@
             Stations = stations;
         }
 
-        public Route()
+        private Route()
         {
             
         }

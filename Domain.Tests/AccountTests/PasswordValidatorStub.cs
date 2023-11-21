@@ -1,4 +1,4 @@
-﻿using Domain.Services.AccountUseCases;
+﻿using Domain.UseCases.AccountUseCases;
 
 namespace Domain.Tests.AccountTests
 {

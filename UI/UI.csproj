@@ -8,8 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="View\" />
-    <Folder Include="ViewModel\" />
+    <PackageReference Include="Castle.Windsor" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.EntityFramework\Domain.EntityFramework.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Stores\" />
   </ItemGroup>
 
 </Project>

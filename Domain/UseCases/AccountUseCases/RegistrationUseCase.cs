@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace Domain.Services.AccountUseCases
+namespace Domain.UseCases.AccountUseCases
 {
     public class RegistrationUseCase
     {
@@ -33,6 +33,7 @@ namespace Domain.Services.AccountUseCases
             };
 
             _accountRepository.Add(newAccount);
+            _accountRepository.Save();
 
             return true;
         }

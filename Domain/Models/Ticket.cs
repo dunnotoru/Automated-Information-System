@@ -2,7 +2,7 @@
 {
     public class Ticket 
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public Run Run { get; set; }
         public Passport PassengerPassport { get; set; }
         public TicketType Type { get; set; }

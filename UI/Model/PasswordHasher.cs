@@ -1,12 +1,12 @@
 ﻿using Domain.UseCases.AccountUseCases;
 
-namespace Domain.Tests.AccountTests
+namespace UI.Model
 {
-    internal class PasswordHasherStub : IPasswordHasher
+    internal class PasswordHasher : IPasswordHasher
     {
         public string CalcHash(string password)
         {
-            return password;
+            return password + "_HASH";
         }
     }
 }

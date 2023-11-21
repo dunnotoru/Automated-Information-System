@@ -1,8 +1,7 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
-using Microsoft.VisualBasic.FileIO;
 
-namespace Domain.Services.AccountUseCases
+namespace Domain.UseCases.AccountUseCases
 {
     public class AuthenticationUseCase
     {

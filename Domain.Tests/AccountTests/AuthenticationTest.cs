@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
-using Domain.Services.AccountUseCases;
+using Domain.UseCases.AccountUseCases;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Domain.Tests.AccountTests
@@ -75,7 +75,7 @@ namespace Domain.Tests.AccountTests
             string username = "JonDoe";
             string password = "SecretPassword";
 
-            string wrongUsername = "Ivan";
+            string wrongPassword = "wrongPassword";
 
             Account account = new Account()
             {
@@ -85,8 +85,8 @@ namespace Domain.Tests.AccountTests
 
             repository.Add(account);
 
-            bool result = authentication.Authenticate(wrongUsername, password);
-
+            bool result = authentication.Authenticate(username, wrongPassword);
+            
             Assert.IsFalse(result);
         }
     }

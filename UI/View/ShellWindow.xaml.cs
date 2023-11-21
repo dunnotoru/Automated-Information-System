@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace UI
+namespace UI.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для ShellWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ShellWindow : Window
     {
-        public MainWindow()
+        public ShellWindow()
         {
             InitializeComponent();
         }
