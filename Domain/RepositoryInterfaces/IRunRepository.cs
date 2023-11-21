@@ -1,6 +1,10 @@
-﻿namespace Domain.RepositoryInterfaces
+﻿using Domain.Models;
+
+namespace Domain.RepositoryInterfaces
 {
-    public interface IRunRepository
+    public interface IRunRepository : IRepositoryBase<Run>
     {
+        Run? GetByNumber(int id);
+        IEnumerable<Run> GetByRoute(Route route);
     }
 }

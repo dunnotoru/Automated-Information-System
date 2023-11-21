@@ -2,9 +2,9 @@
 
 namespace UI.View
 {
-    public partial class CasshierView : UserControl
+    public partial class RunSearchView : UserControl
     {
-        public CasshierView()
+        public RunSearchView()
         {
             InitializeComponent();
         }

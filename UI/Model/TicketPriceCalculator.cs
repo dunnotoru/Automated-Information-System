@@ -6,7 +6,7 @@ namespace Domain.UseCases.CasshierUseCases
     {
         public int CalcPrice(Route route, Station from, Station to, TicketType type)
         {
-            return 993;
+            return 1;
         }
     }
 }

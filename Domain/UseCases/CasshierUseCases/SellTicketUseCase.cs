@@ -6,15 +6,13 @@ namespace Domain.UseCases.CasshierUseCases
     public class SellTicketUseCase
     {
         private readonly ITicketRepository _ticketRepository;
-        private readonly IRunRepository _runRepository;
         private readonly IPassportRepository _passportRepository;
         private readonly ITicketPriceCalculator _ticketPriceCalculator;
 
-        public SellTicketUseCase(ITicketRepository ticketRepository, IRunRepository runRepository,
+        public SellTicketUseCase(ITicketRepository ticketRepository,
             IPassportRepository passportRepository, ITicketPriceCalculator ticketPriceCalculator)
         {
             _ticketRepository = ticketRepository;
-            _runRepository = runRepository;
             _passportRepository = passportRepository;
             _ticketPriceCalculator = ticketPriceCalculator;
         }
@@ -35,7 +33,7 @@ namespace Domain.UseCases.CasshierUseCases
                 BookDate = DateOnly.FromDateTime(DateTime.Now),
                 Casshier = "AMONGUS",
                 Type = type,
-                Price = _ticketPriceCalculator.CalcPrice(run.RunRoute, null, null, type)
+                Price = _ticketPriceCalculator.CalcPrice(run.Route, null, null, type)
             };
 
             _ticketRepository.Add(ticket);

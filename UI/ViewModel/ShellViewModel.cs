@@ -19,7 +19,7 @@ namespace UI.ViewModel
 
         public ShellViewModel()
         {
-            CurrentViewModel = new CasshierViewModel();
+            CurrentViewModel = new RunSearchViewModel();
             Items = new ObservableCollection<MenuItemViewModel>();
             Items.Add(new MenuItemViewModel() { Header = "Nigger" });
         }

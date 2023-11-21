@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="UI.View.TicketSaleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <TextBox HorizontalAlignment="Left" Margin="120,60,0,0" TextWrapping="Wrap" Text="Отправление" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="120,86,0,0" TextWrapping="Wrap" Text="Станция прибытия" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="320,60,0,0" TextWrapping="Wrap" Text="Дата отправления" VerticalAlignment="Top" Width="182" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="320,86,0,0" TextWrapping="Wrap" Text="Дата прибытия" VerticalAlignment="Top" Width="182" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="120,136,0,0" TextWrapping="Wrap" Text="ФИО" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="348,136,0,0" TextWrapping="Wrap" Text="Стоимость" VerticalAlignment="Top" Width="154" Height="20"/>
+        <Button Content="Оформить билет" HorizontalAlignment="Left" Margin="656,368,0,0" VerticalAlignment="Top" Height="47" Width="100"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Margin="38,368,0,0" VerticalAlignment="Top" Height="47" Width="100"/>
+
+    </Grid>
+</UserControl>
