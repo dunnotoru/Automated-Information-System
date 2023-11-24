@@ -1,14 +1,15 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.EntityFramework.Repositories
 {
     public class RouteRepository : IRouteRepository
     {
-        private readonly CasshierContext _context;
+        private readonly CashierContext _context;
 
-        public RouteRepository(CasshierContext context)
+        public RouteRepository(CashierContext context)
         {
             _context = context;
         }
@@ -25,7 +26,7 @@ namespace Domain.EntityFramework.Repositories
 
         public Route? GetById(int id)
         {
-            return _context.Routes.SingleOrDefault(r => r.Id == id);
+            return _context.Routes.Include(r => r.Stations).SingleOrDefault(r => r.Id == id);
         }
 
         public IEnumerable<Route> GetByStations(Station from, Station to)

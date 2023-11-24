@@ -7,25 +7,42 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
-        <ListView ItemsSource="{Binding StationItems}" Margin="10,36,491,248">
+        <ListView ItemsSource="{Binding StationItems}" SelectedItem="{Binding DepartureStation}" VerticalAlignment="Stretch" Margin="10,36,640,248">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}">Название</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Address}" Header="Адрес"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView ItemsSource="{Binding RunItems}" Margin="10,274,491,26"/>
-        <TextBox HorizontalAlignment="Left" Margin="189,0,0,0" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Center" Width="120"/>
-        <Calendar HorizontalAlignment="Left" Margin="590,101,0,0" VerticalAlignment="Top"/>
-        <Calendar HorizontalAlignment="Left" Margin="400,98,0,0" VerticalAlignment="Top"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="329,36,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.358,-1.503" Height="30" Width="88"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="329,71,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.358,-1.503" Height="30" Width="88"/>
+        <ListView ItemsSource="{Binding StationItems}" SelectedItem="{Binding ArrivalStation}" Margin="189,36,461,248">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Address}" Header="Адрес"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView ItemsSource="{Binding RunItems}" Margin="10,274,244,26">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Number}" Header="Рейс"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox HorizontalAlignment="Left" Margin="40,0,0,0" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Center" Width="120"/>
+        <Calendar HorizontalAlignment="Left" Margin="590,36,0,0" VerticalAlignment="Top"/>
+        <Calendar HorizontalAlignment="Left" Margin="377,35,0,0" VerticalAlignment="Top"/>
         <Label Content="Рейсы" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top"/>
-        <Label Content="Все станции" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="562,42,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Margin="562,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Найти рейсы" HorizontalAlignment="Left" Margin="642,288,0,0" VerticalAlignment="Top" Height="32" Width="127"/>
-        <Button Content="Продажа билета" HorizontalAlignment="Left" Margin="642,349,0,0" VerticalAlignment="Top" Height="32" Width="127"/>
+        <Label Content="Отправление" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Button Content="Найти рейсы" Command="{Binding FindRunsCommand}" HorizontalAlignment="Left" Margin="642,301,0,0" VerticalAlignment="Top" Height="32" Width="127"/>
+        <Button Content="Продажа билета" Command="{Binding SellTicketCommand}" HorizontalAlignment="Left" Margin="642,349,0,0" VerticalAlignment="Top" Height="32" Width="127"/>
+
+        <TextBox HorizontalAlignment="Left" Margin="219,0,0,0" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Center" Width="120"/>
+        <Label Content="Прибытие" HorizontalAlignment="Left" Margin="189,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Дата отправления" HorizontalAlignment="Left" Margin="377,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="от" HorizontalAlignment="Left" Margin="534,9,0,0" VerticalAlignment="Top"/>
+        <Label Content="до" HorizontalAlignment="Left" Margin="590,10,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </UserControl>

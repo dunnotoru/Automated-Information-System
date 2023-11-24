@@ -11,11 +11,11 @@
 
         private Route()
         {
-            
+            Stations = new HashSet<Station>();
         }
 
         public int? Id { get; set; }
-        public string Name { get; set; }
-        public ICollection<Station> Stations { get; set; }
+        public string? Name { get; set; }
+        public virtual ICollection<Station> Stations { get; set; }
     }
 }

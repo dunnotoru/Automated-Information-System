@@ -1,7 +1,13 @@
 ﻿using Domain.Models;
+using Domain.UseCases.CashierUseCases;
 using Domain.UseCases.CasshierUseCases;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using UI.Command;
+using UI.Services;
 
 namespace UI.ViewModel
 {
@@ -21,8 +27,8 @@ namespace UI.ViewModel
             }
         }
 
-        private string _departureStation;
-        public string DepartureStation
+        private Station _departureStation;
+        public Station DepartureStation
         {
             get => _departureStation;
             set
@@ -32,8 +38,8 @@ namespace UI.ViewModel
             }
         }
         
-        private string _arrivalStation;
-        public string ArrivalStation
+        private Station _arrivalStation;
+        public Station ArrivalStation
         {
             get => _arrivalStation;
             set
@@ -50,21 +56,19 @@ namespace UI.ViewModel
 
         private void FindRunsMethod()
         {
+            //List<Station> stations = _getStations.GetStations().ToList();
+            
+            //Station departure = stations.First(x => x == DepartureStation);
+            //Station arrival = stations.First(x => x == DepartureStation);
 
-        }
-
-        public RelayCommand SellTicket
-        {
-            get => new RelayCommand(SellTicketMethod);
-        }
-
-        private void SellTicketMethod()
-        {
-
+            List<Run> s = _findRuns.FindRuns(null, null, DateTime.MinValue).ToList();
+            RunItems = new ObservableCollection<Run>(s);
+            NotifyPropertyChanged(nameof(RunItems));
         }
 
         private readonly GetStationsUseCase _getStations;
         private readonly FindRunsUseCase _findRuns;
+        private readonly ICommand SellTicketCommand;
 
         public RunSearchViewModel(GetStationsUseCase getStations, FindRunsUseCase findRuns)
         {
@@ -73,6 +77,7 @@ namespace UI.ViewModel
 
             StationItems = new ObservableCollection<Station>(_getStations.GetStations());
             RunItems = new ObservableCollection<Run>();
+            //SellTicketCommand = new NavigateCommand(ticketSaleNavigationService);
         }
     }
 }

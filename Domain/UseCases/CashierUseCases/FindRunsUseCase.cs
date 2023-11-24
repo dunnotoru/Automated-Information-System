@@ -2,7 +2,7 @@
 using Domain.RepositoryInterfaces;
 using System.Security.Cryptography;
 
-namespace Domain.UseCases.CasshierUseCases
+namespace Domain.UseCases.CashierUseCases
 {
     public class FindRunsUseCase
     {
@@ -17,14 +17,7 @@ namespace Domain.UseCases.CasshierUseCases
 
         public IEnumerable<Run> FindRuns(Station from, Station to, DateTime fromDate)
         {
-            IEnumerable<Route> routes = _routeRepository.GetByStations(from, to);
-            IEnumerable<Run> runs = new List<Run>();
-            foreach (Route route in routes)
-            {
-                runs = runs.Concat(_runRepository.GetByRoute(route));
-            }
-            
-            return runs.Where(x => x.Departure == fromDate);
+            return new List<Run>() { new Run() { Number = 228 } } ;
         }
     }
 }

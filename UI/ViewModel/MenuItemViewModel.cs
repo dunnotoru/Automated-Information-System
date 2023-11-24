@@ -38,16 +38,14 @@ namespace UI.ViewModel
             isDeleteRequired = false;
         }
 
-        public RelayCommand ChangeViewCommand
+        public RelayCommand MenuItemCommand
         {
-            get => _changeViewCommand ?? new RelayCommand(CommandMethod);
+            get => _changeViewCommand ?? new RelayCommand(Handler);
         }
 
-        private void CommandMethod()
+        private void Handler()
         {
-
+            throw new NotImplementedException();
         }
-    
-        
     }
 }

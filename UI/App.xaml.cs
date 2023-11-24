@@ -1,5 +1,6 @@
 ﻿using Castle.Windsor;
 using System.Windows;
+using UI.Stores;
 using UI.View;
 using UI.ViewModel;
 
@@ -27,6 +28,7 @@ namespace UI
         private void ChangeLoginToMain()
         {
             ShellWindow window = new ShellWindow() { DataContext = _container.Resolve<ShellViewModel>() };
+
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             window.Show();
             MainWindow.Close();

@@ -7,14 +7,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
-        <TextBox HorizontalAlignment="Left" Margin="120,60,0,0" TextWrapping="Wrap" Text="Отправление" VerticalAlignment="Top" Width="152" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="120,86,0,0" TextWrapping="Wrap" Text="Станция прибытия" VerticalAlignment="Top" Width="152" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="320,60,0,0" TextWrapping="Wrap" Text="Дата отправления" VerticalAlignment="Top" Width="182" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="320,86,0,0" TextWrapping="Wrap" Text="Дата прибытия" VerticalAlignment="Top" Width="182" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="120,136,0,0" TextWrapping="Wrap" Text="ФИО" VerticalAlignment="Top" Width="152" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="348,136,0,0" TextWrapping="Wrap" Text="Стоимость" VerticalAlignment="Top" Width="154" Height="20"/>
-        <Button Content="Оформить билет" HorizontalAlignment="Left" Margin="656,368,0,0" VerticalAlignment="Top" Height="47" Width="100"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Margin="38,368,0,0" VerticalAlignment="Top" Height="47" Width="100"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="124*"/>
+            <RowDefinition Height="101*"/>
+        </Grid.RowDefinitions>
+        <TextBox HorizontalAlignment="Left" Margin="12,41,0,0" TextWrapping="Wrap" Text="Отправление" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="221,41,0,0" TextWrapping="Wrap" Text="Станция прибытия" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="12,93,0,0" TextWrapping="Wrap" Text="Дата отправления" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="218,93,0,0" TextWrapping="Wrap" Text="Дата прибытия" VerticalAlignment="Top" Width="155" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="567,69,0,0" TextWrapping="Wrap" Text="Стоимость" VerticalAlignment="Top" Width="189" Height="32" Grid.Row="1"/>
+        <Button Content="Оформить билет" HorizontalAlignment="Left" Margin="656,120,0,0" VerticalAlignment="Top" Height="47" Width="100" Grid.Row="1" />
+        <Button Content="Отмена" HorizontalAlignment="Left" Margin="38,120,0,0" VerticalAlignment="Top" Height="47" Width="100" Grid.Row="1"/>
+        <Label Content="Станция отправления" HorizontalAlignment="Left" Margin="23,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Станция прибытия" HorizontalAlignment="Left" Margin="240,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Пассажиры" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top"/>
+        <Label Content="Дата и время отправления" HorizontalAlignment="Left" Margin="9,66,0,0" VerticalAlignment="Top"/>
+        <Label Content="Дата и время прибытия" HorizontalAlignment="Left" Margin="221,62,0,0" VerticalAlignment="Top"/>
+        <Label Content="Стоимость" HorizontalAlignment="Left" Margin="563,18,0,0" VerticalAlignment="Top" Grid.Row="1" Height="42" Width="84"/>
+        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Margin="14,173,343,101" Grid.RowSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Passenger"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>

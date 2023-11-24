@@ -1,13 +1,13 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace Domain.UseCases.VehicleResoursesUseCases
+namespace Domain.UseCases
 {
-    public class AddVehicleUseCase
+    public class VehicleUseCase
     {
         private readonly IVehicleRepository _vehicleRepository;
 
-        public AddVehicleUseCase(IVehicleRepository vehicleRepository)
+        public VehicleUseCase(IVehicleRepository vehicleRepository)
         {
             _vehicleRepository = vehicleRepository;
         }

@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
-using Domain.UseCases.CasshierUseCases;
+using Domain.UseCases.CashierUseCases;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Domain.Tests.FindRunsTest

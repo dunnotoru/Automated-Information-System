@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace UI.Command
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand : CommandBase
     {
         public event EventHandler CanExecuteChanged
         {
@@ -26,7 +26,7 @@ namespace UI.Command
             : this(methodToExecute, null)
         {
         }
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             if (_canExecuteEvaluator == null)
             {
@@ -38,7 +38,7 @@ namespace UI.Command
                 return result;
             }
         }
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             _methodToExecute.Invoke();
         }

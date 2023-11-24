@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.EntityFramework.Configurations;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Reflection;
@@ -16,14 +17,14 @@ namespace Domain.EntityFramework.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = ConfigurationManager
-                .ConnectionStrings["SqliteConnection"].ConnectionString;
+                .ConnectionStrings["ApplicationDatabase"].ConnectionString;
 
             optionsBuilder.UseSqlite(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfiguration<Account>(new AccountConfiguration());
         }
     }
 }

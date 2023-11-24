@@ -1,18 +1,20 @@
-﻿using Domain.Models;
+﻿using Domain.EntityFramework.Configurations;
+using Domain.Models;
+using Domain.Models.Drivers;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Reflection;
 
 namespace Domain.EntityFramework.Contexts
 {
-    public class CasshierContext : DbContext
+    public class CashierContext : DbContext
     {
         public DbSet<Passport> Passports { get; set; }
         public DbSet<Run> Runs { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Station> Stations { get; set; }
         public DbSet<Route> Routes { get; set; }
-        public CasshierContext()
+        public CashierContext()
         {
             Database.EnsureCreated();
         }
@@ -20,14 +22,20 @@ namespace Domain.EntityFramework.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = ConfigurationManager
-                .ConnectionStrings["SqliteConnection"].ConnectionString;
+                .ConnectionStrings["DomainDatabase"].ConnectionString;
 
             optionsBuilder.UseSqlite(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfiguration<Category>(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration<Driver>(new DriverConfiguration());
+            modelBuilder.ApplyConfiguration<Passport>(new PassportConfiguration());
+            modelBuilder.ApplyConfiguration<Route>(new RouteConfiguration());
+            modelBuilder.ApplyConfiguration<Run>(new RunConfiguration());
+            modelBuilder.ApplyConfiguration<Station>(new StationConfiguration());
+            modelBuilder.ApplyConfiguration<Vehicle>(new VehicleConfiguration());
         }
     }
 }

@@ -1,27 +1,34 @@
 ﻿using System.Collections.ObjectModel;
+using UI.Stores;
 
 namespace UI.ViewModel
 {
-    public class ShellViewModel :ViewModelBase
+    public class ShellViewModel : ViewModelBase
     {
-        private ViewModelBase _currentViewModel;
+        private readonly NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel
         {
-            get => _currentViewModel;
-            set 
-            {
-                _currentViewModel = value; 
-                NotifyPropertyChanged(nameof(CurrentViewModel));
-            }
+            get => _navigationStore.CurrentViewModel;
+            set => _navigationStore.CurrentViewModel = value;
         }
 
         public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
-        public ShellViewModel(RunSearchViewModel runSearchViewModel)
+        public ShellViewModel(NavigationStore navigationStore, RunSearchViewModel runs)
         {
-            CurrentViewModel = runSearchViewModel;
             Items = new ObservableCollection<MenuItemViewModel>();
-            Items.Add(new MenuItemViewModel() { Header = "Nigger" });
+            
+            _navigationStore = navigationStore;
+
+            Items.Add(new MenuItemViewModel() { Header = "Please"});
+
+            _navigationStore.CurrentViewModel = runs;
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+        }
+
+        public void OnCurrentViewModelChanged()
+        {
+            NotifyPropertyChanged(nameof(CurrentViewModel));
         }
     }
 }
