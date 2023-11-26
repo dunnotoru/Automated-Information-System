@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 using UI.Command;
+using UI.Stores;
+using UI.View;
 
 namespace UI.ViewModel
 {
@@ -26,7 +29,6 @@ namespace UI.ViewModel
 
         public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
-        private RelayCommand _changeViewCommand;
 
         public MenuItemViewModel()
         {
@@ -38,14 +40,15 @@ namespace UI.ViewModel
             isDeleteRequired = false;
         }
 
-        public RelayCommand MenuItemCommand
+        private ParamRelayCommand<NavigationStore> _changeViewCommand;
+        public ParamRelayCommand<NavigationStore> MenuItemCommand
         {
-            get => _changeViewCommand ?? new RelayCommand(Handler);
+            get => _changeViewCommand ?? new ParamRelayCommand<NavigationStore>((obj) => Handler(obj));
         }
 
-        private void Handler()
+        private void Handler(NavigationStore parameter) 
         {
-            throw new NotImplementedException();
+            parameter.CurrentViewModel = new TicketSaleViewModel();
         }
     }
 }

@@ -15,6 +15,8 @@
         <DataTemplate DataType="{x:Type vm:TicketSaleViewModel}">
             <local:TicketSaleView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ShellViewModel}"/>
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -23,21 +25,20 @@
         </Grid.RowDefinitions>
         <Menu ItemsSource="{Binding Items}">
             <Menu.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}" DataType="{x:Type vm:MenuItemViewModel}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
                     <TextBlock Text="{Binding Header}"/>
                 </HierarchicalDataTemplate>
             </Menu.ItemTemplate>
             <Menu.ItemContainerStyle>
-                <Style TargetType="MenuItem">
+                <Style TargetType="{x:Type MenuItem}">
                     <Setter Property="Visibility" Value="{Binding Visible, Converter={StaticResource BoolToVis}}"/>
                     <Setter Property="Command" Value="{Binding MenuItemCommand}"/>
-                    <Setter Property="CommandParameter" Value="{Binding CurrentViewModel}"/>
+                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.NavigationStore}"/>
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>
         
         
-
         <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" Margin="0,5,0,0"/>
     </Grid>
 </Window>
