@@ -15,8 +15,8 @@
 
         <TextBox HorizontalAlignment="Right" Margin="0 0 10 75" Text="{Binding Price}" VerticalAlignment="Bottom" Width="189" Height="27"/>
 
-        <Button Content="Оформить билет" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
+        <Button Command="{Binding SellCommand}" Content="Оформить билет" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
+        <Button Command="{Binding DeclineCommand}" Content="Отмена" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
 
         <Label Content="Станция отправления" HorizontalAlignment="Left" Margin="20 0 0 0" VerticalAlignment="Top"/>
         <Label Content="Дата и время отправления" HorizontalAlignment="Left" Margin="10 60 0 0" VerticalAlignment="Top"/>
@@ -40,11 +40,10 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="Добавить" HorizontalAlignment="Center" Margin="0 0 330 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
-        <Button Content="Удалить" HorizontalAlignment="Center" Margin="0 0 150 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
-        <Button Content="Изменить" HorizontalAlignment="Center" Margin="30 0 0 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
+        <Button Command="{Binding AddPassengerCommand}" Content="Добавить" HorizontalAlignment="Center" Margin="0 0 150 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
+        <Button Command="{Binding DeletePassengerCommand}" Content="Удалить" HorizontalAlignment="Center" Margin="25 0 0 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
         <GroupBox Header="Пассажир" Margin="0 10 10 0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="295" Width="274">
-            <StackPanel DataContext="{Binding Passenger}">
+            <StackPanel DataContext="{Binding SelectedPassenger}">
                  <Label Content="Имя"/>
                 <TextBox Text="{Binding Name}"/>
 

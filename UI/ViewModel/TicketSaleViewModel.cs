@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
+using UI.Services;
 
 namespace UI.ViewModel
 {
@@ -72,35 +74,37 @@ namespace UI.ViewModel
             }
         }
 
-        public ICommand AddPassengerCommand { get; }
-        public ICommand EditPassengerCommand { get; }
-        public ICommand DeletePassengerCommand { get; }
-
+        public ICommand AddPassengerCommand
+        {
+            get => new RelayCommand(AddPassenger);
+        }
+        public ICommand DeletePassengerCommand
+        {
+            get => new RelayCommand(DeletePassenger);
+        }
 
         public NavigateCommand DeclineCommand { get; }
         public NavigateCommand SellCommand { get; }
 
-        public TicketSaleViewModel()
+        public TicketSaleViewModel(NavigationService runSearchNavigationService, NavigationService sell)
         {
-            Passengers = new ObservableCollection<PassengerViewModel>()
-            {
-                new PassengerViewModel()
-                {
-                    Name = "имечко",
-                    Surname = "фамилия",
-                    Patronymic = "отчествович",
-                    Series = "123",
-                    Number = "123243"
-                },
-                new PassengerViewModel()
-                {
-                    Name = "четкий",
-                    Surname = "потсан",
-                    Patronymic = "крижевич",
-                    Series = "1233",
-                    Number = "1231"
-                },
-            };
+            Passengers = new ObservableCollection<PassengerViewModel>();
+
+            DeclineCommand = new NavigateCommand();
+            SellCommand = sellCommand;
+        }
+
+        private void AddPassenger()
+        {
+            Passengers.Add(new PassengerViewModel() { Name = "Имя" });
+        }
+
+        private void DeletePassenger()
+        {
+            if (SelectedPassenger == null)
+                return;
+
+            Passengers.Remove(SelectedPassenger);
         }
     }
 }

@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:UI.View"
         xmlns:vm="clr-namespace:UI.ViewModel"
         mc:Ignorable="d"
-        Title="ShellWindow" Height="450" Width="800">
+        Title="ShellWindow" Height="550" Width="900"
+        MinHeight="500" MinWidth="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <DataTemplate DataType="{x:Type vm:RunSearchViewModel}">
@@ -23,7 +24,7 @@
             <RowDefinition Height="23*"/>
             <RowDefinition Height="411*"/>
         </Grid.RowDefinitions>
-        <Menu ItemsSource="{Binding Items}">
+        <Menu ItemsSource="{Binding Items}" VerticalAlignment="Top">
             <Menu.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
                     <TextBlock Text="{Binding Header}"/>
@@ -37,7 +38,6 @@
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>
-        
         
         <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" Margin="0,5,0,0"/>
     </Grid>
