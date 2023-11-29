@@ -9,7 +9,7 @@ namespace UI.Command
 {
     public class ParamRelayCommand<T> : CommandBase
     {
-        public event EventHandler CanExecuteChanged
+        public override event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }

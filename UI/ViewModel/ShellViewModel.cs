@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UI.Stores;
 
 namespace UI.ViewModel
@@ -23,21 +25,18 @@ namespace UI.ViewModel
             {
                 _navigationStore = value;
                 NotifyPropertyChanged(nameof(NavigationStore));
-                NotifyPropertyChanged(nameof(CurrentViewModel));
             }
         }
 
         public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
-        public ShellViewModel(NavigationStore navigationStore, RunSearchViewModel runs)
+        public ShellViewModel(NavigationStore navigationStore, List<MenuItemViewModel> menuItems)
         {
-            Items = new ObservableCollection<MenuItemViewModel>();
-            Items.Add(new MenuItemViewModel() { Header = "Please"});
-
+            Items = new ObservableCollection<MenuItemViewModel>(menuItems);
+            
             _navigationStore = navigationStore;
-            CurrentViewModel = runs;
-            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
 
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
         public void OnCurrentViewModelChanged()

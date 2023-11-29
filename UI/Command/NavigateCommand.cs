@@ -2,7 +2,7 @@
 
 namespace UI.Command
 {
-    internal class NavigateCommand : CommandBase
+    public class NavigateCommand : CommandBase
     {
         private readonly NavigationService _navigationService;
 

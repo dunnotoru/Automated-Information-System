@@ -68,16 +68,17 @@ namespace UI.ViewModel
 
         private readonly GetStationsUseCase _getStations;
         private readonly FindRunsUseCase _findRuns;
-        private readonly ICommand SellTicketCommand;
+        public NavigateCommand SellTicketCommand { get; }
 
-        public RunSearchViewModel(GetStationsUseCase getStations, FindRunsUseCase findRuns)
+        public RunSearchViewModel(GetStationsUseCase getStations, FindRunsUseCase findRuns,
+            NavigationService ticketSaleNavigationService)
         {
             _getStations = getStations;
             _findRuns = findRuns;
 
             StationItems = new ObservableCollection<Station>(_getStations.GetStations());
             RunItems = new ObservableCollection<Run>();
-            //SellTicketCommand = new NavigateCommand(ticketSaleNavigationService);
+            SellTicketCommand = new NavigateCommand(ticketSaleNavigationService);
         }
     }
 }

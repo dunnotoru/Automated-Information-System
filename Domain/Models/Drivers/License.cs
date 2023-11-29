@@ -4,7 +4,7 @@
     {
         public string LicenseId { get; set; }
         public DateTime DateOfIssue { get; set; }
-        public DateTime DateOfExpitarion { get; set; }
-        public ICollection<Category> Caterories { get; set;}
+        public DateTime DateOfExpiration { get; set; }
+        public ICollection<Category> Categories { get; set;}
     }
 }

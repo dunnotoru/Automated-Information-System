@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using UI.Command;
@@ -29,11 +31,26 @@ namespace UI.ViewModel
 
         public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
+        public Func<ViewModelBase> GetViewModel { get; set; }
+
+        public MenuItemViewModel(IEnumerable<MenuItemViewModel> subItems)
+        {
+            if (subItems == null)
+                Items = new ObservableCollection<MenuItemViewModel>();
+            else
+                Items = new ObservableCollection<MenuItemViewModel>(subItems) ;
+
+
+            isReadRequired = false;
+            isWriteRequired = false;
+            isEditRequired = false;
+            isDeleteRequired = false;
+        }
 
         public MenuItemViewModel()
         {
             Items = new ObservableCollection<MenuItemViewModel>();
-            
+
             isReadRequired = false;
             isWriteRequired = false;
             isEditRequired = false;
@@ -48,7 +65,7 @@ namespace UI.ViewModel
 
         private void Handler(NavigationStore parameter) 
         {
-            parameter.CurrentViewModel = new TicketSaleViewModel();
+            parameter.CurrentViewModel = GetViewModel();
         }
     }
 }
