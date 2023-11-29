@@ -7,32 +7,62 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="124"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <TextBox HorizontalAlignment="Left" Margin="12,41,0,0" TextWrapping="Wrap" Text="{Binding DepartureStation}" VerticalAlignment="Top" Width="152" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="221,41,0,0" TextWrapping="Wrap" Text="{Binding ArrivalStation}" VerticalAlignment="Top" Width="152" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="12,93,0,0" TextWrapping="Wrap" Text="{Binding DepartureDateTime}" VerticalAlignment="Top" Width="152" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="218,93,0,0" TextWrapping="Wrap" Text="{Binding ArrivalDateTime}" VerticalAlignment="Top" Width="155" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="601,201,0,0" TextWrapping="Wrap" Text="{Binding Price}" VerticalAlignment="Top" Width="189" Height="32" Grid.Row="1"/>
-        <Button Content="Оформить билет" HorizontalAlignment="Left" Margin="690,252,0,0" VerticalAlignment="Top" Height="47" Width="100" Grid.Row="1" />
-        <Button Content="Отмена" HorizontalAlignment="Left" Margin="14,120,0,0" VerticalAlignment="Top" Height="47" Width="100" Grid.Row="1"/>
-        <Label Content="Станция отправления" HorizontalAlignment="Left" Margin="23,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="Станция прибытия" HorizontalAlignment="Left" Margin="240,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="Пассажиры" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" Grid.Row="1" Width="78"/>
-        <Label Content="Дата и время отправления" HorizontalAlignment="Left" Margin="9,66,0,0" VerticalAlignment="Top"/>
-        <Label Content="Дата и время прибытия" HorizontalAlignment="Left" Margin="221,62,0,0" VerticalAlignment="Top"/>
-        <Label Content="Стоимость" HorizontalAlignment="Left" Margin="514,201,0,0" VerticalAlignment="Top" Grid.Row="1" Height="42" Width="84"/>
-        <ListView ItemsSource="{Binding Passengers}" SelectedItem="{Binding SelectedPassenger}" Margin="14,50,343,76" SelectionMode="Single" Grid.Row="1">
+        <TextBox HorizontalAlignment="Left" Margin="10 30 0 0" Text="{Binding DepartureStation}" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="10 100 0 0" Text="{Binding DepartureDateTime}" VerticalAlignment="Top" Width="152" Height="20"/>
+
+        <TextBox HorizontalAlignment="Left" Margin="250 30 0 0" Text="{Binding ArrivalStation}" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="250 100 0 0" Text="{Binding ArrivalDateTime}" VerticalAlignment="Top" Width="155" Height="20"/>
+
+        <TextBox HorizontalAlignment="Right" Margin="0 0 10 75" Text="{Binding Price}" VerticalAlignment="Bottom" Width="189" Height="27"/>
+
+        <Button Content="Оформить билет" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
+
+        <Label Content="Станция отправления" HorizontalAlignment="Left" Margin="20 0 0 0" VerticalAlignment="Top"/>
+        <Label Content="Дата и время отправления" HorizontalAlignment="Left" Margin="10 60 0 0" VerticalAlignment="Top"/>
+
+        <Label Content="Станция прибытия" HorizontalAlignment="Left" Margin="270 0 0 0 " VerticalAlignment="Top"/>
+        <Label Content="Дата и время прибытия" HorizontalAlignment="Left" Margin="255 60 0 0" VerticalAlignment="Top"/>
+
+        <Label Content="Пассажиры" HorizontalAlignment="Left" Margin="10 150 0 0" VerticalAlignment="Top" Width="78"/>
+
+        <Label Content="Стоимость" HorizontalAlignment="Right" Margin="0 0 200 60" VerticalAlignment="Bottom" Height="42" Width="84"/>
+        <ListView ItemsSource="{Binding Passengers}" SelectedItem="{Binding SelectedPassenger}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 180 345 70 " SelectionMode="Single">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{Binding Name}"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}" Width="70"/>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Surname}" Width="70"/>
+                    <GridViewColumn Header="Отчетство" DisplayMemberBinding="{Binding Patronymic}" Width="70"/>
+
+                    <GridViewColumn Header="Серия" DisplayMemberBinding="{Binding Series}" Width="70"/>
+                    <GridViewColumn Header="Номер" DisplayMemberBinding="{Binding Number}" Width="70"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Добавить" HorizontalAlignment="Left" Margin="200,268,0,0" VerticalAlignment="Top" Height="24" Width="82" Grid.Row="1" />
-        <Button Content="Удалить" HorizontalAlignment="Left" Margin="375,268,0,0" VerticalAlignment="Top" Height="24" Width="82" Grid.Row="1" RenderTransformOrigin="0.494,1.479" />
-        <Button Content="Изменить" HorizontalAlignment="Left" Margin="287,268,0,0" VerticalAlignment="Top" Height="24" Width="82" Grid.Row="1" />
+
+        <Button Content="Добавить" HorizontalAlignment="Center" Margin="0 0 330 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
+        <Button Content="Удалить" HorizontalAlignment="Center" Margin="0 0 150 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
+        <Button Content="Изменить" HorizontalAlignment="Center" Margin="30 0 0 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
+        <GroupBox Header="Пассажир" Margin="0 10 10 0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="295" Width="274">
+            <StackPanel DataContext="{Binding Passenger}">
+                 <Label Content="Имя"/>
+                <TextBox Text="{Binding Name}"/>
+
+                <Label Content="Фамилия"/>
+                <TextBox Text="{Binding SelectedPassenger}"/>
+
+                <Label Content="Отчество"/>
+                <TextBox Text="{Binding Patronymic}"/>
+
+                <Label Content="Дата рождения"/>
+                <DatePicker SelectedDate="{Binding DateOfBirth}"/>
+
+                <Label Content="Серия"/>
+                <TextBox Text="{Binding Series}"/>
+
+                <Label Content="Номер"/>
+                <TextBox Text="{Binding Number}"/>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>
