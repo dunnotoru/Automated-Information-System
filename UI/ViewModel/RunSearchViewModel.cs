@@ -76,7 +76,7 @@ namespace UI.ViewModel
             _getStations = getStations;
             _findRuns = findRuns;
 
-            StationItems = new ObservableCollection<Station>(_getStations.GetStations());
+            StationItems = new ObservableCollection<Station>();
             RunItems = new ObservableCollection<Run>();
             SellTicketCommand = new NavigateCommand(ticketSaleNavigationService);
         }

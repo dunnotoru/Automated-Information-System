@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query.Internal;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
@@ -7,7 +6,7 @@ using UI.Services;
 
 namespace UI.ViewModel
 {
-    public class TicketSaleViewModel : ViewModelBase
+    public class PassengerRegistrationViewModel : ViewModelBase
     {
         private string _departureStation;
         private string _arrivalStation;
@@ -86,12 +85,12 @@ namespace UI.ViewModel
         public NavigateCommand DeclineCommand { get; }
         public NavigateCommand SellCommand { get; }
 
-        public TicketSaleViewModel(NavigationService runSearchNavigationService, NavigationService sell)
+        public PassengerRegistrationViewModel(NavigationService runSearchNavigationService, NavigationService sell)
         {
             Passengers = new ObservableCollection<PassengerViewModel>();
 
-            DeclineCommand = new NavigateCommand();
-            SellCommand = sellCommand;
+            DeclineCommand = new NavigateCommand(runSearchNavigationService);
+            SellCommand = new NavigateCommand(sell);
         }
 
         private void AddPassenger()

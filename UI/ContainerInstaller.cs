@@ -1,6 +1,5 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.MicroKernel.Util;
 using Castle.Windsor;
 using Domain.EntityFramework.Contexts;
 using Domain.EntityFramework.Repositories;
@@ -10,8 +9,7 @@ using Domain.UseCases.CashierUseCases;
 using Domain.UseCases.CasshierUseCases;
 using System;
 using System.Collections.Generic;
-using System.DirectoryServices;
-using System.Linq;
+using System.Net.Http.Headers;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
@@ -22,7 +20,8 @@ namespace UI
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<NavigationStore>());
+            container.Register(Component.For<NavigationStore>().Named("MainNavigationStore"));
+            container.Register(Component.For<NavigationStore>().Named("TicketSaleNavigationService"));
             container.Register(Component.For<NavigationService>());
 
             container.Register(Component.For<AccountContext>().LifestyleTransient());
@@ -43,24 +42,54 @@ namespace UI
                 .UsingFactoryMethod<RunSearchViewModel>(() => CreateRunSearchViewModel(container))
                 );
 
-            container.Register(Component.For<TicketSaleViewModel>());
+            container.Register(Component.For<PassengerRegistrationViewModel>());
+
+            container.Register(Component
+                .For<TicketSaleParentViewModel>()
+                .UsingFactoryMethod<TicketSaleParentViewModel>
+                (() => CreateTicketSaleParentViewModel(container)));
+
             container.Register(Component
                 .For<ShellViewModel>()
                 .UsingFactoryMethod(() => CreateShell(container)));
         }
 
-        private NavigationService CreateTicketSellNavigationService(IWindsorContainer container)
+
+        private TicketSaleParentViewModel CreateTicketSaleParentViewModel(IWindsorContainer container)
+        {
+            return new TicketSaleParentViewModel(
+                container.Resolve<NavigationStore>("TicketSaleNavigationService"),
+                CreateRunSearchNavigationService(container),
+                CreatePassengerRegistrationNavigationService(container));
+        }
+
+        private NavigationService CreateRunSearchNavigationService(IWindsorContainer container)
         {
             return new NavigationService(
-                container.Resolve<NavigationStore>(),
-                () => new TicketSaleViewModel());
+                container.Resolve<NavigationStore>("TicketSaleNavigationService"),
+                () => CreateRunSearchViewModel(container));
         }
+
+        private NavigationService CreatePassengerRegistrationNavigationService(IWindsorContainer container)
+        {
+            return new NavigationService(
+                container.Resolve<NavigationStore>("TicketSaleNavigationService"),
+                () => CreateTicketSaleViewModel(container));
+        }
+
+        private PassengerRegistrationViewModel CreateTicketSaleViewModel(IWindsorContainer container)
+        {
+            return new PassengerRegistrationViewModel(
+                CreateRunSearchNavigationService(container),
+                null);
+        }
+
         private RunSearchViewModel CreateRunSearchViewModel(IWindsorContainer container)
         {
             return new RunSearchViewModel(
                 container.Resolve<GetStationsUseCase>(),
                 container.Resolve<FindRunsUseCase>(),
-                CreateTicketSellNavigationService(container)
+                CreatePassengerRegistrationNavigationService(container)
                 );
         }
 
@@ -101,7 +130,7 @@ namespace UI
                 new MenuItemViewModel()
                 {
                     Header = "Найти",
-                    GetViewModel = () => container.Resolve<RunSearchViewModel>(),
+                    GetViewModel = () => container.Resolve<TicketSaleParentViewModel>(),
                 },
 
                 new MenuItemViewModel(r)
@@ -132,7 +161,7 @@ namespace UI
         private ShellViewModel CreateShell(IWindsorContainer container)
         {
             return new ShellViewModel(
-                container.Resolve<NavigationStore>(),
+                container.Resolve<NavigationStore>("MainNavigationStore"),
                 CreateMenu(container));
         }
         

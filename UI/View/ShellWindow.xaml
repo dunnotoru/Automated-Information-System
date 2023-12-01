@@ -10,11 +10,8 @@
         MinHeight="500" MinWidth="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <DataTemplate DataType="{x:Type vm:RunSearchViewModel}">
-            <local:RunSearchView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:TicketSaleViewModel}">
-            <local:TicketSaleView/>
+        <DataTemplate DataType="{x:Type vm:TicketSaleParentViewModel}">
+            <local:TicketSaleViewParent/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ShellViewModel}"/>
 

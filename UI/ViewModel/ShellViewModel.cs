@@ -30,7 +30,8 @@ namespace UI.ViewModel
 
         public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
-        public ShellViewModel(NavigationStore navigationStore, List<MenuItemViewModel> menuItems)
+        public ShellViewModel(NavigationStore navigationStore,
+            List<MenuItemViewModel> menuItems)
         {
             Items = new ObservableCollection<MenuItemViewModel>(menuItems);
             
