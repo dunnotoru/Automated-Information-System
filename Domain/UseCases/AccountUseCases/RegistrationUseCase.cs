@@ -37,5 +37,16 @@ namespace Domain.UseCases.AccountUseCases
 
             return true;
         }
+
+        public bool UpdatePassword(Account account, string oldPassword, string newPassword)
+        {
+            Account? storedAccount = _accountRepository.GetByUsername(account.Username);
+            if(storedAccount == null) return false;
+            if(storedAccount.PasswordHash != _passwordHasher.CalcHash(oldPassword)) return false;
+
+            storedAccount.PasswordHash = _passwordHasher.CalcHash(newPassword);
+            _accountRepository.Update(storedAccount);
+            return true;
+        }
     }
 }

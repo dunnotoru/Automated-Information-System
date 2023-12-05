@@ -17,9 +17,9 @@
             <RowDefinition Height="71*"/>
         </Grid.RowDefinitions>
 
-        <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Username}" VerticalAlignment="Center" Width="152" Grid.Column="1" Height="18" Grid.Row="1"/>
-        <TextBox HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Password}" VerticalAlignment="Center" Width="152" Grid.Column="1" Height="18"/>
-        <Button Content="Войти" Command="{Binding LoginCommand}" HorizontalAlignment="Left" Margin="84,10,0,0" Grid.Row="3" VerticalAlignment="Top" Height="20" Width="40"/>
-        <Button Content="Выйти" HorizontalAlignment="Left" Margin="196,10,0,0" Grid.Row="3" VerticalAlignment="Top" Height="20" Width="40"/>
+        <TextBox HorizontalAlignment="Stretch" Text="{Binding Username}" VerticalAlignment="Top" Width="152" Grid.Column="1" Height="18" Grid.Row="1"/>
+        <TextBox HorizontalAlignment="Stretch" Grid.Row="2" Text="{Binding Password}" VerticalAlignment="Top" Width="152" Grid.Column="1" Height="18"/>
+        <Button Content="Войти" Command="{Binding LoginCommand}" HorizontalAlignment="Center" Margin="0 0 110 40" Grid.Row="3" VerticalAlignment="Bottom" Height="20" Width="40"/>
+        <Button Content="Выйти" HorizontalAlignment="Center" Margin="110 0 0 40" Grid.Row="3" VerticalAlignment="Bottom" Height="20" Width="40"/>
     </Grid>
 </Window>

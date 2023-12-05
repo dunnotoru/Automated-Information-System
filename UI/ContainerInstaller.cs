@@ -20,6 +20,7 @@ namespace UI
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            container.Register(Component.For<AccountStore>());
             container.Register(Component.For<NavigationStore>().Named("MainNavigationStore"));
             container.Register(Component.For<NavigationStore>().Named("TicketSaleNavigationService"));
             container.Register(Component.For<NavigationService>());
@@ -29,6 +30,7 @@ namespace UI
             container.Register(Component.For<IPasswordValidator>().ImplementedBy<PasswordValidator>());
             container.Register(Component.For<IAccountRepository>().ImplementedBy<AccountRepository>());
             container.Register(Component.For<AuthenticationUseCase>());
+            container.Register(Component.For<RegistrationUseCase>());
             container.Register(Component.For<LoginViewModel>());
 
             container.Register(Component.For<CashierContext>().LifestyleTransient());
@@ -43,47 +45,69 @@ namespace UI
                 );
 
             container.Register(Component.For<PassengerRegistrationViewModel>());
+            container.Register(Component.For<CertificateViewModel>());
+
+            container.Register(Component
+                .For<UpdatePasswordViewModel>()
+                .UsingFactoryMethod(() => CreateUpdatePasswordViewModel(container)));
 
             container.Register(Component
                 .For<TicketSaleParentViewModel>()
                 .UsingFactoryMethod<TicketSaleParentViewModel>
-                (() => CreateTicketSaleParentViewModel(container)));
+                (() => CreateTicketSaleParentViewModel(container))
+                .LifestyleTransient());
 
             container.Register(Component
                 .For<ShellViewModel>()
                 .UsingFactoryMethod(() => CreateShell(container)));
         }
 
+        private NavigationService CreateShellNavigationService(IWindsorContainer container)
+        {
+            return new NavigationService(
+                container.Resolve<NavigationStore>(),
+                () => CreateShell(container));
+        }
 
+        private UpdatePasswordViewModel CreateUpdatePasswordViewModel(IWindsorContainer container)
+        {
+            return new UpdatePasswordViewModel(
+                container.Resolve<RegistrationUseCase>(),
+                CreateShellNavigationService(container),
+                container.Resolve<AccountStore>()
+                );
+        }
+        
         private TicketSaleParentViewModel CreateTicketSaleParentViewModel(IWindsorContainer container)
         {
             return new TicketSaleParentViewModel(
                 container.Resolve<NavigationStore>("TicketSaleNavigationService"),
-                CreateRunSearchNavigationService(container),
-                CreatePassengerRegistrationNavigationService(container));
+                CreateRunSearchNavigationService(container));
         }
-
+        private NavigationService CreateSellTicketViewModelNavigationService(IWindsorContainer container)
+        {
+            return new NavigationService(
+                container.Resolve<NavigationStore>("TicketSaleNavigationService"),
+                () => new SellTicketViewModel());
+        }
         private NavigationService CreateRunSearchNavigationService(IWindsorContainer container)
         {
             return new NavigationService(
                 container.Resolve<NavigationStore>("TicketSaleNavigationService"),
                 () => CreateRunSearchViewModel(container));
         }
-
         private NavigationService CreatePassengerRegistrationNavigationService(IWindsorContainer container)
         {
             return new NavigationService(
                 container.Resolve<NavigationStore>("TicketSaleNavigationService"),
                 () => CreateTicketSaleViewModel(container));
         }
-
         private PassengerRegistrationViewModel CreateTicketSaleViewModel(IWindsorContainer container)
         {
             return new PassengerRegistrationViewModel(
                 CreateRunSearchNavigationService(container),
-                null);
+                CreateSellTicketViewModelNavigationService(container));
         }
-
         private RunSearchViewModel CreateRunSearchViewModel(IWindsorContainer container)
         {
             return new RunSearchViewModel(
@@ -92,78 +116,14 @@ namespace UI
                 CreatePassengerRegistrationNavigationService(container)
                 );
         }
-
-        private List<MenuItemViewModel> CreateMenu(IWindsorContainer container)
-        {
-            List<MenuItemViewModel> r = new List<MenuItemViewModel>()
-            {
-                new MenuItemViewModel()
-                {
-                    Header = "Настройки",
-                    GetViewModel = () => throw new NotImplementedException()
-                },
-
-                new MenuItemViewModel()
-                {
-                    Header = "Сменить пароль",
-                    GetViewModel = () => throw new NotImplementedException()
-                }
-            };
-
-            List<MenuItemViewModel> s = new List<MenuItemViewModel>()
-            {
-                new MenuItemViewModel()
-                {
-                    Header = "Содержание",
-                    GetViewModel = () => throw new NotImplementedException()
-                },
-
-                new MenuItemViewModel()
-                {
-                    Header = "О программе",
-                    GetViewModel = () => throw new NotImplementedException()
-                }
-            };
-
-            List<MenuItemViewModel> menuList = new List<MenuItemViewModel>()
-            {
-                new MenuItemViewModel()
-                {
-                    Header = "Найти",
-                    GetViewModel = () => container.Resolve<TicketSaleParentViewModel>(),
-                },
-
-                new MenuItemViewModel(r)
-                {
-                    Header = "Разное",
-                },
-
-                new MenuItemViewModel()
-                {
-                    Header = "Справка",
-                },
-
-                new MenuItemViewModel(s)
-                {
-                    Header = "Справочники",
-                    GetViewModel = () => throw new NotImplementedException()
-                },
-
-                new MenuItemViewModel()
-                {
-                    Header = "Документы",
-                    GetViewModel = () => throw new NotImplementedException(),
-                }
-            };
-
-            return menuList;
-        }
+        
         private ShellViewModel CreateShell(IWindsorContainer container)
         {
+            MenuCompositor mc = new MenuCompositor(true,true,true,true);
+
             return new ShellViewModel(
                 container.Resolve<NavigationStore>("MainNavigationStore"),
-                CreateMenu(container));
+                mc.ComposeMenu(container));
         }
-        
     }
 }

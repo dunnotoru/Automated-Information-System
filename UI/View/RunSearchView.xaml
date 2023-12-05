@@ -8,9 +8,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <Label Content="Прибытие" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top"/>
-        <ListView ItemsSource="{Binding StationItems}" SelectedItem="{Binding DepartureStation}" 
+        <ListView  ItemsSource="{Binding StationItems}"
                   Margin="10 40 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                  Width="150" Height="170">
+                  Width="150" Height="170"
+                  SelectedItem="{Binding Path=DataContext.DepartureStation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название"/>
@@ -20,9 +21,10 @@
         </ListView>
 
         <Label Content="Отправление" HorizontalAlignment="Left" Margin="190 10 0 0" VerticalAlignment="Top"/>
-        <ListView ItemsSource="{Binding StationItems}" SelectedItem="{Binding ArrivalStation}" 
+        <ListView ItemsSource="{Binding StationItems}"
                   Margin="190 40 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                  Width="150" Height="170">
+                  Width="150" Height="170"
+                  SelectedItem="{Binding Path=DataContext.ArrivalStation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название"/>
@@ -33,7 +35,8 @@
 
         <Label Content="Рейсы" HorizontalAlignment="Left" Margin="10,239,0,0" VerticalAlignment="Stretch"/>
         <ListView ItemsSource="{Binding RunItems}" HorizontalAlignment="Left" Margin="10,268,0,10"
-                  Width="632">
+                  Width="632" 
+                  SelectedItem="{Binding Path=DataContext.SelectedRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Number}" Header="Рейс"/>

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Threading;
 using UI.Command;
 using UI.Stores;
-using UI.View;
 
 namespace UI.ViewModel
 {

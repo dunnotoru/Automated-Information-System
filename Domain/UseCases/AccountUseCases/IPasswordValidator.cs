@@ -1,4 +1,6 @@
-﻿namespace Domain.UseCases.AccountUseCases
+﻿using Domain.Models;
+
+namespace Domain.UseCases.AccountUseCases
 {
     public interface IPasswordValidator
     {

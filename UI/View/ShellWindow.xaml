@@ -10,17 +10,24 @@
         MinHeight="500" MinWidth="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <DataTemplate DataType="{x:Type vm:CertificateViewModel}">
+            <local:Certificate/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:TicketSaleParentViewModel}">
             <local:TicketSaleViewParent/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ShellViewModel}"/>
+        <DataTemplate DataType="{x:Type vm:UpdatePasswordViewModel}">
+            <local:UpdatePasswordView/>
+        </DataTemplate>
 
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="23*"/>
-            <RowDefinition Height="411*"/>
+            <RowDefinition Height="511*"/>
         </Grid.RowDefinitions>
+
         <Menu ItemsSource="{Binding Items}" VerticalAlignment="Top">
             <Menu.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
@@ -35,7 +42,7 @@
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>
-        
-        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" Margin="0,5,0,0"/>
+
+        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}"/>
     </Grid>
 </Window>

@@ -18,12 +18,15 @@ namespace Domain.UseCases.AccountUseCases
             _passwordValidator = passwordValidator;
         }
 
-        public bool Authenticate(string username, string password)
+        public Account Authenticate(string username, string password)
         {
             Account? storedAccount = _accountRepository.GetByUsername(username);
-            if (storedAccount == null) return false;
+            if (storedAccount == null) return null;
 
-            return _passwordValidator.Validate(password, storedAccount.PasswordHash);
+            if (_passwordValidator.Validate(password, storedAccount.PasswordHash))
+                return storedAccount;
+            else
+                return null;
         }
     }
 }

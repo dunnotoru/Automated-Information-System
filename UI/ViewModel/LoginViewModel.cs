@@ -1,6 +1,8 @@
-﻿using Domain.UseCases.AccountUseCases;
+﻿using Domain.Models;
+using Domain.UseCases.AccountUseCases;
 using System;
 using UI.Command;
+using UI.Stores;
 
 namespace UI.ViewModel
 {
@@ -37,16 +39,20 @@ namespace UI.ViewModel
         public void Authenticate()
         {
             bool result = true;// _authenticationUseCase.Authenticate(Username, Password);
+            _accountStore.CurrentAccount = new Account() { Username = "root", PasswordHash = "root_HASH" };
             if (result)
                 AuthenticationDone?.Invoke();
         }
 
         private readonly AuthenticationUseCase _authenticationUseCase;
+        private readonly AccountStore _accountStore;
         public event Action AuthenticationDone;
 
-        public LoginViewModel(AuthenticationUseCase authenticationUseCase)
+        public LoginViewModel(AuthenticationUseCase authenticationUseCase,
+            AccountStore accountStore)
         {
             _authenticationUseCase = authenticationUseCase;
+            _accountStore = accountStore;
         }
 
     }

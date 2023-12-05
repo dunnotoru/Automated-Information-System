@@ -7,11 +7,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
-        <TextBox HorizontalAlignment="Left" Margin="10 30 0 0" Text="{Binding DepartureStation}" VerticalAlignment="Top" Width="152" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="10 100 0 0" Text="{Binding DepartureDateTime}" VerticalAlignment="Top" Width="152" Height="20"/>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Height="20" Margin="10 30 0 0" 
+                 IsReadOnly="True"
+                 Text="{Binding Path=DataContext.DepartureStation.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
 
-        <TextBox HorizontalAlignment="Left" Margin="250 30 0 0" Text="{Binding ArrivalStation}" VerticalAlignment="Top" Width="152" Height="20"/>
-        <TextBox HorizontalAlignment="Left" Margin="250 100 0 0" Text="{Binding ArrivalDateTime}" VerticalAlignment="Top" Width="155" Height="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="10 100 0 0" VerticalAlignment="Top" Width="152" Height="20"
+                 IsReadOnly="True"
+                 Text="{Binding Path=DataContext.DepartureDateTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
+
+        <TextBox HorizontalAlignment="Left" Margin="250 30 0 0" VerticalAlignment="Top" Width="152" Height="20"
+                 IsReadOnly="True"
+                 Text="{Binding Path=DataContext.ArrivalStation.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
+        
+        <TextBox HorizontalAlignment="Left" Margin="250 100 0 0" VerticalAlignment="Top" Width="155" Height="20"
+                 IsReadOnly="True"
+                 Text="{Binding Path=DataContext.ArrivalDateTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
 
         <TextBox HorizontalAlignment="Right" Margin="0 0 10 75" Text="{Binding Price}" VerticalAlignment="Bottom" Width="189" Height="27"/>
 
@@ -30,12 +40,12 @@
         <ListView ItemsSource="{Binding Passengers}" SelectedItem="{Binding SelectedPassenger}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 180 345 70 " SelectionMode="Single">
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="Серия" DisplayMemberBinding="{Binding Series}" Width="50"/>
+                    <GridViewColumn Header="Номер" DisplayMemberBinding="{Binding Number}" Width="70"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}" Width="70"/>
                     <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Surname}" Width="70"/>
-                    <GridViewColumn Header="Отчетство" DisplayMemberBinding="{Binding Patronymic}" Width="70"/>
-
-                    <GridViewColumn Header="Серия" DisplayMemberBinding="{Binding Series}" Width="70"/>
-                    <GridViewColumn Header="Номер" DisplayMemberBinding="{Binding Number}" Width="70"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronymic}" Width="70"/>
+                    <GridViewColumn Header="Дата рождения" DisplayMemberBinding="{Binding DateOfBirth}" Width="90"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -44,23 +54,22 @@
         <Button Command="{Binding DeletePassengerCommand}" Content="Удалить" HorizontalAlignment="Center" Margin="25 0 0 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
         <GroupBox Header="Пассажир" Margin="0 10 10 0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="295" Width="274">
             <StackPanel DataContext="{Binding SelectedPassenger}">
-                 <Label Content="Имя"/>
-                <TextBox Text="{Binding Name}"/>
+                <Label Content="Серия"/>
+                <TextBox Text="{Binding Series}"/>
 
+                <Label Content="Номер"/>
+                <TextBox Text="{Binding Number}"/>
+                
+                <Label Content="Имя"/>
+                <TextBox Text="{Binding Name}"/>
                 <Label Content="Фамилия"/>
-                <TextBox Text="{Binding SelectedPassenger}"/>
+                <TextBox Text="{Binding Surname}"/>
 
                 <Label Content="Отчество"/>
                 <TextBox Text="{Binding Patronymic}"/>
 
                 <Label Content="Дата рождения"/>
                 <DatePicker SelectedDate="{Binding DateOfBirth}"/>
-
-                <Label Content="Серия"/>
-                <TextBox Text="{Binding Series}"/>
-
-                <Label Content="Номер"/>
-                <TextBox Text="{Binding Number}"/>
             </StackPanel>
         </GroupBox>
     </Grid>

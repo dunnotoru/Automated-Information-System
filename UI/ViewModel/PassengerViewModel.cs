@@ -1,4 +1,6 @@
-﻿namespace UI.ViewModel
+﻿using System;
+
+namespace UI.ViewModel
 {
     public class PassengerViewModel : ViewModelBase
     {
@@ -7,6 +9,7 @@
         private string _patronymic;
         private string _series;
         private string _number;
+        private DateTime _dateOfBirth;
 
         public string Name
         {
@@ -51,6 +54,15 @@
             {
                 _number = value;
                 NotifyPropertyChanged(nameof(Number));
+            }
+        }
+        public DateTime DateOfBirth
+        {
+            get => _dateOfBirth;
+            set
+            {
+                _dateOfBirth = value;
+                NotifyPropertyChanged(nameof(DateOfBirth));
             }
         }
     }

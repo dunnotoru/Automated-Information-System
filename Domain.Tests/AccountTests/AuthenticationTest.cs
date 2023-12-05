@@ -29,7 +29,7 @@ namespace Domain.Tests.AccountTests
 
             repository.Add(account);
 
-            bool result = authentication.Authenticate(username, password);
+            bool result = authentication.Authenticate(username, password) != null;
 
             Assert.IsTrue(result);
         }
@@ -57,7 +57,7 @@ namespace Domain.Tests.AccountTests
 
             repository.Add(account);
 
-            bool result = authentication.Authenticate(wrongUsername, password);
+            bool result = authentication.Authenticate(wrongUsername, password) != null;
 
             Assert.IsFalse(result);
         }
@@ -85,7 +85,7 @@ namespace Domain.Tests.AccountTests
 
             repository.Add(account);
 
-            bool result = authentication.Authenticate(username, wrongPassword);
+            bool result = authentication.Authenticate(username, wrongPassword) != null;
             
             Assert.IsFalse(result);
         }

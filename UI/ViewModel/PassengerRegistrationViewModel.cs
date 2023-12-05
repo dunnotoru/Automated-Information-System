@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -8,10 +9,6 @@ namespace UI.ViewModel
 {
     public class PassengerRegistrationViewModel : ViewModelBase
     {
-        private string _departureStation;
-        private string _arrivalStation;
-        private DateTime _departureDateTime;
-        private DateTime _arrivalDateTime;
         private int _price;
         private PassengerViewModel _selectedPassenger;
         
@@ -26,43 +23,7 @@ namespace UI.ViewModel
                 NotifyPropertyChanged(nameof(SelectedPassenger));
             }
         }
-
-        public string DepartureStation
-        {
-            get => _departureStation;
-            set
-            {
-                _departureStation = value;
-                NotifyPropertyChanged(nameof(DepartureStation));
-            }
-        }
-        public string ArrivalStation
-        {
-            get => _arrivalStation;
-            set
-            {
-                _arrivalStation = value;
-                NotifyPropertyChanged(nameof(ArrivalStation));
-            }
-        }
-        public DateTime DepartureDateTime
-        {
-            get => _departureDateTime;
-            set
-            {
-                _departureDateTime = value;
-                NotifyPropertyChanged(nameof(DepartureDateTime));
-            }
-        }
-        public DateTime ArrivalDateTime
-        {
-            get => _arrivalDateTime;
-            set
-            {
-                _arrivalDateTime = value;
-                NotifyPropertyChanged(nameof(ArrivalDateTime));
-            }
-        }
+               
         public int Price
         {
             get => _price;
@@ -85,17 +46,31 @@ namespace UI.ViewModel
         public NavigateCommand DeclineCommand { get; }
         public NavigateCommand SellCommand { get; }
 
-        public PassengerRegistrationViewModel(NavigationService runSearchNavigationService, NavigationService sell)
+        public PassengerRegistrationViewModel(NavigationService runSearchNavigationService, 
+            NavigationService sellViewModel)
         {
             Passengers = new ObservableCollection<PassengerViewModel>();
 
             DeclineCommand = new NavigateCommand(runSearchNavigationService);
-            SellCommand = new NavigateCommand(sell);
+            SellCommand = new NavigateCommand(sellViewModel);
         }
 
         private void AddPassenger()
         {
-            Passengers.Add(new PassengerViewModel() { Name = "Имя" });
+            if (Passengers.Count > 0) { 
+                PassengerViewModel viewModel = Passengers.Last();
+
+                if(string.IsNullOrWhiteSpace(viewModel.Series) ||
+                    string.IsNullOrWhiteSpace(viewModel.Number) ||
+                    string.IsNullOrWhiteSpace(viewModel.Name) ||
+                    string.IsNullOrWhiteSpace(viewModel.Surname) ||
+                    string.IsNullOrWhiteSpace(viewModel.Patronymic)) {
+
+                    return;
+                }
+            }
+
+            Passengers.Add(new PassengerViewModel() { });
         }
 
         private void DeletePassenger()
