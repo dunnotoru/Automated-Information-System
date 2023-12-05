@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.UseCases.CashierUseCases;
-using Domain.UseCases.CasshierUseCases;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

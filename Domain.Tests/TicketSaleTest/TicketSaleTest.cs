@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
-using Domain.UseCases.CasshierUseCases;
+using Domain.UseCases.CashierUseCases;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 
@@ -21,7 +21,7 @@ namespace Domain.Tests.TicketSaleTest
             SellTicketUseCase useCase = new SellTicketUseCase(ticketRepository,
                 passportRepository,calculator);
 
-            Passport passport = new Passport(501234, 5017, "John", "Doe", "Ivanovich", DateOnly.Parse("12.10"));
+            Passport passport = new Passport("501234", "5017", "John", "Doe", "Ivanovich", DateOnly.Parse("12.10"));
             Run run = new Run();
             TicketType ticketType = new TicketType()
             {

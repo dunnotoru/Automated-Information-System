@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace Domain.UseCases.CasshierUseCases
+namespace Domain.UseCases.CashierUseCases
 {
     public class SellTicketUseCase
     {
@@ -31,9 +31,10 @@ namespace Domain.UseCases.CasshierUseCases
                 PassengerPassport = passport,
                 Run = run,
                 BookDate = DateOnly.FromDateTime(DateTime.Now),
-                Casshier = "AMONGUS",
+                Cashier = "AMONGUS",
                 Type = type,
-                Price = _ticketPriceCalculator.CalcPrice(run.Route, null, null, type)
+                Price = _ticketPriceCalculator.CalcPrice(run.Route, null, null, type),
+                
             };
 
             _ticketRepository.Add(ticket);

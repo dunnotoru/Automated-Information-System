@@ -23,7 +23,7 @@ namespace Domain.EntityFramework.Repositories
             _context.Remove(entity);
         }
 
-        public Passport? Get(int number, int series)
+        public Passport? Get(string number, string series)
         {
             return _context.Passports.SingleOrDefault(x=>x.Number == number && x.Series == series);
         }

@@ -9,7 +9,7 @@ namespace UI.ViewModel
         private string _patronymic;
         private string _series;
         private string _number;
-        private DateTime _dateOfBirth;
+        private DateOnly _dateOfBirth;
 
         public string Name
         {
@@ -56,7 +56,7 @@ namespace UI.ViewModel
                 NotifyPropertyChanged(nameof(Number));
             }
         }
-        public DateTime DateOfBirth
+        public DateOnly DateOfBirth
         {
             get => _dateOfBirth;
             set

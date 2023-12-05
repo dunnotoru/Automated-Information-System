@@ -2,7 +2,7 @@
 {
     public class Passport
     {
-        public Passport(int number, int series,
+        public Passport(string number, string series,
             string name, string surname,
             string patronymic, DateOnly dateOfBirth)
         {
@@ -19,8 +19,8 @@
             
         }
 
-        public int Number { get; set; }
-        public int Series { get; set; }
+        public string Number { get; set; }
+        public string Series { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }

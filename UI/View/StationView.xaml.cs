@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace UI.View
 {
     /// <summary>
-    /// Логика взаимодействия для SellTicketView.xaml
+    /// Логика взаимодействия для StationView.xaml
     /// </summary>
-    public partial class SellTicketView : UserControl
+    public partial class StationView : UserControl
     {
-        public SellTicketView()
+        public StationView()
         {
             InitializeComponent();
         }

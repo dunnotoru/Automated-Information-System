@@ -14,9 +14,6 @@
         <DataTemplate DataType="{x:Type vm:PassengerRegistrationViewModel}">
             <local:PassengerRegistrationView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:SellTicketViewModel}">
-            <local:SellTicketView/>
-        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <ContentControl Content="{Binding CurrentViewModel}"/>

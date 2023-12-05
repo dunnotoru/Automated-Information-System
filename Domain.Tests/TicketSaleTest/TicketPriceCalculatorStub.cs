@@ -1,5 +1,5 @@
 ﻿using Domain.Models;
-using Domain.UseCases.CasshierUseCases;
+using Domain.UseCases.CashierUseCases;
 
 namespace Domain.Tests.TicketSaleTest
 {

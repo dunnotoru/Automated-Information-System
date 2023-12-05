@@ -29,7 +29,7 @@ namespace UI
                 new MenuItemViewModel()
                 {
                     Header = "Настройки",
-                    GetViewModel = () => throw new NotImplementedException()
+                    GetViewModel = () => container.Resolve<DispatcherManagerViewModel>(),
                 },
 
                 new MenuItemViewModel()

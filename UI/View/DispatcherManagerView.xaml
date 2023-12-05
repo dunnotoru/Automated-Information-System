@@ -4,28 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
+             xmlns:vm="clr-namespace:UI.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TabControl>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5">
-                    <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,0,611,0">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Button Content="Добавить" HorizontalAlignment="Left" Margin="194,17,0,0" VerticalAlignment="Top" Height="30" Width="115"/>
-                    <Button Content="Удалить" HorizontalAlignment="Left" Margin="194,52,0,0" VerticalAlignment="Top" Height="30" Width="115"/>
-                    <Button Content="Редактировать" HorizontalAlignment="Left" Margin="194,87,0,0" VerticalAlignment="Top" Height="30" Width="115"/>
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:StationViewModel}">
+            <local:StationView/>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Background="#FFE5E5E5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="61*"/>
 
-                    <StackPanel Margin="314,0,0,0">
-                        <ContentControl/>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-        </TabControl>
+        </Grid.ColumnDefinitions>
+        <ListView ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedItem}" Margin="10,10,10,10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ContentControl Content="{Binding SelectedItem.ItemViewModel}" Grid.Column="1" Margin="10,10,10,10"/>
+
     </Grid>
 </UserControl>

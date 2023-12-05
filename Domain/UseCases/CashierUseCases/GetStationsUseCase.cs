@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace Domain.UseCases.CasshierUseCases
+namespace Domain.UseCases.CashierUseCases
 {
     public class GetStationsUseCase
     {

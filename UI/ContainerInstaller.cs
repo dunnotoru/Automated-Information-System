@@ -6,10 +6,6 @@ using Domain.EntityFramework.Repositories;
 using Domain.RepositoryInterfaces;
 using Domain.UseCases.AccountUseCases;
 using Domain.UseCases.CashierUseCases;
-using Domain.UseCases.CasshierUseCases;
-using System;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
@@ -22,8 +18,7 @@ namespace UI
         {
             container.Register(Component.For<AccountStore>());
             container.Register(Component.For<NavigationStore>().Named("MainNavigationStore"));
-            container.Register(Component.For<NavigationStore>().Named("TicketSaleNavigationService"));
-            container.Register(Component.For<NavigationService>());
+            container.Register(Component.For<NavigationStore>().Named("TicketSaleNavigationStore"));
 
             container.Register(Component.For<AccountContext>().LifestyleTransient());
             container.Register(Component.For<IPasswordHasher>().ImplementedBy<PasswordHasher>());
@@ -39,9 +34,19 @@ namespace UI
             container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
             container.Register(Component.For<FindRunsUseCase>());
             container.Register(Component.For<GetStationsUseCase>());
+
+            container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
+            container.Register(Component.For<IPassportRepository>().ImplementedBy<PassportRepository>());
+            container.Register(Component.For<ITicketRepository>().ImplementedBy<TicketRepository>());
+            container.Register(Component.For<SellTicketUseCase>());
+
+            container.Register(Component
+                .For<DispatcherManagerViewModel>()
+                .UsingFactoryMethod(()=>CreateDispatcherManagerViewModel(container)));
+
             container.Register(Component
                 .For<RunSearchViewModel>()
-                .UsingFactoryMethod<RunSearchViewModel>(() => CreateRunSearchViewModel(container))
+                .UsingFactoryMethod(() => CreateRunSearchViewModel(container))
                 );
 
             container.Register(Component.For<PassengerRegistrationViewModel>());
@@ -53,13 +58,18 @@ namespace UI
 
             container.Register(Component
                 .For<TicketSaleParentViewModel>()
-                .UsingFactoryMethod<TicketSaleParentViewModel>
-                (() => CreateTicketSaleParentViewModel(container))
+                .UsingFactoryMethod(() => CreateTicketSaleParentViewModel(container))
                 .LifestyleTransient());
 
             container.Register(Component
                 .For<ShellViewModel>()
                 .UsingFactoryMethod(() => CreateShell(container)));
+        }
+
+        private DispatcherManagerViewModel CreateDispatcherManagerViewModel(IWindsorContainer container)
+        {
+            DispatcherMenuCompositor compositor = new DispatcherMenuCompositor();
+            return new DispatcherManagerViewModel(compositor.ComposeMenu(container));
         }
 
         private NavigationService CreateShellNavigationService(IWindsorContainer container)
@@ -81,32 +91,27 @@ namespace UI
         private TicketSaleParentViewModel CreateTicketSaleParentViewModel(IWindsorContainer container)
         {
             return new TicketSaleParentViewModel(
-                container.Resolve<NavigationStore>("TicketSaleNavigationService"),
+                container.Resolve<NavigationStore>("TicketSaleNavigationStore"),
                 CreateRunSearchNavigationService(container));
         }
-        private NavigationService CreateSellTicketViewModelNavigationService(IWindsorContainer container)
-        {
-            return new NavigationService(
-                container.Resolve<NavigationStore>("TicketSaleNavigationService"),
-                () => new SellTicketViewModel());
-        }
+        
         private NavigationService CreateRunSearchNavigationService(IWindsorContainer container)
         {
             return new NavigationService(
-                container.Resolve<NavigationStore>("TicketSaleNavigationService"),
+                container.Resolve<NavigationStore>("TicketSaleNavigationStore"),
                 () => CreateRunSearchViewModel(container));
         }
         private NavigationService CreatePassengerRegistrationNavigationService(IWindsorContainer container)
         {
             return new NavigationService(
-                container.Resolve<NavigationStore>("TicketSaleNavigationService"),
+                container.Resolve<NavigationStore>("TicketSaleNavigationStore"),
                 () => CreateTicketSaleViewModel(container));
         }
         private PassengerRegistrationViewModel CreateTicketSaleViewModel(IWindsorContainer container)
         {
             return new PassengerRegistrationViewModel(
                 CreateRunSearchNavigationService(container),
-                CreateSellTicketViewModelNavigationService(container));
+                container.Resolve<SellTicketUseCase>());
         }
         private RunSearchViewModel CreateRunSearchViewModel(IWindsorContainer container)
         {

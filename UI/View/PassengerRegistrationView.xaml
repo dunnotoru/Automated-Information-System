@@ -2,10 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:converters="clr-namespace:UI.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" Height="496">
+    <UserControl.Resources>
+        <converters:DateConverter x:Key="DateTimeConverter"/>
+    </UserControl.Resources>
     <Grid Background="White">
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Height="20" Margin="10 30 0 0" 
                  IsReadOnly="True"
@@ -18,12 +21,14 @@
         <TextBox HorizontalAlignment="Left" Margin="250 30 0 0" VerticalAlignment="Top" Width="152" Height="20"
                  IsReadOnly="True"
                  Text="{Binding Path=DataContext.ArrivalStation.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
-        
+
         <TextBox HorizontalAlignment="Left" Margin="250 100 0 0" VerticalAlignment="Top" Width="155" Height="20"
                  IsReadOnly="True"
                  Text="{Binding Path=DataContext.ArrivalDateTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
 
-        <TextBox HorizontalAlignment="Right" Margin="0 0 10 75" Text="{Binding Price}" VerticalAlignment="Bottom" Width="189" Height="27"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,0,10,160" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="27"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,0,10,116" Text="{Binding Cash, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="27"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,0,10,77" Text="{Binding Change, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Bottom" Width="189" Height="27"/>
 
         <Button Command="{Binding SellCommand}" Content="Оформить билет" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
         <Button Command="{Binding DeclineCommand}" Content="Отмена" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
@@ -36,7 +41,7 @@
 
         <Label Content="Пассажиры" HorizontalAlignment="Left" Margin="10 150 0 0" VerticalAlignment="Top" Width="78"/>
 
-        <Label Content="Стоимость" HorizontalAlignment="Right" Margin="0 0 200 60" VerticalAlignment="Bottom" Height="42" Width="84"/>
+        <Label Content="Стоимость" HorizontalAlignment="Right" Margin="0,0,200,160" VerticalAlignment="Bottom" Height="27" Width="84"/>
         <ListView ItemsSource="{Binding Passengers}" SelectedItem="{Binding SelectedPassenger}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 180 345 70 " SelectionMode="Single">
             <ListView.View>
                 <GridView>
@@ -59,7 +64,7 @@
 
                 <Label Content="Номер"/>
                 <TextBox Text="{Binding Number}"/>
-                
+
                 <Label Content="Имя"/>
                 <TextBox Text="{Binding Name}"/>
                 <Label Content="Фамилия"/>
@@ -69,8 +74,10 @@
                 <TextBox Text="{Binding Patronymic}"/>
 
                 <Label Content="Дата рождения"/>
-                <DatePicker SelectedDate="{Binding DateOfBirth}"/>
+                <DatePicker SelectedDate="{Binding DateOfBirth, Converter={StaticResource ResourceKey=DateTimeConverter}}"/>
             </StackPanel>
         </GroupBox>
+        <Label Content="Внесено" HorizontalAlignment="Right" Margin="0,0,199,118" VerticalAlignment="Bottom" Height="27" Width="84"/>
+        <Label Content="Сдача" HorizontalAlignment="Right" Margin="0,0,199,77" VerticalAlignment="Bottom" Height="27" Width="84"/>
     </Grid>
 </UserControl>
