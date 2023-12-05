@@ -28,7 +28,7 @@ namespace UI
             container.Register(Component.For<RegistrationUseCase>());
             container.Register(Component.For<LoginViewModel>());
 
-            container.Register(Component.For<CashierContext>().LifestyleTransient());
+            container.Register(Component.For<ApplicationContext>().LifestyleTransient());
             container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>());
             container.Register(Component.For<IRouteRepository>().ImplementedBy<RouteRepository>());
             container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
@@ -40,8 +40,10 @@ namespace UI
             container.Register(Component.For<ITicketRepository>().ImplementedBy<TicketRepository>());
             container.Register(Component.For<SellTicketUseCase>());
 
+
+            container.Register(Component.For<StationViewModel>());
             container.Register(Component
-                .For<DispatcherManagerViewModel>()
+                .For<DispatcherViewModel>()
                 .UsingFactoryMethod(()=>CreateDispatcherManagerViewModel(container)));
 
             container.Register(Component
@@ -66,10 +68,10 @@ namespace UI
                 .UsingFactoryMethod(() => CreateShell(container)));
         }
 
-        private DispatcherManagerViewModel CreateDispatcherManagerViewModel(IWindsorContainer container)
+        private DispatcherViewModel CreateDispatcherManagerViewModel(IWindsorContainer container)
         {
             DispatcherMenuCompositor compositor = new DispatcherMenuCompositor();
-            return new DispatcherManagerViewModel(compositor.ComposeMenu(container));
+            return new DispatcherViewModel(compositor.ComposeMenu(container));
         }
 
         private NavigationService CreateShellNavigationService(IWindsorContainer container)

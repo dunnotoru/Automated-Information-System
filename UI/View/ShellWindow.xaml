@@ -21,8 +21,8 @@
         <DataTemplate DataType="{x:Type vm:UpdatePasswordViewModel}">
             <local:UpdatePasswordView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:DispatcherManagerViewModel}">
-            <local:DispatcherManagerView/>
+        <DataTemplate DataType="{x:Type vm:DispatcherViewModel}">
+            <local:DispatcherView/>
         </DataTemplate>
 
     </Window.Resources>

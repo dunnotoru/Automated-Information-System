@@ -7,9 +7,9 @@ namespace Domain.EntityFramework.Repositories
 {
     public class RouteRepository : IRouteRepository
     {
-        private readonly CashierContext _context;
+        private readonly ApplicationContext _context;
 
-        public RouteRepository(CashierContext context)
+        public RouteRepository(ApplicationContext context)
         {
             _context = context;
         }

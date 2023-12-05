@@ -6,9 +6,9 @@ namespace Domain.EntityFramework.Repositories
 {
     public class TicketRepository : ITicketRepository
     {
-        private readonly CashierContext _context;
+        private readonly ApplicationContext _context;
 
-        public TicketRepository(CashierContext context)
+        public TicketRepository(ApplicationContext context)
         {
             _context = context;
         }

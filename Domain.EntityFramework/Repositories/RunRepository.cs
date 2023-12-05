@@ -6,9 +6,9 @@ namespace Domain.EntityFramework.Repositories
 {
     public class RunRepository : IRunRepository
     {
-        private readonly CashierContext _context;
+        private readonly ApplicationContext _context;
 
-        public RunRepository(CashierContext context)
+        public RunRepository(ApplicationContext context)
         {
             _context = context;
         }

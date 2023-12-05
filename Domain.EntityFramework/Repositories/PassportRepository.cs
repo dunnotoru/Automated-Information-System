@@ -6,9 +6,9 @@ namespace Domain.EntityFramework.Repositories
 {
     public class PassportRepository : IPassportRepository
     {
-        private readonly CashierContext _context;
+        private readonly ApplicationContext _context;
 
-        public PassportRepository(CashierContext context)
+        public PassportRepository(ApplicationContext context)
         {
             _context = context;
         }

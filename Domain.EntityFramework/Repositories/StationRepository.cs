@@ -6,9 +6,9 @@ namespace Domain.EntityFramework.Repositories
 {
     public class StationRepository : IStationRepository
     {
-        private readonly CashierContext _context;
+        private readonly ApplicationContext _context;
 
-        public StationRepository(CashierContext context)
+        public StationRepository(ApplicationContext context)
         {
             _context = context;
         }
