@@ -8,12 +8,11 @@ using UI.Command;
 
 namespace UI.ViewModel
 {
-    public class StationViewModel : ViewModelBase
+    public class StationManagerViewModel : ViewModelBase
     {
         private readonly StationService _stationService;
         private Station _selectedItem;
         private State _currentState;
-        private Station _bufferedStation;
 
         public ObservableCollection<Station> Items { get; set; }
         public Station SelectedItem
@@ -45,7 +44,7 @@ namespace UI.ViewModel
         public ICommand DenyCommand
             => new RelayCommand(Deny, () => CurrentState != State.None);
 
-        public StationViewModel(StationService stationService)
+        public StationManagerViewModel(StationService stationService)
         {
             _stationService = stationService;
             CurrentState = State.None;

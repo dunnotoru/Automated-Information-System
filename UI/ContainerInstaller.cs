@@ -43,8 +43,8 @@ namespace UI
 
             container.Register(Component.For<StationService>().LifestyleTransient());
             container.Register(Component.For<RouteService>().LifestyleTransient());
-            container.Register(Component.For<RouteViewModel>().LifestyleTransient());
-            container.Register(Component.For<StationViewModel>().LifestyleTransient());
+            container.Register(Component.For<RouteManagerViewModel>().LifestyleTransient());
+            container.Register(Component.For<StationManagerViewModel>().LifestyleTransient());
             container.Register(Component
                 .For<DispatcherViewModel>()
                 .UsingFactoryMethod(()=>CreateDispatcherManagerViewModel(container))
