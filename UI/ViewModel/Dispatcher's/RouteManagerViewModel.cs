@@ -16,7 +16,7 @@ namespace UI.ViewModel
     {
         private readonly RouteService _routeService;
         private readonly StationService _stationService;
-        
+
         private Route _selectedItem;
         private Station _selectedAllStation;
         private Station _selectedRouteStation;
@@ -64,7 +64,7 @@ namespace UI.ViewModel
 
         public bool CanChangeSelect => CurrentState == State.None;
         public bool IsReadOnly => CurrentState == State.None;
-        
+
         public ICommand AddCommand
             => new RelayCommand(Add, () => CurrentState == State.None);
         public ICommand DeleteCommand
@@ -73,6 +73,8 @@ namespace UI.ViewModel
             => new RelayCommand(Edit, () => CurrentState == State.None);
         public ICommand SaveCommand
             => new RelayCommand(Save, () => CurrentState == State.Add || CurrentState == State.Edit);
+        public ICommand DenyCommand
+            => new RelayCommand(Deny, () => CurrentState != State.None);
 
         public ICommand MoveToRouteCommand
             => new RelayCommand(MoveToRoute, () => CurrentState != State.None);
@@ -95,7 +97,7 @@ namespace UI.ViewModel
         private void Add()
         {
             SelectedItem = new Route();
-            AllStations = new ObservableCollection<Station>(_stationService.GetAll());  
+            AllStations = new ObservableCollection<Station>(_stationService.GetAll());
             RouteStations = new ObservableCollection<Station>();
             CurrentState = State.Add;
         }
@@ -111,9 +113,16 @@ namespace UI.ViewModel
         {
             CurrentState = State.Edit;
 
-            RouteStations = new ObservableCollection<Station>(SelectedItem.Stations);
-            IEnumerable<Station> temp = _stationService.GetAll().Except(SelectedItem.Stations);
-            AllStations = new ObservableCollection<Station>(temp);
+            Route? r = _routeService.GetById(SelectedItem.Id);
+            if (r == null) return;
+            RouteStations = new ObservableCollection<Station>(r.Stations);
+            
+            AllStations = new ObservableCollection<Station>(_stationService.GetAll());
+
+            foreach(Station station in RouteStations)
+            {
+                AllStations.Remove(AllStations.First(_ => _.Id == station.Id));
+            }
         }
 
         private void Save()
@@ -134,7 +143,7 @@ namespace UI.ViewModel
 
         private void MoveToRoute()
         {
-            if(SelectedStation == null) return;
+            if (SelectedStation == null) return;
             RouteStations.Add(SelectedStation);
             AllStations.Remove(SelectedStation);
         }
@@ -150,7 +159,7 @@ namespace UI.ViewModel
         {
             if (SelectedRouteStation == null) return;
             int index = RouteStations.IndexOf(SelectedRouteStation);
-            if(index == 0) return;
+            if (index == 0) return;
 
             RouteStations.Move(index, index - 1);
         }
@@ -161,6 +170,12 @@ namespace UI.ViewModel
             int index = RouteStations.IndexOf(SelectedRouteStation);
             if (index == RouteStations.Count - 1) return;
             RouteStations.Move(index, index + 1);
+        }
+
+        private void Deny()
+        {
+            SelectedItem = null;
+            CurrentState = State.None;
         }
     }
 }
