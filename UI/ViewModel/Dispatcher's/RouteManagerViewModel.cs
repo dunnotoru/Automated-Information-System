@@ -1,12 +1,8 @@
 ﻿using Domain.Models;
 using Domain.Services;
-using System.CodeDom.Compiler;
-using System.Collections;
-using System.Collections.Generic;
+using SQLitePCL;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Permissions;
-using System.Windows.Documents;
+using System.Security.Authentication;
 using System.Windows.Input;
 using UI.Command;
 
@@ -17,53 +13,28 @@ namespace UI.ViewModel
         private readonly RouteService _routeService;
         private readonly StationService _stationService;
 
-        private Route _selectedItem;
-        private Station _selectedAllStation;
-        private Station _selectedRouteStation;
+        private RouteViewModel _selectedRoute;
+        private Station _selectedStation;
         private State _currentState;
 
-        private ObservableCollection<Station> _allStations;
-        private ObservableCollection<Station> _routeStations;
-        public ObservableCollection<Route> Routes { get; set; }
-        public ObservableCollection<Station> AllStations
+        public ObservableCollection<RouteViewModel> Routes { get; set; }
+        public RouteViewModel SelectedRoute
         {
-            get => _allStations;
-            set { _allStations = value; NotifyPropertyChanged(nameof(AllStations)); }
-        }
-        public ObservableCollection<Station> RouteStations
-        {
-            get => _routeStations;
-            set { _routeStations = value; NotifyPropertyChanged(nameof(RouteStations)); }
-        }
-        public Route SelectedItem
-        {
-            get => _selectedItem;
-            set { _selectedItem = value; NotifyPropertyChanged(nameof(SelectedItem)); }
+            get => _selectedRoute;
+            set { _selectedRoute = value; NotifyPropertyChanged(nameof(SelectedRoute)); }
         }
         public Station SelectedStation
         {
-            get => _selectedAllStation;
-            set { _selectedAllStation = value; NotifyPropertyChanged(nameof(SelectedStation)); }
+            get => _selectedStation;
+            set { _selectedStation = value; NotifyPropertyChanged(nameof(SelectedStation)); }
         }
-        public Station SelectedRouteStation
-        {
-            get => _selectedRouteStation;
-            set { _selectedRouteStation = value; NotifyPropertyChanged(nameof(SelectedRouteStation)); }
-        }
-
         public State CurrentState
         {
             get => _currentState;
-            set
-            {
-                _currentState = value;
-                NotifyPropertyChanged(nameof(CanChangeSelect));
-                NotifyPropertyChanged(nameof(IsReadOnly));
-            }
+            set { _currentState = value; NotifyPropertyChanged(nameof(CurrentState)); }
         }
 
-        public bool CanChangeSelect => CurrentState == State.None;
-        public bool IsReadOnly => CurrentState == State.None;
+        public ObservableCollection<Station> Stations { get; set; }
 
         public ICommand AddCommand
             => new RelayCommand(Add, () => CurrentState == State.None);
@@ -71,111 +42,101 @@ namespace UI.ViewModel
             => new RelayCommand(Delete, () => CurrentState == State.None);
         public ICommand EditCommand
             => new RelayCommand(Edit, () => CurrentState == State.None);
-        public ICommand SaveCommand
-            => new RelayCommand(Save, () => CurrentState == State.Add || CurrentState == State.Edit);
+        public ICommand SaveCommand 
+            => new RelayCommand(Save, () => CurrentState != State.None);
         public ICommand DenyCommand
             => new RelayCommand(Deny, () => CurrentState != State.None);
 
         public ICommand MoveToRouteCommand
-            => new RelayCommand(MoveToRoute, () => CurrentState != State.None);
+            => new RelayCommand(MoveToRoute);
         public ICommand RemoveFromRouteCommand
-            => new RelayCommand(RemoveFromRoute, () => CurrentState != State.None);
+            => new RelayCommand(RemoveFromRoute);
         public ICommand MoveUpCommand
-            => new RelayCommand(MoveUp, () => CurrentState != State.None);
+            => new RelayCommand(MoveUp);
         public ICommand MoveDownCommand
-            => new RelayCommand(MoveDown, () => CurrentState != State.None);
+            => new RelayCommand(MoveDown);
 
         public RouteManagerViewModel(RouteService routeService, StationService stationService)
         {
             _routeService = routeService;
             _stationService = stationService;
-            CurrentState = State.None;
 
-            Routes = new ObservableCollection<Route>(_routeService.GetAll());
+            Routes = new ObservableCollection<RouteViewModel>();
+            foreach (Route route in _routeService.GetAll())
+                Routes.Add(new RouteViewModel(route));
+
+            Stations = new ObservableCollection<Station>(_stationService.GetAll());
         }
 
         private void Add()
         {
-            SelectedItem = new Route();
-            AllStations = new ObservableCollection<Station>(_stationService.GetAll());
-            RouteStations = new ObservableCollection<Station>();
+            SelectedRoute = new RouteViewModel(new Route());
             CurrentState = State.Add;
         }
 
         private void Delete()
         {
-            _routeService.Delete(SelectedItem);
-            if (!Routes.Contains(SelectedItem)) return;
-            Routes.Remove(SelectedItem);
+            if(SelectedRoute == null) return;
+            _routeService.Delete(SelectedRoute.Route);
+            Routes.Remove(SelectedRoute);
         }
 
         private void Edit()
         {
             CurrentState = State.Edit;
-
-            Route? r = _routeService.GetById(SelectedItem.Id);
-            if (r == null) return;
-            RouteStations = new ObservableCollection<Station>(r.Stations);
-            
-            AllStations = new ObservableCollection<Station>(_stationService.GetAll());
-
-            foreach(Station station in RouteStations)
-            {
-                AllStations.Remove(AllStations.First(_ => _.Id == station.Id));
-            }
         }
 
         private void Save()
         {
-            SelectedItem.Stations = RouteStations;
+            SelectedRoute.Route.Stations = Stations;
             if (CurrentState == State.Add)
             {
-                _routeService.Add(SelectedItem);
-                Routes.Add(SelectedItem);
+                _routeService.Add(SelectedRoute.Route);
+                Routes.Add(SelectedRoute);
             }
             else if (CurrentState == State.Edit)
             {
-                _routeService.Update(SelectedItem);
+                _routeService.Update(SelectedRoute.Route);
             }
 
             CurrentState = State.None;
-        }
-
-        private void MoveToRoute()
-        {
-            if (SelectedStation == null) return;
-            RouteStations.Add(SelectedStation);
-            AllStations.Remove(SelectedStation);
-        }
-
-        private void RemoveFromRoute()
-        {
-            if (SelectedRouteStation == null) return;
-            AllStations.Add(SelectedRouteStation);
-            RouteStations.Remove(SelectedRouteStation);
-        }
-
-        private void MoveUp()
-        {
-            if (SelectedRouteStation == null) return;
-            int index = RouteStations.IndexOf(SelectedRouteStation);
-            if (index == 0) return;
-
-            RouteStations.Move(index, index - 1);
-        }
-
-        private void MoveDown()
-        {
-            if (SelectedRouteStation == null) return;
-            int index = RouteStations.IndexOf(SelectedRouteStation);
-            if (index == RouteStations.Count - 1) return;
-            RouteStations.Move(index, index + 1);
         }
 
         private void Deny()
         {
-            SelectedItem = null;
             CurrentState = State.None;
+            SelectedRoute = null;
+            
+        }
+        private void MoveToRoute()
+        {
+            if (SelectedRoute == null) return;
+            if (SelectedStation == null) return;
+            SelectedRoute.Stations.Add(SelectedStation);
+            Stations.Remove(SelectedStation);
+        }
+        private void RemoveFromRoute()
+        {
+            if (SelectedRoute == null) return;
+            if (SelectedRoute.SelectedStation == null) return;
+            Stations.Add(SelectedRoute.SelectedStation);
+            SelectedRoute.Stations.Remove(SelectedRoute.SelectedStation);
+        }
+        private void MoveUp()
+        {
+            if (SelectedRoute == null) return;
+            if (SelectedRoute.SelectedStation == null) return;
+            int index = SelectedRoute.Stations.IndexOf(SelectedRoute.SelectedStation);
+            if (index == 0) return;
+            SelectedRoute.Stations.Move(index, index - 1);
+        }
+        private void MoveDown()
+        {
+            if (SelectedRoute == null) return;
+            if (SelectedRoute.SelectedStation == null) return;
+            int index = SelectedRoute.Stations.IndexOf(SelectedRoute.SelectedStation);
+            if (index == SelectedRoute.Stations.Count - 1) return;
+            SelectedRoute.Stations.Move(index, index + 1);
         }
     }
 }

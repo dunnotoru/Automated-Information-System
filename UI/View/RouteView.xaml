@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
 
         <ListView IsEnabled="{Binding CanChangeSelect}" ItemsSource="{Binding Routes}" Grid.Column="0" Margin="10,10,10,10"
-          SelectionMode="Single" SelectedItem="{Binding SelectedItem}">
+          SelectionMode="Single" SelectedItem="{Binding SelectedRoute}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}"/>
@@ -57,11 +57,11 @@
                    Content="Id" Height="26" Width="20"/>
             <TextBox Margin="10 30 10 0"
                      HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                     Text="{Binding SelectedItem.Id}" IsReadOnly="True" Height="18"/>
+                     Text="{Binding SelectedRoute.Id}" IsReadOnly="True" Height="18"/>
 
             <ListView HorizontalAlignment="Stretch"
                       Margin="10 60 30 10" 
-                      ItemsSource="{Binding AllStations}"
+                      ItemsSource="{Binding Stations}"
                       SelectedItem="{Binding SelectedStation}" SelectionMode="Single" >
                 <ListView.View>
                     <GridView>
@@ -86,11 +86,11 @@
             <TextBox IsReadOnly="{Binding IsReadOnly}"
                      Margin="10 30 10 0"
                      HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                     Text="{Binding SelectedItem.Name}" Height="18" />
+                     Text="{Binding SelectedRoute.Name}" Height="18" />
 
             <ListView HorizontalAlignment="Stretch"
                       Margin="10 60 30 10" 
-                      ItemsSource="{Binding RouteStations}"
+                      ItemsSource="{Binding SelectedRoute.Stations}"
                       SelectionMode="Single" SelectedItem="{Binding SelectedRouteStation}">
                 <ListView.View>
                     <GridView>

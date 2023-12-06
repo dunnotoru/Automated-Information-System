@@ -1,29 +1,36 @@
 ﻿using Domain.Models;
-using Domain.Services;
 using System.Collections.ObjectModel;
 
 namespace UI.ViewModel
 {
     public class RouteViewModel : ViewModelBase
     {
-        private Route _route;
-        private RouteService _routeService;
+        private Station _selectedStation;
+        public Route Route { get; set; }
+
+        public RouteViewModel(Route route)
+        {
+            Route = route;
+            Stations = new ObservableCollection<Station>(Route.Stations);
+        }
 
         public int Id
         {
-            get => _route.Id;
-            set { _route.Id = value; NotifyPropertyChanged(nameof(Id)); }
+            get => Route.Id;
+            set { Route.Id = value; NotifyPropertyChanged(nameof(Id)); }
         }
         public string Name
         {
-            get => _route.Name;
-            set { _route.Name = value; NotifyPropertyChanged(nameof(Name)); }
+            get => Route.Name;
+            set { Route.Name = value; NotifyPropertyChanged(nameof(Name)); }
         }
 
-        public ObservableCollection<Station> Stations
+        public ObservableCollection<Station> Stations { get; set; }
+        public Station SelectedStation
         {
-            get => new ObservableCollection<Station>(_route.Stations);
-            set { _route.Stations = value; NotifyPropertyChanged(nameof(Stations)); }
+            get => _selectedStation;
+            set { _selectedStation=value; NotifyPropertyChanged(nameof(SelectedStation));}
         }
+
     }
 }
