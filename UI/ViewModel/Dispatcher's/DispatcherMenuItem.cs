@@ -1,9 +1,11 @@
-﻿namespace UI.ViewModel
+﻿using System;
+
+namespace UI.ViewModel
 {
     public class DispatcherMenuItem : ViewModelBase
     {
         private string _name;
-        private ViewModelBase _viewModel;
+        private Func<ViewModelBase> _viewModel;
         
         public string Name
         {
@@ -11,10 +13,19 @@
             set { _name = value; NotifyPropertyChanged(nameof(Name)); }
         }
 
-        public ViewModelBase ItemViewModel
+        public Func<ViewModelBase> ViewModel
         {
             get => _viewModel;
-            set { _viewModel = value; NotifyPropertyChanged(nameof(ItemViewModel)); }
+            set
+            {
+                _viewModel = value;
+                NotifyPropertyChanged(nameof(ItemViewModel));
+            }
+        }
+
+        public ViewModelBase ItemViewModel
+        {
+            get => _viewModel();
         }
     }
 }

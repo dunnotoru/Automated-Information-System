@@ -23,6 +23,11 @@ namespace Domain.Tests.FindRunsTest
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Route> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
         public Route? GetById(int id)
         {
             throw new NotImplementedException();

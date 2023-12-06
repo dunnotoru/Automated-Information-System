@@ -1,4 +1,4 @@
-﻿using Domain.Models.Drivers;
+﻿using Domain.Models;
 
 namespace Domain.RepositoryInterfaces
 {

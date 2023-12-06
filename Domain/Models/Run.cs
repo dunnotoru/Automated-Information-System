@@ -1,6 +1,4 @@
-﻿using Domain.Models.Drivers;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
     public class Run
     {

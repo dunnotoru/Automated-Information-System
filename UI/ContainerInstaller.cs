@@ -4,6 +4,7 @@ using Castle.Windsor;
 using Domain.EntityFramework.Contexts;
 using Domain.EntityFramework.Repositories;
 using Domain.RepositoryInterfaces;
+using Domain.Services;
 using Domain.UseCases.AccountUseCases;
 using Domain.UseCases.CashierUseCases;
 using UI.Services;
@@ -40,11 +41,14 @@ namespace UI
             container.Register(Component.For<ITicketRepository>().ImplementedBy<TicketRepository>());
             container.Register(Component.For<SellTicketUseCase>());
 
-
-            container.Register(Component.For<StationViewModel>());
+            container.Register(Component.For<StationService>().LifestyleTransient());
+            container.Register(Component.For<RouteService>().LifestyleTransient());
+            container.Register(Component.For<RouteViewModel>().LifestyleTransient());
+            container.Register(Component.For<StationViewModel>().LifestyleTransient());
             container.Register(Component
                 .For<DispatcherViewModel>()
-                .UsingFactoryMethod(()=>CreateDispatcherManagerViewModel(container)));
+                .UsingFactoryMethod(()=>CreateDispatcherManagerViewModel(container))
+                .LifestyleTransient());
 
             container.Register(Component
                 .For<RunSearchViewModel>()

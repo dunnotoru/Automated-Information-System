@@ -1,23 +1,19 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Domain.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
 
 namespace UI.ViewModel
 {
-    public enum State
-    {
-        None = 0,
-        Add,
-        Edit
-    }
-
     public class StationViewModel : ViewModelBase
     {
-        private readonly IStationRepository _stationRepository;
+        private readonly StationService _stationService;
         private Station _selectedItem;
         private State _currentState;
+        private Station _bufferedStation;
 
         public ObservableCollection<Station> Items { get; set; }
         public Station SelectedItem
@@ -38,56 +34,59 @@ namespace UI.ViewModel
         public bool CanChangeSelect => CurrentState == State.None;
         public bool IsReadOnly => CurrentState == State.None;
 
-        public ICommand AddStationCommand 
-            => new RelayCommand(AddStation, () => CurrentState == State.None);
-        public ICommand DeleteStationCommand
-            => new RelayCommand(DeleteStation, () => CurrentState == State.None);
-        public ICommand EditStationCommand
-            => new RelayCommand(EditStation, () => CurrentState == State.None);
-        public ICommand SaveChangesCommand
-            => new RelayCommand(SaveChanges, () => CurrentState == State.Add || CurrentState == State.Edit);
+        public ICommand AddCommand 
+            => new RelayCommand(Add, () => CurrentState == State.None);
+        public ICommand DeleteCommand
+            => new RelayCommand(Delete, () => CurrentState == State.None);
+        public ICommand EditCommand
+            => new RelayCommand(Edit, () => CurrentState == State.None && SelectedItem != null);
+        public ICommand SaveCommand
+            => new RelayCommand(Save, () => CurrentState == State.Add || CurrentState == State.Edit);
+        public ICommand DenyCommand
+            => new RelayCommand(Deny, () => CurrentState != State.None);
 
-        public StationViewModel(IStationRepository stationRepository)
+        public StationViewModel(StationService stationService)
         {
-            _stationRepository = stationRepository;
+            _stationService = stationService;
             CurrentState = State.None;
-            Items = new ObservableCollection<Station>(_stationRepository.GetAll());
+            Items = new ObservableCollection<Station>(_stationService.GetAll());
         }
 
-        private void AddStation()
+        private void Add()
         {
-            SelectedItem = new Station();
             CurrentState = State.Add;
+            SelectedItem = new Station();
         }
 
-        private void DeleteStation()
+        private void Delete()
         {
-            if (SelectedItem == null) return;
-            Station? storedStation = _stationRepository.GetById(SelectedItem.Id);
-            if (storedStation == null) return;
-            _stationRepository.Delete(storedStation);
-            if (storedStation == null) return;
-            Items.Remove(storedStation);
+            _stationService.Delete(SelectedItem);
+            if (!Items.Contains(SelectedItem)) return;
+            Items.Remove(SelectedItem);
         }
 
-        private void EditStation()
+        private void Edit()
         {
             CurrentState = State.Edit;
         }
 
-        private void SaveChanges()
+        private void Save()
         {
             if(CurrentState == State.Add)
             {
-                _stationRepository.Add(SelectedItem);
+                _stationService.Add(SelectedItem);
                 Items.Add(SelectedItem);
             }
             else if(CurrentState == State.Edit)
             {
-                _stationRepository.Update(SelectedItem);
+                _stationService.Update(SelectedItem);
             }
-            
-            _stationRepository.Save();
+
+            CurrentState = State.None;
+        }
+
+        private void Deny()
+        {
             CurrentState = State.None;
         }
     }

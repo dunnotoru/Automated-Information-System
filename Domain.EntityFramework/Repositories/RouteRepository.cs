@@ -29,6 +29,11 @@ namespace Domain.EntityFramework.Repositories
             return _context.Routes.Include(r => r.Stations).SingleOrDefault(r => r.Id == id);
         }
 
+        public IEnumerable<Route> GetAll()
+        {
+            return _context.Routes;
+        }
+
         public IEnumerable<Route> GetByStations(Station from, Station to)
         {
             return _context.Routes.Where(r => r.Stations.Contains(from) && r.Stations.Contains(to));

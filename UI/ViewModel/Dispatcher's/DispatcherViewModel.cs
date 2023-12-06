@@ -4,11 +4,18 @@ using System.Collections.ObjectModel;
 
 namespace UI.ViewModel
 {
+    public enum State
+    {
+        None = 0,
+        Add,
+        Edit
+    }
+
     public class DispatcherViewModel : ViewModelBase
     {
-        private DispatcherMenuItem _selectedItem;
         public ObservableCollection<DispatcherMenuItem> ViewModels { get; set; }
-        
+
+        private DispatcherMenuItem _selectedItem;
         public DispatcherMenuItem SelectedItem
         {
             get => _selectedItem;
