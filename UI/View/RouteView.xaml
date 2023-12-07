@@ -18,8 +18,8 @@
           SelectionMode="Single" SelectedItem="{Binding SelectedRoute}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -65,8 +65,8 @@
                       SelectedItem="{Binding SelectedStation}" SelectionMode="Single" >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
+                        <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Width="auto" Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -94,8 +94,8 @@
                       SelectionMode="Single" SelectedItem="{Binding RouteSelectedStation}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
+                        <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Width="auto" Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

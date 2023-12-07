@@ -17,9 +17,9 @@
                   SelectionMode="Single" SelectedItem="{Binding SelectedItem}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="10" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Width="50" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Width="70" DisplayMemberBinding="{Binding Address}"/>
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Address}"/>
                 </GridView>
             </ListView.View>
         </ListView>
