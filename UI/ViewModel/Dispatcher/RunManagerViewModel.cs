@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Services;
+using System;
 using System.Collections.ObjectModel;
 
 namespace UI.ViewModel
@@ -14,6 +15,9 @@ namespace UI.ViewModel
 
         public RunManagerViewModel(RunService runService, RouteService routeService)
         {
+            ArgumentNullException.ThrowIfNull(runService);
+            ArgumentNullException.ThrowIfNull(routeService);
+
             _runService = runService;
             _routeService = routeService;
 

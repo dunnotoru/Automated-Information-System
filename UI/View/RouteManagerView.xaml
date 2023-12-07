@@ -18,8 +18,8 @@
           SelectionMode="Single" SelectedItem="{Binding SelectedRoute}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Id" Width="auto" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Название" Width="auto" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>

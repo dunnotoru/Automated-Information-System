@@ -17,9 +17,9 @@
                   SelectionMode="Single" SelectedItem="{Binding SelectedStation}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Address}"/>
+                    <GridViewColumn Header="Id" Width="auto" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Название" Width="auto" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Адрес" Width="auto" DisplayMemberBinding="{Binding Address}"/>
                 </GridView>
             </ListView.View>
         </ListView>

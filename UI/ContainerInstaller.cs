@@ -28,21 +28,22 @@ namespace UI
             container.Register(Component.For<RegistrationUseCase>());
             container.Register(Component.For<LoginViewModel>());
 
-            container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>().LifestyleTransient());
-            container.Register(Component.For<IRouteRepository>().ImplementedBy<RouteRepository>().LifestyleTransient());
-            container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>().LifestyleTransient());
+            container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>());
+            container.Register(Component.For<IRouteRepository>().ImplementedBy<RouteRepository>());
+            container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
 
-            container.Register(Component.For<StationService>().LifestyleTransient());
-            container.Register(Component.For<RouteService>().LifestyleTransient());
-            container.Register(Component.For<RunService>().LifestyleTransient());
+            container.Register(Component.For<StationService>());
+            container.Register(Component.For<RouteService>());
+            container.Register(Component.For<RunService>());
             container.Register(Component.For<RouteManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<StationManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<RunManagerViewModel>().LifestyleTransient());
+
             container.Register(Component
                 .For<DispatcherViewModel>()
-                .UsingFactoryMethod(()=>CreateDispatcherManagerViewModel(container))
+                .UsingFactoryMethod(() => CreateDispatcherManagerViewModel(container))
                 .LifestyleTransient());
 
             container.Register(Component
@@ -117,8 +118,8 @@ namespace UI
         private RunSearchViewModel CreateRunSearchViewModel(IWindsorContainer container)
         {
             return new RunSearchViewModel(
-                container.Resolve<GetStationsUseCase>(),
-                container.Resolve<FindRunsUseCase>(),
+                container.Resolve<StationService>(),
+                container.Resolve<RunService>(),
                 CreatePassengerRegistrationNavigationService(container)
                 );
         }

@@ -15,7 +15,7 @@ namespace Domain.EntityFramework.Contexts
         public DbSet<Schedule> Schedules { get; set; }
         public ApplicationContext()
         {
-            
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -6,31 +6,34 @@ namespace Domain.EntityFramework.Repositories
 {
     public class TicketRepository : ITicketRepository
     {
-        private readonly ApplicationContext _context;
-
-        public TicketRepository(ApplicationContext context)
-        {
-            _context = context;
-        }
-
         public void Add(Ticket entity)
         {
-            _context.Add(entity);
+            ArgumentNullException.ThrowIfNull(entity);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Add(entity);
+                context.SaveChanges();
+            }
         }
 
         public void Remove(Ticket entity)
         {
-            _context.Remove(entity);
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
+            ArgumentNullException.ThrowIfNull(entity);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Remove(entity);
+                context.SaveChanges();
+            }
         }
 
         public void Update(Ticket entity)
         {
-            _context.Update(entity);
+            ArgumentNullException.ThrowIfNull(entity);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Update(entity);
+                context.SaveChanges();
+            }
         }
     }
 }

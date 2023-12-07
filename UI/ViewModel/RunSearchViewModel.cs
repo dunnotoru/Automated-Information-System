@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Services;
 using Domain.UseCases.CashierUseCases;
 using System;
 using System.Collections.Generic;
@@ -21,29 +22,25 @@ namespace UI.ViewModel
 
         private void FindRunsMethod()
         {
-            //List<Station> stations = _getStations.GetStations().ToList();
             
-            //Station departure = stations.First(x => x == DepartureStation);
-            //Station arrival = stations.First(x => x == DepartureStation);
-
-            List<Run> s = _findRuns.FindRuns(null, null, DateTime.MinValue).ToList();
-            RunItems = new ObservableCollection<Run>(s);
-            NotifyPropertyChanged(nameof(RunItems));
         }
 
-        private readonly GetStationsUseCase _getStations;
-        private readonly FindRunsUseCase _findRuns;
+        private readonly StationService _stationService;
+        private readonly RunService _runService;
         public NavigateCommand SellTicketCommand { get; }
 
-        public RunSearchViewModel(GetStationsUseCase getStations, FindRunsUseCase findRuns,
-            NavigationService ticketSaleNavigationService)
+        public RunSearchViewModel(StationService stationService, RunService runService,
+            NavigationService toPassengerRegistration)
         {
-            _getStations = getStations;
-            _findRuns = findRuns;
+            ArgumentNullException.ThrowIfNull(toPassengerRegistration);
+            ArgumentNullException.ThrowIfNull(stationService);
+            ArgumentNullException.ThrowIfNull(runService);
+            _stationService = stationService;
+            _runService = runService;
+            SellTicketCommand = new NavigateCommand(toPassengerRegistration);
 
-            StationItems = new ObservableCollection<Station>(_getStations.GetStations());
+            StationItems = new ObservableCollection<Station>(_stationService.GetAll());
             RunItems = new ObservableCollection<Run>();
-            SellTicketCommand = new NavigateCommand(ticketSaleNavigationService);
         }
     }
 }
