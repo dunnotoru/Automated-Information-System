@@ -14,11 +14,16 @@ namespace Domain.Services
 
         public void Add(Route route)
         {
+            ArgumentNullException.ThrowIfNull(route);
+
             _repository.Add(route);
+
             _repository.Save();
         }
         public void Update(Route route)
         {
+            ArgumentNullException.ThrowIfNull(route);
+
             _repository.Update(route);
             _repository.Save();
         }
@@ -27,7 +32,7 @@ namespace Domain.Services
             if (route == null) return;
             Route? storedStation = _repository.GetById(route.Id);
             if (storedStation == null) return;
-            _repository.Delete(route);
+            _repository.Remove(route);
             _repository.Save();
         }
 

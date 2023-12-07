@@ -76,25 +76,16 @@ namespace UI.ViewModel
         public bool EnableSelection => CurrentState == State.None;
         public bool EnableSettings => CurrentState != State.None;
 
-        public ICommand AddCommand
-            => new RelayCommand(Add, () => CurrentState == State.None);
-        public ICommand DeleteCommand
-            => new RelayCommand(Delete, () => CurrentState == State.None);
-        public ICommand EditCommand
-            => new RelayCommand(Edit, () => CurrentState == State.None);
-        public ICommand SaveCommand 
-            => new RelayCommand(Save, () => CurrentState != State.None);
-        public ICommand DenyCommand
-            => new RelayCommand(Deny, () => CurrentState != State.None);
+        public ICommand AddCommand { get; }
+        public ICommand DeleteCommand { get; }
+        public ICommand EditCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand DenyCommand { get; }
 
-        public ICommand MoveToRouteCommand
-            => new RelayCommand(MoveToRoute, () => CurrentState != State.None);
-        public ICommand RemoveFromRouteCommand
-            => new RelayCommand(RemoveFromRoute, () => CurrentState != State.None);
-        public ICommand MoveUpCommand
-            => new RelayCommand(MoveUp, () => CurrentState != State.None);
-        public ICommand MoveDownCommand
-            => new RelayCommand(MoveDown, () => CurrentState != State.None);
+        public ICommand MoveToRouteCommand { get; }
+        public ICommand RemoveFromRouteCommand { get; }
+        public ICommand MoveUpCommand { get; }
+        public ICommand MoveDownCommand { get; }
 
         public RouteManagerViewModel(RouteService routeService, StationService stationService)
         {
@@ -103,8 +94,18 @@ namespace UI.ViewModel
 
             Routes = new ObservableCollection<Route>(_routeService.GetAll());
             Stations = new List<Station>(_stationService.GetAll());
-        }
 
+            AddCommand = new RelayCommand(Add, () => CurrentState == State.None);
+            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None);
+            EditCommand = new RelayCommand(Edit, () => CurrentState == State.None);
+            SaveCommand = new RelayCommand(Save, () => CurrentState != State.None);
+            DenyCommand = new RelayCommand(Deny, () => CurrentState != State.None);
+            MoveToRouteCommand = new RelayCommand(MoveToRoute, () => CurrentState != State.None);
+            RemoveFromRouteCommand = new RelayCommand(RemoveFromRoute, () => CurrentState != State.None);
+            MoveUpCommand = new RelayCommand(MoveUp, () => CurrentState != State.None);
+            MoveDownCommand = new RelayCommand(MoveDown, () => CurrentState != State.None);
+    }
+    
         private void Add()
         {
             SelectedRoute = new Route();

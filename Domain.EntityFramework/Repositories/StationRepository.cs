@@ -1,6 +1,8 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -15,11 +17,13 @@ namespace Domain.EntityFramework.Repositories
 
         public void Add(Station entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             _context.Add(entity);
         }
 
-        public void Delete(Station entity)
+        public void Remove(Station entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             _context.Remove(entity);
         }
 
@@ -50,6 +54,7 @@ namespace Domain.EntityFramework.Repositories
 
         public void Update(Station entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             _context.Update(entity);
         }
     }

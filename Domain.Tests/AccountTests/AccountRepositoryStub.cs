@@ -17,7 +17,7 @@ namespace Domain.Tests.AccountTests
             _accounts.Add(account);
         }
 
-        public void Delete(Account account)
+        public void Remove(Account account)
         {
             _accounts.Remove(account);
         }

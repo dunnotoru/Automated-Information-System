@@ -9,15 +9,15 @@ namespace UI.ViewModel
     public class StationManagerViewModel : ViewModelBase
     {
         private readonly StationService _stationService;
-        private Station _selectedItem;
+        private Station _selectedStation;
         private State _currentState;
-
-        public ObservableCollection<Station> Items { get; set; }
-        public Station SelectedItem
+        public ObservableCollection<Station> Stations { get; set; }
+        public Station SelectedStation
         {
-            get => _selectedItem;
-            set { _selectedItem = value; NotifyPropertyChanged(nameof(SelectedItem)); }
+            get => _selectedStation;
+            set { _selectedStation = value; NotifyPropertyChanged(nameof(SelectedStation)); }
         }
+
         public State CurrentState
         {
             get => _currentState;
@@ -31,35 +31,37 @@ namespace UI.ViewModel
         public bool CanChangeSelect => CurrentState == State.None;
         public bool IsReadOnly => CurrentState == State.None;
 
-        public ICommand AddCommand 
-            => new RelayCommand(Add, () => CurrentState == State.None);
-        public ICommand DeleteCommand
-            => new RelayCommand(Delete, () => CurrentState == State.None);
-        public ICommand EditCommand
-            => new RelayCommand(Edit, () => CurrentState == State.None && SelectedItem != null);
-        public ICommand SaveCommand
-            => new RelayCommand(Save, () => CurrentState == State.Add || CurrentState == State.Edit);
-        public ICommand DenyCommand
-            => new RelayCommand(Deny, () => CurrentState != State.None);
+        public ICommand AddCommand {  get; }
+        public ICommand DeleteCommand { get; }
+        public ICommand EditCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand DenyCommand { get; }
 
         public StationManagerViewModel(StationService stationService)
         {
             _stationService = stationService;
             CurrentState = State.None;
-            Items = new ObservableCollection<Station>(_stationService.GetAll());
+            Stations = new ObservableCollection<Station>(_stationService.GetAll());
+
+            AddCommand = new RelayCommand(Add, () => CurrentState == State.None);
+            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None);
+            EditCommand = new RelayCommand(Edit, () => CurrentState == State.None && SelectedStation != null);
+            SaveCommand = new RelayCommand(Save, () => CurrentState == State.Add || CurrentState == State.Edit);
+            DenyCommand = new RelayCommand(Deny, () => CurrentState != State.None);
         }
 
         private void Add()
         {
             CurrentState = State.Add;
-            SelectedItem = new Station();
+            SelectedStation = new Station();
         }
 
         private void Delete()
         {
-            _stationService.Delete(SelectedItem);
-            if (!Items.Contains(SelectedItem)) return;
-            Items.Remove(SelectedItem);
+            if (SelectedStation == null) return;
+            if (!Stations.Contains(SelectedStation)) return;
+            _stationService.Delete(SelectedStation);
+            Stations.Remove(SelectedStation);
         }
 
         private void Edit()
@@ -71,12 +73,12 @@ namespace UI.ViewModel
         {
             if(CurrentState == State.Add)
             {
-                _stationService.Add(SelectedItem);
-                Items.Add(SelectedItem);
+                _stationService.Add(SelectedStation);
+                Stations.Add(SelectedStation);
             }
             else if(CurrentState == State.Edit)
             {
-                _stationService.Update(SelectedItem);
+                _stationService.Update(SelectedStation);
             }
 
             CurrentState = State.None;

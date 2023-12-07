@@ -15,20 +15,26 @@ namespace Domain.Services
 
         public void Add(Station station)
         {
+            ArgumentNullException.ThrowIfNull(station);
+
             _stationRepository.Add(station);
+
             _stationRepository.Save();
         }
         public void Update(Station station)
         {
+            ArgumentNullException.ThrowIfNull(station);
+
             _stationRepository.Update(station);
             _stationRepository.Save();
         }
         public void Delete(Station station)
         {
-            if (station == null) return;
+            ArgumentNullException.ThrowIfNull(station);
             Station? storedStation = _stationRepository.GetById(station.Id);
+            
             if (storedStation == null) return;
-            _stationRepository.Delete(storedStation);
+            _stationRepository.Remove(storedStation);
             _stationRepository.Save();
         }
 
@@ -51,6 +57,5 @@ namespace Domain.Services
         {
             return _stationRepository.GetAll();
         }
-
     }
 }

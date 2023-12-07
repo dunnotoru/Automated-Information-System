@@ -17,12 +17,12 @@ namespace Domain.Tests.FindRunsTest
             throw new NotImplementedException();
         }
 
-        public void Delete(Run entity)
+        public void Remove(Run entity)
         {
             throw new NotImplementedException();
         }
 
-        public Run? GetByNumber(int id)
+        public Run? GetById(int id)
         {
             throw new NotImplementedException();
         }

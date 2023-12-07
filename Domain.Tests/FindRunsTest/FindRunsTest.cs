@@ -28,10 +28,10 @@ namespace Domain.Tests.FindRunsTest
 
             HashSet<Run> runs = new HashSet<Run>()
             {
-                new Run() { Number = 1, Route = routes.First(x=>x.Id == 1), Departure = DateTime.MinValue },
-                new Run() { Number = 2, Route = routes.First(x=>x.Id == 2), Departure = DateTime.MinValue },
-                new Run() { Number = 3, Route = routes.First(x=>x.Id == 3), Departure = DateTime.MinValue },
-                new Run() { Number = 4, Route = routes.First(x=>x.Id == 4), Departure = DateTime.MinValue },
+                new Run() { Id = 1, Route = routes.First(x=>x.Id == 1), Departure = DateTime.MinValue },
+                new Run() { Id = 2, Route = routes.First(x=>x.Id == 2), Departure = DateTime.MinValue },
+                new Run() { Id = 3, Route = routes.First(x=>x.Id == 3), Departure = DateTime.MinValue },
+                new Run() { Id = 4, Route = routes.First(x=>x.Id == 4), Departure = DateTime.MinValue },
             };
 
             IRunRepository runRepository = new RunRepositoryStub(runs);

@@ -18,7 +18,7 @@ namespace Domain.Tests.TicketSaleTest
             _tickets.Add(entity);
         }
 
-        public void Delete(Ticket entity)
+        public void Remove(Ticket entity)
         {
             throw new NotImplementedException();
         }

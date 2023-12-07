@@ -17,7 +17,7 @@ namespace Domain.UseCases.CashierUseCases
 
         public IEnumerable<Run> FindRuns(Station from, Station to, DateTime fromDate)
         {
-            return new List<Run>() { new Run() { Number = 228 } } ;
+            return new List<Run>() { new Run() { Id = 228 } } ;
         }
     }
 }

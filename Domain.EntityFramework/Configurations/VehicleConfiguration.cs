@@ -8,7 +8,7 @@ namespace Domain.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Vehicle> builder)
         {
-            builder.HasKey(x => x.LicensePlateNumber);
+            builder.HasKey(x => x.Id);
         }
     }
 }

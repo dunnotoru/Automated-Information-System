@@ -39,7 +39,7 @@ namespace Domain.UseCases
             if (stored == null)
                 return false;
 
-            _driverRepository.Delete(stored);
+            _driverRepository.Remove(stored);
 
             try
             {

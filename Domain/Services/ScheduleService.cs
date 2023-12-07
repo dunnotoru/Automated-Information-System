@@ -29,7 +29,7 @@ namespace Domain.Services
             if (schedule == null) return;
             Schedule? storedStation = _repository.GetById(schedule.Id);
             if (storedStation == null) return;
-            _repository.Delete(schedule);
+            _repository.Remove(schedule);
             _repository.Save();
         }
 

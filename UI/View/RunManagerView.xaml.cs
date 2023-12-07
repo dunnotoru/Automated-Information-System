@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace UI.View
 {
     /// <summary>
-    /// Логика взаимодействия для StationView.xaml
+    /// Логика взаимодействия для RunManagerView.xaml
     /// </summary>
-    public partial class StationView : UserControl
+    public partial class RunManagerView : UserControl
     {
-        public StationView()
+        public RunManagerView()
         {
             InitializeComponent();
         }

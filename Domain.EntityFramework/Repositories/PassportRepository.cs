@@ -18,7 +18,7 @@ namespace Domain.EntityFramework.Repositories
             _context.Add(entity);
         }
 
-        public void Delete(Passport entity)
+        public void Remove(Passport entity)
         {
             _context.Remove(entity);
         }

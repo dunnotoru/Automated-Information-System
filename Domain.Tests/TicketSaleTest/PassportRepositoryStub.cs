@@ -18,7 +18,7 @@ namespace Domain.Tests.TicketSaleTest
             _passports.Add(entity);
         }
 
-        public void Delete(Passport entity)
+        public void Remove(Passport entity)
         {
             throw new NotImplementedException();
         }

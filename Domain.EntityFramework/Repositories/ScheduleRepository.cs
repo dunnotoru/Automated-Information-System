@@ -18,7 +18,7 @@ namespace Domain.EntityFramework.Repositories
             _context.Add(entity);
         }
 
-        public void Delete(Schedule entity)
+        public void Remove(Schedule entity)
         {
             _context.Schedules.Remove(entity);
         }

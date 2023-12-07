@@ -18,7 +18,7 @@ namespace Domain.Tests.FindRunsTest
             throw new NotImplementedException();
         }
 
-        public void Delete(Route entity)
+        public void Remove(Route entity)
         {
             throw new NotImplementedException();
         }

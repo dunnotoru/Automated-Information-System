@@ -15,17 +15,19 @@ namespace Domain.EntityFramework.Repositories
 
         public void Add(Run entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             _context.Add(entity);
         }
 
-        public void Delete(Run entity)
+        public void Remove(Run entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             _context.Remove(entity);
         }
 
-        public Run? GetByNumber(int number)
+        public Run? GetById(int number)
         {
-            return _context.Runs.SingleOrDefault(x=>x.Number == number);
+            return _context.Runs.SingleOrDefault(x=>x.Id == number);
         }
 
         public IEnumerable<Run> GetByRoute(Route route)
@@ -40,6 +42,7 @@ namespace Domain.EntityFramework.Repositories
 
         public void Update(Run entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             _context.Update(entity);
         }
     }

@@ -10,5 +10,17 @@
         {
             Routes = new HashSet<Route>();
         }
+
+        public static Station GetClone(Station station)
+        {
+            ArgumentNullException.ThrowIfNull(station);
+
+            return new Station()
+            {
+                Id = station.Id,
+                Name = station.Name,
+                Address = station.Address,
+            };
+        }
     }
 }

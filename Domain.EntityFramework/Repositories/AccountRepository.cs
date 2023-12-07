@@ -20,7 +20,7 @@ namespace Domain.EntityFramework.Repositories
             _context.Accounts.Add(entity);
         }
 
-        public void Delete(Account entity)
+        public void Remove(Account entity)
         {
             _context.Accounts.Remove(entity);
         }

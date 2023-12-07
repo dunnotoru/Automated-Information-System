@@ -16,11 +16,15 @@ namespace Domain.EntityFramework.Repositories
 
         public void Add(Route entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
+
+            _context.Stations.AttachRange(entity.Stations);
             _context.Add(entity);
         }
 
-        public void Delete(Route entity)
+        public void Remove(Route entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             _context.Remove(entity);
         }
 
@@ -36,7 +40,11 @@ namespace Domain.EntityFramework.Repositories
 
         public IEnumerable<Route> GetByStations(Station from, Station to)
         {
-            return _context.Routes.Where(r => r.Stations.Contains(from) && r.Stations.Contains(to));
+            ArgumentNullException.ThrowIfNull(from);
+            ArgumentNullException.ThrowIfNull(to);
+
+            return _context.Routes.Where(r => r.Stations.Contains(from) && r.Stations.Contains(to))
+                .Include(r => r.Stations);
         }
 
         public void Save()
@@ -46,6 +54,7 @@ namespace Domain.EntityFramework.Repositories
 
         public void Update(Route entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             _context.Update(entity);
         }
     }
