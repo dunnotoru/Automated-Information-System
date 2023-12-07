@@ -33,7 +33,6 @@ namespace Domain.UseCases.AccountUseCases
             };
 
             _accountRepository.Add(newAccount);
-            _accountRepository.Save();
 
             return true;
         }

@@ -18,7 +18,7 @@ namespace Domain.UseCases.AccountUseCases
             _passwordValidator = passwordValidator;
         }
 
-        public Account Authenticate(string username, string password)
+        public Account? Authenticate(string username, string password)
         {
             Account? storedAccount = _accountRepository.GetByUsername(username);
             if (storedAccount == null) return null;

@@ -6,52 +6,68 @@ namespace Domain.EntityFramework.Repositories
 {
     public class ScheduleRepository : IScheduleRepository
     {
-        private ApplicationContext _context;
-
-        public ScheduleRepository(ApplicationContext context)
+        public ScheduleRepository()
         {
-            _context = context;
+            
         }
 
         public void Add(Schedule entity)
         {
-            _context.Add(entity);
+            ArgumentNullException.ThrowIfNull(entity);
+
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Add(entity);
+            }
         }
 
         public void Remove(Schedule entity)
         {
-            _context.Schedules.Remove(entity);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Schedules.Remove(entity);
+            }
         }
         public void Update(Schedule entity)
         {
-            _context.Update(entity);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Update(entity);
+            }
         }
 
         public Schedule? GetById(int id)
         {
-            return _context.Schedules.SingleOrDefault(s => s.Id == id);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Schedules.SingleOrDefault(s => s.Id == id);
+            }
         }
 
         public IEnumerable<Schedule> GetAll()
         {
-            return _context.Schedules;
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Schedules;
+            }
         }
 
         public IEnumerable<Schedule> GetByRoute(Route route)
         {
             ArgumentNullException.ThrowIfNull(route);
-            return _context.Schedules.Where(s => s.Route == route);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Schedules.Where(s => s.Route == route);
+            }
         }
 
         public Schedule? GetByRun(Run run)
         {
             ArgumentNullException.ThrowIfNull(run);
-            return _context.Schedules.SingleOrDefault(s => s.Run == run);
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Schedules.SingleOrDefault(s => s.Run == run);
+            }
         }
     }
 }

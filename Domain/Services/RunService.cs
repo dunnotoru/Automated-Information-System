@@ -17,21 +17,18 @@ namespace Domain.Services
         {
             ArgumentNullException.ThrowIfNull(run);
             _repository.Add(run);
-            _repository.Save();
         }
 
         public void Update(Run run)
         {
             ArgumentNullException.ThrowIfNull(run);
             _repository.Update(run);
-            _repository.Save();
         }
 
         public void Remove(Run run)
         {
             ArgumentNullException.ThrowIfNull(run);
             _repository.Remove(run);
-            _repository.Save();
         }
 
         public Run? GetById(int id)

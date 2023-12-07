@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{1CCB2209-3A73-4F46-AA4F-28C90900B4FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{E796ED6C-E69E-417F-A880-AB1F25122FC9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.EntityFramework", "Domain.EntityFramework\Domain.EntityFramework.csproj", "{E2C55917-225E-47DD-A895-D64454E2B73D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{514D8407-C6EF-4171-8DCC-9A0A1993592A}"
@@ -28,10 +26,6 @@ Global
 		{1CCB2209-3A73-4F46-AA4F-28C90900B4FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CCB2209-3A73-4F46-AA4F-28C90900B4FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CCB2209-3A73-4F46-AA4F-28C90900B4FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E796ED6C-E69E-417F-A880-AB1F25122FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E796ED6C-E69E-417F-A880-AB1F25122FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E796ED6C-E69E-417F-A880-AB1F25122FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E796ED6C-E69E-417F-A880-AB1F25122FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E2C55917-225E-47DD-A895-D64454E2B73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2C55917-225E-47DD-A895-D64454E2B73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2C55917-225E-47DD-A895-D64454E2B73D}.Release|Any CPU.ActiveCfg = Release|Any CPU

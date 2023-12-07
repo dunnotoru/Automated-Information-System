@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
-using System.Dynamic;
 
 namespace Domain.Services
 {
@@ -18,15 +17,12 @@ namespace Domain.Services
             ArgumentNullException.ThrowIfNull(station);
 
             _stationRepository.Add(station);
-
-            _stationRepository.Save();
         }
         public void Update(Station station)
         {
             ArgumentNullException.ThrowIfNull(station);
 
             _stationRepository.Update(station);
-            _stationRepository.Save();
         }
         public void Delete(Station station)
         {
@@ -35,7 +31,6 @@ namespace Domain.Services
             
             if (storedStation == null) return;
             _stationRepository.Remove(storedStation);
-            _stationRepository.Save();
         }
 
         public Station? GetById(int id)
@@ -53,9 +48,9 @@ namespace Domain.Services
             return _stationRepository.GetByAddress(address);
         }
 
-        public IEnumerable<Station> GetAll()
+        public List<Station> GetAll()
         {
-            return _stationRepository.GetAll();
+            return _stationRepository.GetAll().ToList();
         }
     }
 }

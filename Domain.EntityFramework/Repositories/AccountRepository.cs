@@ -6,40 +6,50 @@ namespace Domain.EntityFramework.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        public AccountRepository()
-        {
-
-        }
-
         public void Add(Account entity)
         {
-            
-            _context.Accounts.Add(entity);
+            ArgumentNullException.ThrowIfNull(entity);
+            using (AccountContext context = new AccountContext())
+            {
+                context.Accounts.Add(entity);
+                context.SaveChanges();
+            }
         }
 
         public void Remove(Account entity)
         {
-            _context.Accounts.Remove(entity);
+            ArgumentNullException.ThrowIfNull(entity);
+            using (AccountContext context = new AccountContext())
+            {
+                context.Accounts.Remove(entity);
+                context.SaveChanges();
+            }
         }
 
         public void Update(Account entity)
         {
-            _context.Accounts.Update(entity);
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
+            ArgumentNullException.ThrowIfNull(entity);
+            using (AccountContext context = new AccountContext())
+            {
+                context.Accounts.Update(entity);
+                context.SaveChanges();
+            }
         }
 
         public Account? GetById(int id)
         {
-            return _context.Accounts.SingleOrDefault(_ => _.Id == id);
+            using (AccountContext context = new AccountContext())
+            {
+                return context.Accounts.SingleOrDefault(_ => _.Id == id);
+            }
         }
 
         public Account? GetByUsername(string username)
         {
-            return _context.Accounts.SingleOrDefault(_ => _.Username == username);
+            using (AccountContext context = new AccountContext())
+            {
+                return context.Accounts.SingleOrDefault(_ => _.Username == username);
+            }
         }
     }
 }

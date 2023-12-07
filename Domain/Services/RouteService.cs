@@ -17,15 +17,12 @@ namespace Domain.Services
             ArgumentNullException.ThrowIfNull(route);
 
             _repository.Add(route);
-
-            _repository.Save();
         }
         public void Update(Route route)
         {
             ArgumentNullException.ThrowIfNull(route);
 
             _repository.Update(route);
-            _repository.Save();
         }
         public void Delete(Route route)
         {
@@ -33,7 +30,6 @@ namespace Domain.Services
             Route? storedStation = _repository.GetById(route.Id);
             if (storedStation == null) return;
             _repository.Remove(route);
-            _repository.Save();
         }
 
         public Route? GetById(int id)

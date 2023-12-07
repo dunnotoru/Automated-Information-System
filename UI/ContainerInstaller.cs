@@ -21,7 +21,6 @@ namespace UI
             container.Register(Component.For<NavigationStore>().Named("MainNavigationStore"));
             container.Register(Component.For<NavigationStore>().Named("TicketSaleNavigationStore"));
 
-            container.Register(Component.For<AccountContext>().LifestyleTransient());
             container.Register(Component.For<IPasswordHasher>().ImplementedBy<PasswordHasher>());
             container.Register(Component.For<IPasswordValidator>().ImplementedBy<PasswordValidator>());
             container.Register(Component.For<IAccountRepository>().ImplementedBy<AccountRepository>());
@@ -29,22 +28,18 @@ namespace UI
             container.Register(Component.For<RegistrationUseCase>());
             container.Register(Component.For<LoginViewModel>());
 
-            container.Register(Component.For<ApplicationContext>().LifestyleTransient());
-            container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>());
-            container.Register(Component.For<IRouteRepository>().ImplementedBy<RouteRepository>());
-            container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
-            container.Register(Component.For<FindRunsUseCase>());
-            container.Register(Component.For<GetStationsUseCase>());
+            container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>().LifestyleTransient());
+            container.Register(Component.For<IRouteRepository>().ImplementedBy<RouteRepository>().LifestyleTransient());
+            container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>().LifestyleTransient());
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
-            container.Register(Component.For<IPassportRepository>().ImplementedBy<PassportRepository>());
-            container.Register(Component.For<ITicketRepository>().ImplementedBy<TicketRepository>());
-            container.Register(Component.For<SellTicketUseCase>());
 
             container.Register(Component.For<StationService>().LifestyleTransient());
             container.Register(Component.For<RouteService>().LifestyleTransient());
+            container.Register(Component.For<RunService>().LifestyleTransient());
             container.Register(Component.For<RouteManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<StationManagerViewModel>().LifestyleTransient());
+            container.Register(Component.For<RunManagerViewModel>().LifestyleTransient());
             container.Register(Component
                 .For<DispatcherViewModel>()
                 .UsingFactoryMethod(()=>CreateDispatcherManagerViewModel(container))

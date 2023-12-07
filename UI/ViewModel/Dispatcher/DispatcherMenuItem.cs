@@ -25,7 +25,12 @@ namespace UI.ViewModel
 
         public ViewModelBase ItemViewModel
         {
-            get => _viewModel();
+            get 
+            {
+                ViewModelBase vmb = _viewModel();
+                return vmb;
+            } 
+
         }
     }
 }

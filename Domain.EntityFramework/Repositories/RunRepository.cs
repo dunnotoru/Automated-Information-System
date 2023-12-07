@@ -6,49 +6,58 @@ namespace Domain.EntityFramework.Repositories
 {
     public class RunRepository : IRunRepository
     {
-        private readonly ApplicationContext _context;
-
-        public RunRepository(ApplicationContext context)
-        {
-            _context = context;
-        }
-
         public void Add(Run entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
-            _context.Add(entity);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Add(entity);
+                context.SaveChanges();
+            }
         }
 
         public void Remove(Run entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
-            _context.Remove(entity);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Remove(entity);
+                context.SaveChanges();
+            }
         }
 
         public Run? GetById(int number)
         {
-            return _context.Runs.SingleOrDefault(x=>x.Id == number);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Runs.SingleOrDefault(x=>x.Id == number);
+            }
         }
 
         public IEnumerable<Run> GetByRoute(Route route)
         {
-            return _context.Runs.Where(x => x.Route == route);
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Runs.Where(x => x.Route == route).ToList();
+            }
         }
 
         public void Update(Run entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
-            _context.Update(entity);
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                context.Update(entity);
+                context.SaveChanges();
+            }
         }
 
         public IEnumerable<Run> GetAll()
         {
-            return _context.Runs;
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Runs.ToList();
+            }
         }
     }
 }

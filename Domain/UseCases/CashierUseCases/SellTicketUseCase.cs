@@ -37,12 +37,10 @@ namespace Domain.UseCases.CashierUseCases
                 
             };
 
-            _ticketRepository.Add(ticket);
 
             try
             {
-                _ticketRepository.Save();
-                _passportRepository.Save();
+                _ticketRepository.Add(ticket);
                 return ticket;
             }
             catch
