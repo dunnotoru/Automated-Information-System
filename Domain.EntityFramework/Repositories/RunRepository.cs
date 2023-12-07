@@ -45,5 +45,10 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             _context.Update(entity);
         }
+
+        public IEnumerable<Run> GetAll()
+        {
+            return _context.Runs;
+        }
     }
 }

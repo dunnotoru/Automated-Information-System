@@ -6,17 +6,14 @@ namespace Domain.EntityFramework.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        protected AccountContext _context;
-
-        public AccountRepository(AccountContext dbContext)
+        public AccountRepository()
         {
-            ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
 
-            _context = dbContext;
         }
 
         public void Add(Account entity)
         {
+            
             _context.Accounts.Add(entity);
         }
 

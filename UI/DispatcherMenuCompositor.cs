@@ -1,5 +1,6 @@
 ﻿using Castle.Windsor;
 using System.Collections.Generic;
+using UI.View;
 using UI.ViewModel;
 
 namespace UI
@@ -19,6 +20,11 @@ namespace UI
                 {
                     Name = "Маршруты",
                     ViewModel = () => container.Resolve<RouteManagerViewModel>(),
+                },
+                new DispatcherMenuItem()
+                {
+                    Name = "Рейсы",
+                    ViewModel = () => container.Resolve<RunManagerViewModel>(),  
                 }
             };
 

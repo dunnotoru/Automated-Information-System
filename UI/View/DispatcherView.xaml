@@ -12,9 +12,11 @@
             <local:StationManagerView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RouteManagerViewModel}">
-            <local:RouteView/>
+            <local:RouteManagerView/>
         </DataTemplate>
-
+        <DataTemplate DataType="{x:Type vm:RunManagerViewModel}">
+            <local:RunManagerView/>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>

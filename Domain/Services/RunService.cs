@@ -45,5 +45,10 @@ namespace Domain.Services
 
             return _repository.GetByRoute(route);
         }
+
+        public IEnumerable<Run> GetAll()
+        {
+            return _repository.GetAll();
+        }
     }
 }

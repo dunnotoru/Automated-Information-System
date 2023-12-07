@@ -6,5 +6,6 @@ namespace Domain.RepositoryInterfaces
     {
         Run? GetById(int id);
         IEnumerable<Run> GetByRoute(Route route);
+        IEnumerable<Run> GetAll();
     }
 }

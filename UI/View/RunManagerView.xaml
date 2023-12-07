@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
 
         <ListView Grid.Column="0" Margin="10,10,10,10"
-            SelectionMode="Single">
+            SelectionMode="Single" ItemsSource="{Binding Runs}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="auto" Header="Id"/>
@@ -71,10 +71,10 @@
 
             <Label Content="Водитель"/>
             <TextBox Text="driver"/>
-
         </StackPanel>
 
-        <ListView Grid.Column="2" Margin="10,10,10,10">
+        <ListView Grid.Column="2" Margin="10,10,10,10"
+                  ItemsSource="{Binding Routes}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="auto" Header="Id"/>
