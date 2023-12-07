@@ -143,6 +143,7 @@ namespace UI.ViewModel
         {
             CurrentState = State.None;
             SelectedRoute = null;
+            
         }
         private void MoveToRoute()
         {

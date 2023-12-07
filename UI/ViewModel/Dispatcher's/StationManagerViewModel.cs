@@ -1,7 +1,5 @@
 ﻿using Domain.Models;
-using Domain.RepositoryInterfaces;
 using Domain.Services;
-using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
