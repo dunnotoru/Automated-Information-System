@@ -73,6 +73,8 @@ namespace UI.ViewModel
             }
         }
 
+
+
         public TicketSaleParentViewModel(NavigationStore navigationStore,
             NavigationService runSearchViewModelNavigationService)
         {

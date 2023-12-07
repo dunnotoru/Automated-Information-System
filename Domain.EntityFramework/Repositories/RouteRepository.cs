@@ -31,7 +31,7 @@ namespace Domain.EntityFramework.Repositories
 
         public IEnumerable<Route> GetAll()
         {
-            return _context.Routes;
+            return _context.Routes.Include(r=>r.Stations);
         }
 
         public IEnumerable<Route> GetByStations(Station from, Station to)

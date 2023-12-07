@@ -14,7 +14,7 @@
             <ColumnDefinition Width="103*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView IsEnabled="{Binding CanChangeSelect}" ItemsSource="{Binding Routes}" Grid.Column="0" Margin="10,10,10,10"
+        <ListView IsEnabled="{Binding EnableSelection}" ItemsSource="{Binding Routes}" Grid.Column="0" Margin="10,10,10,10"
           SelectionMode="Single" SelectedItem="{Binding SelectedRoute}">
             <ListView.View>
                 <GridView>
@@ -59,9 +59,9 @@
                      HorizontalAlignment="Stretch" VerticalAlignment="Top"
                      Text="{Binding SelectedRoute.Id}" IsReadOnly="True" Height="18"/>
 
-            <ListView HorizontalAlignment="Stretch"
+            <ListView IsEnabled="{Binding EnableSettings}" HorizontalAlignment="Stretch"
                       Margin="10 60 30 10" 
-                      ItemsSource="{Binding Stations}"
+                      ItemsSource="{Binding AvailableStations}"
                       SelectedItem="{Binding SelectedStation}" SelectionMode="Single" >
                 <ListView.View>
                     <GridView>
@@ -83,15 +83,15 @@
             <Label Margin="10 0 0 0"
                    HorizontalAlignment="Left" VerticalAlignment="Top"
                    Content="Название" Height="26" Width="63"/>
-            <TextBox IsReadOnly="{Binding IsReadOnly}"
+            <TextBox IsReadOnly="{Binding EnableSelection}"
                      Margin="10 30 10 0"
                      HorizontalAlignment="Stretch" VerticalAlignment="Top"
                      Text="{Binding SelectedRoute.Name}" Height="18" />
 
             <ListView HorizontalAlignment="Stretch"
                       Margin="10 60 30 10" 
-                      ItemsSource="{Binding SelectedRoute.Stations}"
-                      SelectionMode="Single" SelectedItem="{Binding SelectedRouteStation}">
+                      IsEnabled="{Binding EnableSettings}" ItemsSource="{Binding SelectedRouteStations}"
+                      SelectionMode="Single" SelectedItem="{Binding RouteSelectedStation}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name}"/>
