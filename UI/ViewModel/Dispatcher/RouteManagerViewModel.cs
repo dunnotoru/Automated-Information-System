@@ -127,7 +127,17 @@ namespace UI.ViewModel
 
         private void Save()
         {
-            SelectedRoute.Stations = SelectedRouteStations;
+            SelectedRoute.Stations.Clear();
+            foreach (var s in SelectedRouteStations)
+            {
+                SelectedRoute.Stations.Add(new Station()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Address = s.Address,
+                });
+            }
+
             if (CurrentState == State.Add)
             {
                 _routeRepository.Add(SelectedRoute);
