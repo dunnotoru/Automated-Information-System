@@ -11,9 +11,11 @@ namespace Domain.EntityFramework.Configurations
         {
             builder.HasKey(x => x.Id);
             builder
-                .HasMany<Station>(r => r.Stations)
+                .HasMany(r => r.Stations)
                 .WithMany(s => s.Routes)
-                .UsingEntity(j => j.ToTable("Station_Routes"));
+                .UsingEntity<StationRoute>(
+                l => l.HasOne<Station>().WithMany().HasForeignKey(e => e.StationId),
+                r => r.HasOne<Route>().WithMany().HasForeignKey(e => e.RouteId));
         }
     }
 }

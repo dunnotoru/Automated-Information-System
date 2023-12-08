@@ -1,7 +1,11 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Configurations;
+using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -23,15 +27,21 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Route? r = context.Routes.SingleOrDefault(r => r.Id == entity.Id);
-                if(r != null)
-                {
-                    context.Remove(r);
-                }
+                Route? stored = context.Routes.SingleOrDefault(r => r.Id == entity.Id);
+                if (stored == null) return;
+                
+                stored.Stations.Clear();
+                
+                IEnumerable<StationRoute> toRemove = context.Set<StationRoute>()
+                    .Where(_ => _.RouteId == stored.Id);
+                context.Set<StationRoute>().RemoveRange(toRemove);
                 context.SaveChanges();
-            }
 
-            Add(entity);
+                stored.Name = entity.Name;
+                stored.Stations = entity.Stations;
+                context.SaveChanges();
+
+            }
         }
 
         public void Remove(Route entity)
