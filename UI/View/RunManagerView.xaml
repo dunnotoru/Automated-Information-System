@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
+             xmlns:converters="clr-namespace:UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
+    </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="191*"/>
@@ -15,7 +19,8 @@
         </Grid.ColumnDefinitions>
 
         <ListView Grid.Column="0" Margin="10,10,10,10"
-            SelectionMode="Single" ItemsSource="{Binding Runs}">
+            SelectionMode="Single" ItemsSource="{Binding Runs}" SelectedItem="{Binding SelectedRun}"
+                  IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="auto" Header="Id"/>
@@ -53,35 +58,35 @@
         </StackPanel>
 
 
-        <StackPanel Grid.Column="3" Margin="10,10,10,10">
+        <StackPanel IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="3" Margin="10,10,10,10">
             <Label Content="Id"/>
-            <TextBox Text="id" IsReadOnly="True"/>
+            <TextBox Text="{Binding SelectedRun.Id}" IsReadOnly="True"/>
 
             <Label Content="Маршрут"/>
-            <TextBox Text="Route"/>
+            <TextBox Text="{Binding SelectedRoute.Name}"/>
 
             <Label Content="Время отбытия"/>
-            <TextBox Text="departure"/>
+            <TextBox Text="{Binding SelectedRun.DepartureDateTime}"/>
 
             <Label Content="Расчётное время прибытия"/>
-            <TextBox Text="arrival"/>
+            <TextBox Text="{Binding SelectedRun.ArrivalDateTime}"/>
 
             <Label Content="Транспорт"/>
-            <TextBox Text="vehicle"/>
+            <TextBox Text="{Binding SelectedRun.Vehicle.LicensePlateNumber}"/>
 
             <Label Content="Водитель"/>
-            <TextBox Text="driver"/>
+            <TextBox Text="{Binding SelecredRun.Driver.Name}"/>
         </StackPanel>
 
         <ListView Grid.Column="2" Margin="10,10,10,10"
-                  ItemsSource="{Binding Routes}">
+                  ItemsSource="{Binding Routes}" SelectedItem="{Binding SelectedRoute}"
+                  IsEnabled="{Binding IsRedactingEnabled}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="auto" Header="Id"/>
-                    <GridViewColumn Width="auto" Header="Название"/>
+                    <GridViewColumn Width="auto" Header="Id" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-
     </Grid>
 </UserControl>

@@ -8,5 +8,8 @@ namespace UI.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public void NotifyPropertyChangedByCallerName([CallerMemberName]string propertyName = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace UI.ViewModel
 {
     public class RouteManagerViewModel : ViewModelBase
     {
-        private readonly RouteService _routeService;
-        private readonly StationService _stationService;
+        private readonly IRouteRepository _routeRepository;
+        private readonly IStationRepository _stationRepository;
 
         private Route _selectedRoute;
         private Station _selectedStation;
@@ -87,25 +88,27 @@ namespace UI.ViewModel
         public ICommand MoveUpCommand { get; }
         public ICommand MoveDownCommand { get; }
 
-        public RouteManagerViewModel(RouteService routeService, StationService stationService)
+        public RouteManagerViewModel(IRouteRepository routeRepository, IStationRepository stationRepository)
         {
-            _routeService = routeService;
-            _stationService = stationService;
+            ArgumentNullException.ThrowIfNull(routeRepository);
+            ArgumentNullException.ThrowIfNull(stationRepository);
+            _routeRepository = routeRepository;
+            _stationRepository = stationRepository;
 
-            Routes = new ObservableCollection<Route>(_routeService.GetAll());
-            Stations = new List<Station>(_stationService.GetAll());
+            Routes = new ObservableCollection<Route>(_routeRepository.GetAll());
+            Stations = new List<Station>(_stationRepository.GetAll());
 
             AddCommand = new RelayCommand(Add, () => CurrentState == State.None);
-            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None);
-            EditCommand = new RelayCommand(Edit, () => CurrentState == State.None);
+            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None && SelectedRoute != null);
+            EditCommand = new RelayCommand(Edit, () => CurrentState == State.None && SelectedRoute != null);
             SaveCommand = new RelayCommand(Save, () => CurrentState != State.None);
             DenyCommand = new RelayCommand(Deny, () => CurrentState != State.None);
             MoveToRouteCommand = new RelayCommand(MoveToRoute, () => CurrentState != State.None);
             RemoveFromRouteCommand = new RelayCommand(RemoveFromRoute, () => CurrentState != State.None);
             MoveUpCommand = new RelayCommand(MoveUp, () => CurrentState != State.None);
             MoveDownCommand = new RelayCommand(MoveDown, () => CurrentState != State.None);
-    }
-    
+        }
+
         private void Add()
         {
             SelectedRoute = new Route();
@@ -115,7 +118,7 @@ namespace UI.ViewModel
         private void Delete()
         {
             if(SelectedRoute == null) return;
-            _routeService.Delete(SelectedRoute);
+            _routeRepository.Remove(SelectedRoute);
             Routes.Remove(SelectedRoute);
         }
 
@@ -130,12 +133,12 @@ namespace UI.ViewModel
             SelectedRoute.Stations = SelectedRouteStations;
             if (CurrentState == State.Add)
             {
-                _routeService.Add(SelectedRoute);
+                _routeRepository.Add(SelectedRoute);
                 Routes.Add(SelectedRoute);
             }
             else if (CurrentState == State.Edit)
             {
-                _routeService.Update(SelectedRoute);
+                _routeRepository.Update(SelectedRoute);
             }
             CurrentState = State.None;
         }
@@ -144,8 +147,8 @@ namespace UI.ViewModel
         {
             CurrentState = State.None;
             SelectedRoute = null;
-            
         }
+
         private void MoveToRoute()
         {
             if(SelectedRoute == null) return;

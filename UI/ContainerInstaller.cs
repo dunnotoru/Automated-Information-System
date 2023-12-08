@@ -1,10 +1,8 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Domain.EntityFramework.Contexts;
 using Domain.EntityFramework.Repositories;
 using Domain.RepositoryInterfaces;
-using Domain.Services;
 using Domain.UseCases.AccountUseCases;
 using Domain.UseCases.CashierUseCases;
 using UI.Services;
@@ -34,9 +32,6 @@ namespace UI
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
 
-            container.Register(Component.For<StationService>());
-            container.Register(Component.For<RouteService>());
-            container.Register(Component.For<RunService>());
             container.Register(Component.For<RouteManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<StationManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<RunManagerViewModel>().LifestyleTransient());
@@ -118,8 +113,8 @@ namespace UI
         private RunSearchViewModel CreateRunSearchViewModel(IWindsorContainer container)
         {
             return new RunSearchViewModel(
-                container.Resolve<StationService>(),
-                container.Resolve<RunService>(),
+                container.Resolve<IStationRepository>(),
+                container.Resolve<IRunRepository>(),
                 CreatePassengerRegistrationNavigationService(container)
                 );
         }

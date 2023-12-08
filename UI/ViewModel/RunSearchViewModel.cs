@@ -1,10 +1,7 @@
 ﻿using Domain.Models;
-using Domain.Services;
-using Domain.UseCases.CashierUseCases;
+using Domain.RepositoryInterfaces;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using UI.Command;
 using UI.Services;
 
@@ -25,21 +22,22 @@ namespace UI.ViewModel
             
         }
 
-        private readonly StationService _stationService;
-        private readonly RunService _runService;
+        private readonly IStationRepository _stationRepository;
+        private readonly IRunRepository _runRepository;
         public NavigateCommand SellTicketCommand { get; }
 
-        public RunSearchViewModel(StationService stationService, RunService runService,
+        public RunSearchViewModel(IStationRepository stationRepository, IRunRepository runRepository,
             NavigationService toPassengerRegistration)
         {
+            ArgumentNullException.ThrowIfNull(stationRepository);
+            ArgumentNullException.ThrowIfNull(runRepository);
             ArgumentNullException.ThrowIfNull(toPassengerRegistration);
-            ArgumentNullException.ThrowIfNull(stationService);
-            ArgumentNullException.ThrowIfNull(runService);
-            _stationService = stationService;
-            _runService = runService;
+
+            _stationRepository = stationRepository;
+            _runRepository = runRepository;
             SellTicketCommand = new NavigateCommand(toPassengerRegistration);
 
-            StationItems = new ObservableCollection<Station>(_stationService.GetAll());
+            StationItems = new ObservableCollection<Station>(_stationRepository.GetAll());
             RunItems = new ObservableCollection<Run>();
         }
     }

@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
+             xmlns:converters="clr-namespace:UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
+    </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="131*" MinWidth="50"/>
@@ -13,8 +17,9 @@
             <ColumnDefinition Width="214*" MinWidth="130"/>
         </Grid.ColumnDefinitions>
 
-        <ListView IsEnabled="{Binding CanChangeSelect}" ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
-                  SelectionMode="Single" SelectedItem="{Binding SelectedStation}">
+        <ListView ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
+                  SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
+                  IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id" Width="auto" DisplayMemberBinding="{Binding Id}"/>
@@ -51,16 +56,15 @@
                     Command="{Binding DenyCommand}"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="2" Margin="10,10,10,10">
+        <StackPanel IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="2" Margin="10,10,10,10">
             <Label Margin="10" Content="Id"/>
             <TextBox Margin="10"  Text="{Binding SelectedStation.Id}" IsReadOnly="True"/>
 
             <Label Margin="10" Content="Название"/>
-            <TextBox IsReadOnly="{Binding IsReadOnly}" Margin="10"
-                     Text="{Binding SelectedStation.Name}"/>
+            <TextBox Margin="10" Text="{Binding SelectedStation.Name}"/>
+            
             <Label Margin="10" Content="Адрес"/>
-            <TextBox IsReadOnly="{Binding IsReadOnly}" Margin="10"
-                     Text="{Binding SelectedStation.Address}"/>
+            <TextBox Margin="10" Text="{Binding SelectedStation.Address}"/>
 
         </StackPanel>
 

@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryInterfaces;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
@@ -8,8 +9,9 @@ namespace UI.ViewModel
 {
     public class StationManagerViewModel : ViewModelBase
     {
-        private readonly StationService _stationService;
+        private readonly IStationRepository _stationRepository;
         private Station _selectedStation;
+        private Station _bufferStation;
         private State _currentState;
         public ObservableCollection<Station> Stations { get; set; }
         public Station SelectedStation
@@ -24,12 +26,11 @@ namespace UI.ViewModel
             set 
             {
                 _currentState = value;
-                NotifyPropertyChanged(nameof(CanChangeSelect)); 
-                NotifyPropertyChanged(nameof(IsReadOnly)); 
+                NotifyPropertyChanged(nameof(IsRedactingEnabled)); 
             }
         }
-        public bool CanChangeSelect => CurrentState == State.None;
-        public bool IsReadOnly => CurrentState == State.None;
+
+        public bool IsRedactingEnabled => CurrentState != State.None;
 
         public ICommand AddCommand {  get; }
         public ICommand DeleteCommand { get; }
@@ -37,14 +38,16 @@ namespace UI.ViewModel
         public ICommand SaveCommand { get; }
         public ICommand DenyCommand { get; }
 
-        public StationManagerViewModel(StationService stationService)
+        public StationManagerViewModel(IStationRepository stationRepository)
         {
-            _stationService = stationService;
+            ArgumentNullException.ThrowIfNull(stationRepository);
+            _stationRepository = stationRepository;
+
             CurrentState = State.None;
-            Stations = new ObservableCollection<Station>(_stationService.GetAll());
+            Stations = new ObservableCollection<Station>(_stationRepository.GetAll());
 
             AddCommand = new RelayCommand(Add, () => CurrentState == State.None);
-            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None);
+            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None && SelectedStation != null);
             EditCommand = new RelayCommand(Edit, () => CurrentState == State.None && SelectedStation != null);
             SaveCommand = new RelayCommand(Save, () => CurrentState == State.Add || CurrentState == State.Edit);
             DenyCommand = new RelayCommand(Deny, () => CurrentState != State.None);
@@ -58,9 +61,8 @@ namespace UI.ViewModel
 
         private void Delete()
         {
-            if (SelectedStation == null) return;
             if (!Stations.Contains(SelectedStation)) return;
-            _stationService.Delete(SelectedStation);
+            _stationRepository.Remove(SelectedStation);
             Stations.Remove(SelectedStation);
         }
 
@@ -73,12 +75,12 @@ namespace UI.ViewModel
         {
             if(CurrentState == State.Add)
             {
-                _stationService.Add(SelectedStation);
+                _stationRepository.Add(SelectedStation);
                 Stations.Add(SelectedStation);
             }
             else if(CurrentState == State.Edit)
             {
-                _stationService.Update(SelectedStation);
+                _stationRepository.Update(SelectedStation);
             }
 
             CurrentState = State.None;
