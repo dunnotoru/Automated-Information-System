@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
+             xmlns:converters="clr-namespace:UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
+    </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="131*"/>
@@ -14,15 +18,11 @@
             <ColumnDefinition Width="103*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView IsEnabled="{Binding EnableSelection}" ItemsSource="{Binding Routes}" Grid.Column="0" Margin="10,10,10,10"
-          SelectionMode="Single" SelectedItem="{Binding SelectedRoute}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Id" Width="auto" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Header="Название" Width="auto" DisplayMemberBinding="{Binding Name}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DataGrid ItemsSource="{Binding Routes}" Grid.Column="0" Margin="10,10,10,10"
+                  SelectionMode="Single" SelectedItem="{Binding SelectedRoute}"
+                  IsReadOnly="True"
+                  IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}" >
+        </DataGrid>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="250">
             <Button Content="Добавить" 
@@ -51,7 +51,7 @@
                     Command="{Binding DenyCommand}"/>
         </StackPanel>
 
-        <Grid Grid.Column="2" Margin="10,10,10,10" >
+        <Grid IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="2" Margin="10,10,10,10" >
             <Label Margin="10 0 0 0"
                    HorizontalAlignment="Left" VerticalAlignment="Top"
                    Content="Id" Height="26" Width="20"/>
@@ -59,7 +59,7 @@
                      HorizontalAlignment="Stretch" VerticalAlignment="Top"
                      Text="{Binding SelectedRoute.Id}" IsReadOnly="True" Height="18"/>
 
-            <ListView IsEnabled="{Binding EnableSettings}" HorizontalAlignment="Stretch"
+            <ListView HorizontalAlignment="Stretch"
                       Margin="10 60 30 10" 
                       ItemsSource="{Binding AvailableStations}"
                       SelectedItem="{Binding SelectedStation}" SelectionMode="Single" >
@@ -79,18 +79,16 @@
                     Command="{Binding RemoveFromRouteCommand}"/>
         </Grid>
 
-        <Grid Grid.Column="3" Margin="10,10,10,10">
+        <Grid IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="3" Margin="10,10,10,10">
             <Label Margin="10 0 0 0"
                    HorizontalAlignment="Left" VerticalAlignment="Top"
                    Content="Название" Height="26" Width="63"/>
-            <TextBox IsReadOnly="{Binding EnableSelection}"
-                     Margin="10 30 10 0"
+            <TextBox Margin="10 30 10 0"
                      HorizontalAlignment="Stretch" VerticalAlignment="Top"
                      Text="{Binding SelectedRoute.Name}" Height="18" />
 
             <ListView HorizontalAlignment="Stretch"
-                      Margin="10 60 30 10" 
-                      IsEnabled="{Binding EnableSettings}" ItemsSource="{Binding SelectedRouteStations}"
+                      Margin="10 60 30 10" ItemsSource="{Binding SelectedRouteStations}"
                       SelectionMode="Single" SelectedItem="{Binding RouteSelectedStation}">
                 <ListView.View>
                     <GridView>

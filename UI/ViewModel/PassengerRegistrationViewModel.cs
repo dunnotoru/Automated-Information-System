@@ -71,29 +71,15 @@ namespace UI.ViewModel
             get => new RelayCommand(SellTicket, CanSell);
         }
 
-        private readonly SellTicketUseCase _sellUseCase;
 
-        public PassengerRegistrationViewModel(NavigationService runSearchNavigationService, 
-            SellTicketUseCase sellUseCase)
+        public PassengerRegistrationViewModel(NavigationService runSearchNavigationService)
         {
             Passengers = new ObservableCollection<PassengerViewModel>();
             DeclineCommand = new NavigateCommand(runSearchNavigationService);
-            _sellUseCase = sellUseCase;
         }
 
         private void SellTicket()
         {
-            List<Ticket> tickets = new List<Ticket>();
-            foreach (var p in Passengers)
-            {
-                Passport passport = new Passport(
-                    p.Number, p.Series,
-                    p.Name, p.Surname, p.Patronymic, p.DateOfBirth);
-
-                Vehicle vehicle = new Vehicle() { LicensePlateNumber = "123" };
-                Run run = new Domain.Models.Run() { Bus = vehicle };
-                tickets.Add(_sellUseCase.SellTicket(passport, run, new TicketType() { Name = "testtype"}));
-            }
 
         }
 

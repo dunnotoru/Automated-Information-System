@@ -23,9 +23,15 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Update(entity);
+                Route? r = context.Routes.SingleOrDefault(r => r.Id == entity.Id);
+                if(r != null)
+                {
+                    context.Remove(r);
+                }
                 context.SaveChanges();
             }
+
+            Add(entity);
         }
 
         public void Remove(Route entity)

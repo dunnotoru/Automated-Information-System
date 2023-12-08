@@ -27,12 +27,12 @@ namespace UI.ViewModel
         public ObservableCollection<Station> AvailableStations
         {
             get => _availableStations;
-            set { _availableStations = value; NotifyPropertyChanged(nameof(AvailableStations)); }
+            set { _availableStations = value; NotifyPropertyChangedByCallerName(); }
         }
         public ObservableCollection<Station> SelectedRouteStations
         {
             get => _selectedRouteStations;
-            set { _selectedRouteStations = value; NotifyPropertyChanged(nameof(SelectedRouteStations)); }
+            set { _selectedRouteStations = value; NotifyPropertyChangedByCallerName(); }
         }
         public Route SelectedRoute
         {
@@ -50,32 +50,30 @@ namespace UI.ViewModel
                     SelectedRouteStations = new ObservableCollection<Station>(_selectedRoute.Stations);
                     AvailableStations = new ObservableCollection<Station>(Stations.Where(x => !SelectedRouteStations.Any(_ => _.Id == x.Id)));
                 }
-                NotifyPropertyChanged(nameof(SelectedRoute)); 
+                NotifyPropertyChangedByCallerName(); 
             }
         }
+        
         public Station SelectedStation
         {
             get => _selectedStation;
-            set { _selectedStation = value; NotifyPropertyChanged(nameof(SelectedStation)); }
+            set { _selectedStation = value; NotifyPropertyChangedByCallerName(); }
         }
         public Station RouteSelectedStation
         {
             get => _routeSelectedStation;
-            set { _routeSelectedStation = value; NotifyPropertyChanged(nameof(RouteSelectedStation)); }
+            set { _routeSelectedStation = value; NotifyPropertyChangedByCallerName(); }
         }
         public State CurrentState
         {
             get => _currentState;
             set 
             { 
-                _currentState = value; 
-                NotifyPropertyChanged(nameof(CurrentState));
-                NotifyPropertyChanged(nameof(EnableSelection)); 
-                NotifyPropertyChanged(nameof(EnableSettings)); 
+                _currentState = value;
+                NotifyPropertyChanged(nameof(IsRedactingEnabled));
             }
         }
-        public bool EnableSelection => CurrentState == State.None;
-        public bool EnableSettings => CurrentState != State.None;
+        public bool IsRedactingEnabled => CurrentState != State.None;
 
         public ICommand AddCommand { get; }
         public ICommand DeleteCommand { get; }
@@ -125,7 +123,6 @@ namespace UI.ViewModel
         private void Edit()
         {
             CurrentState = State.Edit;
-
         }
 
         private void Save()
@@ -146,7 +143,6 @@ namespace UI.ViewModel
         private void Deny()
         {
             CurrentState = State.None;
-            SelectedRoute = null;
         }
 
         private void MoveToRoute()

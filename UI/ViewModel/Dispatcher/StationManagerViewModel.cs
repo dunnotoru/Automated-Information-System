@@ -11,13 +11,12 @@ namespace UI.ViewModel
     {
         private readonly IStationRepository _stationRepository;
         private Station _selectedStation;
-        private Station _bufferStation;
         private State _currentState;
         public ObservableCollection<Station> Stations { get; set; }
         public Station SelectedStation
         {
             get => _selectedStation;
-            set { _selectedStation = value; NotifyPropertyChanged(nameof(SelectedStation)); }
+            set { _selectedStation = value; NotifyPropertyChangedByCallerName(); }
         }
 
         public State CurrentState

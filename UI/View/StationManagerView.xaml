@@ -17,17 +17,17 @@
             <ColumnDefinition Width="214*" MinWidth="130"/>
         </Grid.ColumnDefinitions>
 
-        <ListView ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
+        <DataGrid ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
                   SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
-                  IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Id" Width="auto" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Header="Название" Width="auto" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Адрес" Width="auto" DisplayMemberBinding="{Binding Address}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                  IsReadOnly="True"
+                  AutoGenerateColumns="False" IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Адрес" Width="auto" Binding="{Binding Address}"/>
+                
+            </DataGrid.Columns>
+        </DataGrid>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="250">
             <Button Content="Добавить" 

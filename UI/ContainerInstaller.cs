@@ -107,8 +107,7 @@ namespace UI
         private PassengerRegistrationViewModel CreateTicketSaleViewModel(IWindsorContainer container)
         {
             return new PassengerRegistrationViewModel(
-                CreateRunSearchNavigationService(container),
-                container.Resolve<SellTicketUseCase>());
+                CreateRunSearchNavigationService(container));
         }
         private RunSearchViewModel CreateRunSearchViewModel(IWindsorContainer container)
         {

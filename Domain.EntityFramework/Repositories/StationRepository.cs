@@ -1,6 +1,7 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -9,15 +10,14 @@ namespace Domain.EntityFramework.Repositories
         public void Add(Station entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
-
-            using(ApplicationContext context = new ApplicationContext())
+            using (ApplicationContext context = new ApplicationContext())
             {
                 context.Add(entity);
                 context.SaveChanges();
             }
         }
 
-        public void Update(Station entity)
+            public void Update(Station entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
