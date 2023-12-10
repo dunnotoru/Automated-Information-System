@@ -7,12 +7,12 @@ namespace UI.Command
     {
         public virtual event EventHandler? CanExecuteChanged;
 
-        public virtual bool CanExecute(object parameter)
+        public virtual bool CanExecute(object? parameter)
         {
             return true;
         }
 
-        public abstract void Execute(object parameter);
+        public abstract void Execute(object? parameter);
 
         protected void OnCanExecutedChanged()
         {

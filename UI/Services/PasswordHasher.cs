@@ -1,4 +1,4 @@
-﻿using Domain.UseCases.AccountUseCases;
+﻿using Domain.Services;
 
 namespace UI.Services
 {

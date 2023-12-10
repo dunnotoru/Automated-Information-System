@@ -13,6 +13,12 @@ namespace Domain.EntityFramework.Contexts
         public DbSet<Station> Stations { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<License> Licenses { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> TicketTypes { get; set; }
+
         public ApplicationContext()
         {
             Database.EnsureCreated();

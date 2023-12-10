@@ -8,7 +8,7 @@ namespace Domain.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.ToTable("Categories");
+            builder.HasKey(c => c.Id);
         }
     }
 }

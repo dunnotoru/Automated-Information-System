@@ -1,8 +1,7 @@
 ﻿namespace Domain.Models
 {
-    public class Passport
+    public class Passport : EntityBase
     {
-        public int Id { get; set; }
         public string Number { get; set; }
         public string Series { get; set; }
         public string Name { get; set; }

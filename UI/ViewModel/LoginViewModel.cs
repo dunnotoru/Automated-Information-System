@@ -1,5 +1,5 @@
 ﻿using Domain.Models;
-using Domain.UseCases.AccountUseCases;
+using Domain.Services;
 using System;
 using UI.Command;
 using UI.Stores;
@@ -44,11 +44,11 @@ namespace UI.ViewModel
                 AuthenticationDone?.Invoke();
         }
 
-        private readonly AuthenticationUseCase _authenticationUseCase;
+        private readonly AuthenticationService _authenticationUseCase;
         private readonly AccountStore _accountStore;
         public event Action AuthenticationDone;
 
-        public LoginViewModel(AuthenticationUseCase authenticationUseCase,
+        public LoginViewModel(AuthenticationService authenticationUseCase,
             AccountStore accountStore)
         {
             _authenticationUseCase = authenticationUseCase;

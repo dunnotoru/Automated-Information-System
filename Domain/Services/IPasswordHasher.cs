@@ -1,4 +1,4 @@
-﻿namespace Domain.UseCases.AccountUseCases
+﻿namespace Domain.Services
 {
     public interface IPasswordHasher
     {

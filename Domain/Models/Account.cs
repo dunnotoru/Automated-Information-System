@@ -1,8 +1,7 @@
 ﻿namespace Domain.Models
 {
-    public class Account
+    public class Account : EntityBase
     {
-        public int? Id { get; set; }
         public string Username { get; set; }
         public string PasswordHash { get; set; }
         public bool Read { get; set; }

@@ -1,4 +1,4 @@
-﻿using Domain.UseCases.AccountUseCases;
+﻿using Domain.Services;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -37,7 +37,7 @@ namespace UI.ViewModel
         }
 
 
-        private readonly RegistrationUseCase _registrationUseCase;
+        private readonly RegistrationService _registrationUseCase;
         private readonly NavigationService _toShell;
         private readonly AccountStore _accountStore;
 
@@ -51,7 +51,7 @@ namespace UI.ViewModel
             get => new NavigateCommand(_toShell);
         }
 
-        public UpdatePasswordViewModel(RegistrationUseCase registrationUseCase, NavigationService toShell, AccountStore accountStore)
+        public UpdatePasswordViewModel(RegistrationService registrationUseCase, NavigationService toShell, AccountStore accountStore)
         {
             _registrationUseCase = registrationUseCase;
             _toShell = toShell;

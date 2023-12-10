@@ -1,9 +1,10 @@
-﻿using System.Linq.Expressions;
+﻿using Domain.Models;
+using System.Linq.Expressions;
 
 namespace Domain.RepositoryInterfaces
 {
     public interface IRepositoryBase<TEntity>
-        where TEntity : class
+        where TEntity : EntityBase
     {
         void Add(TEntity entity);
         void Update(TEntity entity);

@@ -1,14 +1,14 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace Domain.UseCases.AccountUseCases
+namespace Domain.Services
 {
-    public class RegistrationUseCase
+    public class RegistrationService
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IPasswordHasher _passwordHasher;
 
-        public RegistrationUseCase(IAccountRepository accountRepository,
+        public RegistrationService(IAccountRepository accountRepository,
             IPasswordHasher passwordHasher)
         {
             _accountRepository = accountRepository;
@@ -40,8 +40,8 @@ namespace Domain.UseCases.AccountUseCases
         public bool UpdatePassword(Account account, string oldPassword, string newPassword)
         {
             Account? storedAccount = _accountRepository.GetByUsername(account.Username);
-            if(storedAccount == null) return false;
-            if(storedAccount.PasswordHash != _passwordHasher.CalcHash(oldPassword)) return false;
+            if (storedAccount == null) return false;
+            if (storedAccount.PasswordHash != _passwordHasher.CalcHash(oldPassword)) return false;
 
             storedAccount.PasswordHash = _passwordHasher.CalcHash(newPassword);
             _accountRepository.Update(storedAccount);

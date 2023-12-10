@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace Domain.UseCases.CashierUseCases
+namespace Domain.Services
 {
     public interface ITicketPriceCalculator
     {

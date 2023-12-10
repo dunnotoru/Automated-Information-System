@@ -1,14 +1,14 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace Domain.UseCases.AccountUseCases
+namespace Domain.Services
 {
-    public class AuthenticationUseCase
+    public class AuthenticationService
     {
         private readonly IPasswordValidator _passwordValidator;
         private readonly IAccountRepository _accountRepository;
 
-        public AuthenticationUseCase(IAccountRepository accountRepository,
+        public AuthenticationService(IAccountRepository accountRepository,
             IPasswordValidator passwordValidator)
         {
             ArgumentNullException.ThrowIfNull(nameof(accountRepository));

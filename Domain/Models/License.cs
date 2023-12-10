@@ -1,8 +1,7 @@
 ﻿namespace Domain.Models
 {
-    public class License
+    public class License : EntityBase
     {
-        public int Id { get; set; }
         public string LicenseNumber { get; set; }
         public DateTime DateOfIssue { get; set; }
         public DateTime DateOfExpiration { get; set; }

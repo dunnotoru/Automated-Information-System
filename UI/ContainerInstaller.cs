@@ -3,8 +3,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Domain.EntityFramework.Repositories;
 using Domain.RepositoryInterfaces;
-using Domain.UseCases.AccountUseCases;
-using Domain.UseCases.CashierUseCases;
+using Domain.Services;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
@@ -22,8 +21,8 @@ namespace UI
             container.Register(Component.For<IPasswordHasher>().ImplementedBy<PasswordHasher>());
             container.Register(Component.For<IPasswordValidator>().ImplementedBy<PasswordValidator>());
             container.Register(Component.For<IAccountRepository>().ImplementedBy<AccountRepository>());
-            container.Register(Component.For<AuthenticationUseCase>());
-            container.Register(Component.For<RegistrationUseCase>());
+            container.Register(Component.For<AuthenticationService>());
+            container.Register(Component.For<RegistrationService>());
             container.Register(Component.For<LoginViewModel>());
 
             container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>());
@@ -81,7 +80,7 @@ namespace UI
         private UpdatePasswordViewModel CreateUpdatePasswordViewModel(IWindsorContainer container)
         {
             return new UpdatePasswordViewModel(
-                container.Resolve<RegistrationUseCase>(),
+                container.Resolve<RegistrationService>(),
                 CreateShellNavigationService(container),
                 container.Resolve<AccountStore>()
                 );
