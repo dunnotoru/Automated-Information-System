@@ -40,7 +40,6 @@ namespace Domain.EntityFramework.Repositories
                 stored.Name = entity.Name;
                 stored.Stations = entity.Stations;
                 context.SaveChanges();
-
             }
         }
 
@@ -49,7 +48,10 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Remove(entity);
+                Route? stored = context.Routes.SingleOrDefault(r => r.Id == entity.Id);
+                if (stored == null) return;
+
+                context.Remove(stored);
                 context.SaveChanges();
             }
         }

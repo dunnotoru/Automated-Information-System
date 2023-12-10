@@ -8,5 +8,10 @@
         public DateTime EstimatedArrival { get; set; }
         public Vehicle Bus { get; set; }
         public ICollection<Driver> Drivers { get; set; }
+
+        public Run()
+        {
+            Drivers = new HashSet<Driver>();
+        }
     }
 }

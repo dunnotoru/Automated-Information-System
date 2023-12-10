@@ -17,6 +17,12 @@
         <DataTemplate DataType="{x:Type vm:RunManagerViewModel}">
             <local:RunManagerView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DriverManagerViewModel}">
+            <local:DriverManagerView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:VehicleManagerViewModel}">
+            <local:VehicleManagerView/>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>

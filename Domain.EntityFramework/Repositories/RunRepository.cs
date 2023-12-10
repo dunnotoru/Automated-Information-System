@@ -1,6 +1,7 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using System.Diagnostics.Contracts;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -11,7 +12,25 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Add(entity);
+                Vehicle? b = context.Set<Vehicle>().SingleOrDefault(o => o.Id == entity.Bus.Id);
+                Route? route = context.Set<Route>().SingleOrDefault(o => o.Id == entity.Route.Id);
+                ICollection<Driver> drivers = context.Set<Driver>().ToList();
+
+                if (b == null) return;
+                if (route == null) return; 
+                if (drivers == null) return;
+
+                Run r = new Run()
+                {
+                    Id = entity.Id,
+                    Departure = entity.Departure,
+                    EstimatedArrival = entity.EstimatedArrival,
+                    Bus = b,
+                    Route = route,
+                    Drivers = drivers
+                };
+
+                context.Runs.Add(r);
                 context.SaveChanges();
             }
         }

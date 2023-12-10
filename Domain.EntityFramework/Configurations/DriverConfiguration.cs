@@ -8,7 +8,7 @@ namespace Domain.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Driver> builder)
         {
-            builder.HasKey(x => x.PayrollNumber);
+            builder.HasKey(x => x.Id);
         }
     }
 }

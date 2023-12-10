@@ -24,7 +24,17 @@ namespace UI
                 {
                     Name = "Рейсы",
                     ViewModel = () => container.Resolve<RunManagerViewModel>(),
-                }
+                },
+                new DispatcherMenuItem()
+                {
+                    Name = "Водители",
+                    ViewModel = () => container.Resolve<DriverManagerViewModel>(),
+                },
+                new DispatcherMenuItem()
+                {
+                    Name = "Транспорт",
+                    ViewModel = () => container.Resolve<VehicleManagerViewModel>(),
+                },
             };
 
             return dispatcherMenuItems;

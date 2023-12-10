@@ -13,13 +13,6 @@ namespace UI.ViewModel
         private readonly IRunRepository _runRepository;
         private readonly IRouteRepository _routeRepository;
 
-        private int _id;
-        private string _name;
-        private DateTime _departureDateTime;
-        private DateTime _arrivalDateTime;  
-        private Driver _driver;
-        private Vehicle _vehicle;
-
         private Run _selectedRun;
         private Route _selectedRoute;
         private State _currentState;
@@ -93,6 +86,9 @@ namespace UI.ViewModel
 
         private void Save()
         {
+            SelectedRun.Bus = new Vehicle() { Id = 1 };
+            SelectedRun.Drivers.Add(new Driver() { Id = 1 });
+            SelectedRun.Route = SelectedRoute;
             if (CurrentState == State.Add)
             {
                 _runRepository.Add(SelectedRun);

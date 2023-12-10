@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="UI.View.DriverManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI.View"
+             xmlns:converters="clr-namespace:UI.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="499*" MinWidth="50"/>
+            <ColumnDefinition Width="119*" MinWidth="50"/>
+            <ColumnDefinition Width="182*" MinWidth="130"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
+              SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
+              IsReadOnly="True"
+              AutoGenerateColumns="False" IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Табельный номер" Width="auto"/>
+                <DataGridTextColumn Header="Имя" Width="auto"/>
+                <DataGridTextColumn Header="Фамилия" Width="auto"/>
+                <DataGridTextColumn Header="Отчество" Width="auto"/>
+                <DataGridTextColumn Header="Дата рождения" Width="auto"/>
+                <DataGridTextColumn Header="Класс" Width="auto"/>
+                <DataGridTextColumn Header="Профессиональный стандарт" Width="auto"/>
+                <DataGridTextColumn Header="Трудовая книжка" Width="auto"/>
+                <DataGridTextColumn Header="Пол" Width="auto"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="250">
+            <Button Content="Добавить" 
+                Margin="10" Grid.Column="1"
+                Height="30"
+                Command="{Binding AddCommand}"/>
+
+            <Button Content="Удалить" 
+                Margin="10" Grid.Column="1"
+                Height="30"
+                Command="{Binding DeleteCommand}"/>
+
+            <Button Content="Сохранить" 
+                Margin="10" Grid.Column="1"
+                Height="30"
+                Command="{Binding SaveCommand}"/>
+
+            <Button Content="Изменить" 
+                Margin="10" Grid.Column="1"
+                Height="30"
+                Command="{Binding EditCommand}"/>
+
+            <Button Content="Отмена" 
+                Margin="10" Grid.Column="1"
+                Height="30"
+                Command="{Binding DenyCommand}"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Column="2">
+            <StackPanel IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="2" Margin="10,10,10,10">
+                <Label Margin="10" Content="Id"/>
+                <TextBox Margin="10"  Text="id" IsReadOnly="True"/>
+
+                <Label Margin="10" Content="Имя"/>
+                <TextBox Margin="10"  Text="Имя" />
+
+                <Label Margin="10" Content="Фамилия"/>
+                <TextBox Margin="10"  Text="фамилия" />
+
+                <Label Margin="10" Content="Отчество"/>
+                <TextBox Margin="10"  Text="отч" />
+
+                <Label Margin="10" Content="Пол"/>
+                <TextBox Margin="10"  Text="пол" />
+
+                <Label Margin="10" Content="дата рождения"/>
+                <TextBox Margin="10"  Text="дата" />
+
+                <Label Margin="10" Content="Класс"/>
+                <TextBox Margin="10"  Text="клас" />
+
+                <Label Margin="10" Content="Стандарт"/>
+                <TextBox Margin="10"  Text="станд" />
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

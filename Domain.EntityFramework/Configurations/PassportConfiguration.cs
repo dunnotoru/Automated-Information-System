@@ -8,7 +8,7 @@ namespace Domain.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Passport> builder)
         {
-            builder.HasKey(p => new { p.Number, p.Series });
+            builder.HasKey(p => p.Id);
         }
     }
 }
