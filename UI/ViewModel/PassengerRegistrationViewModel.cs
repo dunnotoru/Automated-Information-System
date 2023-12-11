@@ -9,7 +9,7 @@ using UI.Stores;
 
 namespace UI.ViewModel
 {
-    internal class PassengerRegistrationViewModel : ViewModelBase
+    internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
     {
         private int _price;
         private int _cash;
@@ -194,6 +194,11 @@ namespace UI.ViewModel
                 return false;
             }
             return true;
+        }
+
+        public void Dispose()
+        {
+            _orderStore.OrderCreated -= OnOrderCreated;
         }
     }
 }

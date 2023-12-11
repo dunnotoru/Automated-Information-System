@@ -20,10 +20,11 @@
 
         <DataGrid Grid.Column="0" Margin="10,10,10,10" AutoGenerateColumns="False"
                   SelectionMode="Single" ItemsSource="{Binding Runs}" SelectedItem="{Binding SelectedRun}"
-                  IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
+                  IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}"
+                  IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="auto" Header="Id"/>
-                <DataGridTextColumn Width="auto" Header="Маршрут"/>
+                <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Width="auto" Header="Маршрут" Binding="{Binding Route}"/>
                 <DataGridTextColumn Width="auto" Header="Транспорт"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -78,7 +79,8 @@
 
         <DataGrid Grid.Column="2" Margin="10,10,10,10"
                   ItemsSource="{Binding Routes}" SelectedItem="{Binding SelectedRoute}"
-                  IsEnabled="{Binding IsRedactingEnabled}">
+                  IsEnabled="{Binding IsRedactingEnabled}" AutoGenerateColumns="False"
+                  IsReadOnly="True"> 
             <DataGrid.Columns>
                     <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
                     <DataGridTextColumn Width="auto" Header="Название" Binding="{Binding Name}"/>

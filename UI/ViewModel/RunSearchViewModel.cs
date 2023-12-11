@@ -1,8 +1,9 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Linq;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -11,12 +12,20 @@ using UI.Stores;
 namespace UI.ViewModel
 {
     internal class RunSearchViewModel : ViewModelBase
-    {
+    { 
         public ObservableCollection<Station> StationItems { get; set; }
-        public ObservableCollection<Run> RunItems { get; set; }
+        
+        private ObservableCollection<Run> _runItems;
+        public ObservableCollection<Run> RunItems
+        {
+            get => _runItems;
+            set
+            {
+                _runItems = value; NotifyPropertyChangedByCallerName();
+            }
+        }
 
         private DateTime _departureDateTime;
-        private DateTime _arrivalDateTime;
         private Station _departureStation;
         private Station _arrivalStation;
         private Run _selectedRun;
@@ -28,15 +37,6 @@ namespace UI.ViewModel
             {
                 _departureDateTime = value;
                 NotifyPropertyChanged(nameof(DepartureDateTime));
-            }
-        }
-        public DateTime ArrivalDateTime
-        {
-            get => _arrivalDateTime;
-            set
-            {
-                _arrivalDateTime = value;
-                NotifyPropertyChanged(nameof(ArrivalDateTime));
             }
         }
         public Station DepartureStation
@@ -66,28 +66,19 @@ namespace UI.ViewModel
                 NotifyPropertyChanged(nameof(SelectedRun));
             }
         }
-
-        public RelayCommand FindRunsCommand
-        {
-            get => new RelayCommand(FindRunsMethod);
-        }
-
-        private void FindRunsMethod()
-        {
-            
-        }
+        
 
         private readonly IStationRepository _stationRepository;
         private readonly IRunRepository _runRepository;
+        private readonly IRouteRepository _routeRepository;
         private readonly OrderStore _orderStore;
         private readonly NavigationService _navigationService;
-        public ICommand SellTicketCommand
-        {
-            get => new RelayCommand(SellTicket);
-        }
+        
+        public ICommand SellTicketCommand { get; private set; }
+        public ICommand FindRunsCommand {  get; private set; }
 
         public RunSearchViewModel(IStationRepository stationRepository, IRunRepository runRepository,
-            NavigationService navigationService, OrderStore orderStore)
+            NavigationService navigationService, OrderStore orderStore, IRouteRepository routeRepository)
         {
             ArgumentNullException.ThrowIfNull(stationRepository);
             ArgumentNullException.ThrowIfNull(runRepository);
@@ -96,10 +87,28 @@ namespace UI.ViewModel
             _orderStore = orderStore;
             _stationRepository = stationRepository;
             _runRepository = runRepository;
+            _routeRepository = routeRepository;
             _navigationService = navigationService;
 
             StationItems = new ObservableCollection<Station>(_stationRepository.GetAll());
             RunItems = new ObservableCollection<Run>();
+
+            FindRunsCommand = new RelayCommand(FindRunsMethod);
+            SellTicketCommand = new RelayCommand(SellTicket, () => SelectedRun != null && DepartureStation != null && ArrivalStation != null);
+        }
+
+        private void FindRunsMethod()
+        {
+            if (DepartureStation == null) return;
+            if (ArrivalStation == null) return;
+
+            List<Run> run = new List<Run>();
+            IEnumerable<Route> routes = _routeRepository.GetByStations(DepartureStation, ArrivalStation);
+            foreach (Route route in routes)
+            {
+                run.AddRange(_runRepository.GetByRoute(route));
+            }
+            RunItems = new ObservableCollection<Run>(run);
         }
 
         private void SellTicket()

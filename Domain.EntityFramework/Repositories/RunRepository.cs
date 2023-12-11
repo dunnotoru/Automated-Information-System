@@ -1,7 +1,6 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
-using System.Diagnostics.Contracts;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -57,7 +56,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Runs.Where(x => x.Route == route).ToList();
+                return context.Runs.Where(x => x.Route.Id == route.Id).ToList();
             }
         }
 

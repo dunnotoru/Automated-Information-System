@@ -29,9 +29,12 @@ namespace UI
                 new MenuItemViewModel()
                 {
                     Header = "Настройки",
+                },
+                new MenuItemViewModel()
+                {
+                    Header = "Диспетчерская",
                     GetViewModel = () => container.Resolve<DispatcherViewModel>(),
                 },
-
                 new MenuItemViewModel()
                 {
                     Header = "Сменить пароль",

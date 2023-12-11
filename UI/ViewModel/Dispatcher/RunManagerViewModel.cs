@@ -2,7 +2,6 @@
 using Domain.RepositoryInterfaces;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Input;
 using UI.Command;
 
@@ -89,6 +88,7 @@ namespace UI.ViewModel
             SelectedRun.Bus = new Vehicle() { Id = 1 };
             SelectedRun.Drivers.Add(new Driver() { Id = 1 });
             SelectedRun.Route = SelectedRoute;
+
             if (CurrentState == State.Add)
             {
                 _runRepository.Add(SelectedRun);

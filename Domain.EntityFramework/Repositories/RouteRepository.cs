@@ -3,9 +3,6 @@ using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -79,8 +76,9 @@ namespace Domain.EntityFramework.Repositories
 
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Routes.Where(r => r.Stations.Contains(from) && r.Stations.Contains(to))
-                    .Include(r => r.Stations).ToList();
+                return context.Routes.Include(r => r.Stations)
+                    .Where(r => r.Stations.Contains(from) && r.Stations.Contains(to))
+                    .ToList();
             }
         }
     }

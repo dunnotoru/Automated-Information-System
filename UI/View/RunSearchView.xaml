@@ -4,14 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
+             xmlns:converters="clr-namespace:UI.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="582" d:DesignWidth="942">
+    <UserControl.Resources>
+        <converters:DateConverter x:Key="DateConverterKey"/>
+    </UserControl.Resources>
     <Grid Background="White">
-        <Label Content="Прибытие" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="115*"/>
+            <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="121*"/>
+            <ColumnDefinition Width="121*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48*"/>
+            <RowDefinition Height="49*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Прибытие" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="66"/>
         <ListView ItemsSource="{Binding StationItems}"
-                  Margin="10 40 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                  Width="150" Height="170"
-                  SelectedItem="{Binding DepartureStation}">
+                  Margin="10,40,10,65"
+                   SelectedItem="{Binding DepartureStation}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название"/>
@@ -20,11 +33,10 @@
             </ListView.View>
         </ListView>
 
-        <Label Content="Отправление" HorizontalAlignment="Left" Margin="190 10 0 0" VerticalAlignment="Top"/>
+        <Label Grid.Row="0" Grid.Column="1" Content="Отправление" HorizontalAlignment="Left" Margin="10 10 0 0" VerticalAlignment="Top" Height="26" Width="83"/>
         <ListView ItemsSource="{Binding StationItems}"
-                  Margin="190 40 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                  Width="150" Height="170"
-                  SelectedItem="{Binding ArrivalStation}">
+                  Margin="10,40,10,65"
+                  SelectedItem="{Binding ArrivalStation}" Grid.Column="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Название"/>
@@ -33,28 +45,33 @@
             </ListView.View>
         </ListView>
 
-        <Label Content="Рейсы" HorizontalAlignment="Left" Margin="10,239,0,0" VerticalAlignment="Stretch"/>
-        <ListView ItemsSource="{Binding RunItems}" HorizontalAlignment="Left" Margin="10,268,0,10"
-                  Width="632" 
-                  SelectedItem="{Binding SelectedRun}">
+        <Label Content="Рейсы" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10 5 0 0" Grid.Row="1" Width="44" Height="26"/>
+        <ListView ItemsSource="{Binding RunItems}" 
+                  Margin="10,36,10,10"
+                  SelectedItem="{Binding SelectedRun}" Grid.Row="1" Grid.ColumnSpan="3">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Number}" Header="Рейс"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox HorizontalAlignment="Left" Margin="40,216,0,0" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Top" Width="120"/>
+        <TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0 0 10 35" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Bottom" Width="120" Height="18"/>
 
-        <Calendar HorizontalAlignment="Right" Margin="0 40 250 0" VerticalAlignment="Top"/>
-        <Calendar HorizontalAlignment="Right" Margin="0 40 30 0" VerticalAlignment="Top"/>
+        <Viewbox Grid.Column="2" Stretch="Uniform" Margin="10 40 10 10" VerticalAlignment="Top">
+            <Calendar DisplayDate="{Binding DepartureDateTime}"/>
+        </Viewbox>
+        <Viewbox Grid.Column="3" Stretch="Uniform" Margin="10,40,10,10" VerticalAlignment="Top">
+            <Calendar/>
+        </Viewbox>
 
-        <TextBox HorizontalAlignment="Left" Margin="219,216,0,0" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Top" Width="120"/>
+        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 35" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Bottom" Width="120" Height="18"/>
 
-        <Label Content="Дата отправления" HorizontalAlignment="Right" Margin="0 10 315 0" VerticalAlignment="Top"/>
-        <Label Content="от" HorizontalAlignment="Right" Margin="0 10 240 0" VerticalAlignment="Top"/>
-        <Label Content="до" HorizontalAlignment="Right" Margin="0 10 185 0" VerticalAlignment="Top"/>
+        <Label Content="Дата отправления" HorizontalAlignment="Right" Margin="0,10,89,0" VerticalAlignment="Top" Height="26" Width="110" Grid.Column="2"/>
+        <Label Content="от" HorizontalAlignment="Right" Margin="0,10,14,0" VerticalAlignment="Top" Height="26" Width="22" Grid.Column="2"/>
+        <Label Content="до" HorizontalAlignment="Right" Margin="0 10 185 0" VerticalAlignment="Top" Height="26" Width="24" Grid.Column="3"/>
 
-        <Button Content="Найти рейсы" Command="{Binding FindRunsCommand}" HorizontalAlignment="Right" Margin="0 0 10 50" VerticalAlignment="Bottom" Height="32" Width="127"/>
-        <Button Content="Продажа билета" Command="{Binding SellTicketCommand}" HorizontalAlignment="Right" Margin="0 0 10 10" VerticalAlignment="Bottom" Height="32" Width="127"/>
+        <Button Content="Найти рейсы" Command="{Binding FindRunsCommand}" Margin="10,93,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
+
+        <Button Content="Продажа билета" Command="{Binding SellTicketCommand}" Margin="10,153,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
     </Grid>
 </UserControl>
