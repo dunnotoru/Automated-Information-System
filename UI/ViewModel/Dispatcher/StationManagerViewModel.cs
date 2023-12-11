@@ -1,18 +1,23 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
+using UI.Services;
 
 namespace UI.ViewModel
 {
     internal class StationManagerViewModel : ViewModelBase
     {
         private readonly IStationRepository _stationRepository;
+        private readonly IMessageBoxService _messageBoxService;
         private Station _selectedStation;
         private State _currentState;
+
         public ObservableCollection<Station> Stations { get; set; }
+
         public Station SelectedStation
         {
             get => _selectedStation;
@@ -37,18 +42,28 @@ namespace UI.ViewModel
         public ICommand SaveCommand { get; }
         public ICommand DenyCommand { get; }
 
-        public StationManagerViewModel(IStationRepository stationRepository)
+        public StationManagerViewModel(IStationRepository stationRepository, 
+            IMessageBoxService messageBoxService)
         {
             ArgumentNullException.ThrowIfNull(stationRepository);
             _stationRepository = stationRepository;
+            _messageBoxService = messageBoxService;
 
             CurrentState = State.None;
-            Stations = new ObservableCollection<Station>(_stationRepository.GetAll());
+
+            try
+            {
+                Stations = new ObservableCollection<Station>(_stationRepository.GetAll());
+            }
+            catch (DbUpdateException e)
+            {
+                _messageBoxService.ShowMessage(e.Message + "Попробуйте перезагрузить страницу");
+            }
 
             AddCommand = new RelayCommand(Add, () => CurrentState == State.None);
             DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None && SelectedStation != null);
             EditCommand = new RelayCommand(Edit, () => CurrentState == State.None && SelectedStation != null);
-            SaveCommand = new RelayCommand(Save, () => CurrentState == State.Add || CurrentState == State.Edit);
+            SaveCommand = new RelayCommand(Save, () => CurrentState != State.None);
             DenyCommand = new RelayCommand(Deny, () => CurrentState != State.None);
         }
 
@@ -61,8 +76,16 @@ namespace UI.ViewModel
         private void Delete()
         {
             if (!Stations.Contains(SelectedStation)) return;
-            _stationRepository.Remove(SelectedStation);
-            Stations.Remove(SelectedStation);
+
+            try
+            {
+                _stationRepository.Remove(SelectedStation);
+                Stations.Remove(SelectedStation);
+            }
+            catch(DbUpdateException e)
+            {
+                _messageBoxService.ShowMessage(e.Message);
+            }
         }
 
         private void Edit()
@@ -72,14 +95,21 @@ namespace UI.ViewModel
 
         private void Save()
         {
-            if(CurrentState == State.Add)
+            try
             {
-                _stationRepository.Add(SelectedStation);
-                Stations.Add(SelectedStation);
+                if(CurrentState == State.Add)
+                {
+                    _stationRepository.Add(SelectedStation);
+                    Stations.Add(SelectedStation);
+                }
+                else if(CurrentState == State.Edit)
+                {
+                    _stationRepository.Update(SelectedStation);
+                }
             }
-            else if(CurrentState == State.Edit)
+            catch (DbUpdateException e)
             {
-                _stationRepository.Update(SelectedStation);
+                _messageBoxService.ShowMessage(e.Message);
             }
 
             CurrentState = State.None;

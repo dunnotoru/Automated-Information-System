@@ -1,9 +1,11 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
+using UI.Services;
 
 namespace UI.ViewModel
 {
@@ -11,13 +13,21 @@ namespace UI.ViewModel
     {
         private readonly IRunRepository _runRepository;
         private readonly IRouteRepository _routeRepository;
+        private readonly IVehicleRepository _vehicleRepository;
+        private readonly IDriverRepository _driverRepository;
+        private readonly IMessageBoxService _messageBoxService;
 
         private Run _selectedRun;
         private Route _selectedRoute;
+        private Vehicle _selectedVehicle;
+        private Driver _selectedDriver;
+
         private State _currentState;
 
         public ObservableCollection<Run> Runs { get; set; }
         public ObservableCollection<Route> Routes { get; set; }
+        public ObservableCollection<Vehicle> Vehicles { get; set; }
+        public ObservableCollection<Driver> Drivers { get; set; }
 
         public Run SelectedRun
         {
@@ -28,6 +38,16 @@ namespace UI.ViewModel
         {
             get => _selectedRoute;
             set { _selectedRoute = value; NotifyPropertyChangedByCallerName(); }
+        }
+        public Vehicle SelectedVehicle
+        {
+            get => _selectedVehicle;
+            set { _selectedVehicle = value; NotifyPropertyChangedByCallerName(); }
+        }
+        public Driver SelectedDriver
+        {
+            get => _selectedDriver;
+            set { _selectedDriver = value; NotifyPropertyChangedByCallerName(); }
         }
 
         public State CurrentState
@@ -48,21 +68,35 @@ namespace UI.ViewModel
         public ICommand SaveCommand { get; }
         public ICommand DenyCommand { get; }
 
-        public RunManagerViewModel(IRunRepository runRepository, IRouteRepository routeRepository)
+        public RunManagerViewModel(IRunRepository runRepository, IRouteRepository routeRepository,
+            IVehicleRepository vehicleRepository, IMessageBoxService messageBoxService, IDriverRepository driverRepository)
         {
             ArgumentNullException.ThrowIfNull(runRepository);
             ArgumentNullException.ThrowIfNull(routeRepository);
+            ArgumentNullException.ThrowIfNull(vehicleRepository);
 
             _runRepository = runRepository;
             _routeRepository = routeRepository;
+            _vehicleRepository = vehicleRepository;
+            _messageBoxService = messageBoxService;
+            _driverRepository = driverRepository;
 
-            Runs = new ObservableCollection<Run>(_runRepository.GetAll());
-            Routes = new ObservableCollection<Route>(_routeRepository.GetAll());
+            try
+            {
+                Runs = new ObservableCollection<Run>(_runRepository.GetAll());
+                Routes = new ObservableCollection<Route>(_routeRepository.GetAll());
+                Vehicles = new ObservableCollection<Vehicle>(_vehicleRepository.GetAll());
+                Drivers = new ObservableCollection<Driver>(_driverRepository.GetAll());
+            }
+            catch (DbUpdateException)
+            {
+                _messageBoxService.ShowMessage("Ошибка. Попробуйте перезапустить страницу");
+            }
 
             AddCommand = new RelayCommand(Add, () => CurrentState == State.None);
-            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None && SelectedRoute != null);
-            EditCommand = new RelayCommand(Edit, () => CurrentState == State.None && SelectedRoute != null);
-            SaveCommand = new RelayCommand(Save, () => CurrentState == State.Add || CurrentState == State.Edit);
+            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None && SelectedRun != null);
+            EditCommand = new RelayCommand(Edit, () => CurrentState == State.None && SelectedRun != null);
+            SaveCommand = new RelayCommand(Save, () => CurrentState != State.None);
             DenyCommand = new RelayCommand(Deny, () => CurrentState != State.None);
         }
 
@@ -74,8 +108,16 @@ namespace UI.ViewModel
 
         private void Delete()
         {
-           Runs.Remove(SelectedRun);
-            _runRepository.Remove(SelectedRun);
+           if (SelectedRun == null) return;
+            try
+            {
+               _runRepository.Remove(SelectedRun);
+               Runs.Remove(SelectedRun);
+            }
+            catch (DbUpdateException e)
+            {
+               _messageBoxService.ShowMessage(e.Message);
+            }
         }
 
         private void Edit()
@@ -85,17 +127,36 @@ namespace UI.ViewModel
 
         private void Save()
         {
-            SelectedRun.Bus = new Vehicle() { Id = 1 };
-            SelectedRun.Drivers.Add(new Driver() { Id = 1 });
-            SelectedRun.Route = SelectedRoute;
-
-            if (CurrentState == State.Add)
+            if (SelectedRun == null)
             {
-                _runRepository.Add(SelectedRun);
+                _messageBoxService.ShowMessage("Не выбран рейс");
+                return;
             }
-            else if (CurrentState == State.Edit)
+            if (SelectedRoute == null)
             {
-                _runRepository.Update(SelectedRun);
+                _messageBoxService.ShowMessage("Не выбран маршрут");
+                return; 
+            }
+
+            SelectedRun.Drivers.Add(SelectedDriver);
+            SelectedRun.Route = SelectedRoute;
+            SelectedRun.Vehicle = SelectedVehicle;
+
+            try
+            {
+                if (CurrentState == State.Add)
+                {
+                    _runRepository.Add(SelectedRun);
+                    Runs.Add(SelectedRun);
+                }
+                else if (CurrentState == State.Edit)
+                {
+                    _runRepository.Update(SelectedRun);
+                }
+            }
+            catch(DbUpdateException e)
+            {
+                _messageBoxService.ShowMessage(e.Message);
             }
 
             CurrentState = State.None;

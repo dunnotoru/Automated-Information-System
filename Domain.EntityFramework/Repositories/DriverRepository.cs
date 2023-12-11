@@ -4,67 +4,66 @@ using Domain.RepositoryInterfaces;
 
 namespace Domain.EntityFramework.Repositories
 {
-    public class StationRepository : IStationRepository
+    public class DriverRepository : IDriverRepository
     {
-        public void Add(Station entity)
+        public void Add(Driver entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Add(entity);
+                context.Drivers.Add(entity);
                 context.SaveChanges();
             }
         }
 
-            public void Update(Station entity)
+        public void Remove(Driver entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Update(entity);
+                Driver? stored = context.Drivers.Single(o => o.Id == entity.Id);
+                if (stored == null) return;
+
+                context.Drivers.Remove(stored);
                 context.SaveChanges();
             }
         }
 
-        public void Remove(Station entity)
+        public void Update(Driver entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Remove(entity);
+                Driver? stored = context.Drivers.Single(o => o.Id == entity.Id);
+                if (stored == null) return;
+
+                stored = entity;
+                context.Drivers.Update(stored);
                 context.SaveChanges();
             }
         }
 
-        public IEnumerable<Station> GetAll()
+        public IEnumerable<Driver> GetAll()
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Stations.ToList();
+                return context.Drivers.ToList();
             }
         }
 
-        public IEnumerable<Station> GetByAddress(string address)
+        public Driver? GetById(int licenseId)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Stations.Where(s => s.Address == address).ToList();
+                return context.Drivers.Single(o => o.Id == licenseId);
             }
         }
 
-        public Station? GetById(int id)
+        public Driver? GetByPayrollNumber(string payrollNumber)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Stations.SingleOrDefault(s => s.Id == id);
-            }
-        }
-
-        public IEnumerable<Station> GetByName(string name)
-        {
-            using (ApplicationContext context = new ApplicationContext())
-            {
-                return context.Stations.Where(s => s.Name == name).ToList();
+                return context.Drivers.Single(o => o.PayrollNumber == payrollNumber);
             }
         }
     }

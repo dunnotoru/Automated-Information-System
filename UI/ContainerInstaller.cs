@@ -4,6 +4,7 @@ using Castle.Windsor;
 using Domain.EntityFramework.Repositories;
 using Domain.RepositoryInterfaces;
 using Domain.Services;
+using System.Windows;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
@@ -21,6 +22,8 @@ namespace UI
             container.Register(Component.For<IViewModelFactory>()
                 .UsingFactoryMethod(() => CreateViewModelFactory(container)));
             container.Register(Component.For<NavigationService>());
+
+            container.Register(Component.For<IMessageBoxService>().ImplementedBy<MessageBoxService>());
 
             RegisterRepositories(container);
             
@@ -59,6 +62,8 @@ namespace UI
             container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>());
             container.Register(Component.For<IRouteRepository>().ImplementedBy<RouteRepository>());
             container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
+            container.Register(Component.For<IVehicleRepository>().ImplementedBy<VehicleRepository>());
+            container.Register(Component.For<IDriverRepository>().ImplementedBy<DriverRepository>());
         }
 
         private ViewModelFactory CreateViewModelFactory(IWindsorContainer container)

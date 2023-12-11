@@ -20,8 +20,12 @@
 
         <DataGrid ItemsSource="{Binding Routes}" Grid.Column="0" Margin="10,10,10,10"
                   SelectionMode="Single" SelectedItem="{Binding SelectedRoute}"
-                  IsReadOnly="True"
+                  IsReadOnly="True" AutoGenerateColumns="False"
                   IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="250">

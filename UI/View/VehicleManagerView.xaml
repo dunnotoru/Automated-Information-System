@@ -17,24 +17,23 @@
             <ColumnDefinition Width="182*" MinWidth="130"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
-          SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
+        <DataGrid ItemsSource="{Binding Vehicles}" Grid.Column="0" Margin="10,10,10,10"
+          SelectionMode="Single" SelectedItem="{Binding SelectedVehicle}"
           IsReadOnly="True"
           AutoGenerateColumns="False" IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Государственный номер" Width="auto"/>
-                <DataGridTextColumn Header="Модель" Width="auto"/>
-                <DataGridTextColumn Header="Марка" Width="auto"/>
-                <DataGridTextColumn Header="Вместимость" Width="auto"/>
-                <DataGridTextColumn Header="Дата производства" Width="auto"/>
-                <DataGridTextColumn Header="ДАта последнего ремонта" Width="auto"/>
-                <DataGridTextColumn Header="Тип последнего ремонта" Width="auto"/>
-                <DataGridTextColumn Header="Прогон" Width="auto"/>
-                <DataGridTextColumn Header="Фото?" Width="auto"/>
-                <DataGridTextColumn Header="Фрахтовщик" Width="auto"/>
-                <DataGridTextColumn Header="Номер страховки" Width="auto"/>
-
+                <DataGridTextColumn Header="Государственный номер" Width="auto" Binding="{Binding LicensePlateNumber}"/>
+                <DataGridTextColumn Header="Модель" Width="auto" Binding="{Binding Model}"/>
+                <DataGridTextColumn Header="Марка" Width="auto" Binding="{Binding Brand}" />
+                <DataGridTextColumn Header="Вместимость" Width="auto" Binding="{Binding Capacity}"/>
+                <DataGridTextColumn Header="Дата производства" Width="auto" Binding="{Binding Manufacture}" />
+                <DataGridTextColumn Header="Дата последнего ремонта" Width="auto" Binding="{Binding LastRepair}"/>
+                <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding LastRepairType}"/>
+                <DataGridTextColumn Header="Прогон" Width="auto" Binding="{Binding Mileage}"/>
+                <DataGridTextColumn Header="Фото?" Width="auto" Binding="{Binding Photography}"/>
+                <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding Freighter}"/>
+                <DataGridTextColumn Header="Номер страховки" Width="auto" Binding="{Binding InsuranceDetails}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -65,40 +64,43 @@
             Command="{Binding DenyCommand}"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Column="2">
-            <StackPanel IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="2" Margin="10,10,10,10">
-                <Label Margin="10" Content="Id"/>
-                <TextBox Margin="10"  Text="id" IsReadOnly="True"/>
+        <ScrollViewer Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
+            <StackPanel DataContext="{Binding SelectedVehicle}"  Grid.Column="2" Margin="10,10,10,10">
+                <Label Margin="5" Content="Id"/>
+                <TextBox Margin="5" Text="{Binding Id}" IsReadOnly="True"/>
 
-                <Label Margin="10" Content="Гос. номер"/>
-                <TextBox Margin="10"  Text="номер" />
+                <Label Margin="5" Content="Гос. номер"/>
+                <TextBox Margin="5"  Text="{Binding LicensePlateNumber}" />
 
-                <Label Margin="10" Content="Модель"/>
-                <TextBox Margin="10"  Text="модел" />
+                <Label Margin="5" Content="Модель"/>
+                <TextBox Margin="5"  Text="{Binding Model}" />
 
-                <Label Margin="10" Content="Марка"/>
-                <TextBox Margin="10"  Text="бранд" />
+                <Label Margin="5" Content="Марка"/>
+                <TextBox Margin="5"  Text="{Binding Brand}" />
 
-                <Label Margin="10" Content="Вместимость"/>
-                <TextBox Margin="10"  Text="вмест" />
+                <Label Margin="5" Content="Вместимость"/>
+                <TextBox Margin="5"  Text="{Binding Capacity}" />
 
-                <Label Margin="10" Content="Дата производства"/>
-                <TextBox Margin="10"  Text="произс"/>
+                <Label Margin="5" Content="Дата производства"/>
+                <DatePicker Margin="5" SelectedDate="{Binding Manufacture}"/>
 
-                <Label Margin="10" Content="Дата последнего ремонта"/>
-                <TextBox Margin="10"  Text="дата" />
+                <Label Margin="5" Content="Дата последнего ремонта"/>
+                <DatePicker Margin="5"  SelectedDate="{Binding LastRepair}" />
 
-                <Label Margin="10" Content="Прогон"/>
-                <TextBox Margin="10"  Text="про" />
+                <Label Margin="5" Content="Тип последнего ремонта"/>
+                <TextBox Margin="5"  Text="{Binding LastRepairType}"/>
 
-                <Label Margin="10" Content="Фото"/>
-                <TextBox Margin="10"  Text="фото" />
+                <Label Margin="5" Content="Прогон"/>
+                <TextBox Margin="5"  Text="{Binding Mileage}"/>
+
+                <Label Margin="5" Content="Фото"/>
+                <TextBox Margin="5"  Text="{Binding Photography}"/>
                 
-                <Label Margin="10" Content="Фрахтовщик"/>
-                <TextBox Margin="10"  Text="фрахт"/>
+                <Label Margin="5" Content="Фрахтовщик"/>
+                <TextBox Margin="5"  Text="{Binding Freighter}"/>
 
-                <Label Margin="10" Content="Номер страховки"/>
-                <TextBox Margin="10"  Text="страх"/>
+                <Label Margin="5" Content="Номер страховки"/>
+                <TextBox Margin="5"  Text="{Binding InsuranceDetails}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

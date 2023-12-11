@@ -12,9 +12,9 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="191*"/>
-            <ColumnDefinition Width="139*"/>
-            <ColumnDefinition Width="198*"/>
+            <ColumnDefinition Width="246*"/>
+            <ColumnDefinition Width="121*"/>
+            <ColumnDefinition Width="161*"/>
             <ColumnDefinition Width="272*"/>
         </Grid.ColumnDefinitions>
 
@@ -24,8 +24,8 @@
                   IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
-                <DataGridTextColumn Width="auto" Header="Маршрут" Binding="{Binding Route}"/>
-                <DataGridTextColumn Width="auto" Header="Транспорт"/>
+                <DataGridTextColumn Width="auto" Header="Маршрут" Binding="{Binding Route.Name}"/>
+                <DataGridTextColumn Width="auto" Header="Транспорт" Binding="{Binding Vehicle.LicensePlateNumber}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -57,33 +57,42 @@
         </StackPanel>
 
 
-        <StackPanel IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="3" Margin="10,10,10,10">
-            <Label Content="Id"/>
-            <TextBox Text="{Binding SelectedRun.Id}" IsReadOnly="True"/>
+        <GroupBox Grid.Column="3" IsEnabled="{Binding IsRedactingEnabled}">
+            <StackPanel Margin="10 10 10 10">
+                <Label Content="Id"/>
+                <TextBox Text="{Binding SelectedRun.Id}" IsReadOnly="True"/>
 
-            <Label Content="Маршрут"/>
-            <TextBox Text="{Binding SelectedRoute.Name}"/>
+                <Label Content="Номер"/>
+                <TextBox Text="{Binding SelectedRun.Number}"/>
 
-            <Label Content="Время отбытия"/>
-            <TextBox Text="{Binding SelectedRun.DepartureDateTime}"/>
+                <Label Content="Маршрут" />
+                <TextBox Text="{Binding SelectedRoute.Name}" IsReadOnly="True"/>
 
-            <Label Content="Расчётное время прибытия"/>
-            <TextBox Text="{Binding SelectedRun.ArrivalDateTime}"/>
+                <Label Content="Время отбытия"/>
+                <DatePicker SelectedDate="{Binding SelectedRun.DepartureDateTime}"/>
 
-            <Label Content="Транспорт"/>
-            <TextBox Text=""/>
+                <Label Content="Транспорт"/>
+                <ComboBox ItemsSource="{Binding Vehicles}" 
+                          SelectedItem="{Binding SelectedVehicle}" 
+                          DisplayMemberPath="LicensePlateNumber"
+                          IsEditable="True"/>
 
-            <Label Content="Водитель"/>
-            <TextBox Text=""/>
-        </StackPanel>
+                <Label Content="Водитель"/>
+                <ComboBox ItemsSource="{Binding Drivers}"
+                          SelectedItem="{Binding SelectedDriver}"
+                          DisplayMemberPath="PayrollNumber"
+                          IsEditable="True"/>
+            </StackPanel>
+        </GroupBox>
+
 
         <DataGrid Grid.Column="2" Margin="10,10,10,10"
                   ItemsSource="{Binding Routes}" SelectedItem="{Binding SelectedRoute}"
                   IsEnabled="{Binding IsRedactingEnabled}" AutoGenerateColumns="False"
-                  IsReadOnly="True"> 
+                  IsReadOnly="True">
             <DataGrid.Columns>
-                    <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
-                    <DataGridTextColumn Width="auto" Header="Название" Binding="{Binding Name}"/>
+                <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Width="auto" Header="Название" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

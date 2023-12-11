@@ -26,17 +26,17 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="343*"/>
 
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedItem}" Margin="10,10,10,10">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <ListBox ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedItem}" Margin="10,10,10,10">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <ContentControl Content="{Binding SelectedItem.ItemViewModel}" Grid.Column="1" Margin="10,10,10,10"/>
 

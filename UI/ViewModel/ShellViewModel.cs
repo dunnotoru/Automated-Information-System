@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UI.Stores;
 
 namespace UI.ViewModel
 {
-    internal class ShellViewModel : ViewModelBase
+    internal class ShellViewModel : ViewModelBase, IDisposable
     {
         private NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel
@@ -43,6 +43,11 @@ namespace UI.ViewModel
         public void OnCurrentViewModelChanged()
         {
             NotifyPropertyChanged(nameof(CurrentViewModel));
+        }
+
+        public void Dispose()
+        {
+            _navigationStore.CurrentViewModelChanged -= OnCurrentViewModelChanged;
         }
     }
 }

@@ -17,22 +17,21 @@
             <ColumnDefinition Width="182*" MinWidth="130"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
-              SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
+        <DataGrid ItemsSource="{Binding Drivers}" Grid.Column="0" Margin="10,10,10,10"
+              SelectionMode="Single" SelectedItem="{Binding SelectedDriver}"
               IsReadOnly="True"
               AutoGenerateColumns="False" IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Табельный номер" Width="auto"/>
-                <DataGridTextColumn Header="Имя" Width="auto"/>
-                <DataGridTextColumn Header="Фамилия" Width="auto"/>
-                <DataGridTextColumn Header="Отчество" Width="auto"/>
-                <DataGridTextColumn Header="Дата рождения" Width="auto"/>
-                <DataGridTextColumn Header="Класс" Width="auto"/>
-                <DataGridTextColumn Header="Профессиональный стандарт" Width="auto"/>
-                <DataGridTextColumn Header="Трудовая книжка" Width="auto"/>
-                <DataGridTextColumn Header="Пол" Width="auto"/>
-
+                <DataGridTextColumn Header="Табельный номер" Width="auto" Binding="{Binding PayrollNumber}"/>
+                <DataGridTextColumn Header="Имя" Width="auto" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Фамилия" Width="auto" Binding="{Binding Surname}"/>
+                <DataGridTextColumn Header="Отчество" Width="auto" Binding="{Binding Patronymic}"/>
+                <DataGridTextColumn Header="Дата рождения" Width="auto" Binding="{Binding BirthDate, StringFormat='{}{0:dd.MM.yyyy}'}"/>
+                <DataGridTextColumn Header="Пол" Width="auto" Binding="{Binding Gender}"/>
+                <DataGridTextColumn Header="Класс" Width="auto" Binding="{Binding DriverClass}"/>
+                <DataGridTextColumn Header="Профессиональный стандарт" Width="auto" Binding="{Binding ProfessionalStandardDetails}"/>
+                <DataGridTextColumn Header="Трудовая книжка" Width="auto" Binding="{Binding EmploymentBookDetails}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -63,32 +62,37 @@
                 Command="{Binding DenyCommand}"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Column="2">
-            <StackPanel IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="2" Margin="10,10,10,10">
+        <ScrollViewer IsEnabled="{Binding IsRedactingEnabled}" Grid.Column="2">
+            <StackPanel DataContext="{Binding SelectedDriver}">
                 <Label Margin="10" Content="Id"/>
-                <TextBox Margin="10"  Text="id" IsReadOnly="True"/>
+                <TextBox Margin="10"  Text="{Binding Id}" IsReadOnly="True"/>
 
+                <Label Margin="10" Content="Табельный номер"/>
+                <TextBox Margin="10"  Text="{Binding PayrollNumber}" />
+                
                 <Label Margin="10" Content="Имя"/>
-                <TextBox Margin="10"  Text="Имя" />
+                <TextBox Margin="10"  Text="{Binding Name}" />
 
                 <Label Margin="10" Content="Фамилия"/>
-                <TextBox Margin="10"  Text="фамилия" />
+                <TextBox Margin="10"  Text="{Binding Surname}" />
 
                 <Label Margin="10" Content="Отчество"/>
-                <TextBox Margin="10"  Text="отч" />
+                <TextBox Margin="10"  Text="{Binding Patronymic}"/>
 
                 <Label Margin="10" Content="Пол"/>
-                <TextBox Margin="10"  Text="пол" />
+                <TextBox Margin="10"  Text="{Binding Gender}"/>
 
                 <Label Margin="10" Content="дата рождения"/>
-                <TextBox Margin="10"  Text="дата" />
+                <DatePicker Margin="10" SelectedDate="{Binding BirthDate}"/>
 
                 <Label Margin="10" Content="Класс"/>
-                <TextBox Margin="10"  Text="клас" />
+                <TextBox Margin="10"  Text="{Binding DriverClass}"/>
 
                 <Label Margin="10" Content="Стандарт"/>
-                <TextBox Margin="10"  Text="станд" />
+                <TextBox Margin="10"  Text="{Binding ProfessionalStandardDetails}"/>
 
+                <Label Margin="10" Content="Номер Трудовой книжки"/>
+                <TextBox Margin="10"  Text="{Binding EmploymentBookDetails}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

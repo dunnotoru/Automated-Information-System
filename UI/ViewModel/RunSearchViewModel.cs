@@ -1,9 +1,9 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -71,6 +71,7 @@ namespace UI.ViewModel
         private readonly IStationRepository _stationRepository;
         private readonly IRunRepository _runRepository;
         private readonly IRouteRepository _routeRepository;
+        private readonly IMessageBoxService _messageBoxService;
         private readonly OrderStore _orderStore;
         private readonly NavigationService _navigationService;
         
@@ -78,7 +79,8 @@ namespace UI.ViewModel
         public ICommand FindRunsCommand {  get; private set; }
 
         public RunSearchViewModel(IStationRepository stationRepository, IRunRepository runRepository,
-            NavigationService navigationService, OrderStore orderStore, IRouteRepository routeRepository)
+            NavigationService navigationService, OrderStore orderStore, IRouteRepository routeRepository, 
+            IMessageBoxService messageBoxService)
         {
             ArgumentNullException.ThrowIfNull(stationRepository);
             ArgumentNullException.ThrowIfNull(runRepository);
@@ -89,8 +91,18 @@ namespace UI.ViewModel
             _runRepository = runRepository;
             _routeRepository = routeRepository;
             _navigationService = navigationService;
+            _messageBoxService = messageBoxService;
 
-            StationItems = new ObservableCollection<Station>(_stationRepository.GetAll());
+            try
+            {
+                StationItems = new ObservableCollection<Station>(_stationRepository.GetAll());
+            }
+            catch (DbUpdateException e)
+            {
+                StationItems = new ObservableCollection<Station>();
+                _messageBoxService.ShowMessage(e.Message);
+            }
+
             RunItems = new ObservableCollection<Run>();
 
             FindRunsCommand = new RelayCommand(FindRunsMethod);
@@ -99,15 +111,34 @@ namespace UI.ViewModel
 
         private void FindRunsMethod()
         {
-            if (DepartureStation == null) return;
-            if (ArrivalStation == null) return;
+            if (DepartureStation == null)
+            {
+                _messageBoxService.ShowMessage("Не выбрана станция отправки");
+                return;
+            }
+            if (ArrivalStation == null)
+            {
+                _messageBoxService.ShowMessage("Не выбрана станция прибытия");
+                return;
+            }
 
             List<Run> run = new List<Run>();
-            IEnumerable<Route> routes = _routeRepository.GetByStations(DepartureStation, ArrivalStation);
-            foreach (Route route in routes)
+            IEnumerable<Route> routes;
+            try
             {
-                run.AddRange(_runRepository.GetByRoute(route));
+                routes = _routeRepository.GetByStations(DepartureStation, ArrivalStation);
+                foreach (Route route in routes)
+                {
+                    run.AddRange(_runRepository.GetByRoute(route));
+                }
             }
+            catch(DbUpdateException e)
+            {
+                _messageBoxService.ShowMessage(e.Message);
+                RunItems = new ObservableCollection<Run>();
+                return;
+            }
+            
             RunItems = new ObservableCollection<Run>(run);
         }
 

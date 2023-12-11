@@ -4,11 +4,6 @@
     {
         public Route Route { get; set; }
         public int PeriodInMinutes { get; set; }
-        public ICollection<Run> Run { get; set; }
-
-        public Schedule()
-        {
-            Run = new HashSet<Run>();
-        }
+        public ICollection<Run> Run { get; set; } = new HashSet<Run>();
     }
 }

@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
-             mc:Ignorable="d" d:DesignWidth="800" Height="496">
+             mc:Ignorable="d" d:DesignWidth="814" Height="496">
     <UserControl.Resources>
-        <converters:DateConverter x:Key="DateTimeConverter"/>
+        <converters:DateConverter x:Key="DateConverterKey"/>
     </UserControl.Resources>
     <Grid Background="White">
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Height="20" Margin="10 30 0 0" 
@@ -16,7 +16,7 @@
 
         <TextBox HorizontalAlignment="Left" Margin="10 100 0 0" VerticalAlignment="Top" Width="152" Height="20"
                  IsReadOnly="True"
-                 Text="{Binding DepartureDateTime}"/>
+                 Text="{Binding DepartureDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}"/>
 
         <TextBox HorizontalAlignment="Left" Margin="250 30 0 0" VerticalAlignment="Top" Width="152" Height="20"
                  IsReadOnly="True"
@@ -74,7 +74,7 @@
                 <TextBox Text="{Binding Patronymic}"/>
 
                 <Label Content="Дата рождения"/>
-                <DatePicker SelectedDate="{Binding DateOfBirth, Converter={StaticResource ResourceKey=DateTimeConverter}}"/>
+                <DatePicker SelectedDate="{Binding DateOfBirth, Converter={StaticResource ResourceKey=DateConverterKey}}"/>
             </StackPanel>
         </GroupBox>
         <Label Content="Внесено" HorizontalAlignment="Right" Margin="0,0,199,118" VerticalAlignment="Bottom" Height="27" Width="84"/>

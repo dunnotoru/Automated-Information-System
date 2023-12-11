@@ -2,10 +2,11 @@
 {
     public class Run : EntityBase
     {
+        public string Number { get; set; }
         public Route Route { get; set; } 
-        public DateTime Departure { get; set; }
-        public DateTime EstimatedArrival { get; set; }
-        public Vehicle Bus { get; set; }
+        public DateTime DepartureDateTime { get; set; }
+        public DateTime EstimatedArrivalDateTime { get; set; }
+        public Vehicle Vehicle { get; set; }
         public ICollection<Driver> Drivers { get; set; } = new HashSet<Driver>();
     }
 }

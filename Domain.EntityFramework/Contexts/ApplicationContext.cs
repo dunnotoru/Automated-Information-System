@@ -17,7 +17,7 @@ namespace Domain.EntityFramework.Contexts
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<License> Licenses { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Category> TicketTypes { get; set; }
+        public DbSet<TicketType> TicketTypes { get; set; }
 
         public ApplicationContext()
         {
