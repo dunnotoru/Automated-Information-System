@@ -8,7 +8,7 @@ using UI.Command;
 
 namespace UI.ViewModel
 {
-    public class RunManagerViewModel : ViewModelBase
+    internal class RunManagerViewModel : ViewModelBase
     {
         private readonly IRunRepository _runRepository;
         private readonly IRouteRepository _routeRepository;

@@ -2,7 +2,7 @@
 
 namespace UI.ViewModel
 {
-    public class DispatcherMenuItem : ViewModelBase
+    internal class DispatcherMenuItem : ViewModelBase
     {
         private string _name;
         private Func<ViewModelBase> _viewModel;

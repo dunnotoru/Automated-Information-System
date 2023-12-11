@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace UI.Command
 {
-    public class ParamRelayCommand<T> : CommandBase
+    internal class ParamRelayCommand<T> : CommandBase
     {
         public override event EventHandler? CanExecuteChanged
         {

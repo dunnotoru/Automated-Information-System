@@ -6,7 +6,7 @@ using UI.Stores;
 
 namespace UI.ViewModel
 {
-    public class MenuItemViewModel : ViewModelBase
+    internal class MenuItemViewModel : ViewModelBase
     {
         private string _header;
         public string Header

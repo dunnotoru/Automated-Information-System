@@ -4,7 +4,7 @@ using UI.ViewModel;
 
 namespace UI
 {
-    public class DispatcherMenuCompositor
+    internal class DispatcherMenuCompositor
     {
         public IEnumerable<DispatcherMenuItem> ComposeMenu(IWindsorContainer container)
         {

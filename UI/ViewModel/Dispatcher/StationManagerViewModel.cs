@@ -7,7 +7,7 @@ using UI.Command;
 
 namespace UI.ViewModel
 {
-    public class StationManagerViewModel : ViewModelBase
+    internal class StationManagerViewModel : ViewModelBase
     {
         private readonly IStationRepository _stationRepository;
         private Station _selectedStation;

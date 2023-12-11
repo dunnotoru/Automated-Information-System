@@ -9,7 +9,7 @@ using UI.Command;
 
 namespace UI.ViewModel
 {
-    public class RouteManagerViewModel : ViewModelBase
+    internal class RouteManagerViewModel : ViewModelBase
     {
         private readonly IRouteRepository _routeRepository;
         private readonly IStationRepository _stationRepository;

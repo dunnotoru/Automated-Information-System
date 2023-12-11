@@ -7,6 +7,7 @@ using Domain.Services;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
+using UI.ViewModel.Factories;
 
 namespace UI
 {
@@ -14,25 +15,23 @@ namespace UI
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            container.Register(Component.For<OrderStore>());
             container.Register(Component.For<AccountStore>());
-            container.Register(Component.For<NavigationStore>().Named("MainNavigationStore"));
-            container.Register(Component.For<NavigationStore>().Named("TicketSaleNavigationStore"));
+            container.Register(Component.For<NavigationStore>());
+            container.Register(Component.For<IViewModelFactory>()
+                .UsingFactoryMethod(() => CreateViewModelFactory(container)));
+            container.Register(Component.For<NavigationService>());
 
-            container.Register(Component.For<IPasswordHasher>().ImplementedBy<PasswordHasher>());
-            container.Register(Component.For<IPasswordValidator>().ImplementedBy<PasswordValidator>());
-            container.Register(Component.For<IAccountRepository>().ImplementedBy<AccountRepository>());
+            RegisterRepositories(container);
+            
             container.Register(Component.For<AuthenticationService>());
             container.Register(Component.For<RegistrationService>());
             container.Register(Component.For<LoginViewModel>());
 
-            container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>());
-            container.Register(Component.For<IRouteRepository>().ImplementedBy<RouteRepository>());
-            container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
-
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
 
-            container.Register(Component.For<RouteManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<StationManagerViewModel>().LifestyleTransient());
+            container.Register(Component.For<RouteManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<RunManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<DriverManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<VehicleManagerViewModel>().LifestyleTransient());
@@ -42,26 +41,29 @@ namespace UI
                 .UsingFactoryMethod(() => CreateDispatcherManagerViewModel(container))
                 .LifestyleTransient());
 
-            container.Register(Component
-                .For<RunSearchViewModel>()
-                .UsingFactoryMethod(() => CreateRunSearchViewModel(container))
-                );
-
+            container.Register(Component.For<RunSearchViewModel>());
             container.Register(Component.For<PassengerRegistrationViewModel>());
             container.Register(Component.For<CertificateViewModel>());
-
-            container.Register(Component
-                .For<UpdatePasswordViewModel>()
-                .UsingFactoryMethod(() => CreateUpdatePasswordViewModel(container)));
-
-            container.Register(Component
-                .For<TicketSaleParentViewModel>()
-                .UsingFactoryMethod(() => CreateTicketSaleParentViewModel(container))
-                .LifestyleTransient());
+            container.Register(Component.For<UpdatePasswordViewModel>());
 
             container.Register(Component
                 .For<ShellViewModel>()
                 .UsingFactoryMethod(() => CreateShell(container)));
+        }
+
+        private void RegisterRepositories(IWindsorContainer container)
+        {
+            container.Register(Component.For<IPasswordHasher>().ImplementedBy<PasswordHasher>());
+            container.Register(Component.For<IPasswordValidator>().ImplementedBy<PasswordValidator>());
+            container.Register(Component.For<IAccountRepository>().ImplementedBy<AccountRepository>());
+            container.Register(Component.For<IStationRepository>().ImplementedBy<StationRepository>());
+            container.Register(Component.For<IRouteRepository>().ImplementedBy<RouteRepository>());
+            container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
+        }
+
+        private ViewModelFactory CreateViewModelFactory(IWindsorContainer container)
+        {
+            return new ViewModelFactory(container);
         }
 
         private DispatcherViewModel CreateDispatcherManagerViewModel(IWindsorContainer container)
@@ -69,62 +71,13 @@ namespace UI
             DispatcherMenuCompositor compositor = new DispatcherMenuCompositor();
             return new DispatcherViewModel(compositor.ComposeMenu(container));
         }
-
-        private NavigationService CreateShellNavigationService(IWindsorContainer container)
-        {
-            return new NavigationService(
-                container.Resolve<NavigationStore>(),
-                () => CreateShell(container));
-        }
-
-        private UpdatePasswordViewModel CreateUpdatePasswordViewModel(IWindsorContainer container)
-        {
-            return new UpdatePasswordViewModel(
-                container.Resolve<RegistrationService>(),
-                CreateShellNavigationService(container),
-                container.Resolve<AccountStore>()
-                );
-        }
-        
-        private TicketSaleParentViewModel CreateTicketSaleParentViewModel(IWindsorContainer container)
-        {
-            return new TicketSaleParentViewModel(
-                container.Resolve<NavigationStore>("TicketSaleNavigationStore"),
-                CreateRunSearchNavigationService(container));
-        }
-        
-        private NavigationService CreateRunSearchNavigationService(IWindsorContainer container)
-        {
-            return new NavigationService(
-                container.Resolve<NavigationStore>("TicketSaleNavigationStore"),
-                () => CreateRunSearchViewModel(container));
-        }
-        private NavigationService CreatePassengerRegistrationNavigationService(IWindsorContainer container)
-        {
-            return new NavigationService(
-                container.Resolve<NavigationStore>("TicketSaleNavigationStore"),
-                () => CreateTicketSaleViewModel(container));
-        }
-        private PassengerRegistrationViewModel CreateTicketSaleViewModel(IWindsorContainer container)
-        {
-            return new PassengerRegistrationViewModel(
-                CreateRunSearchNavigationService(container));
-        }
-        private RunSearchViewModel CreateRunSearchViewModel(IWindsorContainer container)
-        {
-            return new RunSearchViewModel(
-                container.Resolve<IStationRepository>(),
-                container.Resolve<IRunRepository>(),
-                CreatePassengerRegistrationNavigationService(container)
-                );
-        }
         
         private ShellViewModel CreateShell(IWindsorContainer container)
         {
             MenuCompositor mc = new MenuCompositor(true,true,true,true);
 
             return new ShellViewModel(
-                container.Resolve<NavigationStore>("MainNavigationStore"),
+                container.Resolve<NavigationStore>(),
                 mc.ComposeMenu(container));
         }
     }

@@ -6,7 +6,7 @@ using UI.Stores;
 
 namespace UI.ViewModel
 {
-    public class LoginViewModel : ViewModelBase
+    internal class LoginViewModel : ViewModelBase
     {
         private string _username;
         public string Username

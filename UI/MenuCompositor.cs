@@ -5,7 +5,7 @@ using UI.ViewModel;
 
 namespace UI
 {
-    public class MenuCompositor
+    internal class MenuCompositor
     {
         private bool _read;
         private bool _write;
@@ -59,7 +59,7 @@ namespace UI
                 new MenuItemViewModel()
                 {
                     Header = "Найти",
-                    GetViewModel = () => container.Resolve<TicketSaleParentViewModel>(),
+                    GetViewModel = () => container.Resolve<RunSearchViewModel>(),
                 },
 
                 new MenuItemViewModel(r)

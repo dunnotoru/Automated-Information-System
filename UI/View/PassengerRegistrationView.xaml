@@ -12,19 +12,19 @@
     <Grid Background="White">
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Height="20" Margin="10 30 0 0" 
                  IsReadOnly="True"
-                 Text="{Binding Path=DataContext.DepartureStation.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
+                 Text="{Binding DepartureStation.Name, Mode=OneWay}"/>
 
         <TextBox HorizontalAlignment="Left" Margin="10 100 0 0" VerticalAlignment="Top" Width="152" Height="20"
                  IsReadOnly="True"
-                 Text="{Binding Path=DataContext.DepartureDateTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
+                 Text="{Binding DepartureDateTime}"/>
 
         <TextBox HorizontalAlignment="Left" Margin="250 30 0 0" VerticalAlignment="Top" Width="152" Height="20"
                  IsReadOnly="True"
-                 Text="{Binding Path=DataContext.ArrivalStation.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
+                 Text="{Binding ArrivalStation.Name, Mode=OneWay}"/>
 
         <TextBox HorizontalAlignment="Left" Margin="250 100 0 0" VerticalAlignment="Top" Width="155" Height="20"
                  IsReadOnly="True"
-                 Text="{Binding Path=DataContext.ArrivalDateTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TicketSaleViewParent}}}"/>
+                 Text="{Binding ArrivalDateTime}"/>
 
         <TextBox HorizontalAlignment="Right" Margin="0,0,10,160" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="27"/>
         <TextBox HorizontalAlignment="Right" Margin="0,0,10,116" Text="{Binding Cash, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="27"/>

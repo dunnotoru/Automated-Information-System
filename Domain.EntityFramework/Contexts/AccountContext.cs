@@ -5,7 +5,7 @@ using System.Configuration;
 
 namespace Domain.EntityFramework.Contexts
 {
-    public class AccountContext : DbContext
+    internal class AccountContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
         public AccountContext()

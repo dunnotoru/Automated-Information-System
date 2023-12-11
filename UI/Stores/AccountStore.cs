@@ -3,7 +3,7 @@ using System;
 
 namespace UI.Stores
 {
-    public class AccountStore
+    internal class AccountStore
     {
         private Account _currentAccount;
 

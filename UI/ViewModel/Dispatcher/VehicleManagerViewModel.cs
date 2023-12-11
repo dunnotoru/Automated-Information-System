@@ -1,6 +1,6 @@
 ﻿namespace UI.ViewModel
 {
-    public class VehicleManagerViewModel : ViewModelBase
+    internal class VehicleManagerViewModel : ViewModelBase
     {
 
     }

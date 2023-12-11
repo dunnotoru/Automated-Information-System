@@ -1,6 +1,6 @@
 ﻿namespace UI.ViewModel
 { 
-    public class ScheduleManagerViewModel : ViewModelBase
+    internal class ScheduleManagerViewModel : ViewModelBase
     {
 
     }

@@ -1,7 +1,7 @@
 ﻿
 namespace Domain.EntityFramework.Configurations
 {
-    public class StationRoute
+    internal class StationRoute
     {
         public int RouteId { get; set; }
         public int StationId { get; set; }

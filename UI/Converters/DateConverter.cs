@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace UI.Converters
 {
-    public class DateConverter : IValueConverter
+    internal class DateConverter : IValueConverter
     {
         private DateTime timePickerDate;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

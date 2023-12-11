@@ -5,7 +5,7 @@ using System.Configuration;
 
 namespace Domain.EntityFramework.Contexts
 {
-    public class ApplicationContext : DbContext
+    internal class ApplicationContext : DbContext
     {
         public DbSet<Passport> Passports { get; set; }
         public DbSet<Run> Runs { get; set; }

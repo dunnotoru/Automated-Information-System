@@ -10,7 +10,7 @@ namespace UI.ViewModel
         Edit
     }
 
-    public class DispatcherViewModel : ViewModelBase
+    internal class DispatcherViewModel : ViewModelBase
     {
         public ObservableCollection<DispatcherMenuItem> ViewModels { get; set; }
 

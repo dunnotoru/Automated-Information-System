@@ -5,7 +5,7 @@ using UI.Stores;
 
 namespace UI.ViewModel
 {
-    public class ShellViewModel : ViewModelBase
+    internal class ShellViewModel : ViewModelBase
     {
         private NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel

@@ -14,8 +14,11 @@
         <DataTemplate DataType="{x:Type vm:CertificateViewModel}">
             <local:Certificate/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:TicketSaleParentViewModel}">
-            <local:TicketSaleViewParent/>
+        <DataTemplate DataType="{x:Type vm:RunSearchViewModel}">
+            <local:RunSearchView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PassengerRegistrationViewModel}">
+            <local:PassengerRegistrationView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ShellViewModel}"/>
         <DataTemplate DataType="{x:Type vm:UpdatePasswordViewModel}">

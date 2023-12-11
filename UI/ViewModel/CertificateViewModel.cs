@@ -1,6 +1,6 @@
 ﻿namespace UI.ViewModel
 {
-    public class CertificateViewModel : ViewModelBase
+    internal class CertificateViewModel : ViewModelBase
     {
 
     }

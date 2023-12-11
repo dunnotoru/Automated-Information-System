@@ -2,7 +2,7 @@
 
 namespace Domain.Services
 {
-    public class TicketPriceCalculator : ITicketPriceCalculator
+    internal class TicketPriceCalculator : ITicketPriceCalculator
     {
         public int CalcPrice(Route route, Station from, Station to, TicketType type)
         {

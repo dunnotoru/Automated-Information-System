@@ -1,15 +1,70 @@
-﻿using System.Collections.ObjectModel;
+﻿using Domain.Models;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
+using UI.Stores;
 
 namespace UI.ViewModel
 {
-    public class PassengerRegistrationViewModel : ViewModelBase
+    internal class PassengerRegistrationViewModel : ViewModelBase
     {
         private int _price;
         private int _cash;
+
+        private DateTime _departureDateTime;
+        private DateTime _arrivalDateTime;
+        private Station _departureStation;
+        private Station _arrivalStation;
+        private Run _selectedRun;
+
+        public DateTime DepartureDateTime
+        {
+            get => _departureDateTime;
+            set
+            {
+                _departureDateTime = value;
+                NotifyPropertyChanged(nameof(DepartureDateTime));
+            }
+        }
+        public DateTime ArrivalDateTime
+        {
+            get => _arrivalDateTime;
+            set
+            {
+                _arrivalDateTime = value;
+                NotifyPropertyChanged(nameof(ArrivalDateTime));
+            }
+        }
+        public Station DepartureStation
+        {
+            get => _departureStation;
+            set
+            {
+                _departureStation = value;
+                NotifyPropertyChanged(nameof(DepartureStation));
+            }
+        }
+        public Station ArrivalStation
+        {
+            get => _arrivalStation;
+            set
+            {
+                _arrivalStation = value;
+                NotifyPropertyChanged(nameof(ArrivalStation));
+            }
+        }
+        public Run SelectedRun
+        {
+            get => _selectedRun;
+            set
+            {
+                _selectedRun = value;
+                NotifyPropertyChanged(nameof(SelectedRun));
+            }
+        }
 
         private PassengerViewModel _selectedPassenger;
 
@@ -57,22 +112,41 @@ namespace UI.ViewModel
             get => new RelayCommand(DeletePassenger);
         }
 
-        public NavigateCommand DeclineCommand { get; }
+        public ICommand DeclineCommand
+        {
+            get => new RelayCommand(() =>
+            {
+                _navigationService.Navigate<RunSearchViewModel>();
+            });
+        }
         public ICommand SellCommand
         {
             get => new RelayCommand(SellTicket, CanSell);
         }
 
 
-        public PassengerRegistrationViewModel(NavigationService runSearchNavigationService)
+        private readonly OrderStore _orderStore;
+        private readonly NavigationService _navigationService;
+        
+        public PassengerRegistrationViewModel(NavigationService navigationService, 
+            OrderStore orderStore)
         {
+            _orderStore = orderStore;
+            _orderStore.OrderCreated += OnOrderCreated;
             Passengers = new ObservableCollection<PassengerViewModel>();
-            DeclineCommand = new NavigateCommand(runSearchNavigationService);
+            _navigationService = navigationService;
         }
 
         private void SellTicket()
         {
 
+        }
+
+        private void OnOrderCreated(OrderViewModel order)
+        {
+            DepartureStation = order.DepartureStation;
+            ArrivalStation = order.ArrivalStation;
+            SelectedRun = order.SelectedRun;
         }
 
         private void AddPassenger()

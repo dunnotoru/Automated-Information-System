@@ -2,7 +2,7 @@
 
 namespace UI.ViewModel
 {
-    public class PassengerViewModel : ViewModelBase
+    internal class PassengerViewModel : ViewModelBase
     {
         private string _name;
         private string _surname;

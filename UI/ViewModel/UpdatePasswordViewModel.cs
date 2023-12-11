@@ -6,7 +6,7 @@ using UI.Stores;
 
 namespace UI.ViewModel
 {
-    public class UpdatePasswordViewModel : ViewModelBase
+    internal class UpdatePasswordViewModel : ViewModelBase
     {
         private string _oldPassword;
         private string _newPassword;
@@ -38,7 +38,7 @@ namespace UI.ViewModel
 
 
         private readonly RegistrationService _registrationUseCase;
-        private readonly NavigationService _toShell;
+        private readonly NavigationService _navigationService;
         private readonly AccountStore _accountStore;
 
         public ICommand UpdatePasswordCommand
@@ -46,22 +46,23 @@ namespace UI.ViewModel
             get => new RelayCommand(UpdatePassword);
         }
 
-        public NavigateCommand BackToShellCommand
+        public ICommand BackToShellCommand
         {
-            get => new NavigateCommand(_toShell);
+            get => new RelayCommand(() => _navigationService.Navigate<ShellViewModel>());
         }
 
-        public UpdatePasswordViewModel(RegistrationService registrationUseCase, NavigationService toShell, AccountStore accountStore)
+        public UpdatePasswordViewModel(RegistrationService registrationUseCase,
+            NavigationService navigationService, AccountStore accountStore)
         {
             _registrationUseCase = registrationUseCase;
-            _toShell = toShell;
+            _navigationService = navigationService;
             _accountStore = accountStore;
         }
 
         private void UpdatePassword()
         {
             if(_registrationUseCase.UpdatePassword(_accountStore.CurrentAccount, OldPassword, NewPassword))
-                _toShell.Navigate();
+                _navigationService.Navigate<ShellViewModel>();
         }
     }
 }
