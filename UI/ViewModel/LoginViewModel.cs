@@ -15,7 +15,7 @@ namespace UI.ViewModel
             set
             {
                 _username = value;
-                OnPropertyChanged(nameof(Username));
+                OnPropertyChangedByName(nameof(Username));
             }
         }
 
@@ -26,7 +26,7 @@ namespace UI.ViewModel
             set
             {
                 _password = value;
-                OnPropertyChanged(nameof(Password));
+                OnPropertyChangedByName(nameof(Password));
             }
         }
 

@@ -18,7 +18,7 @@ namespace UI
                 new DispatcherMenuItem()
                 {
                     Name = "Маршруты",
-                    ViewModel = () => container.Resolve<RouteManagerViewModel>(),
+                    ViewModel = () => container.Resolve<RouteMenuViewModel>(),
                 },
                 new DispatcherMenuItem()
                 {

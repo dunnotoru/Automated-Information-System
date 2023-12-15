@@ -24,13 +24,13 @@ namespace UI.ViewModel
         public ObservableCollection<StationEditViewModel> Stations
         {
             get { return _stations; }
-            set { _stations = value; OnPropertyChangedByCallerName(); }
+            set { _stations = value; OnPropertyChanged(); }
         }
 
         public StationEditViewModel SelectedStation
         {
             get => _selectedStation;
-            set { _selectedStation = value; OnPropertyChangedByCallerName(); OnPropertyChanged(nameof(IsRedactingEnabled)); }
+            set { _selectedStation = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
         }
 
         public bool IsRedactingEnabled => SelectedStation != null;

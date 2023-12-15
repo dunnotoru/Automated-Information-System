@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.EntityFramework.Repositories;
+using Domain.Models;
 using Domain.RepositoryInterfaces;
 using System;
 using System.Windows.Input;
@@ -18,7 +19,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
         
-        public StationEditViewModel(Station station, IStationRepository stationRepository) : base()
+        public StationEditViewModel(Station station, IStationRepository stationRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(station);
             ArgumentNullException.ThrowIfNull(stationRepository);
@@ -26,22 +27,22 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             Id = station.Id;
             Name = station.Name ?? "";
             Address = station.Address ?? "";
+            
             _stationRepository = stationRepository;
-
-            SaveCommand = new RelayCommand(Save);
-            RemoveCommand = new RelayCommand(Remove);
         }
 
-        public StationEditViewModel(IStationRepository stationRepository) : base()
+        public StationEditViewModel(IStationRepository stationRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(stationRepository);
 
             Id = 0;
             Name = "Unknown";
             Address = "Unknown";
-            
             _stationRepository = stationRepository;
+        }
 
+        private StationEditViewModel()
+        {
             SaveCommand = new RelayCommand(Save);
             RemoveCommand = new RelayCommand(Remove);
         }
@@ -50,12 +51,12 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         public string Name
         {
             get => _name;
-            set { _name = value; OnPropertyChangedByCallerName(); }
+            set { _name = value; OnPropertyChanged(); }
         }
         public string Address
         {
             get => _address;
-            set { _address = value; OnPropertyChangedByCallerName(); }
+            set { _address = value; OnPropertyChanged(); }
         }
 
         public void Save()
@@ -91,12 +92,10 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         public void Remove()
         {
+            if (Id == 0) return;
             try
             {
-                if(Id != 0)
-                {
-                    _stationRepository.Remove(Id);
-                }
+                _stationRepository.Remove(Id);
                 RemoveEvent?.Invoke(this);
             }
             catch (Exception e)

@@ -46,11 +46,12 @@
                 <Label Margin="10" Content="Адрес"/>
                 <TextBox Margin="10" Text="{Binding Address}"/>
 
-                <Button Content="Добавить"
+                <Button Content="Сохранить"
                         Margin="100 10 100 10"
                         Height="30"
                         Command="{Binding SaveCommand}"/>
-                <Button Content="Добавить"
+                
+                <Button Content="Удалить"
                         Margin="100 10 100 10"
                         Height="30"
                         Command="{Binding RemoveCommand}"/>

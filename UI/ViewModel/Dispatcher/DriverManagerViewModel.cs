@@ -20,7 +20,7 @@ namespace UI.ViewModel
         public Driver SelectedDriver
         {
             get => _selectedDriver;
-            set { _selectedDriver = value; OnPropertyChangedByCallerName(); }
+            set { _selectedDriver = value; OnPropertyChanged(); }
         }
 
         public State CurrentState
@@ -29,7 +29,7 @@ namespace UI.ViewModel
             set
             {
                 _currentState = value;
-                OnPropertyChanged(nameof(IsRedactingEnabled));
+                OnPropertyChangedByName(nameof(IsRedactingEnabled));
             }
         }
         public bool IsRedactingEnabled => CurrentState != State.None;

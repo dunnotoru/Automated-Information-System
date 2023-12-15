@@ -2,9 +2,9 @@
 
 namespace UI.View
 {
-    public partial class RouteManagerView : UserControl
+    public partial class RouteMenuUserControl : UserControl
     {
-        public RouteManagerView()
+        public RouteMenuUserControl()
         {
             InitializeComponent();
         }

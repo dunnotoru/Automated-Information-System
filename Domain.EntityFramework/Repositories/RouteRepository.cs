@@ -3,6 +3,7 @@ using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -24,18 +25,17 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Route? stored = context.Routes.Single(r => r.Id == id);
+                Route stored = context.Routes.Include(r => r.Stations).Single(r => r.Id == id);
+                List<Station> entityStations = new List<Station>();
+                foreach (Station item in entity.Stations)
+                {
+                    if (context.Stations.Any(o => o.Id == item.Id))
+                        entityStations.Add(context.Stations.Single(o => o.Id == item.Id));
+                }
                 
-                stored.Stations.Clear();
-                
-                IEnumerable<StationRoute> toRemove = context.Set<StationRoute>()
-                    .Where(_ => _.RouteId == stored.Id);
-                context.Set<StationRoute>().RemoveRange(toRemove);
-                context.SaveChanges();
 
                 stored.Name = entity.Name;
-                stored.Stations = entity.Stations;
-                stored.Id = id;
+                stored.Stations = entityStations;
 
                 context.SaveChanges();
             }

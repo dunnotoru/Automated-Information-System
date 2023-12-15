@@ -15,35 +15,35 @@ namespace UI.ViewModel
         {
             get => _name;
             set
-            { _name = value; OnPropertyChanged(nameof(Name)); }
+            { _name = value; OnPropertyChangedByName(nameof(Name)); }
         }
         public string Surname
         {
             get => _surname;
             set
-            { _surname = value; OnPropertyChanged(nameof(Surname)); }
+            { _surname = value; OnPropertyChangedByName(nameof(Surname)); }
         }
         public string Patronymic
         {
             get => _patronymic;
             set
-            { _patronymic = value; OnPropertyChanged(nameof(Patronymic)); }
+            { _patronymic = value; OnPropertyChangedByName(nameof(Patronymic)); }
         }
         public string Series
         {
             get => _series;
             set
-            { _series = value; OnPropertyChanged(nameof(Series)); }
+            { _series = value; OnPropertyChangedByName(nameof(Series)); }
         }
         public string Number
         {
             get => _number;
-            set { _number = value; OnPropertyChanged(nameof(Number)); }
+            set { _number = value; OnPropertyChangedByName(nameof(Number)); }
         }
         public DateOnly DateOfBirth
         {
             get => _dateOfBirth;
-            set { _dateOfBirth = value; OnPropertyChanged(nameof(DateOfBirth)); }
+            set { _dateOfBirth = value; OnPropertyChangedByName(nameof(DateOfBirth)); }
         }
     }
 }

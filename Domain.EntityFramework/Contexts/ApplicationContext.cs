@@ -18,6 +18,7 @@ namespace Domain.EntityFramework.Contexts
         public DbSet<License> Licenses { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }
+        public DbSet<StationRoute> StationRoute { get; set; }
 
         public ApplicationContext()
         {

@@ -15,7 +15,7 @@ namespace UI.ViewModel
             set
             {
                 _header = value;
-                OnPropertyChanged(nameof(Header));
+                OnPropertyChangedByName(nameof(Header));
             }
         }
 

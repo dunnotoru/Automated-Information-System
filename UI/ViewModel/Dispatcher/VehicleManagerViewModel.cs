@@ -19,7 +19,7 @@ namespace UI.ViewModel
         public Vehicle SelectedVehicle
         {
             get => _selectedVehicle;
-            set { _selectedVehicle = value; OnPropertyChangedByCallerName(); }
+            set { _selectedVehicle = value; OnPropertyChanged(); }
         }
 
         public State CurrentState
@@ -28,7 +28,7 @@ namespace UI.ViewModel
             set
             {
                 _currentState = value;
-                OnPropertyChanged(nameof(IsRedactingEnabled));
+                OnPropertyChangedByName(nameof(IsRedactingEnabled));
             }
         }
         public bool IsRedactingEnabled => CurrentState != State.None;

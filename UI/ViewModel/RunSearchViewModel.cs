@@ -21,7 +21,7 @@ namespace UI.ViewModel
             get => _runItems;
             set
             {
-                _runItems = value; OnPropertyChangedByCallerName();
+                _runItems = value; OnPropertyChanged();
             }
         }
 
@@ -36,7 +36,7 @@ namespace UI.ViewModel
             set
             {
                 _departureDateTime = value;
-                OnPropertyChanged(nameof(DepartureDateTime));
+                OnPropertyChangedByName(nameof(DepartureDateTime));
             }
         }
         public Station DepartureStation
@@ -45,7 +45,7 @@ namespace UI.ViewModel
             set
             {
                 _departureStation = value;
-                OnPropertyChanged(nameof(DepartureStation));
+                OnPropertyChangedByName(nameof(DepartureStation));
             }
         }
         public Station ArrivalStation
@@ -54,7 +54,7 @@ namespace UI.ViewModel
             set
             {
                 _arrivalStation = value;
-                OnPropertyChanged(nameof(ArrivalStation));
+                OnPropertyChangedByName(nameof(ArrivalStation));
             }
         }
         public Run SelectedRun
@@ -63,7 +63,7 @@ namespace UI.ViewModel
             set
             {
                 _selectedRun = value;
-                OnPropertyChanged(nameof(SelectedRun));
+                OnPropertyChangedByName(nameof(SelectedRun));
             }
         }
         

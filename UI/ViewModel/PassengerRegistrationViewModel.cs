@@ -26,7 +26,7 @@ namespace UI.ViewModel
             set
             {
                 _departureDateTime = value;
-                OnPropertyChanged(nameof(DepartureDateTime));
+                OnPropertyChangedByName(nameof(DepartureDateTime));
             }
         }
         public DateTime ArrivalDateTime
@@ -35,7 +35,7 @@ namespace UI.ViewModel
             set
             {
                 _arrivalDateTime = value;
-                OnPropertyChanged(nameof(ArrivalDateTime));
+                OnPropertyChangedByName(nameof(ArrivalDateTime));
             }
         }
         public Station DepartureStation
@@ -44,7 +44,7 @@ namespace UI.ViewModel
             set
             {
                 _departureStation = value;
-                OnPropertyChanged(nameof(DepartureStation));
+                OnPropertyChangedByName(nameof(DepartureStation));
             }
         }
         public Station ArrivalStation
@@ -53,7 +53,7 @@ namespace UI.ViewModel
             set
             {
                 _arrivalStation = value;
-                OnPropertyChanged(nameof(ArrivalStation));
+                OnPropertyChangedByName(nameof(ArrivalStation));
             }
         }
         public Run SelectedRun
@@ -62,7 +62,7 @@ namespace UI.ViewModel
             set
             {
                 _selectedRun = value;
-                OnPropertyChanged(nameof(SelectedRun));
+                OnPropertyChangedByName(nameof(SelectedRun));
             }
         }
 
@@ -73,7 +73,7 @@ namespace UI.ViewModel
         public PassengerViewModel SelectedPassenger
         {
             get => _selectedPassenger;
-            set { _selectedPassenger = value; OnPropertyChanged(nameof(SelectedPassenger)); }
+            set { _selectedPassenger = value; OnPropertyChangedByName(nameof(SelectedPassenger)); }
         }
 
         public int Price
@@ -82,8 +82,8 @@ namespace UI.ViewModel
             set 
             { 
                 _price = value; 
-                OnPropertyChanged(nameof(Price)); 
-                OnPropertyChanged(nameof(Change));
+                OnPropertyChangedByName(nameof(Price)); 
+                OnPropertyChangedByName(nameof(Change));
             }
         }
 
@@ -93,8 +93,8 @@ namespace UI.ViewModel
             set
             {
                 _cash = value;
-                OnPropertyChanged(nameof(Cash));
-                OnPropertyChanged(nameof(Change));
+                OnPropertyChangedByName(nameof(Cash));
+                OnPropertyChangedByName(nameof(Change));
             }
         }
 

@@ -7,6 +7,6 @@ namespace Domain.RepositoryInterfaces
     {
         void Add(TEntity entity);
         void Update(int id, TEntity entity);
-        void Remove(int entity);
+        void Remove(int id);
     }
 }

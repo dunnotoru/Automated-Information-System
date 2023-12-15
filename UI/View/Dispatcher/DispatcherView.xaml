@@ -11,8 +11,8 @@
         <DataTemplate DataType="{x:Type vm:StationMenuViewModel}">
             <local:StationMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:RouteManagerViewModel}">
-            <local:RouteManagerView/>
+        <DataTemplate DataType="{x:Type vm:RouteMenuViewModel}">
+            <local:RouteMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RunManagerViewModel}">
             <local:RunManagerView/>

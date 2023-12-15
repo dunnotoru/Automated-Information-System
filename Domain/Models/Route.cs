@@ -3,6 +3,6 @@
     public class Route : EntityBase
     {
         public string? Name { get; set; }
-        public virtual ICollection<Station> Stations { get; set; } = new List<Station>();
+        public ICollection<Station> Stations { get; set; } = new List<Station>();
     }
 }

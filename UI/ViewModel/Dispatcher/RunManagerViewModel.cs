@@ -32,22 +32,22 @@ namespace UI.ViewModel
         public Run SelectedRun
         {
             get => _selectedRun;
-            set { _selectedRun = value; OnPropertyChangedByCallerName(); }
+            set { _selectedRun = value; OnPropertyChanged(); }
         }
         public Route SelectedRoute
         {
             get => _selectedRoute;
-            set { _selectedRoute = value; OnPropertyChangedByCallerName(); }
+            set { _selectedRoute = value; OnPropertyChanged(); }
         }
         public Vehicle SelectedVehicle
         {
             get => _selectedVehicle;
-            set { _selectedVehicle = value; OnPropertyChangedByCallerName(); }
+            set { _selectedVehicle = value; OnPropertyChanged(); }
         }
         public Driver SelectedDriver
         {
             get => _selectedDriver;
-            set { _selectedDriver = value; OnPropertyChangedByCallerName(); }
+            set { _selectedDriver = value; OnPropertyChanged(); }
         }
 
         public State CurrentState
@@ -56,7 +56,7 @@ namespace UI.ViewModel
             set
             {
                 _currentState = value;
-                OnPropertyChanged(nameof(IsRedactingEnabled));
+                OnPropertyChangedByName(nameof(IsRedactingEnabled));
             }
         }
 
