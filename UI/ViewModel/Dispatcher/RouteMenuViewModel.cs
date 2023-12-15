@@ -55,6 +55,7 @@ namespace UI.ViewModel
             vm.RemoveEvent += OnRemove;
             vm.ErrorEvent += OnError;
             Routes.Add(vm);
+            SelectedRoute = vm;
         }
 
         private void OnRemove(RouteEditViewModel vm)

@@ -17,8 +17,8 @@
         <DataTemplate DataType="{x:Type vm:RunManagerViewModel}">
             <local:RunManagerView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:DriverManagerViewModel}">
-            <local:DriverManagerView/>
+        <DataTemplate DataType="{x:Type vm:DriverMenuViewModel}">
+            <local:DriverMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:VehicleManagerViewModel}">
             <local:VehicleManagerView/>
@@ -26,8 +26,8 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="57*"/>
-            <ColumnDefinition Width="343*"/>
+            <ColumnDefinition Width="21*"/>
+            <ColumnDefinition Width="179*"/>
 
         </Grid.ColumnDefinitions>
         <ListBox ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedItem}" Margin="10,10,10,10">

@@ -15,7 +15,7 @@ namespace Domain.EntityFramework.Contexts
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Driver> Drivers { get; set; }
-        public DbSet<License> Licenses { get; set; }
+        public DbSet<DriverLicense> Licenses { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }
         public DbSet<StationRoute> StationRoute { get; set; }

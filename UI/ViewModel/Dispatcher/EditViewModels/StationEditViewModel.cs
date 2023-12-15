@@ -61,27 +61,20 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         public void Save()
         {
+            Station createdStation = new Station()
+            {
+                Name = Name,
+                Address = Address,
+            };
             try
             {
                 if (Id == 0)
                 {
-                    Station createdStation = new Station()
-                    {
-                        Name = Name,
-                        Address = Address,
-                    };
-
                     _stationRepository.Add(createdStation);
                 }
                 else
                 {
-                    Station updatedStation = new Station()
-                    {
-                        Id = Id,
-                        Name = Name,
-                        Address = Address,
-                    };
-                    _stationRepository.Update(Id, updatedStation);
+                    _stationRepository.Update(Id, createdStation);
                 }
             }
             catch(Exception e)

@@ -28,7 +28,7 @@ namespace UI
                 new DispatcherMenuItem()
                 {
                     Name = "Водители",
-                    ViewModel = () => container.Resolve<DriverManagerViewModel>(),
+                    ViewModel = () => container.Resolve<DriverMenuViewModel>(),
                 },
                 new DispatcherMenuItem()
                 {
