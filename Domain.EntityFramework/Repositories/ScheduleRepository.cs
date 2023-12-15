@@ -6,33 +6,34 @@ namespace Domain.EntityFramework.Repositories
 {
     public class ScheduleRepository : IScheduleRepository
     {
-        public ScheduleRepository()
-        {
-            
-        }
-
         public void Add(Schedule entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
-
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Add(entity);
+                context.Schedules.Add(entity);
+                context.SaveChanges();
             }
         }
 
-        public void Remove(Schedule entity)
+        public void Remove(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Schedules.Remove(entity);
+                Schedule stored = context.Schedules.Single(o => o.Id == id);
+                context.Schedules.Remove(stored);
+                context.SaveChanges();
             }
         }
-        public void Update(Schedule entity)
+
+        public void Update(int id, Schedule entity)
         {
+            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Update(entity);
+                Schedule stored = context.Schedules.Single(o => o.Id == id);
+                context.Update(stored);
+                context.SaveChanges();
             }
         }
 

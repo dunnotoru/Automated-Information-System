@@ -16,12 +16,11 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public void Remove(Driver entity)
+        public void Remove(int id)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Driver? stored = context.Drivers.Single(o => o.Id == entity.Id);
+                Driver? stored = context.Drivers.Single(o => o.Id == id);
                 if (stored == null) return;
 
                 context.Drivers.Remove(stored);
@@ -29,15 +28,17 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public void Update(Driver entity)
+        public void Update(int id, Driver entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Driver? stored = context.Drivers.Single(o => o.Id == entity.Id);
+                Driver? stored = context.Drivers.Single(o => o.Id == id);
                 if (stored == null) return;
-
+                
                 stored = entity;
+                stored.Id = id;
+
                 context.Drivers.Update(stored);
                 context.SaveChanges();
             }
@@ -51,11 +52,11 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public Driver? GetById(int licenseId)
+        public Driver? GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Drivers.Single(o => o.Id == licenseId);
+                return context.Drivers.Single(o => o.Id == id);
             }
         }
 

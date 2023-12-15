@@ -16,37 +16,43 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public void Remove(Vehicle entity)
+        public void Remove(int id)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Vehicle? stored = context.Vehicles.SingleOrDefault(o => o.Id == entity.Id);
-                if (stored == null) return;
-
+                Vehicle stored = context.Vehicles.Single(o => o.Id == id);
                 context.Vehicles.Remove(stored);
                 context.SaveChanges();
             }
         }
 
-        public void Update(Vehicle entity)
+        public void Update(int id, Vehicle entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Vehicle? stored = context.Vehicles.SingleOrDefault(o => o.Id == entity.Id);
-                if (stored == null) return;
+                Vehicle stored = context.Vehicles.Single(o => o.Id == id);
                 stored = entity;
+                stored.Id = id;
 
+                context.Vehicles.Update(stored);
                 context.SaveChanges();
             }
         }
 
-        public Vehicle? GetByLicenseNumber(string licensePlateNumber)
+        public Vehicle GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Vehicles.SingleOrDefault(o => o.LicensePlateNumber == licensePlateNumber);
+                return context.Vehicles.Single(o => o.Id == id);
+            }
+        }
+
+        public Vehicle GetByLicenseNumber(string licensePlateNumber)
+        {
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Vehicles.Single(o => o.LicensePlateNumber == licensePlateNumber);
             }
         }
 

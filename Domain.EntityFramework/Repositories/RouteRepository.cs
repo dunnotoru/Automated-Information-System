@@ -19,13 +19,12 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public void Update(Route entity)
+        public void Update(int id, Route entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Route? stored = context.Routes.SingleOrDefault(r => r.Id == entity.Id);
-                if (stored == null) return;
+                Route? stored = context.Routes.Single(r => r.Id == id);
                 
                 stored.Stations.Clear();
                 
@@ -36,18 +35,17 @@ namespace Domain.EntityFramework.Repositories
 
                 stored.Name = entity.Name;
                 stored.Stations = entity.Stations;
+                stored.Id = id;
+
                 context.SaveChanges();
             }
         }
 
-        public void Remove(Route entity)
+        public void Remove(int id)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Route? stored = context.Routes.SingleOrDefault(r => r.Id == entity.Id);
-                if (stored == null) return;
-
+                Route? stored = context.Routes.Single(r => r.Id == id);
                 context.Remove(stored);
                 context.SaveChanges();
             }
@@ -65,7 +63,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Routes.Include(r=>r.Stations).ToList();
+                return context.Routes.Include(r => r.Stations).ToList();
             }
         }
 

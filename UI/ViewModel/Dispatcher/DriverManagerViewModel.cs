@@ -1,7 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
@@ -21,7 +20,7 @@ namespace UI.ViewModel
         public Driver SelectedDriver
         {
             get => _selectedDriver;
-            set { _selectedDriver = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedDriver = value; OnPropertyChangedByCallerName(); }
         }
 
         public State CurrentState
@@ -30,7 +29,7 @@ namespace UI.ViewModel
             set
             {
                 _currentState = value;
-                NotifyPropertyChanged(nameof(IsRedactingEnabled));
+                OnPropertyChanged(nameof(IsRedactingEnabled));
             }
         }
         public bool IsRedactingEnabled => CurrentState != State.None;
@@ -78,7 +77,7 @@ namespace UI.ViewModel
 
             try
             {
-                _driverRepository.Remove(SelectedDriver);
+                _driverRepository.Remove(SelectedDriver.Id);
                 Drivers.Remove(SelectedDriver);
             }
             catch(DbUpdateException e)
@@ -98,7 +97,7 @@ namespace UI.ViewModel
                 }
                 else if(CurrentState == State.Edit)
                 {
-                    _driverRepository.Update(SelectedDriver);
+                    _driverRepository.Update(SelectedDriver.Id, SelectedDriver);
                 }
             }
             catch (DbUpdateException e)

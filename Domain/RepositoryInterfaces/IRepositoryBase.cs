@@ -6,7 +6,7 @@ namespace Domain.RepositoryInterfaces
         where TEntity : EntityBase
     {
         void Add(TEntity entity);
-        void Update(TEntity entity);
-        void Remove(TEntity entity);
+        void Update(int id, TEntity entity);
+        void Remove(int entity);
     }
 }

@@ -32,22 +32,22 @@ namespace UI.ViewModel
         public Run SelectedRun
         {
             get => _selectedRun;
-            set { _selectedRun = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedRun = value; OnPropertyChangedByCallerName(); }
         }
         public Route SelectedRoute
         {
             get => _selectedRoute;
-            set { _selectedRoute = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedRoute = value; OnPropertyChangedByCallerName(); }
         }
         public Vehicle SelectedVehicle
         {
             get => _selectedVehicle;
-            set { _selectedVehicle = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedVehicle = value; OnPropertyChangedByCallerName(); }
         }
         public Driver SelectedDriver
         {
             get => _selectedDriver;
-            set { _selectedDriver = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedDriver = value; OnPropertyChangedByCallerName(); }
         }
 
         public State CurrentState
@@ -56,7 +56,7 @@ namespace UI.ViewModel
             set
             {
                 _currentState = value;
-                NotifyPropertyChanged(nameof(IsRedactingEnabled));
+                OnPropertyChanged(nameof(IsRedactingEnabled));
             }
         }
 
@@ -111,7 +111,7 @@ namespace UI.ViewModel
            if (SelectedRun == null) return;
             try
             {
-               _runRepository.Remove(SelectedRun);
+               _runRepository.Remove(SelectedRun.Id);
                Runs.Remove(SelectedRun);
             }
             catch (DbUpdateException e)
@@ -151,7 +151,7 @@ namespace UI.ViewModel
                 }
                 else if (CurrentState == State.Edit)
                 {
-                    _runRepository.Update(SelectedRun);
+                    _runRepository.Update(SelectedRun.Id, SelectedRun);
                 }
             }
             catch(DbUpdateException e)

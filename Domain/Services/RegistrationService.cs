@@ -44,7 +44,7 @@ namespace Domain.Services
             if (storedAccount.PasswordHash != _passwordHasher.CalcHash(oldPassword)) return false;
 
             storedAccount.PasswordHash = _passwordHasher.CalcHash(newPassword);
-            _accountRepository.Update(storedAccount);
+            _accountRepository.Update(storedAccount.Id, storedAccount);
             return true;
         }
     }

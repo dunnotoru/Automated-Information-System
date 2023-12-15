@@ -18,7 +18,7 @@ namespace UI.ViewModel
         public DispatcherMenuItem SelectedItem
         {
             get => _selectedItem;
-            set { _selectedItem = value; NotifyPropertyChanged(nameof(SelectedItem)); }
+            set { _selectedItem = value; OnPropertyChanged(nameof(SelectedItem)); }
         }
 
         public DispatcherViewModel(IEnumerable<DispatcherMenuItem> menuItems)

@@ -17,7 +17,7 @@ namespace UI.ViewModel
             set
             {
                 _name = value;
-                NotifyPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(Name));
             }
         }
         public string Surname
@@ -26,7 +26,7 @@ namespace UI.ViewModel
             set
             {
                 _surname = value;
-                NotifyPropertyChanged(nameof(Surname));
+                OnPropertyChanged(nameof(Surname));
             }
         }
         public string Patronymic
@@ -35,7 +35,7 @@ namespace UI.ViewModel
             set
             {
                 _patronymic = value;
-                NotifyPropertyChanged(nameof(Patronymic));
+                OnPropertyChanged(nameof(Patronymic));
             }
         }
         public string Series
@@ -44,7 +44,7 @@ namespace UI.ViewModel
             set
             {
                 _series = value;
-                NotifyPropertyChanged(nameof(Series));
+                OnPropertyChanged(nameof(Series));
             }
         }
         public string Number
@@ -53,7 +53,7 @@ namespace UI.ViewModel
             set
             {
                 _number = value;
-                NotifyPropertyChanged(nameof(Number));
+                OnPropertyChanged(nameof(Number));
             }
         }
         public DateOnly DateOfBirth
@@ -62,7 +62,7 @@ namespace UI.ViewModel
             set
             {
                 _dateOfBirth = value;
-                NotifyPropertyChanged(nameof(DateOfBirth));
+                OnPropertyChanged(nameof(DateOfBirth));
             }
         }
     }

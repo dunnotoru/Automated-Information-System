@@ -9,10 +9,11 @@ using UI.Services;
 
 namespace UI.ViewModel
 {
-    internal class StationManagerViewModel : ViewModelBase
+    internal class StationMenuViewModel : ViewModelBase
     {
         private readonly IStationRepository _stationRepository;
         private readonly IMessageBoxService _messageBoxService;
+
         private Station _selectedStation;
         private State _currentState;
 
@@ -21,17 +22,14 @@ namespace UI.ViewModel
         public Station SelectedStation
         {
             get => _selectedStation;
-            set { _selectedStation = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedStation = value; OnPropertyChangedByCallerName(); }
         }
 
         public State CurrentState
         {
             get => _currentState;
             set 
-            {
-                _currentState = value;
-                NotifyPropertyChanged(nameof(IsRedactingEnabled)); 
-            }
+            { _currentState = value; OnPropertyChanged(nameof(IsRedactingEnabled)); }
         }
 
         public bool IsRedactingEnabled => CurrentState != State.None;
@@ -42,7 +40,7 @@ namespace UI.ViewModel
         public ICommand SaveCommand { get; }
         public ICommand DenyCommand { get; }
 
-        public StationManagerViewModel(IStationRepository stationRepository, 
+        public StationMenuViewModel(IStationRepository stationRepository, 
             IMessageBoxService messageBoxService)
         {
             ArgumentNullException.ThrowIfNull(stationRepository);
@@ -79,7 +77,7 @@ namespace UI.ViewModel
 
             try
             {
-                _stationRepository.Remove(SelectedStation);
+                _stationRepository.Remove(SelectedStation.Id);
                 Stations.Remove(SelectedStation);
             }
             catch(DbUpdateException e)
@@ -104,7 +102,7 @@ namespace UI.ViewModel
                 }
                 else if(CurrentState == State.Edit)
                 {
-                    _stationRepository.Update(SelectedStation);
+                    _stationRepository.Update(SelectedStation.Id, SelectedStation);
                 }
             }
             catch (DbUpdateException e)

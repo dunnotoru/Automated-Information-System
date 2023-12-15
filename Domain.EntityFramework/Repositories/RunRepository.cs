@@ -29,36 +29,41 @@ namespace Domain.EntityFramework.Repositories
                     Number = entity.Number,
                 };
 
+
                 context.Runs.Add(r);
                 context.SaveChanges();
             }
         }
 
-        public void Remove(Run entity)
+        public void Remove(int id)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Remove(entity);
+                Run stored = context.Runs.Single(o => o.Id == id);
+                context.Remove(stored);
                 context.SaveChanges();
             }
         }
 
-        public void Update(Run entity)
+        public void Update(int id, Run entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Update(entity);
+                Run stored = context.Runs.Single(o => o.Id == id);
+                stored = entity;
+                stored.Id = id;
+
+                context.Update(stored);
                 context.SaveChanges();
             }
         }
 
-        public Run? GetById(int number)
+        public Run? GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Runs.Single(x=>x.Id == number);
+                return context.Runs.Single(x => x.Id == id);
             }
         }
 
@@ -69,7 +74,6 @@ namespace Domain.EntityFramework.Repositories
                 return context.Runs.Where(x => x.Route.Id == route.Id).ToList();
             }
         }
-
 
         public IEnumerable<Run> GetAll()
         {

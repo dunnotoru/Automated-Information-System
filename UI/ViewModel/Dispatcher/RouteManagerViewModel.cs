@@ -27,12 +27,12 @@ namespace UI.ViewModel
         public ObservableCollection<Station> AvailableStations
         {
             get => _availableStations;
-            set { _availableStations = value; NotifyPropertyChangedByCallerName(); }
+            set { _availableStations = value; OnPropertyChangedByCallerName(); }
         }
         public ObservableCollection<Station> SelectedRouteStations
         {
             get => _selectedRouteStations;
-            set { _selectedRouteStations = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedRouteStations = value; OnPropertyChangedByCallerName(); }
         }
         public Route SelectedRoute
         {
@@ -50,19 +50,19 @@ namespace UI.ViewModel
                     SelectedRouteStations = new ObservableCollection<Station>(_selectedRoute.Stations);
                     AvailableStations = new ObservableCollection<Station>(Stations.Where(x => !SelectedRouteStations.Any(_ => _.Id == x.Id)));
                 }
-                NotifyPropertyChangedByCallerName(); 
+                OnPropertyChangedByCallerName(); 
             }
         }
         
         public Station SelectedStation
         {
             get => _selectedStation;
-            set { _selectedStation = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedStation = value; OnPropertyChangedByCallerName(); }
         }
         public Station RouteSelectedStation
         {
             get => _routeSelectedStation;
-            set { _routeSelectedStation = value; NotifyPropertyChangedByCallerName(); }
+            set { _routeSelectedStation = value; OnPropertyChangedByCallerName(); }
         }
         public State CurrentState
         {
@@ -70,7 +70,7 @@ namespace UI.ViewModel
             set 
             { 
                 _currentState = value;
-                NotifyPropertyChanged(nameof(IsRedactingEnabled));
+                OnPropertyChanged(nameof(IsRedactingEnabled));
             }
         }
         public bool IsRedactingEnabled => CurrentState != State.None;
@@ -116,7 +116,7 @@ namespace UI.ViewModel
         private void Delete()
         {
             if(SelectedRoute == null) return;
-            _routeRepository.Remove(SelectedRoute);
+            _routeRepository.Remove(SelectedRoute.Id);
             Routes.Remove(SelectedRoute);
         }
 
@@ -145,7 +145,7 @@ namespace UI.ViewModel
             }
             else if (CurrentState == State.Edit)
             {
-                _routeRepository.Update(SelectedRoute);
+                _routeRepository.Update(SelectedRoute.Id, SelectedRoute);
             }
             CurrentState = State.None;
         }

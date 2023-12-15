@@ -13,7 +13,7 @@ namespace UI
                 new DispatcherMenuItem()
                 {
                     Name = "Станции",
-                    ViewModel = () => container.Resolve<StationManagerViewModel>(),
+                    ViewModel = () => container.Resolve<StationMenuViewModel>(),
                 },
                 new DispatcherMenuItem()
                 {

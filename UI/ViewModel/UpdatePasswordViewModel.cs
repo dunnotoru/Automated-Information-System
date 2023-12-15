@@ -15,25 +15,25 @@ namespace UI.ViewModel
         public string Username
         {
             get => _accountStore.CurrentAccount.Username;
-            set { _accountStore.CurrentAccount.Username = value; NotifyPropertyChanged(nameof(Username)); }
+            set { _accountStore.CurrentAccount.Username = value; OnPropertyChanged(nameof(Username)); }
         }
 
         public string OldPassword
         {
             get => _oldPassword; 
-            set { _oldPassword = value; NotifyPropertyChanged(nameof(OldPassword)); }
+            set { _oldPassword = value; OnPropertyChanged(nameof(OldPassword)); }
         }
 
         public string NewPassword
         {
             get => _newPassword;
-            set { _newPassword = value; NotifyPropertyChanged(nameof(NewPassword)); }
+            set { _newPassword = value; OnPropertyChanged(nameof(NewPassword)); }
         }
 
         public string ConfirmNewPassword
         {
             get => _confirmNewPassword;
-            set { _confirmNewPassword = value; NotifyPropertyChanged(nameof(ConfirmNewPassword)); }
+            set { _confirmNewPassword = value; OnPropertyChanged(nameof(ConfirmNewPassword)); }
         }
 
 

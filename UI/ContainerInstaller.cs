@@ -33,7 +33,7 @@ namespace UI
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
 
-            container.Register(Component.For<StationManagerViewModel>().LifestyleTransient());
+            container.Register(Component.For<StationMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<RouteManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<RunManagerViewModel>().LifestyleTransient());
             container.Register(Component.For<DriverManagerViewModel>().LifestyleTransient());

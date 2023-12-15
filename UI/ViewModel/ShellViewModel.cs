@@ -14,7 +14,7 @@ namespace UI.ViewModel
             set  
             {
                 _navigationStore.CurrentViewModel = value; 
-                NotifyPropertyChanged(nameof(CurrentViewModel));
+                OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
 
@@ -24,7 +24,7 @@ namespace UI.ViewModel
             set
             {
                 _navigationStore = value;
-                NotifyPropertyChanged(nameof(NavigationStore));
+                OnPropertyChanged(nameof(NavigationStore));
             }
         }
 
@@ -42,7 +42,7 @@ namespace UI.ViewModel
 
         public void OnCurrentViewModelChanged()
         {
-            NotifyPropertyChanged(nameof(CurrentViewModel));
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
 
         public void Dispose()

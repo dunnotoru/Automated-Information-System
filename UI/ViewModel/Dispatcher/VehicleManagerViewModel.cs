@@ -19,7 +19,7 @@ namespace UI.ViewModel
         public Vehicle SelectedVehicle
         {
             get => _selectedVehicle;
-            set { _selectedVehicle = value; NotifyPropertyChangedByCallerName(); }
+            set { _selectedVehicle = value; OnPropertyChangedByCallerName(); }
         }
 
         public State CurrentState
@@ -28,7 +28,7 @@ namespace UI.ViewModel
             set
             {
                 _currentState = value;
-                NotifyPropertyChanged(nameof(IsRedactingEnabled));
+                OnPropertyChanged(nameof(IsRedactingEnabled));
             }
         }
         public bool IsRedactingEnabled => CurrentState != State.None;
@@ -76,7 +76,7 @@ namespace UI.ViewModel
 
             try
             {
-                _vehicleRepository.Remove(SelectedVehicle);
+                _vehicleRepository.Remove(SelectedVehicle.Id);
                 Vehicles.Remove(SelectedVehicle);
             }
             catch (DbUpdateException e)
@@ -99,7 +99,7 @@ namespace UI.ViewModel
             }
             else if (CurrentState == State.Edit)
             {
-                _vehicleRepository.Update(SelectedVehicle);
+                _vehicleRepository.Update(SelectedVehicle.Id, SelectedVehicle);
             }
 
             CurrentState = State.None;

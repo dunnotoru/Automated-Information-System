@@ -8,8 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:StationManagerViewModel}">
-            <local:StationManagerView/>
+        <DataTemplate DataType="{x:Type vm:StationMenuViewModel}">
+            <local:StationMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RouteManagerViewModel}">
             <local:RouteManagerView/>

@@ -16,22 +16,29 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-            public void Update(Station entity)
+        public void Update(int id, Station entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
+                Station stored = context.Stations.Single(o => o.Id == id);
+
+                stored.Name = entity.Name;
+                stored.Address = entity.Address;
+                stored.Routes = entity.Routes;
+
+                context.Routes.AttachRange(stored.Routes);
                 context.Update(entity);
                 context.SaveChanges();
             }
         }
 
-        public void Remove(Station entity)
+        public void Remove(int id)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Remove(entity);
+                Station stored = context.Stations.Single(o => o.Id == id);
+                context.Remove(stored);
                 context.SaveChanges();
             }
         }

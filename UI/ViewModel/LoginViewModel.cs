@@ -15,7 +15,7 @@ namespace UI.ViewModel
             set
             {
                 _username = value;
-                NotifyPropertyChanged(nameof(Username));
+                OnPropertyChanged(nameof(Username));
             }
         }
 
@@ -26,14 +26,13 @@ namespace UI.ViewModel
             set
             {
                 _password = value;
-                NotifyPropertyChanged(nameof(Password));
+                OnPropertyChanged(nameof(Password));
             }
         }
 
-        private RelayCommand _loginCommand;
         public RelayCommand LoginCommand
         {
-            get => _loginCommand ?? new RelayCommand(Authenticate);
+            get => new RelayCommand(Authenticate);
         }
 
         public void Authenticate()

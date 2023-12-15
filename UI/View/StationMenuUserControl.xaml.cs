@@ -2,9 +2,9 @@
 
 namespace UI.View
 {
-    public partial class StationManagerView : UserControl
+    public partial class StationMenuUserControl : UserControl
     {
-        public StationManagerView()
+        public StationMenuUserControl()
         {
             InitializeComponent();
         }

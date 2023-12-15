@@ -16,21 +16,26 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public void Remove(Account entity)
+        public void Remove(int id)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (AccountContext context = new AccountContext())
             {
-                context.Accounts.Remove(entity);
+                Account stored = context.Accounts.Single(o => o.Id == id);
+                context.Accounts.Remove(stored);
                 context.SaveChanges();
             }
         }
 
-        public void Update(Account entity)
+        public void Update(int id, Account entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (AccountContext context = new AccountContext())
             {
+                Account stored = context.Accounts.Single(o => o.Id == id);
+
+                stored = entity;
+                stored.Id = id;
+                
                 context.Accounts.Update(entity);
                 context.SaveChanges();
             }
