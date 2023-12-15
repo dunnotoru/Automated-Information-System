@@ -1,11 +1,10 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 using System;
-using System.Collections.Specialized;
 using System.Windows.Input;
 using UI.Command;
 
-namespace UI.ViewModel.Dispatcher.EntityViewModel
+namespace UI.ViewModel.Dispatcher.EditViewModels
 {
     public class StationEditViewModel : ViewModelBase
     {
@@ -13,10 +12,10 @@ namespace UI.ViewModel.Dispatcher.EntityViewModel
         private string _name;
         private string _address;
 
-        public Action RemoveEvent;
+        public Action<StationEditViewModel> RemoveEvent;
         public Action<string> ErrorEvent;
 
-        public ICommand AddCommand { get; }
+        public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
         
         public StationEditViewModel(Station station, IStationRepository stationRepository) : base()
@@ -28,6 +27,9 @@ namespace UI.ViewModel.Dispatcher.EntityViewModel
             Name = station.Name ?? "";
             Address = station.Address ?? "";
             _stationRepository = stationRepository;
+
+            SaveCommand = new RelayCommand(Save);
+            RemoveCommand = new RelayCommand(Remove);
         }
 
         public StationEditViewModel(IStationRepository stationRepository) : base()
@@ -39,11 +41,8 @@ namespace UI.ViewModel.Dispatcher.EntityViewModel
             Address = "Unknown";
             
             _stationRepository = stationRepository;
-        }
 
-        private StationEditViewModel()
-        {
-            AddCommand = new RelayCommand(Add);
+            SaveCommand = new RelayCommand(Save);
             RemoveCommand = new RelayCommand(Remove);
         }
 
@@ -59,7 +58,7 @@ namespace UI.ViewModel.Dispatcher.EntityViewModel
             set { _address = value; OnPropertyChangedByCallerName(); }
         }
 
-        public void Add()
+        public void Save()
         {
             try
             {
@@ -81,7 +80,7 @@ namespace UI.ViewModel.Dispatcher.EntityViewModel
                         Name = Name,
                         Address = Address,
                     };
-                    _stationRepository.Update(updatedStation.Id, updatedStation);
+                    _stationRepository.Update(Id, updatedStation);
                 }
             }
             catch(Exception e)
@@ -98,13 +97,12 @@ namespace UI.ViewModel.Dispatcher.EntityViewModel
                 {
                     _stationRepository.Remove(Id);
                 }
+                RemoveEvent?.Invoke(this);
             }
             catch (Exception e)
             {
                 ErrorEvent?.Invoke(e.Message);
             }
-
-            RemoveEvent?.Invoke();
         }
     }
 }

@@ -2,10 +2,13 @@
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
+using UI.ViewModel.Dispatcher.EditViewModels;
 
 namespace UI.ViewModel
 {
@@ -14,31 +17,25 @@ namespace UI.ViewModel
         private readonly IStationRepository _stationRepository;
         private readonly IMessageBoxService _messageBoxService;
 
-        private Station _selectedStation;
+        private ObservableCollection<StationEditViewModel> _stations;
+        private StationEditViewModel _selectedStation;
         private State _currentState;
 
-        public ObservableCollection<Station> Stations { get; set; }
+        public ObservableCollection<StationEditViewModel> Stations
+        {
+            get { return _stations; }
+            set { _stations = value; OnPropertyChangedByCallerName(); }
+        }
 
-        public Station SelectedStation
+        public StationEditViewModel SelectedStation
         {
             get => _selectedStation;
-            set { _selectedStation = value; OnPropertyChangedByCallerName(); }
+            set { _selectedStation = value; OnPropertyChangedByCallerName(); OnPropertyChanged(nameof(IsRedactingEnabled)); }
         }
 
-        public State CurrentState
-        {
-            get => _currentState;
-            set 
-            { _currentState = value; OnPropertyChanged(nameof(IsRedactingEnabled)); }
-        }
-
-        public bool IsRedactingEnabled => CurrentState != State.None;
-
-        public ICommand AddCommand {  get; }
-        public ICommand DeleteCommand { get; }
-        public ICommand EditCommand { get; }
-        public ICommand SaveCommand { get; }
-        public ICommand DenyCommand { get; }
+        public bool IsRedactingEnabled => SelectedStation != null;
+        
+        public ICommand AddCommand { get; }
 
         public StationMenuViewModel(IStationRepository stationRepository, 
             IMessageBoxService messageBoxService)
@@ -47,75 +44,42 @@ namespace UI.ViewModel
             _stationRepository = stationRepository;
             _messageBoxService = messageBoxService;
 
-            CurrentState = State.None;
-
-            try
+            Stations = new ObservableCollection<StationEditViewModel>();
+            IEnumerable<Station> stations = _stationRepository.GetAll();
+            foreach (Station item in stations)
             {
-                Stations = new ObservableCollection<Station>(_stationRepository.GetAll());
-            }
-            catch (DbUpdateException e)
-            {
-                _messageBoxService.ShowMessage(e.Message + "Попробуйте перезагрузить страницу");
+                StationEditViewModel vm = new StationEditViewModel(item, _stationRepository);
+                vm.RemoveEvent += OnRemove;
+                vm.ErrorEvent += OnError;
+                Stations.Add(vm);
             }
 
-            AddCommand = new RelayCommand(Add, () => CurrentState == State.None);
-            DeleteCommand = new RelayCommand(Delete, () => CurrentState == State.None && SelectedStation != null);
-            EditCommand = new RelayCommand(Edit, () => CurrentState == State.None && SelectedStation != null);
-            SaveCommand = new RelayCommand(Save, () => CurrentState != State.None);
-            DenyCommand = new RelayCommand(Deny, () => CurrentState != State.None);
+            AddCommand = new RelayCommand(Add);
         }
 
         private void Add()
         {
-            CurrentState = State.Add;
-            SelectedStation = new Station();
+            StationEditViewModel vm = new StationEditViewModel(_stationRepository);
+            vm.RemoveEvent += OnRemove;
+            vm.ErrorEvent += OnError;
+            Stations.Add(vm);
+            SelectedStation = vm;
         }
 
-        private void Delete()
+        private void OnRemove(StationEditViewModel viewModel)
         {
-            if (!Stations.Contains(SelectedStation)) return;
-
-            try
+            viewModel.RemoveEvent -= OnRemove;
+            viewModel.ErrorEvent -= OnError;
+            if (Stations.Remove(viewModel))
             {
-                _stationRepository.Remove(SelectedStation.Id);
-                Stations.Remove(SelectedStation);
-            }
-            catch(DbUpdateException e)
-            {
-                _messageBoxService.ShowMessage(e.Message);
+                _messageBoxService.ShowMessage("Станция удалена");
             }
         }
-
-        private void Edit()
+        
+        private void OnError(string message)
         {
-            CurrentState = State.Edit;
+            _messageBoxService.ShowMessage($"Ошибка: {message}");
         }
 
-        private void Save()
-        {
-            try
-            {
-                if(CurrentState == State.Add)
-                {
-                    _stationRepository.Add(SelectedStation);
-                    Stations.Add(SelectedStation);
-                }
-                else if(CurrentState == State.Edit)
-                {
-                    _stationRepository.Update(SelectedStation.Id, SelectedStation);
-                }
-            }
-            catch (DbUpdateException e)
-            {
-                _messageBoxService.ShowMessage(e.Message);
-            }
-
-            CurrentState = State.None;
-        }
-
-        private void Deny()
-        {
-            CurrentState = State.None;
-        }
     }
 }

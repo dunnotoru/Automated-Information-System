@@ -11,7 +11,7 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Add(entity);
+                context.Stations.Add(entity);
                 context.SaveChanges();
             }
         }
@@ -28,7 +28,7 @@ namespace Domain.EntityFramework.Repositories
                 stored.Routes = entity.Routes;
 
                 context.Routes.AttachRange(stored.Routes);
-                context.Update(entity);
+                context.Update(stored);
                 context.SaveChanges();
             }
         }
