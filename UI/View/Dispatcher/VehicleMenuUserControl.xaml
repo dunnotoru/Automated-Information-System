@@ -20,7 +20,7 @@
         <DataGrid ItemsSource="{Binding Vehicles}" Grid.Column="0" Margin="10,10,10,10"
           SelectionMode="Single" SelectedItem="{Binding SelectedVehicle}"
           IsReadOnly="True"
-          AutoGenerateColumns="False" IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
+          AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Государственный номер" Width="auto" Binding="{Binding LicensePlateNumber}"/>
@@ -31,7 +31,7 @@
                 <DataGridTextColumn Header="Дата последнего ремонта" Width="auto" Binding="{Binding LastRepair}"/>
                 <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding LastRepairType}"/>
                 <DataGridTextColumn Header="Прогон" Width="auto" Binding="{Binding Mileage}"/>
-                <DataGridTextColumn Header="Фото?" Width="auto" Binding="{Binding Photography}"/>
+                <DataGridTextColumn Header="Фото" Width="auto" Binding="{Binding Photography}"/>
                 <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding Freighter}"/>
                 <DataGridTextColumn Header="Номер страховки" Width="auto" Binding="{Binding InsuranceDetails}"/>
             </DataGrid.Columns>
@@ -44,8 +44,8 @@
             Command="{Binding AddCommand}"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
-            <StackPanel DataContext="{Binding SelectedVehicle}"  Grid.Column="2" Margin="10,10,10,10">
+        <ScrollViewer Grid.Column="2">
+            <StackPanel DataContext="{Binding SelectedVehicle}"  Grid.Column="2" Margin="10 10 10 10">
                 <Label Margin="5" Content="Id"/>
                 <TextBox Margin="5" Text="{Binding Id}" IsReadOnly="True"/>
 
@@ -81,6 +81,9 @@
 
                 <Label Margin="5" Content="Номер страховки"/>
                 <TextBox Margin="5"  Text="{Binding InsuranceDetails}"/>
+
+                <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}"/>
+                <Button Content="Удалить" Margin="10" Command="{Binding RemoveCommand}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

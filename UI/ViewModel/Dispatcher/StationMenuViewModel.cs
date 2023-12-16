@@ -19,7 +19,6 @@ namespace UI.ViewModel
 
         private ObservableCollection<StationEditViewModel> _stations;
         private StationEditViewModel _selectedStation;
-        private State _currentState;
 
         public ObservableCollection<StationEditViewModel> Stations
         {

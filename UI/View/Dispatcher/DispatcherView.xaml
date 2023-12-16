@@ -20,7 +20,7 @@
         <DataTemplate DataType="{x:Type vm:DriverMenuViewModel}">
             <local:DriverMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:VehicleManagerViewModel}">
+        <DataTemplate DataType="{x:Type vm:VehicleMenuViewModel}">
             <local:VehicleMenuUserControl/>
         </DataTemplate>
     </UserControl.Resources>

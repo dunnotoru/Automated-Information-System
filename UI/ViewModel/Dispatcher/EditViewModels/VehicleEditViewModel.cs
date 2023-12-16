@@ -2,9 +2,7 @@
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using System;
-using System.Net;
 using System.Windows.Input;
-using System.Xml.Linq;
 using UI.Command;
 
 namespace UI.ViewModel.Dispatcher.EditViewModels
@@ -31,13 +29,40 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 		public ICommand SaveCommand { get; }
 		public ICommand RemoveCommand { get; }
 
-        public VehicleEditViewModel(VehicleEditViewModel vehicle, IVehicleRepository vehicleRepository)
+        public VehicleEditViewModel(Vehicle vehicle, IVehicleRepository vehicleRepository) : this()
         {
+			ArgumentNullException.ThrowIfNull(vehicle);
+			ArgumentNullException.ThrowIfNull(vehicleRepository);
+
+			Id = vehicle.Id;
+			LicensePlateNumber = vehicle.LicensePlateNumber;
+			Model = vehicle.Model;
+			Brand = vehicle.Brand;
+			Capacity = vehicle.Capacity;
+			Manufacture = vehicle.Manufacture;
+			LastRepair = vehicle.LastRepair;
+			Mileage = vehicle.Mileage;
+			Photography = vehicle.Photography ?? "";
+			Freighter = vehicle.Freighter ?? "";
+			InsuranceDetails = vehicle.InsuranceDetails;
+
             _vehicleRepository = vehicleRepository;
         }
 
         public VehicleEditViewModel(IVehicleRepository vehicleRepository) : this()
         {
+            Id = 0;
+            LicensePlateNumber = "";
+            Model = "";
+            Brand = "";
+            Capacity = 0;
+            Manufacture = DateTime.Now;
+            LastRepair = DateTime.Now;
+            Mileage = 0;
+            Photography = "";
+            Freighter = "";
+            InsuranceDetails = "";
+
             _vehicleRepository = vehicleRepository;
         }
 

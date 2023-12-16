@@ -31,11 +31,9 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Vehicle stored = context.Vehicles.Single(o => o.Id == id);
-                stored = entity;
-                stored.Id = id;
-
-                context.Vehicles.Update(stored);
+                entity.Id = id;
+                context.Vehicles.Attach(entity);
+                context.Vehicles.Update(entity);
                 context.SaveChanges();
             }
         }

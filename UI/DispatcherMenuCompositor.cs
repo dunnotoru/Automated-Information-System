@@ -33,7 +33,7 @@ namespace UI
                 new DispatcherMenuItem()
                 {
                     Name = "Транспорт",
-                    ViewModel = () => container.Resolve<VehicleManagerViewModel>(),
+                    ViewModel = () => container.Resolve<VehicleMenuViewModel>(),
                 },
             };
 
