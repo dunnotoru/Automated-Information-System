@@ -21,7 +21,7 @@
             <local:DriverMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:VehicleManagerViewModel}">
-            <local:VehicleManagerView/>
+            <local:VehicleMenuUserControl/>
         </DataTemplate>
     </UserControl.Resources>
     <Grid Background="White">

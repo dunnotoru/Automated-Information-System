@@ -21,14 +21,9 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Station stored = context.Stations.Single(o => o.Id == id);
-
-                stored.Name = entity.Name;
-                stored.Address = entity.Address;
-                stored.Routes = entity.Routes;
-
-                context.Routes.AttachRange(stored.Routes);
-                context.Update(stored);
+                entity.Id = id;
+                context.Stations.Attach(entity);
+                context.Stations.Update(entity);
                 context.SaveChanges();
             }
         }

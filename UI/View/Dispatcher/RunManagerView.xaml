@@ -12,8 +12,8 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="246*"/>
-            <ColumnDefinition Width="121*"/>
+            <ColumnDefinition Width="215*"/>
+            <ColumnDefinition Width="152*"/>
             <ColumnDefinition Width="161*"/>
             <ColumnDefinition Width="272*"/>
         </Grid.ColumnDefinitions>

@@ -52,10 +52,10 @@
                 <TextBox Margin="10"  Text="{Binding LicenseNumber}" />
                 
                 <Label Margin="10" Content="Дата выдачи"/>
-                <TextBox Margin="10"  Text="{Binding DateOfIssue}" />
+                <DatePicker Margin="10" SelectedDate="{Binding DateOfIssue}" />
                 
                 <Label Margin="10" Content="Дата истечения"/>
-                <TextBox Margin="10"  Text="{Binding DateOfExpiration}" />
+                <DatePicker Margin="10" SelectedDate="{Binding DateOfExpiration}" />
 
                 <Label Margin="10" Content="Категории"/>
                 <ListBox Margin="10" Height="30" ItemsSource="{Binding Categories}"/>

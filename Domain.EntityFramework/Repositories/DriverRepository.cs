@@ -24,17 +24,11 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Driver? stored = context.Drivers.Include(o => o.License).Single(o => o.Id == id);
-                DriverLicense storedLicense = context.Licenses.Single(o => o.Id == entity.License.Id);
-
-                stored = entity;
-                stored.Id = id;
-
-                storedLicense.LicenseNumber = stored.License.LicenseNumber;
-                storedLicense.DateOfExpiration = stored.License.DateOfExpiration;
-                storedLicense.DateOfIssue = stored.License.DateOfIssue;
-                storedLicense.Categories = stored.License.Categories;
-
+                entity.Id = id;
+                context.Drivers.Attach(entity);
+                context.Licenses.Attach(entity.License);
+                context.Drivers.Update(entity);
+                context.Licenses.Update(entity.License);
                 context.SaveChanges();
             }
         }

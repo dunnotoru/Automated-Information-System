@@ -1,9 +1,7 @@
-﻿using Domain.EntityFramework.Configurations;
-using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Domain.EntityFramework.Repositories
 {
