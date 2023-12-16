@@ -50,11 +50,9 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Run stored = context.Runs.Single(o => o.Id == id);
-                stored = entity;
-                stored.Id = id;
-
-                context.Update(stored);
+                entity.Id = id;
+                context.Attach(entity);
+                context.Update(entity);
                 context.SaveChanges();
             }
         }

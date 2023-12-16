@@ -35,7 +35,7 @@ namespace UI
 
             container.Register(Component.For<StationMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<RouteMenuViewModel>().LifestyleTransient());
-            container.Register(Component.For<RunManagerViewModel>().LifestyleTransient());
+            container.Register(Component.For<RunMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<DriverMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<VehicleMenuViewModel>().LifestyleTransient());
 

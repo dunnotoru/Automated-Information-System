@@ -7,6 +7,6 @@
         public DateTime DepartureDateTime { get; set; }
         public DateTime EstimatedArrivalDateTime { get; set; }
         public Vehicle Vehicle { get; set; }
-        public ICollection<Driver> Drivers { get; set; } = new HashSet<Driver>();
+        public ICollection<Driver> Drivers { get; set; } = new List<Driver>();
     }
 }
