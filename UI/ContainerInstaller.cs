@@ -4,7 +4,6 @@ using Castle.Windsor;
 using Domain.EntityFramework.Repositories;
 using Domain.RepositoryInterfaces;
 using Domain.Services;
-using System.Windows;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
@@ -16,6 +15,8 @@ namespace UI
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            container.Register(Component.For<IDocumentPrintService>().ImplementedBy<DocumentPrintService>());
+
             container.Register(Component.For<OrderStore>());
             container.Register(Component.For<AccountStore>());
             container.Register(Component.For<NavigationStore>());
