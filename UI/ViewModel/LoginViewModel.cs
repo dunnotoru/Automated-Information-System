@@ -12,22 +12,14 @@ namespace UI.ViewModel
         public string Username
         {
             get => _username;
-            set
-            {
-                _username = value;
-                OnPropertyChangedByName(nameof(Username));
-            }
+            set { _username = value; OnPropertyChanged(); }
         }
 
         private string _password;
         public string Password
         {
             get => _password;
-            set
-            {
-                _password = value;
-                OnPropertyChangedByName(nameof(Password));
-            }
+            set { _password = value; OnPropertyChanged(); }
         }
 
         public RelayCommand LoginCommand
@@ -37,20 +29,20 @@ namespace UI.ViewModel
 
         public void Authenticate()
         {
-            bool result = true;// _authenticationUseCase.Authenticate(Username, Password);
+            bool result = true; // _authenticationService.Authenticate(Username, Password);
             _accountStore.CurrentAccount = new Account() { Username = "root", PasswordHash = "root_HASH" };
             if (result)
                 AuthenticationDone?.Invoke();
         }
 
-        private readonly AuthenticationService _authenticationUseCase;
+        private readonly AuthenticationService _authenticationService;
         private readonly AccountStore _accountStore;
         public event Action AuthenticationDone;
 
         public LoginViewModel(AuthenticationService authenticationUseCase,
             AccountStore accountStore)
         {
-            _authenticationUseCase = authenticationUseCase;
+            _authenticationService = authenticationUseCase;
             _accountStore = accountStore;
         }
 

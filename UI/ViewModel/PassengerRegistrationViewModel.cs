@@ -19,54 +19,34 @@ namespace UI.ViewModel
         private Station _departureStation;
         private Station _arrivalStation;
         private Run _selectedRun;
+        private PassengerViewModel _selectedPassenger;
 
         public DateTime DepartureDateTime
         {
             get => _departureDateTime;
             set
-            {
-                _departureDateTime = value;
-                OnPropertyChangedByName(nameof(DepartureDateTime));
-            }
+            { _departureDateTime = value; OnPropertyChanged(); }
         }
         public DateTime ArrivalDateTime
         {
             get => _arrivalDateTime;
-            set
-            {
-                _arrivalDateTime = value;
-                OnPropertyChangedByName(nameof(ArrivalDateTime));
-            }
+            set { _arrivalDateTime = value; OnPropertyChanged(); }
         }
         public Station DepartureStation
         {
             get => _departureStation;
-            set
-            {
-                _departureStation = value;
-                OnPropertyChangedByName(nameof(DepartureStation));
-            }
+            set { _departureStation = value; OnPropertyChanged(); }
         }
         public Station ArrivalStation
         {
             get => _arrivalStation;
-            set
-            {
-                _arrivalStation = value;
-                OnPropertyChangedByName(nameof(ArrivalStation));
-            }
+            set { _arrivalStation = value; OnPropertyChanged(); }
         }
         public Run SelectedRun
         {
             get => _selectedRun;
-            set
-            {
-                _selectedRun = value;
-                OnPropertyChangedByName(nameof(SelectedRun));
-            }
+            set { _selectedRun = value; OnPropertyChanged(); }
         }
-
-        private PassengerViewModel _selectedPassenger;
 
         public ObservableCollection<PassengerViewModel> Passengers { get; set; }
 

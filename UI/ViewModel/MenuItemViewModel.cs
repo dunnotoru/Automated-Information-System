@@ -12,11 +12,7 @@ namespace UI.ViewModel
         public string Header
         {
             get => _header;
-            set
-            {
-                _header = value;
-                OnPropertyChangedByName(nameof(Header));
-            }
+            set { _header = value; OnPropertyChanged(); }
         }
 
         public bool isReadRequired { get; }
@@ -32,11 +28,8 @@ namespace UI.ViewModel
 
         public MenuItemViewModel(IEnumerable<MenuItemViewModel> subItems)
         {
-            if (subItems == null)
-                Items = new ObservableCollection<MenuItemViewModel>();
-            else
-                Items = new ObservableCollection<MenuItemViewModel>(subItems) ;
-
+            ArgumentNullException.ThrowIfNull(subItems);
+            Items = new ObservableCollection<MenuItemViewModel>(subItems) ;
 
             isReadRequired = false;
             isWriteRequired = false;

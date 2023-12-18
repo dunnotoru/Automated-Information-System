@@ -10,17 +10,13 @@ namespace UI.ViewModel
         public string Name
         {
             get => _name;
-            set { _name = value; OnPropertyChangedByName(nameof(Name)); }
+            set { _name = value; OnPropertyChanged(); }
         }
 
         public Func<ViewModelBase> ViewModel
         {
             get => _viewModel;
-            set
-            {
-                _viewModel = value;
-                OnPropertyChangedByName(nameof(ItemViewModel));
-            }
+            set { _viewModel = value; OnPropertyChanged(); }
         }
 
         public ViewModelBase ItemViewModel

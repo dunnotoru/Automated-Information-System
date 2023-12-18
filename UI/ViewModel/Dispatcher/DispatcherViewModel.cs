@@ -3,13 +3,6 @@ using System.Collections.ObjectModel;
 
 namespace UI.ViewModel
 {
-    public enum State
-    {
-        None = 0,
-        Add,
-        Edit
-    }
-
     internal class DispatcherViewModel : ViewModelBase
     {
         public ObservableCollection<DispatcherMenuItem> ViewModels { get; set; }
@@ -18,7 +11,7 @@ namespace UI.ViewModel
         public DispatcherMenuItem SelectedItem
         {
             get => _selectedItem;
-            set { _selectedItem = value; OnPropertyChangedByName(nameof(SelectedItem)); }
+            set { _selectedItem = value; OnPropertyChanged(); }
         }
 
         public DispatcherViewModel(IEnumerable<DispatcherMenuItem> menuItems)
