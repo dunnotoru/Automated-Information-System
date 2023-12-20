@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
-             mc:Ignorable="d" Height="580" Width="980">
+             mc:Ignorable="d" d:DesignHeight="582" d:DesignWidth="942">
     <UserControl.Resources>
         <converters:DateConverter x:Key="DateConverterKey"/>
     </UserControl.Resources>
@@ -58,25 +58,27 @@
 
         <Button Command="{Binding AddPassengerCommand}" Content="Добавить" HorizontalAlignment="Center" Margin="0 0 150 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
         <Button Command="{Binding DeletePassengerCommand}" Content="Удалить" HorizontalAlignment="Center" Margin="25 0 0 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
-        <GroupBox IsEnabled="{Binding IsPassengerSelected}" Header="Пассажир" Margin="0 10 10 0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="295" Width="274">
-            <StackPanel DataContext="{Binding SelectedPassenger}">
-                <Label Content="Серия"/>
-                <TextBox Text="{Binding Series}"/>
+        <GroupBox IsEnabled="{Binding IsPassengerSelected}" Header="Пассажир" Margin="0 10 00 260" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="274">
+            <ScrollViewer>
+                <StackPanel Margin="0 0 10 0" DataContext="{Binding SelectedPassenger}">
+                    <Label Content="Серия"/>
+                    <TextBox Text="{Binding Series}"/>
 
-                <Label Content="Номер"/>
-                <TextBox Text="{Binding Number}"/>
+                    <Label Content="Номер"/>
+                    <TextBox Text="{Binding Number}"/>
 
-                <Label Content="Имя"/>
-                <TextBox Text="{Binding Name}"/>
-                <Label Content="Фамилия"/>
-                <TextBox Text="{Binding Surname}"/>
+                    <Label Content="Имя"/>
+                    <TextBox Text="{Binding Name}"/>
+                    <Label Content="Фамилия"/>
+                    <TextBox Text="{Binding Surname}"/>
 
-                <Label Content="Отчество"/>
-                <TextBox Text="{Binding Patronymic}"/>
+                    <Label Content="Отчество"/>
+                    <TextBox Text="{Binding Patronymic}"/>
 
-                <Label Content="Дата рождения"/>
-                <DatePicker SelectedDate="{Binding DateOfBirth, Converter={StaticResource ResourceKey=DateConverterKey}}"/>
-            </StackPanel>
+                    <Label Content="Дата рождения"/>
+                    <DatePicker SelectedDate="{Binding DateOfBirth, Converter={StaticResource ResourceKey=DateConverterKey}}"/>
+                </StackPanel>
+            </ScrollViewer>
         </GroupBox>
         <Label Content="Внесено" HorizontalAlignment="Right" Margin="0,0,200,176" VerticalAlignment="Bottom" Height="28" Width="84"/>
         <Label Content="Сдача" HorizontalAlignment="Right" Margin="0,0,200,136" VerticalAlignment="Bottom" Height="26" Width="84"/>
