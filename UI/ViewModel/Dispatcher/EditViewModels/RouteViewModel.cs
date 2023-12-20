@@ -26,7 +26,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         public int Id
         {
             get { return _id; }
-            set { _id = value;  OnPropertyChanged(); }
+            set { _id = value; OnPropertyChanged(); }
         }
 
         public string Name

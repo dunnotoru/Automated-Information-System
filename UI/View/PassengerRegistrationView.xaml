@@ -5,10 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
+             xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
              mc:Ignorable="d" d:DesignHeight="582" d:DesignWidth="942">
-    <UserControl.Resources>
-        <converters:DateConverter x:Key="DateConverterKey"/>
-    </UserControl.Resources>
     <Grid Background="White">
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Height="20" Margin="10 30 0 0" 
                  IsReadOnly="True"
@@ -32,7 +30,8 @@
 
         <Button Command="{Binding CashPaymentCommand}" Content="Подтвердить оплату" HorizontalAlignment="Right" Margin="0,0,10,80" VerticalAlignment="Bottom" Height="42" Width="190"/>
         <Button Command="{Binding NoncashPaymentCommand}" Content="Безналичный расчёт" HorizontalAlignment="Right" Margin="0,0,10,20" VerticalAlignment="Bottom" Height="42" Width="190"/>
-        <Button Command="{Binding DeclineCommand}" Content="Отмена" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
+        <Button Command="{Binding DeclineCommand}" Content="Отмена" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="54" Width="100"
+                IsEnabled="{Binding Path=(Validation.HasError), ElementName=SeriesTextBox}"/>
 
         <Label Content="Станция отправления" HorizontalAlignment="Left" Margin="20 0 0 0" VerticalAlignment="Top"/>
         <Label Content="Дата и время отправления" HorizontalAlignment="Left" Margin="10 60 0 0" VerticalAlignment="Top"/>
@@ -62,10 +61,28 @@
             <ScrollViewer>
                 <StackPanel Margin="0 0 10 0" DataContext="{Binding SelectedPassenger}">
                     <Label Content="Серия"/>
-                    <TextBox Text="{Binding Series}"/>
+                    <TextBox x:Name="SeriesTextBox">
+                        <TextBox.Text>
+                            <Binding Path="Series" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationrules:PassportSeriesValidationRule Length="4"/>
+                                    <DataErrorValidationRule/>
+                                    <ExceptionValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <Label Content="Номер"/>
-                    <TextBox Text="{Binding Number}"/>
+                    <TextBox>
+                        <TextBox.Text>
+                            <Binding Path="Number" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationrules:PassportNumberValidationRule Length="6"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <Label Content="Имя"/>
                     <TextBox Text="{Binding Name}"/>
@@ -76,7 +93,7 @@
                     <TextBox Text="{Binding Patronymic}"/>
 
                     <Label Content="Дата рождения"/>
-                    <DatePicker SelectedDate="{Binding DateOfBirth, Converter={StaticResource ResourceKey=DateConverterKey}}"/>
+                    <DatePicker SelectedDate="{Binding DateOfBirth}"/>
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>

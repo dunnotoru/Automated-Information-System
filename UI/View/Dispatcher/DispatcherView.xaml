@@ -23,6 +23,9 @@
         <DataTemplate DataType="{x:Type vm:VehicleMenuViewModel}">
             <local:VehicleMenuUserControl/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TicketTypeMenuViewModel}">
+            <local:TicketTypeMenuUserControl/>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>

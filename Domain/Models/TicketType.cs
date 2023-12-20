@@ -2,7 +2,7 @@
 {
     public class TicketType : EntityBase
     {
-        public string? Name { get; set; }
-        public int? PriceModifierInPercent { get; set; }
+        public string Name { get; set; }
+        public int PriceModifierInPercent { get; set; }
     }
 }

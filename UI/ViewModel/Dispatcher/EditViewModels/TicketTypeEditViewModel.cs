@@ -6,41 +6,41 @@ using UI.Command;
 
 namespace UI.ViewModel.Dispatcher.EditViewModels
 {
-    public class StationEditViewModel : ViewModelBase
+    internal class TicketTypeEditViewModel : ViewModelBase
     {
-        private readonly IStationRepository _stationRepository;
+        private readonly ITicketTypeRepository _ticketTypeRepository;
         private string _name;
-        private string _address;
+        private int _modifier;
 
-        public Action<StationEditViewModel> RemoveEvent;
+        public Action<TicketTypeEditViewModel> RemoveEvent;
         public Action<string> ErrorEvent;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public StationEditViewModel(Station station, IStationRepository stationRepository) : this()
+        public TicketTypeEditViewModel(TicketType ticketType, ITicketTypeRepository ticketTypeRepository) : this()
         {
-            ArgumentNullException.ThrowIfNull(station);
-            ArgumentNullException.ThrowIfNull(stationRepository);
+            ArgumentNullException.ThrowIfNull(ticketType);
+            ArgumentNullException.ThrowIfNull(ticketTypeRepository);
 
-            Id = station.Id;
-            Name = station.Name ?? "";
-            Address = station.Address ?? "";
+            Id = ticketType.Id;
+            Name = ticketType.Name;
+            Modifier = ticketType.PriceModifierInPercent;
 
-            _stationRepository = stationRepository;
+            _ticketTypeRepository = ticketTypeRepository;
         }
 
-        public StationEditViewModel(IStationRepository stationRepository) : this()
+        public TicketTypeEditViewModel(ITicketTypeRepository stationRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(stationRepository);
 
             Id = 0;
             Name = "Unknown";
-            Address = "Unknown";
-            _stationRepository = stationRepository;
+            Modifier = 100;
+            _ticketTypeRepository = stationRepository;
         }
 
-        private StationEditViewModel()
+        private TicketTypeEditViewModel()
         {
             SaveCommand = new RelayCommand(Save);
             RemoveCommand = new RelayCommand(Remove);
@@ -52,28 +52,28 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
-        public string Address
+        public int Modifier
         {
-            get => _address;
-            set { _address = value; OnPropertyChanged(); }
+            get => _modifier;
+            set { _modifier = value; OnPropertyChanged(); }
         }
 
         public void Save()
         {
-            Station createdStation = new Station()
+            TicketType createdStation = new TicketType()
             {
                 Name = Name,
-                Address = Address,
+                PriceModifierInPercent = Modifier,
             };
             try
             {
                 if (Id == 0)
                 {
-                    _stationRepository.Add(createdStation);
+                    _ticketTypeRepository.Add(createdStation);
                 }
                 else
                 {
-                    _stationRepository.Update(Id, createdStation);
+                    _ticketTypeRepository.Update(Id, createdStation);
                 }
             }
             catch (Exception e)
@@ -87,7 +87,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             if (Id == 0) return;
             try
             {
-                _stationRepository.Remove(Id);
+                _ticketTypeRepository.Remove(Id);
                 RemoveEvent?.Invoke(this);
             }
             catch (Exception e)

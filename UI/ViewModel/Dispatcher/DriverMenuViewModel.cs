@@ -30,7 +30,7 @@ namespace UI.ViewModel
         public bool IsRedactingEnabled => SelectedDriver != null;
 
         public ICommand AddCommand { get; }
-            
+
         public DriverMenuViewModel(IDriverRepository driverRepository, IMessageBoxService messageBoxService)
         {
             _driverRepository = driverRepository;

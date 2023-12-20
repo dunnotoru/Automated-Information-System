@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Domain.EntityFramework.Configurations
 {
-    internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
+    internal class TicketTypeConfiguration : IEntityTypeConfiguration<TicketType>
     {
-        public void Configure(EntityTypeBuilder<Schedule> builder)
+        public void Configure(EntityTypeBuilder<TicketType> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(o => o.Id);
         }
     }
 }

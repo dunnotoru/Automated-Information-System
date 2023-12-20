@@ -29,7 +29,7 @@ namespace UI.ViewModel
         public MenuItemViewModel(IEnumerable<MenuItemViewModel> subItems)
         {
             ArgumentNullException.ThrowIfNull(subItems);
-            Items = new ObservableCollection<MenuItemViewModel>(subItems) ;
+            Items = new ObservableCollection<MenuItemViewModel>(subItems);
 
             isReadRequired = false;
             isWriteRequired = false;
@@ -53,7 +53,7 @@ namespace UI.ViewModel
             get => _changeViewCommand ?? new ParamRelayCommand<NavigationStore>((obj) => Handler(obj));
         }
 
-        private void Handler(NavigationStore parameter) 
+        private void Handler(NavigationStore parameter)
         {
             parameter.CurrentViewModel = GetViewModel();
         }

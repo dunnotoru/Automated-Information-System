@@ -30,7 +30,7 @@ namespace Domain.EntityFramework.Repositories
                     if (context.Stations.Any(o => o.Id == item.Id))
                         entityStations.Add(context.Stations.Single(o => o.Id == item.Id));
                 }
-                
+
 
                 stored.Name = entity.Name;
                 stored.Stations = entityStations;

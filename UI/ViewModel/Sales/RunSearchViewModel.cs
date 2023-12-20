@@ -61,12 +61,12 @@ namespace UI.ViewModel
             get => _selectedRun;
             set { _selectedRun = value; OnPropertyChanged(); }
         }
-        
+
         public ICommand SellTicketCommand { get; private set; }
-        public ICommand FindRunsCommand {  get; private set; }
+        public ICommand FindRunsCommand { get; private set; }
 
         public RunSearchViewModel(IStationRepository stationRepository, IRunRepository runRepository,
-            NavigationService navigationService, OrderStore orderStore, IRouteRepository routeRepository, 
+            NavigationService navigationService, OrderStore orderStore, IRouteRepository routeRepository,
             IMessageBoxService messageBoxService)
         {
             ArgumentNullException.ThrowIfNull(stationRepository);
@@ -91,6 +91,9 @@ namespace UI.ViewModel
             }
 
             Runs = new ObservableCollection<RunViewModel>();
+
+            DepartureDateTimeMinimum = DateTime.Now;
+            DepartureDateTimeMaximum = DateTime.MaxValue;
 
             FindRunsCommand = new RelayCommand(FindRunsMethod);
             SellTicketCommand = new RelayCommand(SellTicket, () => SelectedRun != null && DepartureStation != null && ArrivalStation != null);
@@ -119,16 +122,16 @@ namespace UI.ViewModel
                     run.AddRange(_runRepository.GetByRoute(route));
                 }
             }
-            catch(DbUpdateException e)
+            catch (DbUpdateException e)
             {
                 _messageBoxService.ShowMessage(e.Message);
                 return;
             }
 
-            run = run.Where(o => o.DepartureDateTime > DepartureDateTimeMinimum 
+            run = run.Where(o => o.DepartureDateTime > DepartureDateTimeMinimum
                 && o.DepartureDateTime < DepartureDateTimeMaximum).ToList();
-            
-            Runs.Clear(); 
+
+            Runs.Clear();
             foreach (var item in run)
             {
                 RunViewModel vm = new RunViewModel(item, _runRepository);

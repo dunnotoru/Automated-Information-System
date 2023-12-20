@@ -1,5 +1,4 @@
-﻿using Castle.MicroKernel.ModelBuilder.Descriptors;
-using Domain.Models;
+﻿using Domain.Models;
 
 namespace UI.ViewModel.Dispatcher.EditViewModels
 {

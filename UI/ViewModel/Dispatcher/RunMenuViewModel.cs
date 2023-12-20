@@ -1,6 +1,4 @@
-﻿using Domain.Models;
-using Domain.RepositoryInterfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Domain.RepositoryInterfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -71,7 +69,7 @@ namespace UI.ViewModel
         {
             vm.RemoveEvent -= OnRemove;
             vm.ErrorEvent -= OnError;
-            if(Runs.Remove(vm))
+            if (Runs.Remove(vm))
             {
                 _messageBoxService.ShowMessage("Рейс удалён");
             }

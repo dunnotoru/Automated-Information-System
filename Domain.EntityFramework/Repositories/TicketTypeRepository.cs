@@ -4,28 +4,24 @@ using Domain.RepositoryInterfaces;
 
 namespace Domain.EntityFramework.Repositories
 {
-    public class PassportRepository : IPassportRepository
+    public class TicketTypeRepository : ITicketTypeRepository
     {
-        public void Add(Passport entity)
+        public void Add(TicketType entity)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Passports.Add(entity);
+                context.TicketTypes.Add(entity);
                 context.SaveChanges();
             }
         }
-        public void Update(int id, Passport entity)
+
+        public void Update(int id, TicketType entity)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Passport stored = context.Passports.Single(o => o.Id == id);
-
-                stored = entity;
-                stored.Id = id;
-
-                context.Passports.Update(stored);
+                entity.Id = id;
+                context.TicketTypes.Attach(entity);
+                context.TicketTypes.Update(entity);
                 context.SaveChanges();
             }
         }
@@ -34,28 +30,25 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Passport stored = context.Passports.Single(o => o.Id == id);
-
-                context.Passports.Remove(stored);
+                TicketType stored = context.TicketTypes.Single(o => o.Id == id);
+                context.Remove(stored);
                 context.SaveChanges();
             }
         }
-
-        public Passport? GetById(int id)
+        public TicketType GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Passports.SingleOrDefault(o => o.Id == id);
+                return context.TicketTypes.Single(o => o.Id == id);
             }
         }
 
-        public Passport? Get(string number, string series)
+        public IEnumerable<TicketType> GetAll()
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Passports.SingleOrDefault(x => x.Number == number && x.Series == series);
+                return context.TicketTypes.ToList();
             }
         }
-
     }
 }

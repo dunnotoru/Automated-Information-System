@@ -23,7 +23,7 @@ namespace UI.ViewModel
             get => _selectedRoute;
             set { _selectedRoute = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
         }
-        
+
         public bool IsRedactingEnabled => SelectedRoute != null;
 
         public ICommand AddCommand { get; }

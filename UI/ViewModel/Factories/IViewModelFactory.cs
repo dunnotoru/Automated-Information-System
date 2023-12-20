@@ -1,10 +1,8 @@
-﻿using Castle.Windsor;
-
-namespace UI.ViewModel.Factories
+﻿namespace UI.ViewModel.Factories
 {
     internal interface IViewModelFactory
     {
-        ViewModelBase CreateViewModel<TViewModel>() 
+        ViewModelBase CreateViewModel<TViewModel>()
             where TViewModel : ViewModelBase;
     }
 }

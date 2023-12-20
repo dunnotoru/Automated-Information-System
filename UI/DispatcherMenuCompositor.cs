@@ -35,6 +35,11 @@ namespace UI
                     Name = "Транспорт",
                     ViewModel = () => container.Resolve<VehicleMenuViewModel>(),
                 },
+                new DispatcherMenuItem()
+                {
+                    Name = "Типы билетов",
+                    ViewModel = () => container.Resolve<TicketTypeMenuViewModel>(),
+                },
             };
 
             return dispatcherMenuItems;

@@ -4,10 +4,10 @@
     {
         public List<ReceiptLine> ReceiptLines { get; set; }
         public string Number { get; set; }
-        public string CompanyName {  get; set; }
+        public string CompanyName { get; set; }
         public string Address { get; set; }
         public DateTime OperationDateTime { get; set; }
-        public string CashierName {  get; set; }
+        public string CashierName { get; set; }
         public int FullPrice
         {
             get

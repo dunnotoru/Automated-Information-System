@@ -7,7 +7,7 @@ namespace UI.ViewModel.Sales
     public class RunViewModel : ViewModelBase
     {
         private readonly IRunRepository _runRepository;
-        
+
         private int _id;
         private string _number;
         private string _routeName;

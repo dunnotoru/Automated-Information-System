@@ -20,7 +20,7 @@ namespace UI.ViewModel
 
         public string OldPassword
         {
-            get => _oldPassword; 
+            get => _oldPassword;
             set { _oldPassword = value; OnPropertyChangedByName(nameof(OldPassword)); }
         }
 
@@ -61,7 +61,7 @@ namespace UI.ViewModel
 
         private void UpdatePassword()
         {
-            if(_registrationUseCase.UpdatePassword(_accountStore.CurrentAccount, OldPassword, NewPassword))
+            if (_registrationUseCase.UpdatePassword(_accountStore.CurrentAccount, OldPassword, NewPassword))
                 _navigationService.Navigate<ShellViewModel>();
         }
     }

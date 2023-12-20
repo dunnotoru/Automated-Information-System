@@ -14,7 +14,7 @@ namespace Domain.EntityFramework.Repositories
             {
                 context.Licenses.Attach(entity.License);
                 context.Drivers.Add(entity);
-                
+
                 context.SaveChanges();
             }
         }

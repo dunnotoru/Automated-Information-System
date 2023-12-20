@@ -6,7 +6,7 @@ namespace UI.Services
     {
         public void PrintDocument(IDocument document)
         {
-            document.PrintDocument();   
+            document.PrintDocument();
         }
     }
 }

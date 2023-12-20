@@ -37,7 +37,7 @@ namespace UI.ViewModel
         public ICommand NoncashPaymentCommand { get; }
 
         public PassengerRegistrationViewModel(NavigationService navigationService, OrderStore orderStore,
-            IMessageBoxService messageBoxService, IDocumentPrintService documentPrintService, 
+            IMessageBoxService messageBoxService, IDocumentPrintService documentPrintService,
             ITicketPriceCalculator ticketPriceCalculator, AccountStore accountStore)
         {
             _orderStore = orderStore;
@@ -95,8 +95,8 @@ namespace UI.ViewModel
         public int Price
         {
             get => _price;
-            set 
-            { 
+            set
+            {
                 _price = value;
                 OnPropertyChanged();
                 OnPropertyChangedByName(nameof(Change));
@@ -117,7 +117,7 @@ namespace UI.ViewModel
         private void Decline()
         {
             _navigationService.Navigate<RunSearchViewModel>();
-        } 
+        }
         private void CashPayment()
         {
             PrintReceipt();
@@ -159,7 +159,7 @@ namespace UI.ViewModel
             Receipt receipt = new Receipt(Guid.NewGuid().ToString(),
                 "Я устал", "дома", DateTime.Now, _accountStore.CurrentAccount.Username);
 
-            foreach (var item in Passengers) 
+            foreach (var item in Passengers)
             {
                 int price = _ticketPriceCalculator.CalcPrice(SelectedRun, null);
                 ReceiptLine line = new ReceiptLine("Билет", price, 1);
@@ -181,14 +181,15 @@ namespace UI.ViewModel
 
         private void AddPassenger()
         {
-            if (Passengers.Count > 0) { 
+            if (Passengers.Count > 0)
+            {
                 PassengerViewModel viewModel = Passengers.Last();
 
-                if(ValidatePassenger(viewModel))
+                if (ValidatePassenger(viewModel))
                     return;
             }
 
-            Passengers.Add(new PassengerViewModel() { } );
+            Passengers.Add(new PassengerViewModel() { });
             SelectedPassenger = Passengers.Last();
         }
 
@@ -206,7 +207,7 @@ namespace UI.ViewModel
             foreach (PassengerViewModel viewModel in Passengers)
                 if (ValidatePassenger(viewModel) == false)
                     return false;
-            
+
             if (Price <= 0) return false;
             if (Cash <= 0) return false;
             if (Change < 0) return false;

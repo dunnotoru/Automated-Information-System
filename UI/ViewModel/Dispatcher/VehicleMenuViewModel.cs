@@ -31,7 +31,7 @@ namespace UI.ViewModel
             _messageBoxService = messageBoxService;
 
             Vehicles = new ObservableCollection<VehicleEditViewModel>();
-            foreach(Vehicle item in _vehicleRepository.GetAll())
+            foreach (Vehicle item in _vehicleRepository.GetAll())
             {
                 VehicleEditViewModel viewModel = new VehicleEditViewModel(item, _vehicleRepository);
                 viewModel.RemoveEvent += OnRemove;

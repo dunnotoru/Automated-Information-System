@@ -1,5 +1,4 @@
 ﻿using Domain.Services;
-using System;
 
 namespace UI.Services
 {
@@ -14,6 +13,6 @@ namespace UI.Services
 
         public bool Validate(string value, string storedValue)
             => _passwordHasher.CalcHash(value) == storedValue;
-        
+
     }
 }

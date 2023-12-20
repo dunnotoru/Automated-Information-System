@@ -1,6 +1,4 @@
-﻿using Domain.Models;
-
-namespace Domain.Services
+﻿namespace Domain.Services
 {
     public interface IPasswordValidator
     {

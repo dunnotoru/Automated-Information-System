@@ -35,7 +35,7 @@ namespace Domain.EntityFramework.Repositories
 
                 stored = entity;
                 stored.Id = id;
-                
+
                 context.Accounts.Update(entity);
                 context.SaveChanges();
             }

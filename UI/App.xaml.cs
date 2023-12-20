@@ -1,6 +1,5 @@
 ﻿using Castle.Windsor;
 using System.Windows;
-using UI.Stores;
 using UI.View;
 using UI.ViewModel;
 
@@ -8,7 +7,7 @@ namespace UI
 {
     public partial class App : Application
     {
-        private readonly IWindsorContainer _container 
+        private readonly IWindsorContainer _container
             = new WindsorContainer();
 
         protected override void OnStartup(StartupEventArgs e)
@@ -17,7 +16,7 @@ namespace UI
 
             LoginViewModel viewModel = _container.Resolve<LoginViewModel>();
             viewModel.AuthenticationDone += ChangeLoginToMain;
-            
+
             MainWindow = new LoginWindow() { DataContext = viewModel };
             MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             MainWindow.Show();

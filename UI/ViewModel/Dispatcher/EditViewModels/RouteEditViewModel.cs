@@ -11,26 +11,26 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 {
     class RouteEditViewModel : ViewModelBase
     {
-		private readonly IRouteRepository _routeRepository;
-		private readonly IStationRepository _stationRepository;
-		
-		private int _id;
-		private string _name;
-		
-		private ObservableCollection<StationViewModel> _availableStations;
-		private ObservableCollection<StationViewModel> _stations;
-		private StationViewModel _selectedAvailableStation;
-		private StationViewModel _selectedStation;
+        private readonly IRouteRepository _routeRepository;
+        private readonly IStationRepository _stationRepository;
 
-		public Action<RouteEditViewModel> RemoveEvent;
-		public Action<string> ErrorEvent;
+        private int _id;
+        private string _name;
 
-		public ICommand SaveCommand { get; }
-		public ICommand RemoveCommand { get; }
-		public ICommand AddStationCommand { get; }
-		public ICommand RemoveStationCommand { get; }
-		public ICommand MoveUpCommand { get; }
-		public ICommand MoveDownCommand { get; }
+        private ObservableCollection<StationViewModel> _availableStations;
+        private ObservableCollection<StationViewModel> _stations;
+        private StationViewModel _selectedAvailableStation;
+        private StationViewModel _selectedStation;
+
+        public Action<RouteEditViewModel> RemoveEvent;
+        public Action<string> ErrorEvent;
+
+        public ICommand SaveCommand { get; }
+        public ICommand RemoveCommand { get; }
+        public ICommand AddStationCommand { get; }
+        public ICommand RemoveStationCommand { get; }
+        public ICommand MoveUpCommand { get; }
+        public ICommand MoveDownCommand { get; }
 
         public RouteEditViewModel(Route route, IRouteRepository routeRepository, IStationRepository stationRepository) : this(stationRepository)
         {
@@ -38,9 +38,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             ArgumentNullException.ThrowIfNull(routeRepository);
 
             Id = route.Id;
-            Name = route.Name ?? "";
+            Name = route.Name;
             Stations = new ObservableCollection<StationViewModel>();
-			
+
 
             foreach (Station item in route.Stations)
                 Stations.Add(new StationViewModel(item, _stationRepository));
@@ -59,8 +59,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         }
 
         public RouteEditViewModel(IRouteRepository routeRepository, IStationRepository stationRepository) : this(stationRepository)
-		{
-			ArgumentNullException.ThrowIfNull(routeRepository);
+        {
+            ArgumentNullException.ThrowIfNull(routeRepository);
 
             Id = 0;
             Name = "unknown";
@@ -88,116 +88,116 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         }
 
         public int Id
-		{
-			get { return _id; }
-			set { _id = value; OnPropertyChanged(); }
-		}
-
-		public string Name
-		{
-			get { return _name; }
-			set { _name = value; OnPropertyChanged(); }
-		}
-
-		public ObservableCollection<StationViewModel> Stations
-		{
-			get { return _stations; }
-			set { _stations = value; OnPropertyChanged(); }
-		}
-
-		public ObservableCollection<StationViewModel> AvailableStations
-		{
-			get { return _availableStations; }
-			set { _availableStations = value; OnPropertyChanged(); }
-		}
-
-		public StationViewModel SelectedAvailableStation
-		{
-			get => _selectedAvailableStation;
-			set { _selectedAvailableStation = value; OnPropertyChanged(); }
-		}
-
-		public StationViewModel SelectedStation
-		{
-			get => _selectedStation;
-			set { _selectedStation = value; OnPropertyChanged(); }
-		}
-
-		private void Save()
-		{
-			Collection<Station> stations = new Collection<Station>();
-
-			foreach (StationViewModel item in Stations)
-				stations.Add(item.GetStation());
-
-			Route route = new Route()
-			{
-				Id = Id,
-				Name = Name,
-				Stations = stations
-			};
-
-			try
-			{
-				if(Id == 0)
-				{
-					_routeRepository.Add(route);
-				}
-				else
-				{
-					_routeRepository.Update(Id, route);
-				}
-			}
-			catch(Exception e)
-			{
-				ErrorEvent?.Invoke(e.Message);
-			}
-		}
-
-		private void Remove()
-		{
-			if (Id == 0) return;
-			try
-			{
-				_routeRepository.Remove(Id);
-				RemoveEvent?.Invoke(this);
-			}
-			catch (Exception e)
-			{
-				ErrorEvent?.Invoke(e.Message);
-			}
-		}
-
-		private void AddStation()
-		{
-			if(SelectedAvailableStation == null) return;
-
-			Stations.Add(SelectedAvailableStation);
-			AvailableStations.Remove(SelectedAvailableStation);
-		}
-
-		private void RemoveStation()
-		{
-            if (SelectedStation == null) return;
-
-			AvailableStations.Add(SelectedStation);
-			Stations.Remove(SelectedStation);
+        {
+            get { return _id; }
+            set { _id = value; OnPropertyChanged(); }
         }
 
-		private void MoveUp()
-		{
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<StationViewModel> Stations
+        {
+            get { return _stations; }
+            set { _stations = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<StationViewModel> AvailableStations
+        {
+            get { return _availableStations; }
+            set { _availableStations = value; OnPropertyChanged(); }
+        }
+
+        public StationViewModel SelectedAvailableStation
+        {
+            get => _selectedAvailableStation;
+            set { _selectedAvailableStation = value; OnPropertyChanged(); }
+        }
+
+        public StationViewModel SelectedStation
+        {
+            get => _selectedStation;
+            set { _selectedStation = value; OnPropertyChanged(); }
+        }
+
+        private void Save()
+        {
+            Collection<Station> stations = new Collection<Station>();
+
+            foreach (StationViewModel item in Stations)
+                stations.Add(item.GetStation());
+
+            Route route = new Route()
+            {
+                Id = Id,
+                Name = Name,
+                Stations = stations
+            };
+
+            try
+            {
+                if (Id == 0)
+                {
+                    _routeRepository.Add(route);
+                }
+                else
+                {
+                    _routeRepository.Update(Id, route);
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorEvent?.Invoke(e.Message);
+            }
+        }
+
+        private void Remove()
+        {
+            if (Id == 0) return;
+            try
+            {
+                _routeRepository.Remove(Id);
+                RemoveEvent?.Invoke(this);
+            }
+            catch (Exception e)
+            {
+                ErrorEvent?.Invoke(e.Message);
+            }
+        }
+
+        private void AddStation()
+        {
+            if (SelectedAvailableStation == null) return;
+
+            Stations.Add(SelectedAvailableStation);
+            AvailableStations.Remove(SelectedAvailableStation);
+        }
+
+        private void RemoveStation()
+        {
+            if (SelectedStation == null) return;
+
+            AvailableStations.Add(SelectedStation);
+            Stations.Remove(SelectedStation);
+        }
+
+        private void MoveUp()
+        {
             if (SelectedStation == null) return;
             int index = Stations.IndexOf(SelectedStation);
             if (index == 0) return;
             Stations.Move(index, index - 1);
         }
 
-		private void MoveDown()
-		{
+        private void MoveDown()
+        {
             if (SelectedStation == null) return;
             int index = Stations.IndexOf(SelectedStation);
             if (index == Stations.Count - 1) return;
             Stations.Move(index, index + 1);
         }
-	}
+    }
 }

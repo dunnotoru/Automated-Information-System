@@ -11,9 +11,9 @@ namespace UI.ViewModel
         public ViewModelBase CurrentViewModel
         {
             get => _navigationStore.CurrentViewModel;
-            set  
+            set
             {
-                _navigationStore.CurrentViewModel = value; 
+                _navigationStore.CurrentViewModel = value;
                 OnPropertyChangedByName(nameof(CurrentViewModel));
             }
         }
@@ -34,7 +34,7 @@ namespace UI.ViewModel
             List<MenuItemViewModel> menuItems)
         {
             Items = new ObservableCollection<MenuItemViewModel>(menuItems);
-            
+
             _navigationStore = navigationStore;
 
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;

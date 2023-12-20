@@ -9,23 +9,21 @@ namespace UI.ViewModel
     internal class LoginViewModel : ViewModelBase
     {
         private string _username;
+        private string _password;
+
+
         public string Username
         {
             get => _username;
             set { _username = value; OnPropertyChanged(); }
         }
-
-        private string _password;
         public string Password
         {
             get => _password;
             set { _password = value; OnPropertyChanged(); }
         }
 
-        public RelayCommand LoginCommand
-        {
-            get => new RelayCommand(Authenticate);
-        }
+        public RelayCommand LoginCommand { get; }
 
         public void Authenticate()
         {
@@ -44,6 +42,8 @@ namespace UI.ViewModel
         {
             _authenticationService = authenticationUseCase;
             _accountStore = accountStore;
+
+            LoginCommand = new RelayCommand(Authenticate);
         }
 
     }

@@ -27,13 +27,14 @@ namespace UI
             container.Register(Component.For<IMessageBoxService>().ImplementedBy<MessageBoxService>());
 
             RegisterRepositories(container);
-            
+
             container.Register(Component.For<AuthenticationService>());
             container.Register(Component.For<RegistrationService>());
             container.Register(Component.For<LoginViewModel>());
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
 
+            container.Register(Component.For<TicketTypeMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<StationMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<RouteMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<RunMenuViewModel>().LifestyleTransient());
@@ -65,6 +66,7 @@ namespace UI
             container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
             container.Register(Component.For<IVehicleRepository>().ImplementedBy<VehicleRepository>());
             container.Register(Component.For<IDriverRepository>().ImplementedBy<DriverRepository>());
+            container.Register(Component.For<ITicketTypeRepository>().ImplementedBy<TicketTypeRepository>());
         }
 
         private ViewModelFactory CreateViewModelFactory(IWindsorContainer container)
@@ -77,10 +79,10 @@ namespace UI
             DispatcherMenuCompositor compositor = new DispatcherMenuCompositor();
             return new DispatcherViewModel(compositor.ComposeMenu(container));
         }
-        
+
         private ShellViewModel CreateShell(IWindsorContainer container)
         {
-            MenuCompositor mc = new MenuCompositor(true,true,true,true);
+            MenuCompositor mc = new MenuCompositor(true, true, true, true);
 
             return new ShellViewModel(
                 container.Resolve<NavigationStore>(),

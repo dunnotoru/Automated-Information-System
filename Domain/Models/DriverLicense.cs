@@ -6,7 +6,7 @@
         public DateTime DateOfIssue { get; set; }
         public DateTime DateOfExpiration { get; set; }
         public ICollection<Category> Categories { get; set; } = new List<Category>();
-        public Driver Driver { get; set; } 
+        public Driver Driver { get; set; }
         public int DriverId { get; set; }
     }
 }

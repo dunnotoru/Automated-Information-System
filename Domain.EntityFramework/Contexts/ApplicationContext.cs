@@ -43,6 +43,7 @@ namespace Domain.EntityFramework.Contexts
             modelBuilder.ApplyConfiguration<Station>(new StationConfiguration());
             modelBuilder.ApplyConfiguration<Vehicle>(new VehicleConfiguration());
             modelBuilder.ApplyConfiguration<DriverLicense>(new DriverLicenseConfiguration());
+            modelBuilder.ApplyConfiguration<TicketType>(new TicketTypeConfiguration());
         }
     }
 }

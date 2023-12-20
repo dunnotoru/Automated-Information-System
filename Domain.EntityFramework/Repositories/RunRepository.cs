@@ -63,6 +63,7 @@ namespace Domain.EntityFramework.Repositories
             {
                 return context.Runs
                     .Include(o => o.Route)
+                    .ThenInclude(x => x.Stations)
                     .Include(o => o.Vehicle)
                     .Include(o => o.Drivers)
                     .Single(x => x.Id == id);
@@ -75,6 +76,7 @@ namespace Domain.EntityFramework.Repositories
             {
                 return context.Runs
                     .Include(o => o.Route)
+                    .ThenInclude(x => x.Stations)
                     .Include(o => o.Vehicle)
                     .Include(o => o.Drivers)
                     .Where(x => x.Route.Id == route.Id).ToList();
@@ -87,6 +89,7 @@ namespace Domain.EntityFramework.Repositories
             {
                 return context.Runs
                     .Include(o => o.Route)
+                    .ThenInclude(x => x.Stations)
                     .Include(o => o.Vehicle)
                     .Include(o => o.Drivers)
                     .ToList();

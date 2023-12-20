@@ -6,7 +6,7 @@ namespace UI.ViewModel
     {
         private string _name;
         private Func<ViewModelBase> _viewModel;
-        
+
         public string Name
         {
             get => _name;

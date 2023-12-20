@@ -1,5 +1,4 @@
-﻿using Domain.EntityFramework.Repositories;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 using System;
 using System.Windows.Input;
@@ -9,42 +8,42 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 {
     internal class VehicleEditViewModel : ViewModelBase
     {
-		private readonly IVehicleRepository _vehicleRepository;
+        private readonly IVehicleRepository _vehicleRepository;
 
-		private int _id;
-		private string _licensePlateNumber;
-		private string _model;
-		private string _brand;
-		private int _capacity;
-		private DateTime _manufacture;
-		private DateTime _lastRepair;
-		private int _mileage;
-		private string _photography;
-		private string _freighter;
-		private string _insuranceDetails;
+        private int _id;
+        private string _licensePlateNumber;
+        private string _model;
+        private string _brand;
+        private int _capacity;
+        private DateTime _manufacture;
+        private DateTime _lastRepair;
+        private int _mileage;
+        private string _photography;
+        private string _freighter;
+        private string _insuranceDetails;
 
-		public Action<string> ErrorEvent;
-		public Action<VehicleEditViewModel> RemoveEvent;
+        public Action<string> ErrorEvent;
+        public Action<VehicleEditViewModel> RemoveEvent;
 
-		public ICommand SaveCommand { get; }
-		public ICommand RemoveCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand RemoveCommand { get; }
 
         public VehicleEditViewModel(Vehicle vehicle, IVehicleRepository vehicleRepository) : this()
         {
-			ArgumentNullException.ThrowIfNull(vehicle);
-			ArgumentNullException.ThrowIfNull(vehicleRepository);
+            ArgumentNullException.ThrowIfNull(vehicle);
+            ArgumentNullException.ThrowIfNull(vehicleRepository);
 
-			Id = vehicle.Id;
-			LicensePlateNumber = vehicle.LicensePlateNumber;
-			Model = vehicle.Model;
-			Brand = vehicle.Brand;
-			Capacity = vehicle.Capacity;
-			Manufacture = vehicle.Manufacture;
-			LastRepair = vehicle.LastRepair;
-			Mileage = vehicle.Mileage;
-			Photography = vehicle.Photography ?? "";
-			Freighter = vehicle.Freighter ?? "";
-			InsuranceDetails = vehicle.InsuranceDetails;
+            Id = vehicle.Id;
+            LicensePlateNumber = vehicle.LicensePlateNumber;
+            Model = vehicle.Model;
+            Brand = vehicle.Brand;
+            Capacity = vehicle.Capacity;
+            Manufacture = vehicle.Manufacture;
+            LastRepair = vehicle.LastRepair;
+            Mileage = vehicle.Mileage;
+            Photography = vehicle.Photography ?? "";
+            Freighter = vehicle.Freighter ?? "";
+            InsuranceDetails = vehicle.InsuranceDetails;
 
             _vehicleRepository = vehicleRepository;
         }
@@ -66,27 +65,27 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             _vehicleRepository = vehicleRepository;
         }
 
-		private VehicleEditViewModel()
-		{
-			SaveCommand = new RelayCommand(Save);
-			RemoveCommand = new RelayCommand(Remove);
-		}
+        private VehicleEditViewModel()
+        {
+            SaveCommand = new RelayCommand(Save);
+            RemoveCommand = new RelayCommand(Remove);
+        }
 
-		private void Save()
-		{
+        private void Save()
+        {
             Vehicle createdStation = new Vehicle()
             {
-				Brand = Brand,
-				Model = Model,
-				Capacity = Capacity,
-				Freighter = Freighter,
-				InsuranceDetails = InsuranceDetails,
-				LastRepair = LastRepair,
-				LastRepairType = LastRepairType,
-				LicensePlateNumber = LicensePlateNumber,
-				Manufacture = Manufacture,
-				Mileage = Mileage,
-				Photography = Photography,
+                Brand = Brand,
+                Model = Model,
+                Capacity = Capacity,
+                Freighter = Freighter,
+                InsuranceDetails = InsuranceDetails,
+                LastRepair = LastRepair,
+                LastRepairType = LastRepairType,
+                LicensePlateNumber = LicensePlateNumber,
+                Manufacture = Manufacture,
+                Mileage = Mileage,
+                Photography = Photography,
             };
             try
             {
@@ -105,8 +104,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             }
         }
 
-		private void Remove()
-		{
+        private void Remove()
+        {
             if (Id == 0) return;
             try
             {
@@ -120,76 +119,76 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         }
 
         public int Id
-		{
-			get { return _id; }
-			set { _id = value; OnPropertyChanged(); }
-		}
-		
-		public string LicensePlateNumber
-		{
-			get { return _licensePlateNumber; }
-			set { _licensePlateNumber = value; OnPropertyChanged(); }
-		}
+        {
+            get { return _id; }
+            set { _id = value; OnPropertyChanged(); }
+        }
 
-		public string Model
-		{
-			get { return _model; }
-			set { _model = value; OnPropertyChanged(); }
-		}
+        public string LicensePlateNumber
+        {
+            get { return _licensePlateNumber; }
+            set { _licensePlateNumber = value; OnPropertyChanged(); }
+        }
 
-		public string Brand
-		{
-			get { return _brand; }
-			set { _brand = value; OnPropertyChanged(); }
-		}
+        public string Model
+        {
+            get { return _model; }
+            set { _model = value; OnPropertyChanged(); }
+        }
 
-		public int Capacity
-		{
-			get { return _capacity; }
-			set { _capacity = value; OnPropertyChanged(); }
-		}
+        public string Brand
+        {
+            get { return _brand; }
+            set { _brand = value; OnPropertyChanged(); }
+        }
 
-		public DateTime Manufacture
-		{
-			get { return _manufacture; }
-			set { _manufacture = value; OnPropertyChanged(); }
-		}
+        public int Capacity
+        {
+            get { return _capacity; }
+            set { _capacity = value; OnPropertyChanged(); }
+        }
 
-		public DateTime LastRepair
-		{
-			get { return _lastRepair; }
-			set { _lastRepair = value; OnPropertyChanged(); }
-		}
-		private string _lastRepairType;
+        public DateTime Manufacture
+        {
+            get { return _manufacture; }
+            set { _manufacture = value; OnPropertyChanged(); }
+        }
 
-		public string LastRepairType
-		{
-			get { return _lastRepairType; }
-			set { _lastRepairType = value; OnPropertyChanged(); }
-		}
+        public DateTime LastRepair
+        {
+            get { return _lastRepair; }
+            set { _lastRepair = value; OnPropertyChanged(); }
+        }
+        private string _lastRepairType;
 
-		public int Mileage
-		{
-			get { return _mileage; }
-			set { _mileage = value; OnPropertyChanged(); }
-		}
+        public string LastRepairType
+        {
+            get { return _lastRepairType; }
+            set { _lastRepairType = value; OnPropertyChanged(); }
+        }
 
-		public string Photography
-		{
-			get { return _photography; }
-			set { _photography = value; OnPropertyChanged(); }
-		}
+        public int Mileage
+        {
+            get { return _mileage; }
+            set { _mileage = value; OnPropertyChanged(); }
+        }
 
-		public string Freighter
-		{
-			get { return _freighter; }
-			set { _freighter = value; OnPropertyChanged(); }
-		}
+        public string Photography
+        {
+            get { return _photography; }
+            set { _photography = value; OnPropertyChanged(); }
+        }
 
-		public string InsuranceDetails
-		{
-			get { return _insuranceDetails; }
-			set { _insuranceDetails = value; OnPropertyChanged(); }
-		}
-	}
+        public string Freighter
+        {
+            get { return _freighter; }
+            set { _freighter = value; OnPropertyChanged(); }
+        }
+
+        public string InsuranceDetails
+        {
+            get { return _insuranceDetails; }
+            set { _insuranceDetails = value; OnPropertyChanged(); }
+        }
+    }
 }

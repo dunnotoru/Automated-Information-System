@@ -10,21 +10,21 @@ using UI.ViewModel.Dispatcher.EditViewModels;
 
 namespace UI.ViewModel
 {
-    internal class StationMenuViewModel : ViewModelBase
+    internal class TicketTypeMenuViewModel : ViewModelBase
     {
-        private readonly IStationRepository _stationRepository;
+        private readonly ITicketTypeRepository _ticketTypeRepository;
         private readonly IMessageBoxService _messageBoxService;
 
-        private ObservableCollection<StationEditViewModel> _stations;
-        private StationEditViewModel _selectedStation;
+        private ObservableCollection<TicketTypeEditViewModel> _stations;
+        private TicketTypeEditViewModel _selectedStation;
 
-        public ObservableCollection<StationEditViewModel> Stations
+        public ObservableCollection<TicketTypeEditViewModel> Stations
         {
             get { return _stations; }
             set { _stations = value; OnPropertyChanged(); }
         }
 
-        public StationEditViewModel SelectedStation
+        public TicketTypeEditViewModel SelectedStation
         {
             get => _selectedStation;
             set { _selectedStation = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
@@ -34,18 +34,18 @@ namespace UI.ViewModel
 
         public ICommand AddCommand { get; }
 
-        public StationMenuViewModel(IStationRepository stationRepository,
+        public TicketTypeMenuViewModel(ITicketTypeRepository ticketTypeRepository,
             IMessageBoxService messageBoxService)
         {
-            ArgumentNullException.ThrowIfNull(stationRepository);
-            _stationRepository = stationRepository;
+            ArgumentNullException.ThrowIfNull(ticketTypeRepository);
+            _ticketTypeRepository = ticketTypeRepository;
             _messageBoxService = messageBoxService;
 
-            Stations = new ObservableCollection<StationEditViewModel>();
-            IEnumerable<Station> stations = _stationRepository.GetAll();
-            foreach (Station item in stations)
+            Stations = new ObservableCollection<TicketTypeEditViewModel>();
+            IEnumerable<TicketType> stations = _ticketTypeRepository.GetAll();
+            foreach (TicketType item in stations)
             {
-                StationEditViewModel vm = new StationEditViewModel(item, _stationRepository);
+                TicketTypeEditViewModel vm = new TicketTypeEditViewModel(item, _ticketTypeRepository);
                 vm.RemoveEvent += OnRemove;
                 vm.ErrorEvent += OnError;
                 Stations.Add(vm);
@@ -56,14 +56,14 @@ namespace UI.ViewModel
 
         private void Add()
         {
-            StationEditViewModel vm = new StationEditViewModel(_stationRepository);
+            TicketTypeEditViewModel vm = new TicketTypeEditViewModel(_ticketTypeRepository);
             vm.RemoveEvent += OnRemove;
             vm.ErrorEvent += OnError;
             Stations.Add(vm);
             SelectedStation = vm;
         }
 
-        private void OnRemove(StationEditViewModel viewModel)
+        private void OnRemove(TicketTypeEditViewModel viewModel)
         {
             viewModel.RemoveEvent -= OnRemove;
             viewModel.ErrorEvent -= OnError;
@@ -77,6 +77,5 @@ namespace UI.ViewModel
         {
             _messageBoxService.ShowMessage($"Ошибка: {message}");
         }
-
     }
 }
