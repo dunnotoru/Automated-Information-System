@@ -4,7 +4,7 @@ using System.IO;
 
 namespace UI.Services
 {
-    public class TicketPrint : IDocumentPrint
+    public class TicketPrint : IDocument
     {
         private readonly Ticket _ticket;
         public TicketPrint(Ticket ticket)
@@ -14,10 +14,9 @@ namespace UI.Services
 
         public void PrintDocument()
         {
-            File.Create("text.txt");
             using (StreamWriter sw = new StreamWriter("text.txt"))
             {
-                sw.WriteLine(_ticket.Id);
+                sw.WriteLine(_ticket.Cashier);
             }
         }
     }

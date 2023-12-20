@@ -46,23 +46,20 @@
         </ListView>
 
         <Label Content="Рейсы" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10 5 0 0" Grid.Row="1" Width="44" Height="26"/>
-        <ListView ItemsSource="{Binding RunItems}" 
-                  Margin="10,36,10,10"
+        <DataGrid ItemsSource="{Binding Runs}" IsReadOnly="True"
+                  Margin="10,36,10,10" AutoGenerateColumns="False"
                   SelectedItem="{Binding SelectedRun}" Grid.Row="1" Grid.ColumnSpan="3">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Number}" Header="Рейс"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="auto" Binding="{Binding Number}" Header="Номер"/>
+                <DataGridTextColumn Width="auto" Binding="{Binding RouteName}" Header="Маршрута"/>
+                <DataGridTextColumn Width="auto" Binding="{Binding DepartureDateTime, StringFormat=\{0:dd.MM.yyyy в hh.mm\}}" Header="Время отправления"/>
+                <DataGridTextColumn Width="auto" Binding="{Binding EstimatedArrivalDateTime, StringFormat=\{0:dd.MM.yyyy в hh.mm\}}" Header="Расчетное время прибытия"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0 0 10 35" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Bottom" Width="120" Height="18"/>
 
-        <Viewbox Grid.Column="2" Stretch="Uniform" Margin="10 40 10 10" VerticalAlignment="Top">
-            <Calendar DisplayDate="{Binding DepartureDateTime}"/>
-        </Viewbox>
-        <Viewbox Grid.Column="3" Stretch="Uniform" Margin="10,40,10,10" VerticalAlignment="Top">
-            <Calendar/>
-        </Viewbox>
+        <DatePicker Height="25" Margin="50" DisplayDate="{Binding DepartureDateTime}" Grid.Column="2"/>
+        <DatePicker Height="25" Margin="50" Grid.Column="3"/>
 
         <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 35" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Bottom" Width="120" Height="18"/>
 
@@ -71,7 +68,7 @@
         <Label Content="до" HorizontalAlignment="Right" Margin="0 10 185 0" VerticalAlignment="Top" Height="26" Width="24" Grid.Column="3"/>
 
         <Button Content="Найти рейсы" Command="{Binding FindRunsCommand}" Margin="10,93,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
-
         <Button Content="Продажа билета" Command="{Binding SellTicketCommand}" Margin="10,153,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
+        
     </Grid>
 </UserControl>

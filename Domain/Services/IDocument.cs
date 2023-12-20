@@ -1,6 +1,6 @@
 ﻿namespace Domain.Services
 {
-    public interface IDocumentPrint
+    public interface IDocument
     {
         void PrintDocument();
     }

@@ -1,11 +1,11 @@
 ﻿using Domain.Models;
-using System;
+using Domain.RepositoryInterfaces;
 
 namespace UI.ViewModel.Dispatcher.EditViewModels
 {
-    internal class StationItemViewModel : ViewModelBase
+    internal class StationViewModel : ViewModelBase
     {
-		public Station Station { get; }
+		private readonly IStationRepository _stationRepository;
 		private int _id;
 		private string _name;
 		private string _address;
@@ -13,7 +13,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 		public int Id
 		{
 			get { return _id; }
-			set { _id = value; OnPropertyChanged(); }
+			private set { _id = value; OnPropertyChanged(); }
 		}
 		
 		public string Name
@@ -28,14 +28,17 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 			set { _address = value; OnPropertyChanged(); }
 		}
 
-        public StationItemViewModel(Station station)
+        public StationViewModel(Station station, IStationRepository stationRepository)
         {
-            ArgumentNullException.ThrowIfNull(station);
-
-			Station = station;
 			Id = station.Id;
 			Name = station.Name ?? "";
 			Address = station.Address ?? "";
+			_stationRepository = stationRepository;
         }
+
+		public Station GetStation()
+		{
+			return _stationRepository.GetById(Id);
+		}
     }
 }

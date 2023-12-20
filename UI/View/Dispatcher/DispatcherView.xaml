@@ -26,8 +26,8 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="21*"/>
-            <ColumnDefinition Width="179*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="22*"/>
 
         </Grid.ColumnDefinitions>
         <ListBox ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedItem}" Margin="10,10,10,10">

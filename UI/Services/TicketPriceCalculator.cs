@@ -4,9 +4,9 @@ namespace Domain.Services
 {
     internal class TicketPriceCalculator : ITicketPriceCalculator
     {
-        public int CalcPrice(Route route, Station from, Station to, TicketType type)
+        public int CalcPrice(Run run, TicketType type)
         {
-            return 1;
+            return 100 * run.Route.Stations.Count;
         }
     }
 }

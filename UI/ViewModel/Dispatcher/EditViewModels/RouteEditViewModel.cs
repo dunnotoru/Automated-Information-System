@@ -17,10 +17,10 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 		private int _id;
 		private string _name;
 		
-		private ObservableCollection<StationItemViewModel> _availableStations;
-		private ObservableCollection<StationItemViewModel> _stations;
-		private StationItemViewModel _selectedAvailableStation;
-		private StationItemViewModel _selectedStation;
+		private ObservableCollection<StationViewModel> _availableStations;
+		private ObservableCollection<StationViewModel> _stations;
+		private StationViewModel _selectedAvailableStation;
+		private StationViewModel _selectedStation;
 
 		public Action<RouteEditViewModel> RemoveEvent;
 		public Action<string> ErrorEvent;
@@ -39,23 +39,23 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
             Id = route.Id;
             Name = route.Name ?? "";
-            Stations = new ObservableCollection<StationItemViewModel>();
+            Stations = new ObservableCollection<StationViewModel>();
 			
 
             foreach (Station item in route.Stations)
-                Stations.Add(new StationItemViewModel(item));
+                Stations.Add(new StationViewModel(item, _stationRepository));
 
             _routeRepository = routeRepository;
             _stationRepository = stationRepository;
 
-            AvailableStations = new ObservableCollection<StationItemViewModel>();
+            AvailableStations = new ObservableCollection<StationViewModel>();
 
             IEnumerable<Station> tempStations = _stationRepository.GetAll();
 
             tempStations = tempStations.Where(o => !Stations.Any(x => o.Id == x.Id)).ToList();
 
             foreach (Station item in tempStations)
-                AvailableStations.Add(new StationItemViewModel(item));
+                AvailableStations.Add(new StationViewModel(item, _stationRepository));
         }
 
         public RouteEditViewModel(IRouteRepository routeRepository, IStationRepository stationRepository) : this(stationRepository)
@@ -64,17 +64,17 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
             Id = 0;
             Name = "unknown";
-            Stations = new ObservableCollection<StationItemViewModel>();
+            Stations = new ObservableCollection<StationViewModel>();
 
             _routeRepository = routeRepository;
             _stationRepository = stationRepository;
 
-            AvailableStations = new ObservableCollection<StationItemViewModel>();
+            AvailableStations = new ObservableCollection<StationViewModel>();
 
             IEnumerable<Station> tempStations = _stationRepository.GetAll();
 
             foreach (Station item in tempStations)
-                AvailableStations.Add(new StationItemViewModel(item));
+                AvailableStations.Add(new StationViewModel(item, _stationRepository));
         }
 
         private RouteEditViewModel(IStationRepository stationRepository)
@@ -99,25 +99,25 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 			set { _name = value; OnPropertyChanged(); }
 		}
 
-		public ObservableCollection<StationItemViewModel> Stations
+		public ObservableCollection<StationViewModel> Stations
 		{
 			get { return _stations; }
 			set { _stations = value; OnPropertyChanged(); }
 		}
 
-		public ObservableCollection<StationItemViewModel> AvailableStations
+		public ObservableCollection<StationViewModel> AvailableStations
 		{
 			get { return _availableStations; }
 			set { _availableStations = value; OnPropertyChanged(); }
 		}
 
-		public StationItemViewModel SelectedAvailableStation
+		public StationViewModel SelectedAvailableStation
 		{
 			get => _selectedAvailableStation;
 			set { _selectedAvailableStation = value; OnPropertyChanged(); }
 		}
 
-		public StationItemViewModel SelectedStation
+		public StationViewModel SelectedStation
 		{
 			get => _selectedStation;
 			set { _selectedStation = value; OnPropertyChanged(); }
@@ -126,9 +126,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 		private void Save()
 		{
 			Collection<Station> stations = new Collection<Station>();
-			
-			foreach (StationItemViewModel item in Stations) 
-				stations.Add(item.Station);
+
+			foreach (StationViewModel item in Stations)
+				stations.Add(item.GetStation());
 
 			Route route = new Route()
 			{

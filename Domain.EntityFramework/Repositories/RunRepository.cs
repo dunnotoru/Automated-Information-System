@@ -57,11 +57,15 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public Run? GetById(int id)
+        public Run GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Runs.Single(x => x.Id == id);
+                return context.Runs
+                    .Include(o => o.Route)
+                    .Include(o => o.Vehicle)
+                    .Include(o => o.Drivers)
+                    .Single(x => x.Id == id);
             }
         }
 
@@ -69,7 +73,11 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Runs.Where(x => x.Route.Id == route.Id).ToList();
+                return context.Runs
+                    .Include(o => o.Route)
+                    .Include(o => o.Vehicle)
+                    .Include(o => o.Drivers)
+                    .Where(x => x.Route.Id == route.Id).ToList();
             }
         }
 
@@ -77,7 +85,11 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Runs.Include(o => o.Route).Include(o => o.Vehicle).Include(o => o.Drivers).ToList();
+                return context.Runs
+                    .Include(o => o.Route)
+                    .Include(o => o.Vehicle)
+                    .Include(o => o.Drivers)
+                    .ToList();
             }
         }
     }

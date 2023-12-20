@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
-             mc:Ignorable="d" d:DesignWidth="814" Height="496">
+             mc:Ignorable="d" Height="580" Width="980">
     <UserControl.Resources>
         <converters:DateConverter x:Key="DateConverterKey"/>
     </UserControl.Resources>
@@ -26,11 +26,12 @@
                  IsReadOnly="True"
                  Text="{Binding ArrivalDateTime}"/>
 
-        <TextBox HorizontalAlignment="Right" Margin="0,0,10,160" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="27"/>
-        <TextBox HorizontalAlignment="Right" Margin="0,0,10,116" Text="{Binding Cash, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="27"/>
-        <TextBox HorizontalAlignment="Right" Margin="0,0,10,77" Text="{Binding Change, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Bottom" Width="189" Height="27"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,0,11,218" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="28"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,0,11,174" Text="{Binding Cash, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="28"/>
+        <TextBox HorizontalAlignment="Right" Margin="0,0,11,136" Text="{Binding Change, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Bottom" Width="189" Height="26"/>
 
-        <Button Command="{Binding SellCommand}" Content="Оформить билет" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
+        <Button Command="{Binding CashPaymentCommand}" Content="Подтвердить оплату" HorizontalAlignment="Right" Margin="0,0,10,80" VerticalAlignment="Bottom" Height="42" Width="190"/>
+        <Button Command="{Binding NoncashPaymentCommand}" Content="Безналичный расчёт" HorizontalAlignment="Right" Margin="0,0,10,20" VerticalAlignment="Bottom" Height="42" Width="190"/>
         <Button Command="{Binding DeclineCommand}" Content="Отмена" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
 
         <Label Content="Станция отправления" HorizontalAlignment="Left" Margin="20 0 0 0" VerticalAlignment="Top"/>
@@ -41,7 +42,7 @@
 
         <Label Content="Пассажиры" HorizontalAlignment="Left" Margin="10 150 0 0" VerticalAlignment="Top" Width="78"/>
 
-        <Label Content="Стоимость" HorizontalAlignment="Right" Margin="0,0,200,160" VerticalAlignment="Bottom" Height="27" Width="84"/>
+        <Label Content="Стоимость" HorizontalAlignment="Right" Margin="0,0,201,218" VerticalAlignment="Bottom" Height="28" Width="84"/>
         <ListView ItemsSource="{Binding Passengers}" SelectedItem="{Binding SelectedPassenger}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 180 345 70 " SelectionMode="Single">
             <ListView.View>
                 <GridView>
@@ -57,7 +58,7 @@
 
         <Button Command="{Binding AddPassengerCommand}" Content="Добавить" HorizontalAlignment="Center" Margin="0 0 150 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
         <Button Command="{Binding DeletePassengerCommand}" Content="Удалить" HorizontalAlignment="Center" Margin="25 0 0 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
-        <GroupBox Header="Пассажир" Margin="0 10 10 0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="295" Width="274">
+        <GroupBox IsEnabled="{Binding IsPassengerSelected}" Header="Пассажир" Margin="0 10 10 0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="295" Width="274">
             <StackPanel DataContext="{Binding SelectedPassenger}">
                 <Label Content="Серия"/>
                 <TextBox Text="{Binding Series}"/>
@@ -77,7 +78,7 @@
                 <DatePicker SelectedDate="{Binding DateOfBirth, Converter={StaticResource ResourceKey=DateConverterKey}}"/>
             </StackPanel>
         </GroupBox>
-        <Label Content="Внесено" HorizontalAlignment="Right" Margin="0,0,199,118" VerticalAlignment="Bottom" Height="27" Width="84"/>
-        <Label Content="Сдача" HorizontalAlignment="Right" Margin="0,0,199,77" VerticalAlignment="Bottom" Height="27" Width="84"/>
+        <Label Content="Внесено" HorizontalAlignment="Right" Margin="0,0,200,176" VerticalAlignment="Bottom" Height="28" Width="84"/>
+        <Label Content="Сдача" HorizontalAlignment="Right" Margin="0,0,200,136" VerticalAlignment="Bottom" Height="26" Width="84"/>
     </Grid>
 </UserControl>

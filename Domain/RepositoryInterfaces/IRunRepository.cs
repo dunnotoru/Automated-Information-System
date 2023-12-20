@@ -4,7 +4,7 @@ namespace Domain.RepositoryInterfaces
 {
     public interface IRunRepository : IRepositoryBase<Run>
     {
-        Run? GetById(int id);
+        Run GetById(int id);
         IEnumerable<Run> GetByRoute(Route route);
         IEnumerable<Run> GetAll();
     }

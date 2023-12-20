@@ -8,72 +8,51 @@ using System.Windows.Input;
 using UI.Command;
 using UI.Services;
 using UI.Stores;
+using UI.ViewModel.Sales;
 
 namespace UI.ViewModel
 {
     internal class RunSearchViewModel : ViewModelBase
-    { 
-        public ObservableCollection<Station> StationItems { get; set; }
-        
-        private ObservableCollection<Run> _runItems;
-        public ObservableCollection<Run> RunItems
-        {
-            get => _runItems;
-            set
-            {
-                _runItems = value; OnPropertyChanged();
-            }
-        }
-
-        private DateTime _departureDateTime;
-        private Station _departureStation;
-        private Station _arrivalStation;
-        private Run _selectedRun;
-
-        public DateTime DepartureDateTime
-        {
-            get => _departureDateTime;
-            set
-            {
-                _departureDateTime = value;
-                OnPropertyChangedByName(nameof(DepartureDateTime));
-            }
-        }
-        public Station DepartureStation
-        {
-            get => _departureStation;
-            set
-            {
-                _departureStation = value;
-                OnPropertyChangedByName(nameof(DepartureStation));
-            }
-        }
-        public Station ArrivalStation
-        {
-            get => _arrivalStation;
-            set
-            {
-                _arrivalStation = value;
-                OnPropertyChangedByName(nameof(ArrivalStation));
-            }
-        }
-        public Run SelectedRun
-        {
-            get => _selectedRun;
-            set
-            {
-                _selectedRun = value;
-                OnPropertyChangedByName(nameof(SelectedRun));
-            }
-        }
-        
-
+    {
         private readonly IStationRepository _stationRepository;
         private readonly IRunRepository _runRepository;
         private readonly IRouteRepository _routeRepository;
         private readonly IMessageBoxService _messageBoxService;
         private readonly OrderStore _orderStore;
         private readonly NavigationService _navigationService;
+
+        private ObservableCollection<RunViewModel> _runs;
+        private DateTime _departureDateTime;
+        private Station _departureStation;
+        private Station _arrivalStation;
+        private RunViewModel _selectedRun;
+
+        public ObservableCollection<Station> StationItems { get; set; }
+        public ObservableCollection<RunViewModel> Runs
+        {
+            get => _runs;
+            set { _runs = value; OnPropertyChanged(); }
+        }
+        public DateTime DepartureDateTime
+        {
+            get => _departureDateTime;
+            set { _departureDateTime = value; OnPropertyChanged(); }
+        }
+        public Station DepartureStation
+        {
+            get => _departureStation;
+            set { _departureStation = value; OnPropertyChanged(); }
+        }
+        public Station ArrivalStation
+        {
+            get => _arrivalStation;
+            set { _arrivalStation = value; OnPropertyChanged(); }
+        }
+        public RunViewModel SelectedRun
+        {
+            get => _selectedRun;
+            set { _selectedRun = value; OnPropertyChanged(); }
+        }
         
         public ICommand SellTicketCommand { get; private set; }
         public ICommand FindRunsCommand {  get; private set; }
@@ -103,7 +82,7 @@ namespace UI.ViewModel
                 _messageBoxService.ShowMessage(e.Message);
             }
 
-            RunItems = new ObservableCollection<Run>();
+            Runs = new ObservableCollection<RunViewModel>();
 
             FindRunsCommand = new RelayCommand(FindRunsMethod);
             SellTicketCommand = new RelayCommand(SellTicket, () => SelectedRun != null && DepartureStation != null && ArrivalStation != null);
@@ -135,16 +114,20 @@ namespace UI.ViewModel
             catch(DbUpdateException e)
             {
                 _messageBoxService.ShowMessage(e.Message);
-                RunItems = new ObservableCollection<Run>();
                 return;
             }
-            
-            RunItems = new ObservableCollection<Run>(run);
+
+            Runs.Clear(); 
+            foreach (var item in run)
+            {
+                RunViewModel vm = new RunViewModel(item, _runRepository);
+                Runs.Add(vm);
+            }
         }
 
         private void SellTicket()
         {
-            OrderViewModel order = new OrderViewModel(DepartureStation, ArrivalStation, SelectedRun);
+            OrderViewModel order = new OrderViewModel(DepartureStation, ArrivalStation, SelectedRun.GetRun());
             _navigationService.Navigate<PassengerRegistrationViewModel>();
             _orderStore.CreateOrder(order);
         }

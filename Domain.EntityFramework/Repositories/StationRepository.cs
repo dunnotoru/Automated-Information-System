@@ -54,11 +54,11 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public Station? GetById(int id)
+        public Station GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Stations.SingleOrDefault(s => s.Id == id);
+                return context.Stations.Single(s => s.Id == id);
             }
         }
 

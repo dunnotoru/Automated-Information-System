@@ -4,7 +4,7 @@ namespace UI.Services
 {
     public class DocumentPrintService : IDocumentPrintService
     {
-        public void PrintDocument(IDocumentPrint document)
+        public void PrintDocument(IDocument document)
         {
             document.PrintDocument();   
         }

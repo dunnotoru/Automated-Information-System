@@ -2,6 +2,6 @@
 {
     public interface IDocumentPrintService
     {
-        void PrintDocument(IDocumentPrint document);
+        void PrintDocument(IDocument document);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 
 namespace UI.ViewModel
 {
@@ -9,8 +10,7 @@ namespace UI.ViewModel
         private string _patronymic;
         private string _series;
         private string _number;
-        private DateOnly _dateOfBirth;
-
+        private DateTime _dateOfBirth;
         public string Name
         {
             get => _name;
@@ -36,10 +36,23 @@ namespace UI.ViewModel
             get => _number;
             set { _number = value; OnPropertyChanged(); }
         }
-        public DateOnly DateOfBirth
+        public DateTime DateOfBirth
         {
             get => _dateOfBirth;
             set { _dateOfBirth = value; OnPropertyChanged(); }
+        }
+
+        public Passport GetPassport()
+        {
+            return new Passport()
+            {
+                Name = _name,
+                Surname = _surname,
+                Patronymic = _patronymic,
+                Number = _number,
+                Series = _series,
+                BirthDate = _dateOfBirth,
+            };
         }
     }
 }

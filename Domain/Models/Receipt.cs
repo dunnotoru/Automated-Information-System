@@ -3,15 +3,24 @@
     public class Receipt
     {
         public List<ReceiptLine> ReceiptLines { get; set; }
-        public int Number { get; set; }
+        public string Number { get; set; }
         public string CompanyName {  get; set; }
         public string Address { get; set; }
         public DateTime OperationDateTime { get; set; }
         public string CashierName {  get; set; }
-        public int FullPrice {  get; set; }
+        public int FullPrice
+        {
+            get
+            {
+                int result = 0;
+                foreach (var line in ReceiptLines)
+                    result += line.FullPrice;
+                return result;
+            }
+        }
 
-        public Receipt(int number, string companyName, string address,
-            DateTime operationDateTime, string cashierName, int fullPrice)
+        public Receipt(string number, string companyName, string address,
+            DateTime operationDateTime, string cashierName)
         {
             ReceiptLines = new List<ReceiptLine>();
             Number = number;
@@ -19,7 +28,6 @@
             Address = address;
             OperationDateTime = operationDateTime;
             CashierName = cashierName;
-            FullPrice = fullPrice;
         }
     }
 }
