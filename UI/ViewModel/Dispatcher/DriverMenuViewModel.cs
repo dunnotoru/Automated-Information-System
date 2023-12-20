@@ -10,6 +10,7 @@ namespace UI.ViewModel
 {
     internal class DriverMenuViewModel : ViewModelBase
     {
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IDriverRepository _driverRepository;
         private readonly IMessageBoxService _messageBoxService;
         private DriverEditViewModel _selectedDriver;
@@ -31,15 +32,17 @@ namespace UI.ViewModel
 
         public ICommand AddCommand { get; }
 
-        public DriverMenuViewModel(IDriverRepository driverRepository, IMessageBoxService messageBoxService)
+        public DriverMenuViewModel(IDriverRepository driverRepository, IMessageBoxService messageBoxService, 
+            ICategoryRepository categoryRepository)
         {
             _driverRepository = driverRepository;
             _messageBoxService = messageBoxService;
+            _categoryRepository = categoryRepository;
 
             Drivers = new ObservableCollection<DriverEditViewModel>();
             foreach (Driver item in _driverRepository.GetAll())
             {
-                DriverEditViewModel vm = new DriverEditViewModel(item, _driverRepository);
+                DriverEditViewModel vm = new DriverEditViewModel(item, _driverRepository, _categoryRepository);
                 vm.RemoveEvent += OnRemove;
                 vm.ErrorEvent += OnError;
                 Drivers.Add(vm);
@@ -50,7 +53,7 @@ namespace UI.ViewModel
 
         private void Add()
         {
-            DriverEditViewModel vm = new DriverEditViewModel(_driverRepository);
+            DriverEditViewModel vm = new DriverEditViewModel(_driverRepository, _categoryRepository);
             vm.RemoveEvent += OnRemove;
             vm.ErrorEvent += OnError;
             Drivers.Add(vm);

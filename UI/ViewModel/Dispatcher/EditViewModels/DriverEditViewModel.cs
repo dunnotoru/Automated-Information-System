@@ -9,6 +9,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
     class DriverEditViewModel : ViewModelBase
     {
         private readonly IDriverRepository _driverRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
         private int _id;
         private string _payrollNumber;
@@ -28,12 +29,14 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public DriverEditViewModel(Driver driver, IDriverRepository driverRepository) : this()
+        public DriverEditViewModel(Driver driver, IDriverRepository driverRepository, 
+            ICategoryRepository categoryRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(driver);
             ArgumentNullException.ThrowIfNull(driverRepository);
 
             _driverRepository = driverRepository;
+            _categoryRepository = categoryRepository;
 
             Id = driver.Id;
             PayrollNumber = driver.PayrollNumber ?? "";
@@ -46,14 +49,15 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             DriverClass = driver.DriverClass ?? "";
             ProfessionalStandardDetails = driver.ProfessionalStandardDetails ?? "";
             EmploymentBookDetails = driver.EmploymentBookDetails ?? "";
-            License = new DriverLicenseViewModel(driver.License);
+            License = new DriverLicenseViewModel(driver.License, _categoryRepository);
         }
 
-        public DriverEditViewModel(IDriverRepository driverRepository) : this()
+        public DriverEditViewModel(IDriverRepository driverRepository, ICategoryRepository categoryRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(driverRepository);
 
             _driverRepository = driverRepository;
+            _categoryRepository = categoryRepository;
 
             Id = 0;
             PayrollNumber = "";
@@ -66,7 +70,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             DriverClass = "";
             ProfessionalStandardDetails = "";
             EmploymentBookDetails = "";
-            License = new DriverLicenseViewModel();
+            License = new DriverLicenseViewModel(_categoryRepository);
         }
 
         public DriverEditViewModel()

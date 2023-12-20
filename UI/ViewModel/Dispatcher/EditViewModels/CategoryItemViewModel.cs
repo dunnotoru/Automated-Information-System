@@ -2,29 +2,25 @@
 
 namespace UI.ViewModel.Dispatcher.EditViewModels
 {
-    internal class CategoryItemViewModel : ViewModelBase
+    public class CategoryItemViewModel : ViewModelBase
     {
-        public Category Category { get; }
-        private string _name;
-        private int _id;
+		private bool _isSelected;
+		private CategoryViewModel _category;
 
-        public string Name
+        public CategoryItemViewModel(CategoryViewModel category)
         {
-            get { return _name; }
-            set { _name = value; OnPropertyChanged(); }
+            _category = category;
         }
 
-        public int Id
+		public bool IsSelected
+		{
+			get { return _isSelected; }
+			set { _isSelected = value; OnPropertyChanged(); }
+		}
+        
+        public CategoryViewModel Category
         {
-            get { return _id; }
-            set { _id = value; OnPropertyChanged(); }
-        }
-
-        public CategoryItemViewModel(Category category)
-        {
-            Category = category;
-            Id = category.Id;
-            Name = category.Name;
+            get { return _category; }
         }
     }
 }

@@ -50,14 +50,12 @@
                         Margin="100 10 100 10"
                         Height="30"
                         Command="{Binding SaveCommand}"/>
-                
+
                 <Button Content="Удалить"
                         Margin="100 10 100 10"
                         Height="30"
                         Command="{Binding RemoveCommand}"/>
             </StackPanel>
         </StackPanel>
-
-
     </Grid>
 </UserControl>

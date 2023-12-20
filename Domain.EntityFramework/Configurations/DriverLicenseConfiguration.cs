@@ -9,6 +9,10 @@ namespace Domain.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<DriverLicense> builder)
         {
             builder.HasKey(x => x.Id);
+            builder
+                .HasMany(l => l.Categories)
+                .WithMany(r => r.Licenses)
+                .UsingEntity<LicenseCategory>();
         }
     }
 }

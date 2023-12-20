@@ -7,6 +7,7 @@ using Domain.Services;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
+using UI.ViewModel.Dispatcher;
 using UI.ViewModel.Factories;
 
 namespace UI
@@ -34,6 +35,7 @@ namespace UI
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
 
+            container.Register(Component.For<CategoryMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<TicketTypeMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<StationMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<RouteMenuViewModel>().LifestyleTransient());
@@ -67,6 +69,7 @@ namespace UI
             container.Register(Component.For<IVehicleRepository>().ImplementedBy<VehicleRepository>());
             container.Register(Component.For<IDriverRepository>().ImplementedBy<DriverRepository>());
             container.Register(Component.For<ITicketTypeRepository>().ImplementedBy<TicketTypeRepository>());
+            container.Register(Component.For<ICategoryRepository>().ImplementedBy<CategoryRepository>());
         }
 
         private ViewModelFactory CreateViewModelFactory(IWindsorContainer container)

@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -25,10 +26,19 @@ namespace Domain.EntityFramework.Repositories
             using (ApplicationContext context = new ApplicationContext())
             {
                 entity.Id = id;
+
                 context.Drivers.Attach(entity);
-                context.Licenses.Attach(entity.License);
                 context.Drivers.Update(entity);
-                context.Licenses.Update(entity.License);
+
+                DriverLicense storedLicense = context.Licenses.Single(o => o.Id == entity.License.Id);
+                List<Category> categories = new List<Category>();
+                foreach (var item in entity.License.Categories)
+                {
+                    if (context.Categories.Any(o => o.Id == item.Id))
+                        categories.Add(context.Categories.Single(o => o.Id == item.Id));
+                }
+                storedLicense.Categories = categories;
+                                
                 context.SaveChanges();
             }
         }
@@ -49,7 +59,10 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Drivers.Include(o => o.License).ToList();
+                return context.Drivers
+                    .Include(o => o.License)
+                    .ThenInclude(x => x.Categories)
+                    .ToList();
             }
         }
 
@@ -57,7 +70,10 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Drivers.Include(o => o.License).Single(o => o.Id == id);
+                return context.Drivers
+                    .Include(o => o.License)
+                    .ThenInclude(x => x.Categories)
+                    .Single(o => o.Id == id);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using Castle.Windsor;
 using System.Collections.Generic;
 using UI.ViewModel;
+using UI.ViewModel.Dispatcher;
 
 namespace UI
 {
@@ -29,6 +30,11 @@ namespace UI
                 {
                     Name = "Водители",
                     ViewModel = () => container.Resolve<DriverMenuViewModel>(),
+                },
+                new DispatcherMenuItem()
+                {
+                    Name = "Категории",
+                    ViewModel = () => container.Resolve<CategoryMenuViewModel>(),
                 },
                 new DispatcherMenuItem()
                 {

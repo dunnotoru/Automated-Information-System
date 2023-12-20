@@ -58,41 +58,47 @@
                 <DatePicker Margin="10" SelectedDate="{Binding DateOfExpiration}" />
 
                 <Label Margin="10" Content="Категории"/>
-                <ListBox Margin="10" Height="30" ItemsSource="{Binding Categories}"/>
+                <DataGrid Margin="10" VerticalAlignment="Stretch" ItemsSource="{Binding Categories}"
+                          DisplayMemberPath="Name" AutoGenerateColumns="False"> 
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Binding="{Binding IsSelected}"/>
+                        <DataGridTextColumn Header="Категория" Binding="{Binding Name}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </ScrollViewer>
         
         <ScrollViewer Grid.Column="3">
             <StackPanel DataContext="{Binding SelectedDriver}">
                 <Label Margin="10" Content="Id"/>
-                <TextBox Margin="10"  Text="{Binding Id}" IsReadOnly="True"/>
+                <TextBox Margin="10" Text="{Binding Id}" IsReadOnly="True"/>
 
                 <Label Margin="10" Content="Табельный номер"/>
-                <TextBox Margin="10"  Text="{Binding PayrollNumber}" />
+                <TextBox Margin="10" Text="{Binding PayrollNumber}" />
 
                 <Label Margin="10" Content="Имя"/>
-                <TextBox Margin="10"  Text="{Binding Name}" />
+                <TextBox Margin="10" Text="{Binding Name}" />
 
                 <Label Margin="10" Content="Фамилия"/>
-                <TextBox Margin="10"  Text="{Binding Surname}" />
+                <TextBox Margin="10" Text="{Binding Surname}" />
 
                 <Label Margin="10" Content="Отчество"/>
-                <TextBox Margin="10"  Text="{Binding Patronymic}"/>
+                <TextBox Margin="10" Text="{Binding Patronymic}"/>
 
                 <Label Margin="10" Content="Пол"/>
-                <TextBox Margin="10"  Text="{Binding Gender}"/>
+                <TextBox Margin="10" Text="{Binding Gender}"/>
 
                 <Label Margin="10" Content="дата рождения"/>
                 <DatePicker Margin="10" SelectedDate="{Binding BirthDate}"/>
 
                 <Label Margin="10" Content="Класс"/>
-                <TextBox Margin="10"  Text="{Binding DriverClass}"/>
+                <TextBox Margin="10" Text="{Binding DriverClass}"/>
 
                 <Label Margin="10" Content="Стандарт"/>
-                <TextBox Margin="10"  Text="{Binding ProfessionalStandardDetails}"/>
+                <TextBox Margin="10" Text="{Binding ProfessionalStandardDetails}"/>
 
                 <Label Margin="10" Content="Номер Трудовой книжки"/>
-                <TextBox Margin="10"  Text="{Binding EmploymentBookDetails}"/>
+                <TextBox Margin="10" Text="{Binding EmploymentBookDetails}"/>
 
                 <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}"/>
                 <Button Content="Удалить" Margin="10" Command="{Binding RemoveCommand}"/>

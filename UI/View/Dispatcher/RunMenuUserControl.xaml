@@ -52,7 +52,7 @@
 
                 <Label Content="Транспорт"/>
                 <ComboBox ItemsSource="{Binding Vehicles}" 
-                          SelectedItem="{Binding SelectedVehicle}" 
+                          SelectedItem="{Binding SelectedVehicle}"
                           DisplayMemberPath="LicensePlateNumber"
                           IsEditable="True"/>
 
