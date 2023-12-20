@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -22,7 +23,8 @@ namespace UI.ViewModel
         private readonly NavigationService _navigationService;
 
         private ObservableCollection<RunViewModel> _runs;
-        private DateTime _departureDateTime;
+        private DateTime _departureDateTimeMinimum;
+        private DateTime _departureDateTimeMaximum;
         private Station _departureStation;
         private Station _arrivalStation;
         private RunViewModel _selectedRun;
@@ -33,10 +35,16 @@ namespace UI.ViewModel
             get => _runs;
             set { _runs = value; OnPropertyChanged(); }
         }
-        public DateTime DepartureDateTime
+        public DateTime DepartureDateTimeMinimum
         {
-            get => _departureDateTime;
-            set { _departureDateTime = value; OnPropertyChanged(); }
+            get => _departureDateTimeMinimum;
+            set { _departureDateTimeMinimum = value; OnPropertyChanged(); }
+        }
+
+        public DateTime DepartureDateTimeMaximum
+        {
+            get { return _departureDateTimeMaximum; }
+            set { _departureDateTimeMaximum = value; OnPropertyChanged(); }
         }
         public Station DepartureStation
         {
@@ -117,6 +125,9 @@ namespace UI.ViewModel
                 return;
             }
 
+            run = run.Where(o => o.DepartureDateTime > DepartureDateTimeMinimum 
+                && o.DepartureDateTime < DepartureDateTimeMaximum).ToList();
+            
             Runs.Clear(); 
             foreach (var item in run)
             {
