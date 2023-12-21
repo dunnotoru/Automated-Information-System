@@ -1,5 +1,6 @@
 ﻿using Castle.Windsor;
 using System.Windows;
+using System.Timers;
 using UI.View;
 using UI.ViewModel;
 
@@ -10,6 +11,11 @@ namespace UI
         private readonly IWindsorContainer _container
             = new WindsorContainer();
 
+        public App()
+        {
+
+        }
+        
         protected override void OnStartup(StartupEventArgs e)
         {
             Configure();

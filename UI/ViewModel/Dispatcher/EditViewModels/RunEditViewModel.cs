@@ -120,8 +120,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private bool CanSave()
         {
             return Vehicles.Count != 0 &&
-                Drivers.Count != 0 && SelectedRoute != null;
-                
+                Drivers.Count != 0 && SelectedRoute != null &&
+                SelectedVehicle != null;
         }
 
         private void Save()

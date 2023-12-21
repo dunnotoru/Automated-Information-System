@@ -14,6 +14,11 @@ namespace Domain.EntityFramework.Configurations
                 .WithMany(s => s.Routes)
                 .UsingEntity<StationRoute>();
 
+            builder
+                .HasMany(l => l.Runs)
+                .WithOne(r => r.Route)
+                .HasForeignKey(o => o.RouteId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

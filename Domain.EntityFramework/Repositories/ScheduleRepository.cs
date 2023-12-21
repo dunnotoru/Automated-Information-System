@@ -1,6 +1,7 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -41,7 +42,10 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Schedules.FirstOrDefault(s => s.Id == id);
+                return context.Schedules
+                    .Include(o=>o.Run)
+                    .Include(o => o.Route)
+                    .FirstOrDefault(s => s.Id == id);
             }
         }
 
@@ -49,7 +53,10 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Schedules;
+                return context.Schedules
+                    .Include(o => o.Run)
+                    .Include(o => o.Route)
+                    .ToList();
             }
         }
 
@@ -58,7 +65,10 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(route);
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Schedules.Where(s => s.Route == route);
+                return context.Schedules
+                    .Include(o => o.Run)
+                    .Include(o => o.Route)
+                    .Where(s => s.Route == route);
             }
         }
 
@@ -67,7 +77,10 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(run);
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Schedules.FirstOrDefault(s => s.Run == run);
+                return context.Schedules
+                    .Include(o => o.Run)
+                    .Include(o => o.Route)
+                    .FirstOrDefault(s => s.Run == run);
             }
         }
     }

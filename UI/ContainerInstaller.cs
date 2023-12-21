@@ -16,6 +16,7 @@ namespace UI
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(Component.For<IDocumentPrintService>().ImplementedBy<DocumentPrintService>());
+            RegisterRepositories(container);
 
             container.Register(Component.For<OrderStore>());
             container.Register(Component.For<AccountStore>());
@@ -26,11 +27,12 @@ namespace UI
 
             container.Register(Component.For<IMessageBoxService>().ImplementedBy<MessageBoxService>());
 
-            RegisterRepositories(container);
 
             container.Register(Component.For<AuthenticationService>());
             container.Register(Component.For<RegistrationService>());
             container.Register(Component.For<LoginViewModel>());
+
+            container.Register(Component.For<ScheduleService>());
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
 
@@ -77,6 +79,7 @@ namespace UI
             container.Register(Component.For<IDriverRepository>().ImplementedBy<DriverRepository>());
             container.Register(Component.For<ITicketTypeRepository>().ImplementedBy<TicketTypeRepository>());
             container.Register(Component.For<ICategoryRepository>().ImplementedBy<CategoryRepository>());
+            container.Register(Component.For<IScheduleRepository>().ImplementedBy<ScheduleRepository>());
         }
 
         private ViewModelFactory CreateViewModelFactory(IWindsorContainer container)
@@ -102,7 +105,8 @@ namespace UI
 
             return new ShellViewModel(
                 container.Resolve<NavigationStore>(),
-                mc.ComposeMenu(container));
+                mc.ComposeMenu(container),
+                container.Resolve<ScheduleService>());
         }
     }
 }

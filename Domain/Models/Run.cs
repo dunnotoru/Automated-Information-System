@@ -12,5 +12,8 @@
         public int VehicleId { get; set; }
         public Route Route { get; set; }
         public Vehicle Vehicle { get; set; }
+
+        public int? ScheduleId { get; set; }
+        public Schedule? Schedule { get; set; }
     }
 }

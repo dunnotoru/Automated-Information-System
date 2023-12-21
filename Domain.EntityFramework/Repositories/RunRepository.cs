@@ -29,7 +29,6 @@ namespace Domain.EntityFramework.Repositories
                     Number = entity.Number,
                 };
 
-
                 context.Runs.Add(r);
                 context.SaveChanges();
             }
