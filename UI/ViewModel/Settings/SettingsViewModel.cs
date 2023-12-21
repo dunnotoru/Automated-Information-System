@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace UI.ViewModel
 {
-    internal class DispatcherViewModel : ViewModelBase
+    public class SettingsViewModel : ViewModelBase
     {
         public ObservableCollection<ListMenuItemViewModel> ViewModels { get; set; }
 
@@ -14,7 +14,7 @@ namespace UI.ViewModel
             set { _selectedItem = value; OnPropertyChanged(); }
         }
 
-        public DispatcherViewModel(IEnumerable<ListMenuItemViewModel> menuItems)
+        public SettingsViewModel(IEnumerable<ListMenuItemViewModel> menuItems)
         {
             ViewModels = new ObservableCollection<ListMenuItemViewModel>(menuItems);
         }

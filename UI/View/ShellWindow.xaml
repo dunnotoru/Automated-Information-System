@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UI.View"
         xmlns:vm="clr-namespace:UI.ViewModel"
         mc:Ignorable="d"
-        Title="ShellWindow" Height="550" Width="900"
+        Title="АИС" Height="550" Width="900"
         WindowState="Maximized"
         MinHeight="500" MinWidth="800">
     <Window.Resources>
@@ -27,7 +27,12 @@
         <DataTemplate DataType="{x:Type vm:DispatcherViewModel}">
             <local:DispatcherView/>
         </DataTemplate>
-
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <local:SettingsUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AboutViewModel}">
+            <local:AboutUserControl/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

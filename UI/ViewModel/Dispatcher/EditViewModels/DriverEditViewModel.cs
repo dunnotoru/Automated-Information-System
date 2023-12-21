@@ -49,7 +49,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             DriverClass = driver.DriverClass ?? "";
             ProfessionalStandardDetails = driver.ProfessionalStandardDetails ?? "";
             EmploymentBookDetails = driver.EmploymentBookDetails ?? "";
-            License = new DriverLicenseViewModel(driver.License, _categoryRepository);
+            License = new DriverLicenseViewModel(driver.DriverLicense, _categoryRepository);
         }
 
         public DriverEditViewModel(IDriverRepository driverRepository, ICategoryRepository categoryRepository) : this()
@@ -92,7 +92,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 DriverClass = DriverClass,
                 EmploymentBookDetails = EmploymentBookDetails,
                 ProfessionalStandardDetails = ProfessionalStandardDetails,
-                License = License.GetLicense(),
+                DriverLicense = License.GetLicense(),
             };
 
             try

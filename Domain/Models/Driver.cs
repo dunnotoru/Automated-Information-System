@@ -8,9 +8,12 @@
         public string Patronymic { get; set; }
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
-        public DriverLicense License { get; set; }
         public string DriverClass { get; set; }
         public string ProfessionalStandardDetails { get; set; }
         public string EmploymentBookDetails { get; set; }
+        
+
+        public int DriverLicenseId { get; set; }
+        public DriverLicense DriverLicense { get; set; }
     }
 }

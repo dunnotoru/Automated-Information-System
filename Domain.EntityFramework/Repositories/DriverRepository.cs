@@ -2,7 +2,6 @@
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -13,9 +12,8 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Licenses.Attach(entity.License);
+                context.Categories.AttachRange(entity.DriverLicense.Categories);
                 context.Drivers.Add(entity);
-
                 context.SaveChanges();
             }
         }
@@ -27,18 +25,30 @@ namespace Domain.EntityFramework.Repositories
             {
                 entity.Id = id;
 
-                context.Drivers.Attach(entity);
-                context.Drivers.Update(entity);
+                List<LicenseCategory> stored = context
+                    .LicenseCategory
+                    .Where(o => o.DriverLicenseId == entity.DriverLicense.Id)
+                    .ToList();
 
-                DriverLicense storedLicense = context.Licenses.Single(o => o.Id == entity.License.Id);
+                context.LicenseCategory.RemoveRange(stored);
+
                 List<Category> categories = new List<Category>();
-                foreach (var item in entity.License.Categories)
+                foreach (Category category in entity.DriverLicense.Categories)
                 {
-                    if (context.Categories.Any(o => o.Id == item.Id))
-                        categories.Add(context.Categories.Single(o => o.Id == item.Id));
+                    LicenseCategory lc = new LicenseCategory()
+                    {
+                        DriverLicenseId = entity.DriverLicense.Id,
+                        CategoryId = category.Id
+                    };
+
+                    context.LicenseCategory.Add(lc);
                 }
-                storedLicense.Categories = categories;
-                                
+
+                context.Drivers.Attach(entity);
+                context.Licenses.Attach(entity.DriverLicense);
+                context.Drivers.Update(entity);
+                context.Licenses.Update(entity.DriverLicense);
+
                 context.SaveChanges();
             }
         }
@@ -47,7 +57,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Driver? stored = context.Drivers.Include(o => o.License).Single(o => o.Id == id);
+                Driver? stored = context.Drivers.Include(o => o.DriverLicense).Single(o => o.Id == id);
 
                 context.Drivers.Remove(stored);
                 context.SaveChanges();
@@ -60,7 +70,7 @@ namespace Domain.EntityFramework.Repositories
             using (ApplicationContext context = new ApplicationContext())
             {
                 return context.Drivers
-                    .Include(o => o.License)
+                    .Include(o => o.DriverLicense)
                     .ThenInclude(x => x.Categories)
                     .ToList();
             }
@@ -71,7 +81,7 @@ namespace Domain.EntityFramework.Repositories
             using (ApplicationContext context = new ApplicationContext())
             {
                 return context.Drivers
-                    .Include(o => o.License)
+                    .Include(o => o.DriverLicense)
                     .ThenInclude(x => x.Categories)
                     .Single(o => o.Id == id);
             }
@@ -81,7 +91,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Drivers.Include(o => o.License).Single(o => o.PayrollNumber == payrollNumber);
+                return context.Drivers.Include(o => o.DriverLicense).Single(o => o.PayrollNumber == payrollNumber);
             }
         }
     }

@@ -18,8 +18,17 @@ namespace Domain.Services
         public bool Register(string username, string password,
             bool read = false, bool write = false, bool edit = false, bool delete = false)
         {
-            Account? storedAccount = _accountRepository.GetByUsername(username);
-            if (storedAccount == null) return false;
+            Account? storedAccount;
+            try
+            {
+                storedAccount = _accountRepository.GetByUsername(username);
+                if (storedAccount != null) return false;
+            }
+            catch
+            {
+                return false;
+            }
+
 
             string passwordHash = _passwordHasher.CalcHash(password);
             Account newAccount = new Account()
@@ -32,7 +41,14 @@ namespace Domain.Services
                 Delete = delete
             };
 
-            _accountRepository.Add(newAccount);
+            try
+            {
+                _accountRepository.Add(newAccount);
+            }
+            catch 
+            {
+                return false;
+            }
 
             return true;
         }
@@ -44,7 +60,15 @@ namespace Domain.Services
             if (storedAccount.PasswordHash != _passwordHasher.CalcHash(oldPassword)) return false;
 
             storedAccount.PasswordHash = _passwordHasher.CalcHash(newPassword);
-            _accountRepository.Update(storedAccount.Id, storedAccount);
+            try
+            {
+                _accountRepository.Update(storedAccount.Id, storedAccount);
+            }
+            catch
+            { 
+                return false; 
+            }
+
             return true;
         }
     }

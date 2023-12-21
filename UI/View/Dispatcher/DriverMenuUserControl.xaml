@@ -21,7 +21,7 @@
         <DataGrid ItemsSource="{Binding Drivers}" Margin="10,10,10,10"
                 SelectionMode="Single" SelectedItem="{Binding SelectedDriver}"
                 IsReadOnly="True"
-                AutoGenerateColumns="False" IsEnabled="{Binding IsRedactingEnabled, Converter={StaticResource InverseBooleanConverterKey}}">
+                AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Табельный номер" Width="auto" Binding="{Binding PayrollNumber}"/>
@@ -43,7 +43,7 @@
                 Command="{Binding AddCommand}"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Column="2">
+        <ScrollViewer Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
             <StackPanel DataContext="{Binding SelectedDriver.License}">
                 <Label Margin="10" Content="Id"/>
                 <TextBox Margin="10"  Text="{Binding Id}" IsReadOnly="True"/>
@@ -67,8 +67,8 @@
                 </DataGrid>
             </StackPanel>
         </ScrollViewer>
-        
-        <ScrollViewer Grid.Column="3">
+
+        <ScrollViewer Grid.Column="3" IsEnabled="{Binding IsRedactingEnabled}">
             <StackPanel DataContext="{Binding SelectedDriver}">
                 <Label Margin="10" Content="Id"/>
                 <TextBox Margin="10" Text="{Binding Id}" IsReadOnly="True"/>

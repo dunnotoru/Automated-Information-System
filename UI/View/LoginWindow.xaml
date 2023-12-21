@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UI.View"
         xmlns:vm="clr-namespace:UI.ViewModel"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="239" Width="319" 
+        Height="239" Width="319" 
         MaxHeight="300" MaxWidth="400"
         MinHeight="230" MinWidth="300">
     <Grid>

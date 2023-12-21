@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View.Settings
+namespace UI.View
 {
     public partial class SettingsUserControl : UserControl
     {

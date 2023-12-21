@@ -28,12 +28,12 @@ namespace UI.ViewModel
             }
         }
 
-        public ObservableCollection<MenuItemViewModel> Items { get; set; }
+        public ObservableCollection<MainMenuItemViewModel> Items { get; set; }
 
         public ShellViewModel(NavigationStore navigationStore,
-            List<MenuItemViewModel> menuItems)
+            List<MainMenuItemViewModel> menuItems)
         {
-            Items = new ObservableCollection<MenuItemViewModel>(menuItems);
+            Items = new ObservableCollection<MainMenuItemViewModel>(menuItems);
 
             _navigationStore = navigationStore;
 

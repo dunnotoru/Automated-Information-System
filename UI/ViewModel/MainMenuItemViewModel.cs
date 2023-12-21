@@ -6,7 +6,7 @@ using UI.Stores;
 
 namespace UI.ViewModel
 {
-    internal class MenuItemViewModel : ViewModelBase
+    internal class MainMenuItemViewModel : ViewModelBase
     {
         private string _header;
         public string Header
@@ -22,14 +22,14 @@ namespace UI.ViewModel
 
         public bool Visible { get => !isReadRequired; }
 
-        public ObservableCollection<MenuItemViewModel> Items { get; set; }
+        public ObservableCollection<MainMenuItemViewModel> Items { get; set; }
 
         public Func<ViewModelBase> GetViewModel { get; set; }
 
-        public MenuItemViewModel(IEnumerable<MenuItemViewModel> subItems)
+        public MainMenuItemViewModel(IEnumerable<MainMenuItemViewModel> subItems)
         {
             ArgumentNullException.ThrowIfNull(subItems);
-            Items = new ObservableCollection<MenuItemViewModel>(subItems);
+            Items = new ObservableCollection<MainMenuItemViewModel>(subItems);
 
             isReadRequired = false;
             isWriteRequired = false;
@@ -37,9 +37,9 @@ namespace UI.ViewModel
             isDeleteRequired = false;
         }
 
-        public MenuItemViewModel()
+        public MainMenuItemViewModel()
         {
-            Items = new ObservableCollection<MenuItemViewModel>();
+            Items = new ObservableCollection<MainMenuItemViewModel>();
 
             isReadRequired = false;
             isWriteRequired = false;

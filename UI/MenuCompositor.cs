@@ -21,70 +21,47 @@ namespace UI
             _delete = delete;
         }
 
-        public List<MenuItemViewModel> ComposeMenu(IWindsorContainer container)
+        public List<MainMenuItemViewModel> ComposeMenu(IWindsorContainer container)
         {
 
-            List<MenuItemViewModel> r = new List<MenuItemViewModel>()
+            List<MainMenuItemViewModel> r = new List<MainMenuItemViewModel>()
             {
-                new MenuItemViewModel()
+                new MainMenuItemViewModel()
                 {
                     Header = "Настройки",
+                    GetViewModel = () => container.Resolve<SettingsViewModel>()
                 },
-                new MenuItemViewModel()
+                new MainMenuItemViewModel()
                 {
-                    Header = "Диспетчерская",
-                    GetViewModel = () => container.Resolve<DispatcherViewModel>(),
+                    Header = "Диспетчер",
+                    GetViewModel = () => container.Resolve<DispatcherViewModel>()
                 },
-                new MenuItemViewModel()
-                {
-                    Header = "Сменить пароль",
-                    GetViewModel = () => container.Resolve<UpdatePasswordViewModel>(),
-                }
             };
 
-            List<MenuItemViewModel> s = new List<MenuItemViewModel>()
+            List<MainMenuItemViewModel> menuList = new List<MainMenuItemViewModel>()
             {
-                new MenuItemViewModel()
-                {
-                    Header = "Содержание",
-                    GetViewModel = () => throw new NotImplementedException()
-                },
-
-                new MenuItemViewModel()
-                {
-                    Header = "О программе",
-                    GetViewModel = () => throw new NotImplementedException()
-                }
-            };
-
-            List<MenuItemViewModel> menuList = new List<MenuItemViewModel>()
-            {
-                new MenuItemViewModel()
+                new MainMenuItemViewModel()
                 {
                     Header = "Найти",
                     GetViewModel = () => container.Resolve<RunSearchViewModel>(),
                 },
 
-                new MenuItemViewModel(r)
+                new MainMenuItemViewModel(r)
                 {
                     Header = "Разное",
                 },
 
-                new MenuItemViewModel()
+                new MainMenuItemViewModel()
                 {
                     Header = "Справка",
                     GetViewModel = () => container.Resolve<CertificateViewModel>(),
                 },
 
-                new MenuItemViewModel(s)
+                new MainMenuItemViewModel()
                 {
-                    Header = "Справочники",
+                    Header = "О программе",
+                    GetViewModel = () => container.Resolve<AboutViewModel>()
                 },
-
-                new MenuItemViewModel()
-                {
-                    Header = "Документы",
-                }
             };
             return menuList;
         }

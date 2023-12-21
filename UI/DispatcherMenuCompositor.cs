@@ -1,47 +1,46 @@
 ﻿using Castle.Windsor;
 using System.Collections.Generic;
 using UI.ViewModel;
-using UI.ViewModel.Dispatcher;
 
 namespace UI
 {
     internal class DispatcherMenuCompositor
     {
-        public IEnumerable<DispatcherMenuItem> ComposeMenu(IWindsorContainer container)
+        public IEnumerable<ListMenuItemViewModel> ComposeMenu(IWindsorContainer container)
         {
-            List<DispatcherMenuItem> dispatcherMenuItems = new List<DispatcherMenuItem>()
+            List<ListMenuItemViewModel> dispatcherMenuItems = new List<ListMenuItemViewModel>()
             {
-                new DispatcherMenuItem()
+                new ListMenuItemViewModel()
                 {
                     Name = "Станции",
                     ViewModel = () => container.Resolve<StationMenuViewModel>(),
                 },
-                new DispatcherMenuItem()
+                new ListMenuItemViewModel()
                 {
                     Name = "Маршруты",
                     ViewModel = () => container.Resolve<RouteMenuViewModel>(),
                 },
-                new DispatcherMenuItem()
+                new ListMenuItemViewModel()
                 {
                     Name = "Рейсы",
                     ViewModel = () => container.Resolve<RunMenuViewModel>(),
                 },
-                new DispatcherMenuItem()
+                new ListMenuItemViewModel()
                 {
                     Name = "Водители",
                     ViewModel = () => container.Resolve<DriverMenuViewModel>(),
                 },
-                new DispatcherMenuItem()
+                new ListMenuItemViewModel()
                 {
                     Name = "Категории",
                     ViewModel = () => container.Resolve<CategoryMenuViewModel>(),
                 },
-                new DispatcherMenuItem()
+                new ListMenuItemViewModel()
                 {
                     Name = "Транспорт",
                     ViewModel = () => container.Resolve<VehicleMenuViewModel>(),
                 },
-                new DispatcherMenuItem()
+                new ListMenuItemViewModel()
                 {
                     Name = "Типы билетов",
                     ViewModel = () => container.Resolve<TicketTypeMenuViewModel>(),

@@ -10,7 +10,7 @@ namespace Domain.EntityFramework.Configurations
         {
             builder.HasKey(x => x.Id);
             builder
-                .HasOne(l => l.License)
+                .HasOne(l => l.DriverLicense)
                 .WithOne(r => r.Driver)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey<DriverLicense>(e => e.DriverId);

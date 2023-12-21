@@ -25,7 +25,7 @@ namespace UI.ViewModel
         public DriverEditViewModel SelectedDriver
         {
             get => _selectedDriver;
-            set { _selectedDriver = value; OnPropertyChanged(); }
+            set { _selectedDriver = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
         }
 
         public bool IsRedactingEnabled => SelectedDriver != null;

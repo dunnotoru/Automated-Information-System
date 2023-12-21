@@ -7,7 +7,6 @@ using Domain.Services;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
-using UI.ViewModel.Dispatcher;
 using UI.ViewModel.Factories;
 
 namespace UI
@@ -45,13 +44,21 @@ namespace UI
 
             container.Register(Component
                 .For<DispatcherViewModel>()
-                .UsingFactoryMethod(() => CreateDispatcherManagerViewModel(container))
+                .UsingFactoryMethod(() => CreateDispatcherViewModel(container))
                 .LifestyleTransient());
 
-            container.Register(Component.For<RunSearchViewModel>());
-            container.Register(Component.For<PassengerRegistrationViewModel>());
+            container.Register(Component.For<RegistrationViewModel>().LifestyleTransient());
+
+            container.Register(Component
+                .For<SettingsViewModel>()
+                .UsingFactoryMethod(() => CreateSettingsViewModel(container))
+                .LifestyleTransient());
+
+            container.Register(Component.For<RunSearchViewModel>().LifestyleTransient());
+            container.Register(Component.For<PassengerRegistrationViewModel>().LifestyleTransient());
+            container.Register(Component.For<UpdatePasswordViewModel>().LifestyleTransient());
             container.Register(Component.For<CertificateViewModel>());
-            container.Register(Component.For<UpdatePasswordViewModel>());
+            container.Register(Component.For<AboutViewModel>());
 
             container.Register(Component
                 .For<ShellViewModel>()
@@ -77,10 +84,16 @@ namespace UI
             return new ViewModelFactory(container);
         }
 
-        private DispatcherViewModel CreateDispatcherManagerViewModel(IWindsorContainer container)
+        private DispatcherViewModel CreateDispatcherViewModel(IWindsorContainer container)
         {
             DispatcherMenuCompositor compositor = new DispatcherMenuCompositor();
             return new DispatcherViewModel(compositor.ComposeMenu(container));
+        }
+
+        private SettingsViewModel CreateSettingsViewModel(IWindsorContainer container)
+        {
+            SettingsMenuCompositor compositor = new SettingsMenuCompositor();
+            return new SettingsViewModel(compositor.ComposeMenu(container));
         }
 
         private ShellViewModel CreateShell(IWindsorContainer container)
