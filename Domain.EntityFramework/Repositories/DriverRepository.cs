@@ -57,7 +57,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Driver? stored = context.Drivers.Include(o => o.DriverLicense).Single(o => o.Id == id);
+                Driver? stored = context.Drivers.Include(o => o.DriverLicense).First(o => o.Id == id);
 
                 context.Drivers.Remove(stored);
                 context.SaveChanges();
@@ -83,7 +83,7 @@ namespace Domain.EntityFramework.Repositories
                 return context.Drivers
                     .Include(o => o.DriverLicense)
                     .ThenInclude(x => x.Categories)
-                    .Single(o => o.Id == id);
+                    .First(o => o.Id == id);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Drivers.Include(o => o.DriverLicense).Single(o => o.PayrollNumber == payrollNumber);
+                return context.Drivers.Include(o => o.DriverLicense).First(o => o.PayrollNumber == payrollNumber);
             }
         }
     }

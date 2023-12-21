@@ -30,7 +30,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                TicketType stored = context.TicketTypes.Single(o => o.Id == id);
+                TicketType stored = context.TicketTypes.First(o => o.Id == id);
                 context.Remove(stored);
                 context.SaveChanges();
             }
@@ -39,7 +39,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.TicketTypes.Single(o => o.Id == id);
+                return context.TicketTypes.First(o => o.Id == id);
             }
         }
 

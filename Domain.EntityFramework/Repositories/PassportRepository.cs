@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class PassportRepository : IPassportRepository
     {
-        public void Add(Passport entity)
+        public void Add(IdentityDocument entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -15,12 +15,12 @@ namespace Domain.EntityFramework.Repositories
                 context.SaveChanges();
             }
         }
-        public void Update(int id, Passport entity)
+        public void Update(int id, IdentityDocument entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Passport stored = context.Passports.Single(o => o.Id == id);
+                IdentityDocument stored = context.Passports.First(o => o.Id == id);
 
                 stored = entity;
                 stored.Id = id;
@@ -34,26 +34,26 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Passport stored = context.Passports.Single(o => o.Id == id);
+                IdentityDocument stored = context.Passports.First(o => o.Id == id);
 
                 context.Passports.Remove(stored);
                 context.SaveChanges();
             }
         }
 
-        public Passport? GetById(int id)
+        public IdentityDocument? GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Passports.SingleOrDefault(o => o.Id == id);
+                return context.Passports.FirstOrDefault(o => o.Id == id);
             }
         }
 
-        public Passport? Get(string number, string series)
+        public IdentityDocument? Get(string number, string series)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Passports.SingleOrDefault(x => x.Number == number && x.Series == series);
+                return context.Passports.FirstOrDefault(x => x.Number == number && x.Series == series);
             }
         }
 

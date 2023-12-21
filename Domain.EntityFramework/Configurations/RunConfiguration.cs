@@ -9,8 +9,12 @@ namespace Domain.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<Run> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(l => l.Drivers)
-                .WithOne();
+            builder.HasIndex(o => o.Number).IsUnique();
+            builder
+                .HasMany(l => l.Drivers)
+                .WithOne(r => r.Run)
+                .HasForeignKey(o => o.RunId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

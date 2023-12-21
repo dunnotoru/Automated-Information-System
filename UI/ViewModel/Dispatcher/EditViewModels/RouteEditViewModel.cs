@@ -79,12 +79,18 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         private RouteEditViewModel(IStationRepository stationRepository)
         {
-            SaveCommand = new RelayCommand(Save);
+            SaveCommand = new RelayCommand(Save, () => CanSave());
             RemoveCommand = new RelayCommand(Remove);
             AddStationCommand = new RelayCommand(AddStation);
             RemoveStationCommand = new RelayCommand(RemoveStation);
             MoveUpCommand = new RelayCommand(MoveUp);
             MoveDownCommand = new RelayCommand(MoveDown);
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Name) &&
+                Stations.Count >= 2;
         }
 
         public int Id

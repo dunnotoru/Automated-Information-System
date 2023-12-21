@@ -12,8 +12,8 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Vehicle? b = context.Vehicles.Single(o => o.Id == entity.Vehicle.Id);
-                Route? route = context.Routes.Single(o => o.Id == entity.Route.Id);
+                Vehicle? b = context.Vehicles.First(o => o.Id == entity.Vehicle.Id);
+                Route? route = context.Routes.First(o => o.Id == entity.Route.Id);
                 ICollection<Driver> drivers = context.Drivers.ToList();
 
                 if (drivers == null) return;
@@ -39,7 +39,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Run stored = context.Runs.Single(o => o.Id == id);
+                Run stored = context.Runs.First(o => o.Id == id);
                 context.Remove(stored);
                 context.SaveChanges();
             }
@@ -66,7 +66,7 @@ namespace Domain.EntityFramework.Repositories
                     .ThenInclude(x => x.Stations)
                     .Include(o => o.Vehicle)
                     .Include(o => o.Drivers)
-                    .Single(x => x.Id == id);
+                    .First(x => x.Id == id);
             }
         }
 

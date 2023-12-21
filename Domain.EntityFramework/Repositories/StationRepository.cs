@@ -32,7 +32,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Station stored = context.Stations.Single(o => o.Id == id);
+                Station stored = context.Stations.First(o => o.Id == id);
                 context.Remove(stored);
                 context.SaveChanges();
             }
@@ -58,7 +58,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Stations.Single(s => s.Id == id);
+                return context.Stations.First(s => s.Id == id);
             }
         }
 

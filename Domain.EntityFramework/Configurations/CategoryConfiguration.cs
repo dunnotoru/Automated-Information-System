@@ -8,7 +8,8 @@ namespace Domain.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.HasKey(c => c.Id);
+            builder.HasKey(o => o.Id);
+            builder.HasIndex(o => o.Name).IsUnique();
         }
     }
 }

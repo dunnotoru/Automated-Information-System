@@ -39,8 +39,13 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         private CategoryEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save);
+            SaveCommand = new RelayCommand(Save, () => CanSave());
             RemoveCommand = new RelayCommand(Remove);
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Name);
         }
 
         public int Id { get; set; }

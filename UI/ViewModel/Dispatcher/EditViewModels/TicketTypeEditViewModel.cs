@@ -35,15 +35,20 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             ArgumentNullException.ThrowIfNull(stationRepository);
 
             Id = 0;
-            Name = "Unknown";
+            Name = "";
             Modifier = 100;
             _ticketTypeRepository = stationRepository;
         }
 
         private TicketTypeEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save);
+            SaveCommand = new RelayCommand(Save, () => CanSave());
             RemoveCommand = new RelayCommand(Remove);
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Name);
         }
 
         public int Id { get; set; }

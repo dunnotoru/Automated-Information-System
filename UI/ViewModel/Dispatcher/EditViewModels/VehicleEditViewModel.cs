@@ -21,6 +21,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private string _photography;
         private string _freighter;
         private string _insuranceDetails;
+        private string _lastRepairType;
 
         public Action<string> ErrorEvent;
         public Action<VehicleEditViewModel> RemoveEvent;
@@ -67,10 +68,19 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         private VehicleEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save);
+            SaveCommand = new RelayCommand(Save, () => CanSave());
             RemoveCommand = new RelayCommand(Remove);
         }
 
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(LicensePlateNumber) &&
+                !string.IsNullOrWhiteSpace(Model) &&
+                !string.IsNullOrWhiteSpace(Brand) &&
+                Capacity > 0 &&
+                !string.IsNullOrWhiteSpace(InsuranceDetails) &&
+                Mileage >= 0;
+        }
         private void Save()
         {
             Vehicle createdStation = new Vehicle()
@@ -159,7 +169,6 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             get { return _lastRepair; }
             set { _lastRepair = value; OnPropertyChanged(); }
         }
-        private string _lastRepairType;
 
         public string LastRepairType
         {

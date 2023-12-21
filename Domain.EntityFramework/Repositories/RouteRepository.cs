@@ -23,12 +23,12 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Route stored = context.Routes.Include(r => r.Stations).Single(r => r.Id == id);
+                Route stored = context.Routes.Include(r => r.Stations).First(r => r.Id == id);
                 List<Station> entityStations = new List<Station>();
                 foreach (Station item in entity.Stations)
                 {
                     if (context.Stations.Any(o => o.Id == item.Id))
-                        entityStations.Add(context.Stations.Single(o => o.Id == item.Id));
+                        entityStations.Add(context.Stations.First(o => o.Id == item.Id));
                 }
 
 
@@ -43,7 +43,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Route? stored = context.Routes.Single(r => r.Id == id);
+                Route? stored = context.Routes.First(r => r.Id == id);
                 context.Remove(stored);
                 context.SaveChanges();
             }
@@ -53,7 +53,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Routes.Include(r => r.Stations).SingleOrDefault(r => r.Id == id);
+                return context.Routes.Include(r => r.Stations).FirstOrDefault(r => r.Id == id);
             }
         }
 

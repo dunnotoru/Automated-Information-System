@@ -20,7 +20,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Schedule stored = context.Schedules.Single(o => o.Id == id);
+                Schedule stored = context.Schedules.First(o => o.Id == id);
                 context.Schedules.Remove(stored);
                 context.SaveChanges();
             }
@@ -31,7 +31,7 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Schedule stored = context.Schedules.Single(o => o.Id == id);
+                Schedule stored = context.Schedules.First(o => o.Id == id);
                 context.Update(stored);
                 context.SaveChanges();
             }
@@ -41,7 +41,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Schedules.SingleOrDefault(s => s.Id == id);
+                return context.Schedules.FirstOrDefault(s => s.Id == id);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(run);
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Schedules.SingleOrDefault(s => s.Run == run);
+                return context.Schedules.FirstOrDefault(s => s.Run == run);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Vehicle stored = context.Vehicles.Single(o => o.Id == id);
+                Vehicle stored = context.Vehicles.First(o => o.Id == id);
                 context.Vehicles.Remove(stored);
                 context.SaveChanges();
             }
@@ -42,7 +42,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Vehicles.Single(o => o.Id == id);
+                return context.Vehicles.First(o => o.Id == id);
             }
         }
 
@@ -50,7 +50,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Vehicles.Single(o => o.LicensePlateNumber == licensePlateNumber);
+                return context.Vehicles.First(o => o.LicensePlateNumber == licensePlateNumber);
             }
         }
 

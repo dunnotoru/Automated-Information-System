@@ -47,13 +47,13 @@ namespace UI.ViewModel
             _messageBoxService = messageBoxService;
             _documentPrintService = documentPrintService;
             _ticketPriceCalculator = ticketPriceCalculator;
+            _accountStore = accountStore;
 
-            CashPaymentCommand = new RelayCommand(CashPayment, CanSell);
-            NoncashPaymentCommand = new RelayCommand(NoncashPayment);
+            CashPaymentCommand = new RelayCommand(CashPayment, () => CanSell() && ValidateCash());
+            NoncashPaymentCommand = new RelayCommand(NoncashPayment, CanSell);
             AddPassengerCommand = new RelayCommand(AddPassenger);
             DeletePassengerCommand = new RelayCommand(DeletePassenger);
             DeclineCommand = new RelayCommand(Decline);
-            _accountStore = accountStore;
         }
 
         public DateTime DepartureDateTime
@@ -144,10 +144,9 @@ namespace UI.ViewModel
                 {
                     BookDate = DateTime.Now,
                     Cashier = _accountStore.CurrentAccount.Username,
-                    PassengerPassport = Passengers[0].GetPassport(),
+                    Passport = Passengers[0].GetPassport(),
                     Price = 10,
                     Run = SelectedRun,
-                    Type = null
                 };
                 IDocument ticketPrint = new TicketPrint(ticket);
                 _documentPrintService.PrintDocument(ticketPrint);
@@ -208,6 +207,11 @@ namespace UI.ViewModel
                 if (ValidatePassenger(viewModel) == false)
                     return false;
 
+            return true;
+        }
+
+        private bool ValidateCash()
+        {
             if (Price <= 0) return false;
             if (Cash <= 0) return false;
             if (Change < 0) return false;

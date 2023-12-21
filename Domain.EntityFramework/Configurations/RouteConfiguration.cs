@@ -13,6 +13,7 @@ namespace Domain.EntityFramework.Configurations
                 .HasMany(r => r.Stations)
                 .WithMany(s => s.Routes)
                 .UsingEntity<StationRoute>();
+
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (AccountContext context = new AccountContext())
             {
-                Account stored = context.Accounts.Single(o => o.Id == id);
+                Account stored = context.Accounts.First(o => o.Id == id);
                 context.Accounts.Remove(stored);
                 context.SaveChanges();
             }
@@ -31,7 +31,7 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (AccountContext context = new AccountContext())
             {
-                Account stored = context.Accounts.Single(o => o.Id == id);
+                Account stored = context.Accounts.First(o => o.Id == id);
 
                 stored = entity;
                 stored.Id = id;
@@ -45,7 +45,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (AccountContext context = new AccountContext())
             {
-                return context.Accounts.SingleOrDefault(_ => _.Id == id);
+                return context.Accounts.FirstOrDefault(_ => _.Id == id);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (AccountContext context = new AccountContext())
             {
-                return context.Accounts.SingleOrDefault(_ => _.Username == username);
+                return context.Accounts.FirstOrDefault(_ => _.Username == username);
             }
         }
     }

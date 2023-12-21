@@ -42,9 +42,9 @@ namespace UI.ViewModel
             set { _dateOfBirth = value; OnPropertyChanged(); }
         }
 
-        public Passport GetPassport()
+        public IdentityDocument GetPassport()
         {
-            return new Passport()
+            return new IdentityDocument()
             {
                 Name = _name,
                 Surname = _surname,

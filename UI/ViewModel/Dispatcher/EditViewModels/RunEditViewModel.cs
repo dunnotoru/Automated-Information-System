@@ -54,18 +54,19 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
 
             Drivers = new ObservableCollection<DriverViewModel>();
+            Routes = new ObservableCollection<RouteViewModel>();
+            Vehicles = new ObservableCollection<VehicleViewModel>();
+            
             foreach (var item in _driverRepository.GetAll())
             {
                 DriverViewModel vm = new DriverViewModel(item);
                 Drivers.Add(vm);
             }
-            Routes = new ObservableCollection<RouteViewModel>();
             foreach (var item in _routeRepository.GetAll())
             {
                 RouteViewModel vm = new RouteViewModel(item, _routeRepository);
                 Routes.Add(vm);
             }
-            Vehicles = new ObservableCollection<VehicleViewModel>();
             foreach (var item in _vehicleRepository.GetAll())
             {
                 VehicleViewModel vm = new VehicleViewModel(item, _vehicleRepository);
@@ -112,8 +113,15 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         private RunEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save);
+            SaveCommand = new RelayCommand(Save, () => CanSave());
             RemoveCommand = new RelayCommand(Remove);
+        }
+
+        private bool CanSave()
+        {
+            return Vehicles.Count != 0 &&
+                Drivers.Count != 0 && SelectedRoute != null;
+                
         }
 
         private void Save()

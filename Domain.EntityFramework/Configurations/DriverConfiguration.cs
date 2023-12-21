@@ -8,12 +8,12 @@ namespace Domain.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Driver> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(o => o.Id);
             builder
                 .HasOne(l => l.DriverLicense)
                 .WithOne(r => r.Driver)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasForeignKey<DriverLicense>(e => e.DriverId);
+                .HasForeignKey<DriverLicense>(o => o.DriverId);
         }
     }
 }

@@ -8,10 +8,5 @@ namespace UI.View
         {
             InitializeComponent();
         }
-
-        private void ScrollViewer_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
-        {
-
-        }
     }
 }

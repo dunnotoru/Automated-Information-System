@@ -13,7 +13,9 @@
         public string EmploymentBookDetails { get; set; }
         
 
+        public int? RunId { get; set; }
         public int DriverLicenseId { get; set; }
+        public Run? Run { get; set; }
         public DriverLicense DriverLicense { get; set; }
     }
 }

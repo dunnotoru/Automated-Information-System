@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Contexts
 {
     internal class ApplicationContext : DbContext
     {
-        public DbSet<Passport> Passports { get; set; }
+        public DbSet<IdentityDocument> Passports { get; set; }
         public DbSet<Run> Runs { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Station> Stations { get; set; }
@@ -38,7 +38,7 @@ namespace Domain.EntityFramework.Contexts
         {
             modelBuilder.ApplyConfiguration<Category>(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration<Driver>(new DriverConfiguration());
-            modelBuilder.ApplyConfiguration<Passport>(new PassportConfiguration());
+            modelBuilder.ApplyConfiguration<IdentityDocument>(new PassportConfiguration());
             modelBuilder.ApplyConfiguration<Route>(new RouteConfiguration());
             modelBuilder.ApplyConfiguration<Run>(new RunConfiguration());
             modelBuilder.ApplyConfiguration<Station>(new StationConfiguration());

@@ -2,9 +2,9 @@
 
 namespace Domain.RepositoryInterfaces
 {
-    public interface IPassportRepository : IRepositoryBase<Passport>
+    public interface IPassportRepository : IRepositoryBase<IdentityDocument>
     {
-        Passport? Get(string number, string series);
-        Passport? GetById(int id);
+        IdentityDocument? Get(string number, string series);
+        IdentityDocument? GetById(int id);
     }
 }

@@ -30,7 +30,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Category entity = context.Categories.Single(o => o.Id == id);
+                Category entity = context.Categories.First(o => o.Id == id);
                 context.Categories.Remove(entity);
                 context.SaveChanges();
             }
@@ -48,7 +48,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Categories.Single(o => o.Id == id);
+                return context.Categories.First(o => o.Id == id);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models
 {
-    public class Passport : EntityBase
+    public class IdentityDocument : EntityBase
     {
         public string Number { get; set; }
         public string Series { get; set; }

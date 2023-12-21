@@ -65,7 +65,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             Surname = "";
             Patronymic = "";
             PayrollNumber = "";
-            BirthDate = DateTime.MinValue;
+            BirthDate = DateTime.Now;
             Gender = "";
             DriverClass = "";
             ProfessionalStandardDetails = "";
@@ -75,8 +75,25 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         public DriverEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save);
+            SaveCommand = new RelayCommand(Save, () => CanSave());
             RemoveCommand = new RelayCommand(Remove);
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(PayrollNumber) &&
+                !string.IsNullOrWhiteSpace(Name) &&
+                !string.IsNullOrWhiteSpace(Surname) &&
+                !string.IsNullOrWhiteSpace(Patronymic) &&
+                !string.IsNullOrWhiteSpace(Gender) &&
+                !string.IsNullOrWhiteSpace(DriverClass) &&
+                !string.IsNullOrWhiteSpace(ProfessionalStandardDetails) &&
+                !string.IsNullOrWhiteSpace(EmploymentBookDetails) &&
+                License != null &&
+                License.DateOfIssue.Year - BirthDate.Year > 16 &&
+                License.DateOfExpiration > License.DateOfIssue &&
+                License.Categories != null &&
+                !string.IsNullOrWhiteSpace(License.LicenseNumber);
         }
 
         private void Save()

@@ -21,7 +21,7 @@
             <RowDefinition Height="48*"/>
             <RowDefinition Height="49*"/>
         </Grid.RowDefinitions>
-        <Label Content="Прибытие" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="66"/>
+        <Label Content="Отправление" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="66"/>
         <ListView ItemsSource="{Binding StationItems}"
                   Margin="10,40,10,65"
                    SelectedItem="{Binding DepartureStation}">
@@ -33,7 +33,7 @@
             </ListView.View>
         </ListView>
 
-        <Label Grid.Row="0" Grid.Column="1" Content="Отправление" HorizontalAlignment="Left" Margin="10 10 0 0" VerticalAlignment="Top" Height="26" Width="83"/>
+        <Label Grid.Row="0" Grid.Column="1" Content="Прибытие" HorizontalAlignment="Left" Margin="10 10 0 0" VerticalAlignment="Top" Height="26" Width="83"/>
         <ListView ItemsSource="{Binding StationItems}"
                   Margin="10,40,10,65"
                   SelectedItem="{Binding ArrivalStation}" Grid.Column="1">
