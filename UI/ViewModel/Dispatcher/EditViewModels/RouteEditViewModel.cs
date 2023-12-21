@@ -41,12 +41,12 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             Name = route.Name;
             Stations = new ObservableCollection<StationViewModel>();
 
+            _routeRepository = routeRepository;
+            _stationRepository = stationRepository;
 
             foreach (Station item in route.Stations)
                 Stations.Add(new StationViewModel(item, _stationRepository));
 
-            _routeRepository = routeRepository;
-            _stationRepository = stationRepository;
 
             AvailableStations = new ObservableCollection<StationViewModel>();
 
@@ -63,7 +63,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             ArgumentNullException.ThrowIfNull(routeRepository);
 
             Id = 0;
-            Name = "unknown";
+            Name = "";
             Stations = new ObservableCollection<StationViewModel>();
 
             _routeRepository = routeRepository;

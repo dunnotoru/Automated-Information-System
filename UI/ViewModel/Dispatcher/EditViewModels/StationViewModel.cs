@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using System;
 
 namespace UI.ViewModel.Dispatcher.EditViewModels
 {
@@ -30,6 +31,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         public StationViewModel(Station station, IStationRepository stationRepository)
         {
+            ArgumentNullException.ThrowIfNull(station);
+            ArgumentNullException.ThrowIfNull(stationRepository);
+
             Id = station.Id;
             Name = station.Name ?? "";
             Address = station.Address ?? "";

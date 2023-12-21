@@ -12,9 +12,7 @@ namespace Domain.EntityFramework.Configurations
             builder
                 .HasMany(r => r.Stations)
                 .WithMany(s => s.Routes)
-                .UsingEntity<StationRoute>(
-                l => l.HasOne<Station>().WithMany().HasForeignKey(e => e.StationId),
-                r => r.HasOne<Route>().WithMany().HasForeignKey(e => e.RouteId));
+                .UsingEntity<StationRoute>();
         }
     }
 }

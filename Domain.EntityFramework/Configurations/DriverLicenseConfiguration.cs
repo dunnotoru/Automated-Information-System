@@ -11,8 +11,8 @@ namespace Domain.EntityFramework.Configurations
             builder.HasKey(x => x.Id);
 
             builder
-                .HasMany(o => o.Categories)
-                .WithMany(o => o.Licenses)
+                .HasMany(l => l.Categories)
+                .WithMany(r => r.Licenses)
                 .UsingEntity<LicenseCategory>();
         }
     }
