@@ -74,7 +74,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _ticketTypeRepository.Add(createdStation);
+                    _ticketTypeRepository.Create(createdStation);
                 }
                 else
                 {

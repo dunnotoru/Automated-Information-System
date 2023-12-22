@@ -147,7 +147,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _routeRepository.Add(route);
+                    _routeRepository.Create(route);
                 }
                 else
                 {

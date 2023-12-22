@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class DriverRepository : IDriverRepository
     {
-        public void Add(Driver entity)
+        public void Create(Driver entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())

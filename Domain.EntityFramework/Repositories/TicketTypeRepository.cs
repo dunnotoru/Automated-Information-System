@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class TicketTypeRepository : ITicketTypeRepository
     {
-        public void Add(TicketType entity)
+        public void Create(TicketType entity)
         {
             using (ApplicationContext context = new ApplicationContext())
             {

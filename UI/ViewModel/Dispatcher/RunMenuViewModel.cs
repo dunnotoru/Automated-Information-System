@@ -1,6 +1,7 @@
 ﻿using Domain.RepositoryInterfaces;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -14,7 +15,9 @@ namespace UI.ViewModel
         private readonly IRouteRepository _routeRepository;
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IDriverRepository _driverRepository;
+        private readonly IScheduleRepository _scheduleRepository;
         private readonly IMessageBoxService _messageBoxService;
+
 
         private RunEditViewModel _selectedRun;
 
@@ -31,7 +34,7 @@ namespace UI.ViewModel
         public ICommand AddCommand { get; }
 
         public RunMenuViewModel(IRunRepository runRepository, IRouteRepository routeRepository,
-            IVehicleRepository vehicleRepository, IMessageBoxService messageBoxService, IDriverRepository driverRepository)
+            IVehicleRepository vehicleRepository, IMessageBoxService messageBoxService, IDriverRepository driverRepository, IScheduleRepository scheduleRepository)
         {
             ArgumentNullException.ThrowIfNull(runRepository);
             ArgumentNullException.ThrowIfNull(routeRepository);
@@ -43,12 +46,13 @@ namespace UI.ViewModel
             _vehicleRepository = vehicleRepository;
             _messageBoxService = messageBoxService;
             _driverRepository = driverRepository;
+            _scheduleRepository = scheduleRepository;
 
             Runs = new ObservableCollection<RunEditViewModel>();
             foreach (var item in _runRepository.GetAll())
             {
                 RunEditViewModel vm = new RunEditViewModel(item, _runRepository,
-                    _routeRepository, _vehicleRepository, _driverRepository);
+                    _routeRepository, _vehicleRepository, _driverRepository, _scheduleRepository);
                 Runs.Add(vm);
             }
 
@@ -58,11 +62,12 @@ namespace UI.ViewModel
         private void Add()
         {
             RunEditViewModel vm = new RunEditViewModel(_runRepository,
-                    _routeRepository, _vehicleRepository, _driverRepository);
+                    _routeRepository, _vehicleRepository, _driverRepository, _scheduleRepository);
+
             vm.RemoveEvent += OnRemove;
             vm.ErrorEvent += OnError;
             Runs.Add(vm);
-            SelectedRun = vm;
+            SelectedRun = Runs.Last();
         }
 
         private void OnRemove(RunEditViewModel vm)

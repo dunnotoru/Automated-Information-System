@@ -1,12 +1,13 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.EntityFramework.Repositories
 {
     public class StationRepository : IStationRepository
     {
-        public void Add(Station entity)
+        public void Create(Station entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -32,7 +33,10 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Station stored = context.Stations.First(o => o.Id == id);
+                Station stored = context.Stations.Include(o => o.Routes).First(o => o.Id == id);
+                if (stored.Routes.Count != 0)
+                    throw new InvalidOperationException();
+
                 context.Remove(stored);
                 context.SaveChanges();
             }

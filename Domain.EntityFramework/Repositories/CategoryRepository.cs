@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public void Add(Category entity)
+        public void Create(Category entity)
         {
             using (ApplicationContext context = new ApplicationContext())
             {

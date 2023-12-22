@@ -3,6 +3,9 @@ using System.Windows;
 using System.Timers;
 using UI.View;
 using UI.ViewModel;
+using System;
+using System.IO;
+using System.Configuration;
 
 namespace UI
 {
@@ -19,6 +22,7 @@ namespace UI
         protected override void OnStartup(StartupEventArgs e)
         {
             Configure();
+            CheckFiles();
 
             LoginViewModel viewModel = _container.Resolve<LoginViewModel>();
             viewModel.AuthenticationDone += ChangeLoginToMain;
@@ -30,6 +34,7 @@ namespace UI
             base.OnStartup(e);
         }
 
+
         private void ChangeLoginToMain()
         {
             ShellWindow window = new ShellWindow() { DataContext = _container.Resolve<ShellViewModel>() };
@@ -38,6 +43,16 @@ namespace UI
             window.Show();
             MainWindow.Close();
             MainWindow = window;
+        }
+        private void CheckFiles()
+        {
+            string ticketFolderPath = ConfigurationManager.AppSettings.Get("TicketFolderPath") ?? Directory.GetCurrentDirectory();
+            string receiptFolderPath = ConfigurationManager.AppSettings.Get("ReceiptFolderPath") ?? Directory.GetCurrentDirectory();
+
+            if(!Directory.Exists(ticketFolderPath))
+                Directory.CreateDirectory(ticketFolderPath);
+            if(!Directory.Exists(receiptFolderPath))
+                Directory.CreateDirectory(receiptFolderPath);
         }
 
         private void Configure()

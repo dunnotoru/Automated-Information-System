@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class RunRepository : IRunRepository
     {
-        public void Add(Run entity)
+        public void Create(Run entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())

@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class VehicleRepository : IVehicleRepository
     {
-        public void Add(Vehicle entity)
+        public void Create(Vehicle entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())

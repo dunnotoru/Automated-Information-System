@@ -18,7 +18,8 @@ namespace Domain.EntityFramework.Configurations
             builder
                 .HasOne(l => l.Run)
                 .WithOne(r => r.Schedule)
-                .HasForeignKey<Schedule>(o => o.RunId);
+                .HasForeignKey<Schedule>(o => o.RunId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

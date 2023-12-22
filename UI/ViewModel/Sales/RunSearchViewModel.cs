@@ -40,7 +40,6 @@ namespace UI.ViewModel
             get => _departureDateTimeMinimum;
             set { _departureDateTimeMinimum = value; OnPropertyChanged(); }
         }
-
         public DateTime DepartureDateTimeMaximum
         {
             get { return _departureDateTimeMaximum; }

@@ -43,7 +43,7 @@ namespace Domain.Services
 
             try
             {
-                _accountRepository.Add(newAccount);
+                _accountRepository.Create(newAccount);
             }
             catch 
             {

@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class TicketRepository : ITicketRepository
     {
-        public void Add(Ticket entity)
+        public void Create(Ticket entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())

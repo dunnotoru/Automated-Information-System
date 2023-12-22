@@ -116,7 +116,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _driverRepository.Add(driver);
+                    _driverRepository.Create(driver);
                 }
                 else
                 {

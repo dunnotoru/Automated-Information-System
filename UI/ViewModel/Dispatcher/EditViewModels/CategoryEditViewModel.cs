@@ -65,7 +65,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _categoryRepository.Add(createdStation);
+                    _categoryRepository.Create(createdStation);
                 }
                 else
                 {

@@ -20,14 +20,16 @@
         }
 
         public Receipt(string number, string companyName, string address,
-            DateTime operationDateTime, string cashierName)
+            DateTime operationDateTime, string cashierName, List<ReceiptLine> lines)
         {
+
             ReceiptLines = new List<ReceiptLine>();
             Number = number;
             CompanyName = companyName;
             Address = address;
             OperationDateTime = operationDateTime;
             CashierName = cashierName;
+            ReceiptLines = lines;
         }
     }
 }

@@ -101,7 +101,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _vehicleRepository.Add(createdStation);
+                    _vehicleRepository.Create(createdStation);
                 }
                 else
                 {

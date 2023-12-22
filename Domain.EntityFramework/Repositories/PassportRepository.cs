@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class PassportRepository : IPassportRepository
     {
-        public void Add(IdentityDocument entity)
+        public void Create(IdentityDocument entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())

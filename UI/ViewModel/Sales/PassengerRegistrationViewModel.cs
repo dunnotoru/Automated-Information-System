@@ -1,8 +1,10 @@
 ﻿using Domain.Models;
 using Domain.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -13,7 +15,8 @@ namespace UI.ViewModel
     internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
     {
         private readonly IMessageBoxService _messageBoxService;
-        private readonly IDocumentPrintService _documentPrintService;
+        private readonly ITicketPrintService _ticketPrintService;
+        private readonly IReceiptPrintService _receiptPrintService;
         private readonly ITicketPriceCalculator _ticketPriceCalculator;
         private readonly AccountStore _accountStore;
 
@@ -37,15 +40,15 @@ namespace UI.ViewModel
         public ICommand NoncashPaymentCommand { get; }
 
         public PassengerRegistrationViewModel(NavigationService navigationService, OrderStore orderStore,
-            IMessageBoxService messageBoxService, IDocumentPrintService documentPrintService,
-            ITicketPriceCalculator ticketPriceCalculator, AccountStore accountStore)
+            IMessageBoxService messageBoxService, ITicketPrintService documentPrintService,
+            ITicketPriceCalculator ticketPriceCalculator, AccountStore accountStore, IReceiptPrintService receiptPrintService)
         {
             _orderStore = orderStore;
             _orderStore.OrderCreated += OnOrderCreated;
             Passengers = new ObservableCollection<PassengerViewModel>();
             _navigationService = navigationService;
             _messageBoxService = messageBoxService;
-            _documentPrintService = documentPrintService;
+            _ticketPrintService = documentPrintService;
             _ticketPriceCalculator = ticketPriceCalculator;
             _accountStore = accountStore;
 
@@ -54,6 +57,7 @@ namespace UI.ViewModel
             AddPassengerCommand = new RelayCommand(AddPassenger);
             DeletePassengerCommand = new RelayCommand(DeletePassenger);
             DeclineCommand = new RelayCommand(Decline);
+            _receiptPrintService = receiptPrintService;
         }
 
         public DateTime DepartureDateTime
@@ -120,8 +124,7 @@ namespace UI.ViewModel
         }
         private void CashPayment()
         {
-            PrintReceipt();
-            PrintTicket();
+            PrintDocuments();
 
             _messageBoxService.ShowMessage("Оплата прошла успешно.");
             _navigationService.Navigate<RunSearchViewModel>();
@@ -129,44 +132,30 @@ namespace UI.ViewModel
 
         private void NoncashPayment()
         {
-            PrintReceipt();
-            PrintTicket();
+            PrintDocuments();
 
             _messageBoxService.ShowMessage("Оплата прошла успешно.");
             _navigationService.Navigate<RunSearchViewModel>();
         }
 
-        private void PrintTicket()
+        private void PrintDocuments()
         {
+            List<ReceiptLine> lines = new List<ReceiptLine>();
             foreach (var item in Passengers)
             {
-                Ticket ticket = new Ticket()
-                {
-                    BookDate = DateTime.Now,
-                    Cashier = _accountStore.CurrentAccount.Username,
-                    Passport = Passengers[0].GetPassport(),
-                    Price = 10,
-                    Run = SelectedRun,
-                };
-                IDocument ticketPrint = new TicketPrint(ticket);
-                _documentPrintService.PrintDocument(ticketPrint);
-            }
-        }
+                Ticket ticket = new Ticket(item.GetDocument(), SelectedRun, _accountStore.CurrentAccount, null, _ticketPriceCalculator);
+                IDocumentFormatter ticketPrint = new TicketFormatter(ticket);
+                _ticketPrintService.Print(ticketPrint);
 
-        private void PrintReceipt()
-        {
+                ReceiptLine line = new ReceiptLine("Билет", ticket.Price, 1);
+                lines.Add(line);
+            }
+
             Receipt receipt = new Receipt(Guid.NewGuid().ToString(),
-                "Я устал", "дома", DateTime.Now, _accountStore.CurrentAccount.Username);
+                "ООО Возня", "Владивосток", DateTime.Now, _accountStore.CurrentAccount.Username, lines);
 
-            foreach (var item in Passengers)
-            {
-                int price = _ticketPriceCalculator.CalcPrice(SelectedRun, null);
-                ReceiptLine line = new ReceiptLine("Билет", price, 1);
-                receipt.ReceiptLines.Add(line);
-            }
-
-            IDocument ticketPrint = new ReceiptPrint(receipt);
-            _documentPrintService.PrintDocument(ticketPrint);
+            IDocumentFormatter receiptFormatter = new ReceiptFormatter(receipt);
+            _receiptPrintService.Print(receiptFormatter);
         }
 
         private void OnOrderCreated(OrderViewModel order)

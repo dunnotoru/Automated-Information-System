@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        public void Add(Account entity)
+        public void Create(Account entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (AccountContext context = new AccountContext())

@@ -7,12 +7,14 @@ namespace Domain.EntityFramework.Repositories
 {
     public class ScheduleRepository : IScheduleRepository
     {
-        public void Add(Schedule entity)
+        public void Create(Schedule entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Schedules.Add(entity);
+                context.Attach(entity.Run);
+                entity.Route = entity.Run.Route;
+                context.Add(entity);
                 context.SaveChanges();
             }
         }

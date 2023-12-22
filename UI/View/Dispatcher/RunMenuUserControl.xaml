@@ -47,14 +47,19 @@
                 <Label Content="Маршрут" />
                 <TextBox Text="{Binding SelectedRoute.Name}" IsReadOnly="True"/>
 
-                <Label Content="Время отбытия"/>
+                <Label Content="Переодичность в минутах"/>
+                <TextBox Text="{Binding Periodity}"/>
+
+                <Label Content="Время отправления"/>
                 <DatePicker SelectedDate="{Binding DepartureDateTime}"/>
+
+                <Label Content="Время прибытия"/>
+                <DatePickerTextBox Text="{Binding EstimatedArrivalDateTime}" IsReadOnly="True"/>
 
                 <Label Content="Транспорт"/>
                 <ComboBox ItemsSource="{Binding Vehicles}" 
                           SelectedItem="{Binding SelectedVehicle}"
-                          DisplayMemberPath="LicensePlateNumber"
-                          IsEditable="True"/>
+                          DisplayMemberPath="LicensePlateNumber"/>
 
                 <Label Content="Водитель"/>
 

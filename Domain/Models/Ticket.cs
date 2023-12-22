@@ -1,4 +1,6 @@
-﻿namespace Domain.Models
+﻿using Domain.Services;
+
+namespace Domain.Models
 {
     public class Ticket : EntityBase
     {
@@ -8,10 +10,24 @@
         
 
         public int RunId { get; set; }
-        public int PassportId { get; set; }
+        public int IdentityDocumentId { get; set; }
         public int TicketTypeId { get; set; }
         public Run Run { get; set; }
-        public IdentityDocument Passport { get; set; }
+        public IdentityDocument IdentityDocument { get; set; }
         public TicketType TicketType { get; set; }
+
+        public Ticket()
+        {
+            
+        }
+
+        public Ticket(IdentityDocument document, Run run, Account casshier, TicketType type, ITicketPriceCalculator priceCalculator)
+        {
+            IdentityDocument = document;
+            Run = run;
+            Cashier = casshier.Username;
+            TicketType = type;
+            Price = priceCalculator.CalcPrice(run, type);
+        }
     }
 }

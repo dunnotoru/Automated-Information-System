@@ -2,8 +2,10 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Domain.EntityFramework.Repositories;
+using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Domain.Services;
+using System.Configuration;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
@@ -15,7 +17,7 @@ namespace UI
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IDocumentPrintService>().ImplementedBy<DocumentPrintService>());
+            container.Register(Component.For<ITicketPrintService>().ImplementedBy<ITicketPrintService>());
             RegisterRepositories(container);
 
             container.Register(Component.For<OrderStore>());
@@ -27,15 +29,24 @@ namespace UI
 
             container.Register(Component.For<IMessageBoxService>().ImplementedBy<MessageBoxService>());
 
-
             container.Register(Component.For<AuthenticationService>());
             container.Register(Component.For<RegistrationService>());
             container.Register(Component.For<LoginViewModel>());
-
             container.Register(Component.For<ScheduleService>());
+            
+            container.Register(Component
+                .For<ITicketPrintService>()
+                .ImplementedBy<TicketPrintService>()
+                .DependsOn(Dependency
+                    .OnValue("path", ConfigurationManager.AppSettings.Get("TicketFolderPath"))));
+
+            container.Register(Component
+                .For<IReceiptPrintService>()
+                .ImplementedBy<ReceiptPrintService>()
+                .DependsOn(Dependency
+                    .OnValue("path", ConfigurationManager.AppSettings.Get("ReceiptFolderPath"))));
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
-
             container.Register(Component.For<CategoryMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<TicketTypeMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<StationMenuViewModel>().LifestyleTransient());
