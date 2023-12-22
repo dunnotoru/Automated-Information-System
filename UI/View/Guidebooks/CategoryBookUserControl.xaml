@@ -8,9 +8,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="147*" MinWidth="50"/>
-            <ColumnDefinition Width="48*" MinWidth="50"/>
-            <ColumnDefinition Width="205*" MinWidth="130"/>
+            <ColumnDefinition Width="221*" MinWidth="50"/>
+            <ColumnDefinition Width="105*" MinWidth="50"/>
+            <ColumnDefinition Width="210*" MinWidth="130"/>
+            <ColumnDefinition Width="264*"/>
         </Grid.ColumnDefinitions>
 
         <DataGrid ItemsSource="{Binding Items}" Grid.Column="0" Margin="10,10,10,10"
@@ -30,8 +31,10 @@
                 Command="{Binding AddCommand}"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
+        <Border Grid.Column="2" Margin="10"
+                BorderBrush="Gray" BorderThickness="1" IsEnabled="{Binding IsRedactingEnabled}">
             <StackPanel DataContext="{Binding SelectedItem}" Grid.Column="2" Margin="10,10,10,10">
+                
                 <Label Margin="10" Content="Id"/>
                 <TextBox Margin="10"  Text="{Binding Id}" IsReadOnly="True"/>
 
@@ -39,15 +42,16 @@
                 <TextBox Margin="10" Text="{Binding Name}"/>
 
                 <Button Content="Сохранить"
-                    Margin="100 10 100 10"
+                    Margin="10"
                     Height="30"
                     Command="{Binding SaveCommand}"/>
 
                 <Button Content="Удалить"
-                    Margin="100 10 100 10"
+                    Margin="10"
                     Height="30"
                     Command="{Binding RemoveCommand}"/>
+
             </StackPanel>
-        </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

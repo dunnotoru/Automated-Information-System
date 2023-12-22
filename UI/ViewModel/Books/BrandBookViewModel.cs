@@ -2,7 +2,6 @@
 using Domain.RepositoryInterfaces;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -17,7 +16,6 @@ namespace UI.ViewModel
 
 		private ObservableCollection<BrandEditViewModel> _items;
 		private BrandEditViewModel _selectedItem;
-
 
 		public ICommand AddCommand { get; }
 
