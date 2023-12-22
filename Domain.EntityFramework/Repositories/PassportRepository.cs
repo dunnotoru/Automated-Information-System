@@ -41,21 +41,28 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public IdentityDocument? GetById(int id)
+        public IdentityDocument GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Passports.FirstOrDefault(o => o.Id == id);
+                return context.Passports.First(o => o.Id == id);
             }
         }
 
-        public IdentityDocument? Get(string number, string series)
+        public IdentityDocument Get(string number, string series)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Passports.FirstOrDefault(x => x.Number == number && x.Series == series);
+                return context.Passports.First(x => x.Number == number && x.Series == series);
             }
         }
 
+        public IEnumerable<IdentityDocument> GetAll()
+        {
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                return context.Passports.ToList();
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ using UI.ViewModel.Dispatcher.EditViewModels;
 
 namespace UI.ViewModel
 {
-    internal class TicketTypeMenuViewModel : ViewModelBase
+    internal class TicketTypeBookViewModel : ViewModelBase
     {
         private readonly ITicketTypeRepository _ticketTypeRepository;
         private readonly IMessageBoxService _messageBoxService;
@@ -34,7 +34,7 @@ namespace UI.ViewModel
 
         public ICommand AddCommand { get; }
 
-        public TicketTypeMenuViewModel(ITicketTypeRepository ticketTypeRepository,
+        public TicketTypeBookViewModel(ITicketTypeRepository ticketTypeRepository,
             IMessageBoxService messageBoxService)
         {
             ArgumentNullException.ThrowIfNull(ticketTypeRepository);

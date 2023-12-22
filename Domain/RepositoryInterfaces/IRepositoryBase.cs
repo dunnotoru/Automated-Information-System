@@ -8,5 +8,7 @@ namespace Domain.RepositoryInterfaces
         void Create(TEntity entity);
         void Update(int id, TEntity entity);
         void Remove(int id);
+        TEntity GetById(int id);
+        IEnumerable<TEntity> GetAll();
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Castle.Windsor;
 using System.Collections.Generic;
 using UI.ViewModel;
-using UI.ViewModel.Books;
 
 namespace UI
 {
-    internal class DispatcherMenuCompositor
+    internal class GuidebookMenuCompositor
     {
         public IEnumerable<ListMenuItemViewModel> ComposeMenu(IWindsorContainer container)
         {
@@ -13,28 +12,28 @@ namespace UI
             {
                 new ListMenuItemViewModel()
                 {
-                    Name = "Станции",
-                    ViewModel = () => container.Resolve<StationMenuViewModel>(),
+                    Name = "Марки",
+                    ViewModel = () => container.Resolve<BrandBookViewModel>()
                 },
                 new ListMenuItemViewModel()
                 {
-                    Name = "Маршруты",
-                    ViewModel = () => container.Resolve<RouteMenuViewModel>(),
+                    Name = "Модели",
+                    ViewModel = () => container.Resolve<VehicleModelBookViewModel>()
                 },
                 new ListMenuItemViewModel()
                 {
-                    Name = "Рейсы",
-                    ViewModel = () => container.Resolve<RunMenuViewModel>(),
+                    Name = "Типы ремонта",
+                    ViewModel = () => container.Resolve<RepairTypeBookViewModel>()
                 },
                 new ListMenuItemViewModel()
                 {
-                    Name = "Водители",
-                    ViewModel = () => container.Resolve<DriverMenuViewModel>(),
+                    Name = "Категории",
+                    ViewModel = () => container.Resolve<CategoryBookViewModel>()
                 },
                 new ListMenuItemViewModel()
                 {
-                    Name = "Транспорт",
-                    ViewModel = () => container.Resolve<VehicleMenuViewModel>(),
+                    Name = "Типы билетов",
+                    ViewModel = () => container.Resolve<TicketTypeBookViewModel>()
                 },
             };
 

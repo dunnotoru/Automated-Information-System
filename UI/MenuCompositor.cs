@@ -23,21 +23,6 @@ namespace UI
 
         public List<MainMenuItemViewModel> ComposeMenu(IWindsorContainer container)
         {
-
-            List<MainMenuItemViewModel> r = new List<MainMenuItemViewModel>()
-            {
-                new MainMenuItemViewModel()
-                {
-                    Header = "Настройки",
-                    GetViewModel = () => container.Resolve<SettingsViewModel>()
-                },
-                new MainMenuItemViewModel()
-                {
-                    Header = "Диспетчер",
-                    GetViewModel = () => container.Resolve<DispatcherViewModel>()
-                },
-            };
-
             List<MainMenuItemViewModel> menuList = new List<MainMenuItemViewModel>()
             {
                 new MainMenuItemViewModel()
@@ -46,15 +31,28 @@ namespace UI
                     GetViewModel = () => container.Resolve<RunSearchViewModel>(),
                 },
 
-                new MainMenuItemViewModel(r)
+                new MainMenuItemViewModel()
                 {
-                    Header = "Разное",
+                    Header = "Диспетчер",
+                    GetViewModel = () => container.Resolve<DispatcherViewModel>()
+                },
+
+                new MainMenuItemViewModel()
+                {
+                    Header = "Справочники",
+                    GetViewModel = () => container.Resolve<GuideBookViewModel>()
                 },
 
                 new MainMenuItemViewModel()
                 {
                     Header = "Справка",
                     GetViewModel = () => container.Resolve<CertificateViewModel>(),
+                },
+
+                new MainMenuItemViewModel()
+                {
+                    Header = "Настройки",
+                    GetViewModel = () => container.Resolve<SettingsViewModel>()
                 },
 
                 new MainMenuItemViewModel()

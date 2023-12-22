@@ -41,19 +41,27 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public Account? GetById(int id)
+        public Account GetById(int id)
         {
             using (AccountContext context = new AccountContext())
             {
-                return context.Accounts.FirstOrDefault(_ => _.Id == id);
+                return context.Accounts.First(_ => _.Id == id);
             }
         }
 
-        public Account? GetByUsername(string username)
+        public Account GetByUsername(string username)
         {
             using (AccountContext context = new AccountContext())
             {
-                return context.Accounts.FirstOrDefault(_ => _.Username == username);
+                return context.Accounts.First(_ => _.Username == username);
+            }
+        }
+
+        public IEnumerable<Account> GetAll()
+        {
+            using (AccountContext context = new AccountContext())
+            {
+                return context.Accounts.ToList();
             }
         }
     }

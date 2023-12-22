@@ -8,7 +8,7 @@ namespace UI
     {
         public IEnumerable<ListMenuItemViewModel> ComposeMenu(IWindsorContainer container)
         {
-            List<ListMenuItemViewModel> dispatcherMenuItems = new List<ListMenuItemViewModel>()
+            List<ListMenuItemViewModel> items = new List<ListMenuItemViewModel>()
             {
                 new ListMenuItemViewModel()
                 {
@@ -22,7 +22,7 @@ namespace UI
                 }
             };
 
-            return dispatcherMenuItems;
+            return items;
         }
     }
 }

@@ -2,8 +2,7 @@
 
 namespace Domain.RepositoryInterfaces
 {
-    public interface ICategoryRepository : IRepositoryBase<Category>
+    public interface IVehicleModelRepository : IRepositoryBase<VehicleModel>
     {
-
     }
 }

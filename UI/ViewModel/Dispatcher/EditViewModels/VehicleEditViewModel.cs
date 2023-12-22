@@ -36,14 +36,10 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
             Id = vehicle.Id;
             LicensePlateNumber = vehicle.LicensePlateNumber;
-            Model = vehicle.Model;
-            Brand = vehicle.Brand;
-            Capacity = vehicle.Capacity;
             Manufacture = vehicle.Manufacture;
             LastRepair = vehicle.LastRepair;
             Mileage = vehicle.Mileage;
             Photography = vehicle.Photography ?? "";
-            Freighter = vehicle.Freighter ?? "";
             InsuranceDetails = vehicle.InsuranceDetails;
 
             _vehicleRepository = vehicleRepository;
@@ -83,15 +79,12 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         }
         private void Save()
         {
+
+
             Vehicle createdStation = new Vehicle()
             {
-                Brand = Brand,
-                Model = Model,
-                Capacity = Capacity,
-                Freighter = Freighter,
                 InsuranceDetails = InsuranceDetails,
                 LastRepair = LastRepair,
-                LastRepairType = LastRepairType,
                 LicensePlateNumber = LicensePlateNumber,
                 Manufacture = Manufacture,
                 Mileage = Mileage,

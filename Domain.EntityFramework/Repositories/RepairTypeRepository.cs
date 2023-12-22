@@ -4,31 +4,32 @@ using Domain.RepositoryInterfaces;
 
 namespace Domain.EntityFramework.Repositories
 {
-    public class TicketRepository : ITicketRepository
+    public class RepairTypeRepository : IRepairTypeRepository
     {
-        public void Create(Ticket entity)
+        public void Create(RepairType entity)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Add(entity);
+                RepairType createdEntity = new RepairType();
+                createdEntity.Name = entity.Name;
+                context.RepairTypes.Add(createdEntity);
                 context.SaveChanges();
             }
         }
 
-        public IEnumerable<Ticket> GetAll()
+        public IEnumerable<RepairType> GetAll()
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Tickets.ToList();
+                return context.RepairTypes.ToList();
             }
         }
 
-        public Ticket GetById(int id)
+        public RepairType GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Tickets.First(o => o.Id == id);
+                return context.RepairTypes.First(o => o.Id == id);
             }
         }
 
@@ -36,21 +37,18 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Ticket stored = context.Tickets.First(o => o.Id == id);
-                context.Tickets.Remove(stored);
+                RepairType stored = context.RepairTypes.First(o => o.Id == id);
+                context.RepairTypes.Remove(stored);
                 context.SaveChanges();
             }
         }
 
-        public void Update(int id, Ticket entity)
+        public void Update(int id, RepairType entity)
         {
-            ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                Ticket stored = context.Tickets.First(o => o.Id == id);
-                stored = entity;
-                stored.Id = id;
-                context.Tickets.Update(entity);
+                RepairType updatedEntity = context.RepairTypes.First(o => o.Id == id);
+                updatedEntity.Name = entity.Name;
                 context.SaveChanges();
             }
         }

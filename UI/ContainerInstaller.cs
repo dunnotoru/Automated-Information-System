@@ -9,6 +9,7 @@ using System.Configuration;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
+using UI.ViewModel.Books;
 using UI.ViewModel.Factories;
 
 namespace UI
@@ -47,20 +48,36 @@ namespace UI
                     .OnValue("path", ConfigurationManager.AppSettings.Get("ReceiptFolderPath"))));
 
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
-            container.Register(Component.For<CategoryMenuViewModel>().LifestyleTransient());
-            container.Register(Component.For<TicketTypeMenuViewModel>().LifestyleTransient());
+
+            #region dispatcher menu viewmodels
             container.Register(Component.For<StationMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<RouteMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<RunMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<DriverMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<VehicleMenuViewModel>().LifestyleTransient());
+            #endregion
+
+            #region guidebook viewmodels
+            container.Register(Component.For<CategoryBookViewModel>().LifestyleTransient());
+            container.Register(Component.For<BrandBookViewModel>().LifestyleTransient());
+            container.Register(Component.For<TicketTypeBookViewModel>().LifestyleTransient());
+            container.Register(Component.For<RepairTypeBookViewModel>().LifestyleTransient());
+            container.Register(Component.For<VehicleModelBookViewModel>().LifestyleTransient());
+            container.Register(Component.For<FreighterBookViewModel>().LifestyleTransient());
+            #endregion
+
+            container.Register(Component.For<RegistrationViewModel>().LifestyleTransient());
 
             container.Register(Component
                 .For<DispatcherViewModel>()
                 .UsingFactoryMethod(() => CreateDispatcherViewModel(container))
                 .LifestyleTransient());
 
-            container.Register(Component.For<RegistrationViewModel>().LifestyleTransient());
+            container.Register(Component
+                .For<GuideBookViewModel>()
+                .UsingFactoryMethod(() => CreateGuidebookViewModel(container))
+                .LifestyleTransient());
+
 
             container.Register(Component
                 .For<SettingsViewModel>()
@@ -88,9 +105,14 @@ namespace UI
             container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
             container.Register(Component.For<IVehicleRepository>().ImplementedBy<VehicleRepository>());
             container.Register(Component.For<IDriverRepository>().ImplementedBy<DriverRepository>());
-            container.Register(Component.For<ITicketTypeRepository>().ImplementedBy<TicketTypeRepository>());
-            container.Register(Component.For<ICategoryRepository>().ImplementedBy<CategoryRepository>());
             container.Register(Component.For<IScheduleRepository>().ImplementedBy<ScheduleRepository>());
+            
+            container.Register(Component.For<ICategoryRepository>().ImplementedBy<CategoryRepository>());
+            container.Register(Component.For<ITicketTypeRepository>().ImplementedBy<TicketTypeRepository>());
+            container.Register(Component.For<IBrandRepository>().ImplementedBy<BrandRepository>());
+            container.Register(Component.For<IVehicleModelRepository>().ImplementedBy<VehicleModelRepository>());
+            container.Register(Component.For<IRepairTypeRepository>().ImplementedBy<RepairTypeRepository>());
+            container.Register(Component.For<IFreighterRepository>().ImplementedBy<FreighterRepository>());
         }
 
         private ViewModelFactory CreateViewModelFactory(IWindsorContainer container)
@@ -108,6 +130,13 @@ namespace UI
         {
             SettingsMenuCompositor compositor = new SettingsMenuCompositor();
             return new SettingsViewModel(compositor.ComposeMenu(container));
+        }
+
+        private GuideBookViewModel CreateGuidebookViewModel(IWindsorContainer container)
+        {
+            GuidebookMenuCompositor compositor = new GuidebookMenuCompositor();
+            return new GuideBookViewModel(compositor.ComposeMenu(container));
+
         }
 
         private ShellViewModel CreateShell(IWindsorContainer container)

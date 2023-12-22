@@ -9,6 +9,21 @@ namespace Domain.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<Vehicle> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder
+                .HasOne(l => l.VehicleModel)
+                .WithMany(r => r.Vehicles)
+                .HasForeignKey(o => o.VehicleModelId);
+
+            builder
+                .HasOne(l => l.RepairType)
+                .WithMany(r => r.Vehicles)
+                .HasForeignKey(o => o.VehicleModelId);
+
+            builder
+                .HasOne(l => l.Freighter)
+                .WithMany(r => r.Vehicles)
+                .HasForeignKey(o => o.FreighterId);
         }
     }
 }

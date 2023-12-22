@@ -33,6 +33,9 @@
         <DataTemplate DataType="{x:Type vm:AboutViewModel}">
             <local:AboutUserControl/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GuideBookViewModel}">
+            <local:GuidebooksUserControl/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

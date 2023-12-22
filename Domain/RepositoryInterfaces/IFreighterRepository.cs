@@ -2,7 +2,7 @@
 
 namespace Domain.RepositoryInterfaces
 {
-    public interface ICategoryRepository : IRepositoryBase<Category>
+    public interface IFreighterRepository : IRepositoryBase<Freighter>
     {
 
     }
