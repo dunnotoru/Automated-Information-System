@@ -12,9 +12,9 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250*" MinWidth="50"/>
-            <ColumnDefinition Width="59*" MinWidth="50"/>
-            <ColumnDefinition Width="91*" MinWidth="130"/>
+            <ColumnDefinition Width="425*" MinWidth="50"/>
+            <ColumnDefinition Width="78*" MinWidth="50"/>
+            <ColumnDefinition Width="297*"/>
         </Grid.ColumnDefinitions>
 
         <DataGrid ItemsSource="{Binding Vehicles}" Grid.Column="0" Margin="10,10,10,10"
@@ -24,67 +24,91 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Государственный номер" Width="auto" Binding="{Binding LicensePlateNumber}"/>
-                <DataGridTextColumn Header="Модель" Width="auto" Binding="{Binding Model}"/>
-                <DataGridTextColumn Header="Марка" Width="auto" Binding="{Binding Brand}" />
-                <DataGridTextColumn Header="Вместимость" Width="auto" Binding="{Binding Capacity}"/>
+                <DataGridTextColumn Header="Марка" Width="auto" Binding="{Binding SelectedVehicleModel.BrandName}" />
+                <DataGridTextColumn Header="Модель" Width="auto" Binding="{Binding SelectedVehicleModel.Name}"/>
+                <DataGridTextColumn Header="Вместимость" Width="auto" Binding="{Binding SelectedVehicleModel.Capacity}"/>
                 <DataGridTextColumn Header="Дата производства" Width="auto" Binding="{Binding Manufacture}" />
                 <DataGridTextColumn Header="Дата последнего ремонта" Width="auto" Binding="{Binding LastRepair}"/>
-                <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding LastRepairType}"/>
+                <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding SelectedRepairType.Name}"/>
                 <DataGridTextColumn Header="Прогон" Width="auto" Binding="{Binding Mileage}"/>
                 <DataGridTextColumn Header="Фото" Width="auto" Binding="{Binding Photography}"/>
-                <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding Freighter}"/>
+                <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding SelectedFreighter.Name}"/>
                 <DataGridTextColumn Header="Номер страховки" Width="auto" Binding="{Binding InsuranceDetails}"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="50">
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="50" >
             <Button Content="Добавить" 
             Margin="10" Grid.Column="1"
             Height="30"
             Command="{Binding AddCommand}"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Column="2">
-            <StackPanel DataContext="{Binding SelectedVehicle}"  Grid.Column="2" Margin="10 10 10 10">
-                <Label Margin="5" Content="Id"/>
-                <TextBox Margin="5" Text="{Binding Id}" IsReadOnly="True"/>
+        <Grid Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="23*"/>
+                <ColumnDefinition Width="25*"/>
+            </Grid.ColumnDefinitions>
 
-                <Label Margin="5" Content="Гос. номер"/>
-                <TextBox Margin="5"  Text="{Binding LicensePlateNumber}" />
+            <GroupBox Grid.Column="0" Margin="2,2,2,2" Header="Модель">
+                <Grid Margin="1" DataContext="{Binding SelectedVehicle}">
+                    <DataGrid IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False"
+                              ItemsSource="{Binding VehicleModels}" SelectedItem="{Binding SelectedVehicleModel}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Марка" Binding="{Binding BrandName}"/>
+                            <DataGridTextColumn Header="Модель" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Вместимость" Binding="{Binding Capacity}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </GroupBox>
 
-                <Label Margin="5" Content="Модель"/>
-                <TextBox Margin="5"  Text="{Binding Model}" />
+            <ScrollViewer Grid.Column="1">
+                <StackPanel DataContext="{Binding SelectedVehicle}" Grid.Column="2" Margin="10 10 10 10">
+                    <Label Margin="5" Content="Id"/>
+                    <TextBox Margin="5" Text="{Binding Id}" IsReadOnly="True"/>
 
-                <Label Margin="5" Content="Марка"/>
-                <TextBox Margin="5"  Text="{Binding Brand}" />
+                    <Label Margin="5" Content="Марка"/>
+                    <TextBox Margin="5"  Text="{Binding SelectedVehicleModel.BrandName}" IsReadOnly="True"/>
 
-                <Label Margin="5" Content="Вместимость"/>
-                <TextBox Margin="5"  Text="{Binding Capacity}" />
+                    <Label Margin="5" Content="Модель"/>
+                    <TextBox Margin="5"  Text="{Binding SelectedVehicleModel.Name}" IsReadOnly="True"/>
 
-                <Label Margin="5" Content="Дата производства"/>
-                <DatePicker Margin="5" SelectedDate="{Binding Manufacture}"/>
+                    <Label Margin="5" Content="Вместимость"/>
+                    <TextBox Margin="5"  Text="{Binding SelectedVehicleModel.Capacity}" IsReadOnly="True"/>
 
-                <Label Margin="5" Content="Дата последнего ремонта"/>
-                <DatePicker Margin="5"  SelectedDate="{Binding LastRepair}" />
+                    <Label Margin="5" Content="Гос. номер"/>
+                    <TextBox Margin="5"  Text="{Binding LicensePlateNumber}" />
 
-                <Label Margin="5" Content="Тип последнего ремонта"/>
-                <TextBox Margin="5"  Text="{Binding LastRepairType}"/>
+                    <Label Margin="5" Content="Дата производства"/>
+                    <DatePicker Margin="5" SelectedDate="{Binding Manufacture}"/>
 
-                <Label Margin="5" Content="Прогон"/>
-                <TextBox Margin="5"  Text="{Binding Mileage}"/>
+                    <Label Margin="5" Content="Дата последнего ремонта"/>
+                    <DatePicker Margin="5"  SelectedDate="{Binding LastRepair}" />
 
-                <Label Margin="5" Content="Фото"/>
-                <TextBox Margin="5"  Text="{Binding Photography}"/>
+                    <Label Margin="5" Content="Тип последнего ремонта"/>
+                    <ComboBox Margin="5" ItemsSource="{Binding RepairTypes}" SelectedItem="{Binding SelectedRepairType}"
+                              DisplayMemberPath="Name"/>
 
-                <Label Margin="5" Content="Фрахтовщик"/>
-                <TextBox Margin="5"  Text="{Binding Freighter}"/>
+                    <Label Margin="5" Content="Прогон"/>
+                    <TextBox Margin="5"  Text="{Binding Mileage}"/>
 
-                <Label Margin="5" Content="Номер страховки"/>
-                <TextBox Margin="5"  Text="{Binding InsuranceDetails}"/>
+                    <Label Margin="5" Content="Фото"/>
+                    <TextBox Margin="5"  Text="{Binding Photography}"/>
 
-                <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}"/>
-                <Button Content="Удалить" Margin="10" Command="{Binding RemoveCommand}"/>
-            </StackPanel>
-        </ScrollViewer>
+                    <Label Margin="5" Content="Фрахтовщик"/>
+                    <ComboBox Margin="5" Text="{Binding SelectedFreighter.Name}" ItemsSource="{Binding Freighters}"
+                              SelectedItem="{Binding SelectedFreighter}" DisplayMemberPath="Name"/>
+
+                    <Label Margin="5" Content="Номер страховки"/>
+                    <TextBox Margin="5"  Text="{Binding InsuranceDetails}"/>
+
+                    <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}"/>
+                    <Button Content="Удалить" Margin="10" Command="{Binding RemoveCommand}"/>
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
     </Grid>
 </UserControl>

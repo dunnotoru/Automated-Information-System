@@ -1,6 +1,7 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Contracts;
 
 namespace Domain.EntityFramework.Repositories
@@ -39,7 +40,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.VehicleModels.ToList();
+                return context.VehicleModels.Include(o => o.Brand).ToList();
             }
         }
 
@@ -47,7 +48,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.VehicleModels.First(o => o.Id == id);
+                return context.VehicleModels.Include(o => o.Brand).First(o => o.Id == id);
             }
         }
 

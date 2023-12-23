@@ -7,7 +7,36 @@
              xmlns:vm="clr-namespace:UI.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="171*"/>
+            <ColumnDefinition Width="101*"/>
+            <ColumnDefinition Width="192*"/>
+            <ColumnDefinition Width="336*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid Grid.Column="0" IsReadOnly="True" Margin="10,10,10,10"
+              ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
+              AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="46">
+            <Button Content="Добавить" Command="{Binding AddCommand}" Margin="10" Height="25"/>
+        </StackPanel>
+
+        <Border Margin="10,10,10,10" IsEnabled="{Binding IsRedactingEnabled}" 
+            Grid.Column="2" BorderBrush="Gray" BorderThickness="1">
+            <StackPanel DataContext="{Binding SelectedItem}">
+                <Label Content="Id"/>
+                <TextBlock Text="{Binding Id}" Margin="10"/>
+                <Label Content="Название"/>
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
+                <Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10"/>
+                <Button Content="Удалить" Command="{Binding RemoveCommand}" Margin="10"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

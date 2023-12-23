@@ -1,6 +1,8 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 using System;
+using System.Collections.ObjectModel;
+using System.Net.Http.Headers;
 using System.Windows.Input;
 using UI.Command;
 
@@ -9,19 +11,24 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
     internal class VehicleEditViewModel : ViewModelBase
     {
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly IVehicleModelRepository _vehicleModelRepository;
+        private readonly IRepairTypeRepository _repairTypeRepository;
+        private readonly IFreighterRepository _freighterRepository;
 
         private int _id;
         private string _licensePlateNumber;
-        private string _model;
-        private string _brand;
-        private int _capacity;
         private DateTime _manufacture;
         private DateTime _lastRepair;
         private int _mileage;
         private string _photography;
-        private string _freighter;
         private string _insuranceDetails;
-        private string _lastRepairType;
+        private RepairTypeViewModel _selectedRepairType;
+        private FreighterViewModel __selectedFreighter;
+        private VehicleModelViewModel _selectedVehicleModel;
+
+        private ObservableCollection<VehicleModelViewModel> _vehicleModels;
+        private ObservableCollection<RepairTypeViewModel> _repairTypes;
+        private ObservableCollection<FreighterViewModel> _freighters;
 
         public Action<string> ErrorEvent;
         public Action<VehicleEditViewModel> RemoveEvent;
@@ -29,7 +36,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public VehicleEditViewModel(Vehicle vehicle, IVehicleRepository vehicleRepository) : this()
+        public VehicleEditViewModel(Vehicle vehicle, IVehicleRepository vehicleRepository,
+            IVehicleModelRepository vehicleModelRepository, IRepairTypeRepository repairTypeRepository, IFreighterRepository freighterRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(vehicle);
             ArgumentNullException.ThrowIfNull(vehicleRepository);
@@ -41,39 +49,69 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             Mileage = vehicle.Mileage;
             Photography = vehicle.Photography ?? "";
             InsuranceDetails = vehicle.InsuranceDetails;
+            SelectedVehicleModel = new VehicleModelViewModel(vehicle.VehicleModel);
+            SelectedFreighter = new FreighterViewModel(vehicle.Freighter);
+            SelectedRepairType = new RepairTypeViewModel(vehicle.RepairType);
 
             _vehicleRepository = vehicleRepository;
+            _vehicleModelRepository = vehicleModelRepository;
+            _repairTypeRepository = repairTypeRepository;
+            _freighterRepository = freighterRepository;
+
+            Init();
         }
 
-        public VehicleEditViewModel(IVehicleRepository vehicleRepository) : this()
+        public VehicleEditViewModel(IVehicleRepository vehicleRepository,
+            IVehicleModelRepository vehicleModelRepository, IRepairTypeRepository repairTypeRepository, IFreighterRepository freighterRepository) : this()
         {
             Id = 0;
             LicensePlateNumber = "";
-            Model = "";
-            Brand = "";
-            Capacity = 0;
+
             Manufacture = DateTime.Now;
             LastRepair = DateTime.Now;
             Mileage = 0;
             Photography = "";
-            Freighter = "";
             InsuranceDetails = "";
+            SelectedFreighter = null;
+            SelectedVehicleModel = null;
+            SelectedRepairType = null;
 
             _vehicleRepository = vehicleRepository;
+            _vehicleModelRepository = vehicleModelRepository;
+            _repairTypeRepository = repairTypeRepository;
+            _freighterRepository = freighterRepository;
+
+            Init();
         }
 
         private VehicleEditViewModel()
         {
             SaveCommand = new RelayCommand(Save, () => CanSave());
             RemoveCommand = new RelayCommand(Remove);
+
+            Freighters = new ObservableCollection<FreighterViewModel>();
+            RepairTypes = new ObservableCollection<RepairTypeViewModel>();
+            VehicleModels = new ObservableCollection<VehicleModelViewModel>();
+        }
+
+        private void Init()
+        {
+            foreach(var item in _freighterRepository.GetAll())
+                Freighters.Add(new FreighterViewModel(item));
+
+            foreach (var item in _repairTypeRepository.GetAll())
+                RepairTypes.Add(new RepairTypeViewModel(item));
+
+            foreach (var item in _vehicleModelRepository.GetAll())
+                VehicleModels.Add(new VehicleModelViewModel(item));
         }
 
         private bool CanSave()
         {
             return !string.IsNullOrWhiteSpace(LicensePlateNumber) &&
-                !string.IsNullOrWhiteSpace(Model) &&
-                !string.IsNullOrWhiteSpace(Brand) &&
-                Capacity > 0 &&
+                SelectedFreighter != null &&
+                SelectedVehicleModel != null &&
+                SelectedRepairType != null &&
                 !string.IsNullOrWhiteSpace(InsuranceDetails) &&
                 Mileage >= 0;
         }
@@ -81,7 +119,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         {
 
 
-            Vehicle createdStation = new Vehicle()
+            Vehicle vehicle = new Vehicle()
             {
                 InsuranceDetails = InsuranceDetails,
                 LastRepair = LastRepair,
@@ -89,16 +127,19 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 Manufacture = Manufacture,
                 Mileage = Mileage,
                 Photography = Photography,
+                Freighter = _freighterRepository.GetById(SelectedFreighter.Id),
+                VehicleModel = _vehicleModelRepository.GetById(SelectedVehicleModel.Id),
+                RepairType = _repairTypeRepository.GetById(SelectedRepairType.Id)
             };
             try
             {
                 if (Id == 0)
                 {
-                    _vehicleRepository.Create(createdStation);
+                    _vehicleRepository.Create(vehicle);
                 }
                 else
                 {
-                    _vehicleRepository.Update(Id, createdStation);
+                    _vehicleRepository.Update(Id, vehicle);
                 }
             }
             catch (Exception e)
@@ -133,24 +174,6 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             set { _licensePlateNumber = value; OnPropertyChanged(); }
         }
 
-        public string Model
-        {
-            get { return _model; }
-            set { _model = value; OnPropertyChanged(); }
-        }
-
-        public string Brand
-        {
-            get { return _brand; }
-            set { _brand = value; OnPropertyChanged(); }
-        }
-
-        public int Capacity
-        {
-            get { return _capacity; }
-            set { _capacity = value; OnPropertyChanged(); }
-        }
-
         public DateTime Manufacture
         {
             get { return _manufacture; }
@@ -163,10 +186,10 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             set { _lastRepair = value; OnPropertyChanged(); }
         }
 
-        public string LastRepairType
+        public RepairTypeViewModel SelectedRepairType
         {
-            get { return _lastRepairType; }
-            set { _lastRepairType = value; OnPropertyChanged(); }
+            get { return _selectedRepairType; }
+            set { _selectedRepairType = value; OnPropertyChanged(); }
         }
 
         public int Mileage
@@ -181,10 +204,16 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             set { _photography = value; OnPropertyChanged(); }
         }
 
-        public string Freighter
+        public FreighterViewModel SelectedFreighter
         {
-            get { return _freighter; }
-            set { _freighter = value; OnPropertyChanged(); }
+            get { return __selectedFreighter; }
+            set { __selectedFreighter = value; OnPropertyChanged(); }
+        }
+        
+        public VehicleModelViewModel SelectedVehicleModel
+        {
+            get { return _selectedVehicleModel; }
+            set { _selectedVehicleModel = value; OnPropertyChanged(); }
         }
 
         public string InsuranceDetails
@@ -192,5 +221,25 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             get { return _insuranceDetails; }
             set { _insuranceDetails = value; OnPropertyChanged(); }
         }
+
+        public ObservableCollection<VehicleModelViewModel> VehicleModels
+        {
+            get { return _vehicleModels; }
+            set { _vehicleModels = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<RepairTypeViewModel> RepairTypes
+        {
+            get { return _repairTypes; }
+            set { _repairTypes = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<FreighterViewModel> Freighters
+        {
+            get { return _freighters; }
+            set { _freighters = value; OnPropertyChanged(); }
+        }
+
+
     }
 }

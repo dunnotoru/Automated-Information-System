@@ -10,10 +10,10 @@
         public string InsuranceDetails { get; set; }
         
 
-        public int? FreighterId { get; set; }
+        public int FreighterId { get; set; }
         public int? RepairTypeId { get; set; }
         public int VehicleModelId { get; set; }
-        public Freighter? Freighter { get; set; }
+        public Freighter Freighter { get; set; }
         public RepairType? RepairType { get; set; }
         public VehicleModel VehicleModel { get; set; }
     }

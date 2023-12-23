@@ -35,6 +35,11 @@ namespace UI
                     Name = "Типы билетов",
                     ViewModel = () => container.Resolve<TicketTypeBookViewModel>()
                 },
+                new ListMenuItemViewModel()
+                {
+                    Name = "Список фрахтовщиков",
+                    ViewModel = () => container.Resolve<FreighterBookViewModel>()
+                },
             };
 
             return items;

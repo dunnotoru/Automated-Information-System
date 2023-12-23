@@ -1,6 +1,7 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -11,6 +12,10 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
+                context.VehicleModels.Attach(entity.VehicleModel);
+                context.Brands.Attach(entity.VehicleModel.Brand);
+                context.Freighters.Attach(entity.Freighter);
+                context.RepairTypes.Attach(entity.RepairType);
                 context.Vehicles.Add(entity);
                 context.SaveChanges();
             }
@@ -42,7 +47,11 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Vehicles.First(o => o.Id == id);
+                return context.Vehicles
+                    .Include(o => o.Freighter)
+                    .Include(o => o.RepairType)
+                    .Include(o => o.VehicleModel).ThenInclude(x => x.Brand)
+                    .First(o => o.Id == id);
             }
         }
 
@@ -50,7 +59,11 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Vehicles.First(o => o.LicensePlateNumber == licensePlateNumber);
+                return context.Vehicles
+                    .Include(o => o.Freighter)
+                    .Include(o => o.RepairType)
+                    .Include(o => o.VehicleModel).ThenInclude(x => x.Brand)
+                    .First(o => o.LicensePlateNumber == licensePlateNumber);
             }
         }
 
@@ -58,7 +71,11 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Vehicles.ToList();
+                return context.Vehicles
+                    .Include(o => o.Freighter)
+                    .Include(o => o.RepairType)
+                    .Include(o => o.VehicleModel).ThenInclude(x => x.Brand)
+                    .ToList();
             }
         }
     }

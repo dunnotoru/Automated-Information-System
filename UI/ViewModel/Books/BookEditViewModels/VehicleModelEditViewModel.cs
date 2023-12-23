@@ -35,7 +35,7 @@ namespace UI.ViewModel.Books.BookEditViewModels
             _id = id;
             _name = name;
             _capacity = capacity;
-            _selectedBrand = new BrandViewModel(_brandRepository.GetById(id), _brandRepository);
+            _selectedBrand = new BrandViewModel(_brandRepository.GetById(brandId));
 
             LoadBrands();
         }
@@ -66,7 +66,7 @@ namespace UI.ViewModel.Books.BookEditViewModels
         {
             foreach (Brand item in  _brandRepository.GetAll())
             {
-                BrandViewModel vm = new BrandViewModel(item, _brandRepository);
+                BrandViewModel vm = new BrandViewModel(item);
                 Brands.Add(vm);
             }
         }
@@ -86,7 +86,7 @@ namespace UI.ViewModel.Books.BookEditViewModels
                     Id = _id,
                     Name = Name,
                     Capacity = _capacity,
-                    Brand = _selectedBrand.GetBrand(),
+                    Brand = _brandRepository.GetById(SelectedBrand.Id),
                 };
             }
             catch (Exception e)

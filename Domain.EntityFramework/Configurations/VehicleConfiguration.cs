@@ -10,6 +10,8 @@ namespace Domain.EntityFramework.Configurations
         {
             builder.HasKey(x => x.Id);
 
+            builder.HasIndex(x => x.LicensePlateNumber).IsUnique();
+
             builder
                 .HasOne(l => l.VehicleModel)
                 .WithMany(r => r.Vehicles)

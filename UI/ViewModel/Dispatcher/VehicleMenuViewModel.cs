@@ -12,6 +12,10 @@ namespace UI.ViewModel
     {
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IMessageBoxService _messageBoxService;
+        private readonly IVehicleModelRepository _vehicleModelRepository;
+        private readonly IRepairTypeRepository _repairTypeRepository;
+        private readonly IFreighterRepository _freighterRepository;
+
         private VehicleEditViewModel _selectedVehicle;
 
         public ObservableCollection<VehicleEditViewModel> Vehicles { get; set; }
@@ -25,15 +29,23 @@ namespace UI.ViewModel
 
         public ICommand AddCommand { get; }
 
-        public VehicleMenuViewModel(IVehicleRepository vehicleRepository, IMessageBoxService messageBoxService)
+        public VehicleMenuViewModel(IVehicleRepository vehicleRepository, IMessageBoxService messageBoxService,
+            IVehicleModelRepository vehicleModelRepository, IRepairTypeRepository repairTypeRepository, IFreighterRepository freighterRepository)
         {
             _vehicleRepository = vehicleRepository;
             _messageBoxService = messageBoxService;
+            _vehicleModelRepository = vehicleModelRepository;
+            _repairTypeRepository = repairTypeRepository;
+            _freighterRepository = freighterRepository;
 
             Vehicles = new ObservableCollection<VehicleEditViewModel>();
             foreach (Vehicle item in _vehicleRepository.GetAll())
             {
-                VehicleEditViewModel viewModel = new VehicleEditViewModel(item, _vehicleRepository);
+                VehicleEditViewModel viewModel = new VehicleEditViewModel(item,
+                                                                          _vehicleRepository,
+                                                                          _vehicleModelRepository,
+                                                                          _repairTypeRepository,
+                                                                          _freighterRepository);
                 viewModel.RemoveEvent += OnRemove;
                 viewModel.ErrorEvent += OnError;
                 Vehicles.Add(viewModel);
@@ -44,7 +56,10 @@ namespace UI.ViewModel
 
         private void Add()
         {
-            VehicleEditViewModel viewModel = new VehicleEditViewModel(_vehicleRepository);
+            VehicleEditViewModel viewModel = new VehicleEditViewModel(_vehicleRepository,
+                                                                      _vehicleModelRepository,
+                                                                      _repairTypeRepository,
+                                                                      _freighterRepository);
             viewModel.RemoveEvent += OnRemove;
             viewModel.ErrorEvent += OnError;
             Vehicles.Add(viewModel);
