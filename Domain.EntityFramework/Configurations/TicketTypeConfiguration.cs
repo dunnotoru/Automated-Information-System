@@ -9,6 +9,7 @@ namespace Domain.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<TicketType> builder)
         {
             builder.HasKey(o => o.Id);
+            builder.HasIndex(o => o.Name).IsUnique();
         }
     }
 }

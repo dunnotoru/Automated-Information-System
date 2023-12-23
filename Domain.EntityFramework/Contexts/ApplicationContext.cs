@@ -34,7 +34,7 @@ namespace Domain.EntityFramework.Contexts
 
         public ApplicationContext()
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,7 +42,7 @@ namespace Domain.EntityFramework.Contexts
             string connectionString = ConfigurationManager
                 .ConnectionStrings["DomainDatabase"].ConnectionString;
 
-            optionsBuilder.UseSqlite(connectionString);
+            optionsBuilder.UseSqlite("Data Source=Database.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

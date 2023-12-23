@@ -23,7 +23,9 @@
                   IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Width="auto" Header="Номер" Binding="{Binding Number}"/>
                 <DataGridTextColumn Width="auto" Header="Маршрут" Binding="{Binding SelectedRoute.Name}"/>
+                <DataGridTextColumn Width="auto" Header="Переодичность" Binding="{Binding Periodity}"/>
                 <DataGridTextColumn Width="auto" Header="Транспорт" Binding="{Binding SelectedVehicle.LicensePlateNumber}"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -54,7 +56,7 @@
                 <DatePicker SelectedDate="{Binding DepartureDateTime}"/>
 
                 <Label Content="Время прибытия"/>
-                <DatePickerTextBox Text="{Binding EstimatedArrivalDateTime}" IsReadOnly="True"/>
+                <TextBox Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}" IsReadOnly="True"/>
 
                 <Label Content="Транспорт"/>
                 <ComboBox ItemsSource="{Binding Vehicles}" 

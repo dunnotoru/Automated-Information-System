@@ -10,11 +10,18 @@ namespace Domain.EntityFramework.Configurations
         {
             builder.HasKey(x => x.Id);
             builder.HasIndex(o => o.Number).IsUnique();
+
             builder
                 .HasMany(l => l.Drivers)
                 .WithOne(r => r.Run)
                 .HasForeignKey(o => o.RunId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .HasOne(l => l.Vehicle)
+                .WithOne(r => r.Run)
+                .HasForeignKey<Run>(o => o.VehicleId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

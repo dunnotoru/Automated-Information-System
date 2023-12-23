@@ -9,6 +9,9 @@ namespace Domain.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<Driver> builder)
         {
             builder.HasKey(o => o.Id);
+            builder.HasIndex(o => o.PayrollNumber).IsUnique();
+            builder.HasIndex(o => o.EmploymentBookDetails).IsUnique();
+
             builder
                 .HasOne(l => l.DriverLicense)
                 .WithOne(r => r.Driver)
