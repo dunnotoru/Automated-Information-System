@@ -9,6 +9,7 @@ namespace Domain.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<Route> builder)
         {
             builder.HasKey(x => x.Id);
+            
             builder
                 .HasMany(r => r.Stations)
                 .WithMany(s => s.Routes)

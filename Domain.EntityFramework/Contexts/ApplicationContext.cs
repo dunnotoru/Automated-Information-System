@@ -34,15 +34,15 @@ namespace Domain.EntityFramework.Contexts
 
         public ApplicationContext()
         {
-            Database.Migrate();
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //string connectionString = ConfigurationManager
-            //    .ConnectionStrings["DomainDatabase"].ConnectionString;
+            string connectionString = ConfigurationManager
+                .ConnectionStrings["DomainDatabase"].ConnectionString;
 
-            optionsBuilder.UseSqlite("Data Source=DomainDb.db");
+            optionsBuilder.UseSqlite(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

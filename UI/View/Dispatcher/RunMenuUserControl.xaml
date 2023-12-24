@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
+             xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -50,7 +51,15 @@
                 <TextBox Text="{Binding SelectedRoute.Name}" IsReadOnly="True"/>
 
                 <Label Content="Переодичность в минутах"/>
-                <TextBox Text="{Binding Periodity}"/>
+                <TextBox>
+                    <TextBox.Text>
+                        <Binding Path="Periodity" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <Label Content="Время отправления"/>
                 <DatePicker SelectedDate="{Binding DepartureDateTime}"/>

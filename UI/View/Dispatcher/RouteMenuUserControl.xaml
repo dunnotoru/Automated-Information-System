@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
+             xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -76,9 +77,18 @@
                     <Label Margin="10 0 0 0"
                            HorizontalAlignment="Left" VerticalAlignment="Top"
                            Content="Название" Height="26" Width="63"/>
-                    <TextBox Margin="10 30 10 0"
+                    <TextBox x:Name="NameTextBox"
+                             Margin="10 30 10 0"
                              HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                             Text="{Binding Name}" Height="18" />
+                             Height="18">
+                        <TextBox.Text>
+                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationrules:NotEmptyValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <ListView HorizontalAlignment="Stretch"
                               Margin="10 60 30 10" ItemsSource="{Binding Stations}"
@@ -99,7 +109,18 @@
                             Command="{Binding MoveDownCommand}"/>
                 </Grid>
 
-                <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}"/>
+                <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}">
+                    <Button.IsEnabled>
+                        <MultiBinding>
+                            <MultiBinding.Converter>
+                                <converters:MultiEnableConverter/>
+                            </MultiBinding.Converter>
+                            <MultiBinding.Bindings>
+                                <Binding ElementName="NameTextBox" Path="(Validation.HasError)"/>
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
                 <Button Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" Content="Удалить" Command="{Binding RemoveCommand}"/>
 
             </Grid>

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
+             xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -44,7 +45,7 @@
             Command="{Binding AddCommand}"/>
         </StackPanel>
 
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="23*"/>
                 <ColumnDefinition Width="25*"/>
@@ -79,7 +80,15 @@
                     <TextBox Margin="5"  Text="{Binding SelectedVehicleModel.Capacity}" IsReadOnly="True"/>
 
                     <Label Margin="5" Content="Гос. номер"/>
-                    <TextBox Margin="5"  Text="{Binding LicensePlateNumber}" />
+                    <TextBox x:Name="LicensePlateNumberTextBox" Margin="5">
+                        <TextBox.Text>
+                            <Binding Path="LicensePlateNumber" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationrules:LicensePlateNumberValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <Label Margin="5" Content="Дата производства"/>
                     <DatePicker Margin="5" SelectedDate="{Binding Manufacture}"/>
@@ -92,7 +101,7 @@
                               DisplayMemberPath="Name"/>
 
                     <Label Margin="5" Content="Прогон"/>
-                    <TextBox Margin="5"  Text="{Binding Mileage}"/>
+                    <TextBox x:Name="MileageTextBox" Margin="5"  Text="{Binding Mileage}"/>
 
                     <Label Margin="5" Content="Фото"/>
                     <TextBox Margin="5"  Text="{Binding Photography}"/>
@@ -104,7 +113,19 @@
                     <Label Margin="5" Content="Номер страховки"/>
                     <TextBox Margin="5"  Text="{Binding InsuranceDetails}"/>
 
-                    <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}"/>
+                    <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}">
+                        <Button.IsEnabled>
+                            <MultiBinding>
+                                <MultiBinding.Converter>
+                                    <converters:MultiEnableConverter/>
+                                </MultiBinding.Converter>
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="LicensePlateNumberTextBox" Path="(Validation.HasError)"/>
+                                    <Binding ElementName="MileageTextBox" Path="(Validation.HasError)"/>
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
                     <Button Content="Удалить" Margin="10" Command="{Binding RemoveCommand}"/>
                 </StackPanel>
             </ScrollViewer>
