@@ -6,5 +6,8 @@
              xmlns:validationrules="clr-namespace:UI.View.ValidationRules">
 
     <Application.Resources>
+        <ResourceDictionary>
+            <validationrules:NotEmptyValidationRule x:Key="NotEmptyKey"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

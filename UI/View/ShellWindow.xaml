@@ -24,12 +24,6 @@
         <DataTemplate DataType="{x:Type vm:UpdatePasswordViewModel}">
             <local:UpdatePasswordView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:DispatcherViewModel}">
-            <local:DispatcherView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
-            <local:SettingsUserControl/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:AboutViewModel}">
             <local:AboutUserControl/>
         </DataTemplate>

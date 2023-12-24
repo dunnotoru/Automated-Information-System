@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -41,14 +42,14 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public Schedule? GetById(int id)
+        public Schedule GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
                 return context.Schedules
                     .Include(o=>o.Run)
                     .Include(o => o.Route)
-                    .FirstOrDefault(s => s.Id == id);
+                    .First(s => s.Id == id);
             }
         }
 
@@ -71,11 +72,12 @@ namespace Domain.EntityFramework.Repositories
                 return context.Schedules
                     .Include(o => o.Run)
                     .Include(o => o.Route)
-                    .Where(s => s.Route == route);
+                    .Where(s => s.Route == route)
+                    .ToList();
             }
         }
 
-        public Schedule? GetByRun(Run run)
+        public Schedule GetByRun(Run run)
         {
             ArgumentNullException.ThrowIfNull(run);
             using (ApplicationContext context = new ApplicationContext())
@@ -83,7 +85,7 @@ namespace Domain.EntityFramework.Repositories
                 return context.Schedules
                     .Include(o => o.Run)
                     .Include(o => o.Route)
-                    .FirstOrDefault(s => s.Run == run);
+                    .First(s => s.Run == run);
             }
         }
     }

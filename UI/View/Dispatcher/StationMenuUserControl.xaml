@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
+             xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" >
     <UserControl.Resources>
@@ -41,15 +42,48 @@
                 <TextBox Margin="10"  Text="{Binding Id}" IsReadOnly="True"/>
 
                 <Label Margin="10" Content="Название"/>
-                <TextBox Margin="10" Text="{Binding Name}"/>
+                <TextBox Margin="10" x:Name="NameTextBox">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <Label Margin="10" Content="Адрес"/>
-                <TextBox Margin="10" Text="{Binding Address}"/>
+                <TextBox Margin="10" x:Name="AddressTextBox">
+                    <TextBox.Text>
+                        <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <Button Content="Сохранить"
                         Margin="100 10 100 10"
                         Height="30"
-                        Command="{Binding SaveCommand}"/>
+                        Command="{Binding SaveCommand}">
+                    
+                    <Button.IsEnabled>
+                        <MultiBinding>
+                            <MultiBinding.Converter>
+                                <converters:MultiEnableConverter/>
+                            </MultiBinding.Converter>
+                            <MultiBinding.Bindings>
+                                <Binding ElementName="NameTextBox" 
+                                         Path="(Validation.HasError)">
+                                </Binding>
+                                <Binding ElementName="AddressTextBox"
+                                         Path="(Validation.HasError)">
+                                </Binding>
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
 
                 <Button Content="Удалить"
                         Margin="100 10 100 10"

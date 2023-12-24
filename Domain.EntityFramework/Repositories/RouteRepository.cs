@@ -50,11 +50,11 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public Route? GetById(int id)
+        public Route GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Routes.Include(r => r.Stations).FirstOrDefault(r => r.Id == id);
+                return context.Routes.Include(r => r.Stations).First(r => r.Id == id);
             }
         }
 

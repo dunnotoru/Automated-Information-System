@@ -77,7 +77,7 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public Driver? GetById(int id)
+        public Driver GetById(int id)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
@@ -88,7 +88,7 @@ namespace Domain.EntityFramework.Repositories
             }
         }
 
-        public Driver? GetByPayrollNumber(string payrollNumber)
+        public Driver GetByPayrollNumber(string payrollNumber)
         {
             using (ApplicationContext context = new ApplicationContext())
             {

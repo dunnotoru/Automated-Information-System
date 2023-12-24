@@ -6,7 +6,6 @@ namespace UI.ViewModel.HelperViewModels
 {
     internal class StationViewModel : ViewModelBase
     {
-        private readonly IStationRepository _stationRepository;
         private int _id;
         private string _name;
         private string _address;
@@ -29,20 +28,14 @@ namespace UI.ViewModel.HelperViewModels
             set { _address = value; OnPropertyChanged(); }
         }
 
-        public StationViewModel(Station station, IStationRepository stationRepository)
+        public StationViewModel(Station station)
         {
             ArgumentNullException.ThrowIfNull(station);
-            ArgumentNullException.ThrowIfNull(stationRepository);
 
             Id = station.Id;
             Name = station.Name ?? "";
             Address = station.Address ?? "";
-            _stationRepository = stationRepository;
         }
 
-        public Station GetStation()
-        {
-            return _stationRepository.GetById(Id);
-        }
     }
 }

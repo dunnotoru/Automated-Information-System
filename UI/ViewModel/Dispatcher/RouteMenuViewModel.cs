@@ -41,8 +41,9 @@ namespace UI.ViewModel
             foreach (Route item in routes)
             {
                 RouteEditViewModel vm = new RouteEditViewModel(item, _routeRepository, _stationRepository);
-                vm.RemoveEvent += OnRemove;
-                vm.ErrorEvent += OnError;
+                vm.Remove += OnRemove;
+                vm.Error += OnError;
+                vm.Save += OnSave;
                 Routes.Add(vm);
             }
 
@@ -52,25 +53,50 @@ namespace UI.ViewModel
         private void Add()
         {
             RouteEditViewModel vm = new RouteEditViewModel(_routeRepository, _stationRepository);
-            vm.RemoveEvent += OnRemove;
-            vm.ErrorEvent += OnError;
+            vm.Remove += OnRemove;
+            vm.Error += OnError;
+            vm.Save += OnSave;
             Routes.Add(vm);
             SelectedRoute = vm;
         }
 
-        private void OnRemove(RouteEditViewModel vm)
+        private void OnSave(object? sender, EventArgs e)
         {
-            vm.RemoveEvent -= OnRemove;
-            vm.ErrorEvent -= OnError;
+            RouteEditViewModel vm = (RouteEditViewModel)sender;
+
+            vm.Remove -= OnRemove;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+
+            Route route = _routeRepository.GetById(vm.Id);
+            RouteEditViewModel updatedVm = new RouteEditViewModel(route, _routeRepository, _stationRepository);
+
+            updatedVm.Remove += OnRemove;
+            updatedVm.Save += OnSave;
+            updatedVm.Error += OnError;
+
+            int index = Routes.IndexOf(vm);
+            Routes.Insert(index, updatedVm);
+            Routes.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно сохранены.");
+        }
+
+        private void OnRemove(object? sender, EventArgs e)
+        {
+            RouteEditViewModel vm = (RouteEditViewModel)sender;
+            vm.Remove -= OnRemove;
+            vm.Error -= OnError;
+            vm.Save -= OnSave;
             if (Routes.Remove(vm))
             {
-                _messageBoxService.ShowMessage("Маршрут удалён");
+                _messageBoxService.ShowMessage("Данные успешно удалены.");
             }
         }
 
-        private void OnError(string message)
+        private void OnError(object? sender, Exception e)
         {
-            _messageBoxService.ShowMessage($"Ошибка: {message}");
+            _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
         }
     }
 }

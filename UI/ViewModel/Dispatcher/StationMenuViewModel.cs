@@ -65,7 +65,7 @@ namespace UI.ViewModel
             SelectedStation = vm;
         }
 
-        private void OnRemove(object sender, EventArgs eventArgs)
+        private void OnRemove(object? sender, EventArgs eventArgs)
         {
             StationEditViewModel vm = (StationEditViewModel)sender;
             vm.Remove -= OnRemove;
@@ -77,7 +77,7 @@ namespace UI.ViewModel
             }
         }
 
-        private void OnSave(object sender, EventArgs eventArgs)
+        private void OnSave(object? sender, EventArgs eventArgs)
         {
             StationEditViewModel vm = (StationEditViewModel)sender;
             vm.Remove -= OnRemove;
@@ -87,9 +87,9 @@ namespace UI.ViewModel
             Station station = _stationRepository.GetById(vm.Id);
             StationEditViewModel updatedVm = new StationEditViewModel(station,_stationRepository);
             
-            vm.Remove += OnRemove;
-            vm.Save += OnSave;
-            vm.Error += OnError;
+            updatedVm.Remove += OnRemove;
+            updatedVm.Save += OnSave;
+            updatedVm.Error += OnError;
             
             int index = Stations.IndexOf(vm);
             Stations.Insert(index, updatedVm);
@@ -98,7 +98,7 @@ namespace UI.ViewModel
             _messageBoxService.ShowMessage("Данные успешно сохранены");
         }
 
-        private void OnError(object sender, Exception exception)
+        private void OnError(object? sender, Exception exception)
         {
             _messageBoxService.ShowMessage($"Ошибка: {exception.Message}");
         }

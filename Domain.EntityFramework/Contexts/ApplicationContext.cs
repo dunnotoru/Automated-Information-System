@@ -39,10 +39,10 @@ namespace Domain.EntityFramework.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = ConfigurationManager
-                .ConnectionStrings["DomainDatabase"].ConnectionString;
+            //string connectionString = ConfigurationManager
+            //    .ConnectionStrings["DomainDatabase"].ConnectionString;
 
-            optionsBuilder.UseSqlite("Data Source=Database.db");
+            optionsBuilder.UseSqlite("Data Source=DomainDb.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

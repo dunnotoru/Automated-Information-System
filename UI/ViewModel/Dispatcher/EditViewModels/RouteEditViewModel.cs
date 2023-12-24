@@ -23,8 +23,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private StationViewModel _selectedAvailableStation;
         private StationViewModel _selectedStation;
 
-        public Action<RouteEditViewModel> RemoveEvent;
-        public Action<string> ErrorEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
@@ -46,7 +47,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             _stationRepository = stationRepository;
 
             foreach (Station item in route.Stations)
-                Stations.Add(new StationViewModel(item, _stationRepository));
+                Stations.Add(new StationViewModel(item));
 
 
             AvailableStations = new ObservableCollection<StationViewModel>();
@@ -56,7 +57,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             tempStations = tempStations.Where(o => !Stations.Any(x => o.Id == x.Id)).ToList();
 
             foreach (Station item in tempStations)
-                AvailableStations.Add(new StationViewModel(item, _stationRepository));
+                AvailableStations.Add(new StationViewModel(item));
         }
 
         public RouteEditViewModel(IRouteRepository routeRepository, IStationRepository stationRepository) : this(stationRepository)
@@ -75,13 +76,13 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             IEnumerable<Station> tempStations = _stationRepository.GetAll();
 
             foreach (Station item in tempStations)
-                AvailableStations.Add(new StationViewModel(item, _stationRepository));
+                AvailableStations.Add(new StationViewModel(item));
         }
 
         private RouteEditViewModel(IStationRepository stationRepository)
         {
-            SaveCommand = new RelayCommand(Save, () => CanSave());
-            RemoveCommand = new RelayCommand(Remove);
+            SaveCommand = new RelayCommand(ExecuteSave, () => CanSave());
+            RemoveCommand = new RelayCommand(ExecuteRemove);
             AddStationCommand = new RelayCommand(AddStation);
             RemoveStationCommand = new RelayCommand(RemoveStation);
             MoveUpCommand = new RelayCommand(MoveUp);
@@ -130,12 +131,12 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             set { _selectedStation = value; OnPropertyChanged(); }
         }
 
-        private void Save()
+        private void ExecuteSave()
         {
             Collection<Station> stations = new Collection<Station>();
 
             foreach (StationViewModel item in Stations)
-                stations.Add(item.GetStation());
+                stations.Add(_stationRepository.GetById(item.Id));
 
             Route route = new Route()
             {
@@ -148,30 +149,31 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _routeRepository.Create(route);
+                    Id = _routeRepository.Create(route);
                 }
                 else
                 {
                     _routeRepository.Update(Id, route);
                 }
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
-        private void Remove()
+        private void ExecuteRemove()
         {
             if (Id == 0) return;
             try
             {
                 _routeRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
