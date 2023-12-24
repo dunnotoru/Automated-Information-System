@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class ScheduleRepository : IScheduleRepository
     {
-        public void Create(Schedule entity)
+        public int Create(Schedule entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -17,6 +17,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public void Remove(int id)

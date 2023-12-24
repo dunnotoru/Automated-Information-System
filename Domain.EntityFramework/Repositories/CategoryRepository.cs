@@ -6,13 +6,14 @@ namespace Domain.EntityFramework.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public void Create(Category entity)
+        public int Create(Category entity)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
                 context.Categories.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public void Update(int id, Category entity)

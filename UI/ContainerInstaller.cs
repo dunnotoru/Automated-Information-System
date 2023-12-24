@@ -2,14 +2,12 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Domain.EntityFramework.Repositories;
-using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Domain.Services;
 using System.Configuration;
 using UI.Services;
 using UI.Stores;
 using UI.ViewModel;
-using UI.ViewModel.Books;
 using UI.ViewModel.Factories;
 
 namespace UI
@@ -18,7 +16,6 @@ namespace UI
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<ITicketPrintService>().ImplementedBy<ITicketPrintService>());
             RegisterRepositories(container);
 
             container.Register(Component.For<OrderStore>());

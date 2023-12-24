@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class TicketRepository : ITicketRepository
     {
-        public void Create(Ticket entity)
+        public int Create(Ticket entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -14,6 +14,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;   
         }
 
         public IEnumerable<Ticket> GetAll()

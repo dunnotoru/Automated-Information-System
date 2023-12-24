@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class PassportRepository : IPassportRepository
     {
-        public void Create(IdentityDocument entity)
+        public int Create(IdentityDocument entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -14,6 +14,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Passports.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
         public void Update(int id, IdentityDocument entity)
         {

@@ -3,17 +3,20 @@ using Domain.RepositoryInterfaces;
 using System;
 using System.Windows.Input;
 using UI.Command;
+using UI.Services;
 
 namespace UI.ViewModel.Dispatcher.EditViewModels
 {
-    public class StationEditViewModel : ViewModelBase
+    internal class StationEditViewModel : ViewModelBase
     {
         private readonly IStationRepository _stationRepository;
+
         private string _name;
         private string _address;
 
-        public Action<StationEditViewModel> RemoveEvent;
-        public Action<string> ErrorEvent;
+        public EventHandler Remove;
+        public EventHandler Save;
+        public EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
@@ -22,28 +25,27 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         {
             ArgumentNullException.ThrowIfNull(station);
             ArgumentNullException.ThrowIfNull(stationRepository);
+            _stationRepository = stationRepository;
 
             Id = station.Id;
             Name = station.Name ?? "";
             Address = station.Address ?? "";
-
-            _stationRepository = stationRepository;
         }
 
         public StationEditViewModel(IStationRepository stationRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(stationRepository);
+            _stationRepository = stationRepository;
 
             Id = 0;
             Name = "";
             Address = "";
-            _stationRepository = stationRepository;
         }
 
         private StationEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save);
-            RemoveCommand = new RelayCommand(Remove);
+            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+            RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
         public int Id { get; set; }
@@ -58,41 +60,50 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             set { _address = value; OnPropertyChanged(); }
         }
 
-        public void Save()
+        public bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Name) 
+                && !string.IsNullOrWhiteSpace(Address);
+        }
+
+        public void ExecuteSave()
         {
             Station createdStation = new Station()
             {
                 Name = Name,
                 Address = Address,
             };
+
             try
             {
                 if (Id == 0)
                 {
-                    _stationRepository.Create(createdStation);
+                    Id = _stationRepository.Create(createdStation);
                 }
                 else
                 {
                     _stationRepository.Update(Id, createdStation);
                 }
+                Save.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
-        public void Remove()
+        public void ExecuteRemove()
         {
             if (Id == 0) return;
+
             try
             {
                 _stationRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
     }

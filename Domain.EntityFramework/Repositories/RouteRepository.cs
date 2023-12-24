@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class RouteRepository : IRouteRepository
     {
-        public void Create(Route entity)
+        public int Create(Route entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -16,6 +16,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public void Update(int id, Route entity)

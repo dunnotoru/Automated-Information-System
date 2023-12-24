@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class DriverRepository : IDriverRepository
     {
-        public void Create(Driver entity)
+        public int Create(Driver entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -16,6 +16,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Drivers.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public void Update(int id, Driver entity)

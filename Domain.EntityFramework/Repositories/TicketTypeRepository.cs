@@ -6,13 +6,14 @@ namespace Domain.EntityFramework.Repositories
 {
     public class TicketTypeRepository : ITicketTypeRepository
     {
-        public void Create(TicketType entity)
+        public int Create(TicketType entity)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
                 context.TicketTypes.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public void Update(int id, TicketType entity)

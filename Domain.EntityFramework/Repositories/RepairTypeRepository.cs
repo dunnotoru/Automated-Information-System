@@ -6,7 +6,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class RepairTypeRepository : IRepairTypeRepository
     {
-        public void Create(RepairType entity)
+        public int Create(RepairType entity)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
@@ -15,6 +15,7 @@ namespace Domain.EntityFramework.Repositories
                 context.RepairTypes.Add(createdEntity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public IEnumerable<RepairType> GetAll()

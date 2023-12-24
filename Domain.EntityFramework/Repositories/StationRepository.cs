@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class StationRepository : IStationRepository
     {
-        public void Create(Station entity)
+        public int Create(Station entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -15,6 +15,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Stations.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public void Update(int id, Station entity)

@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class FreighterRepository : IFreighterRepository
     {
-        public void Create(Freighter entity)
+        public int Create(Freighter entity)
         {
             using (ApplicationContext context = new ApplicationContext())
             {
@@ -16,6 +16,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Freighters.Add(createdEntity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public IEnumerable<Freighter> GetAll()

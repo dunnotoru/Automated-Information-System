@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class RunRepository : IRunRepository
     {
-        public void Create(Run entity)
+        public int Create(Run entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -15,8 +15,6 @@ namespace Domain.EntityFramework.Repositories
                 Vehicle? b = context.Vehicles.First(o => o.Id == entity.Vehicle.Id);
                 Route? route = context.Routes.First(o => o.Id == entity.Route.Id);
                 ICollection<Driver> drivers = context.Drivers.ToList();
-
-                if (drivers == null) return;
 
                 Run r = new Run()
                 {
@@ -32,6 +30,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Runs.Add(r);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public void Remove(int id)

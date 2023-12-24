@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Repositories
 {
     public class VehicleRepository : IVehicleRepository
     {
-        public void Create(Vehicle entity)
+        public int Create(Vehicle entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
@@ -19,6 +19,7 @@ namespace Domain.EntityFramework.Repositories
                 context.Vehicles.Add(entity);
                 context.SaveChanges();
             }
+            return entity.Id;
         }
 
         public void Remove(int id)
