@@ -84,7 +84,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 {
                     _stationRepository.Update(Id, createdStation);
                 }
-                Save.Invoke(this, EventArgs.Empty);
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {

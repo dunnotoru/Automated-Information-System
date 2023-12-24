@@ -18,10 +18,6 @@ namespace UI.ViewModel
         private ObservableCollection<StationEditViewModel> _stations;
         private StationEditViewModel _selectedStation;
 
-        public EventHandler Save;
-        public EventHandler Remove;
-        public EventHandler<Exception> Error;
-
         public ObservableCollection<StationEditViewModel> Stations
         {
             get { return _stations; }
@@ -78,26 +74,33 @@ namespace UI.ViewModel
             if (Stations.Remove(vm))
             {
                 _messageBoxService.ShowMessage("Данные успешно удалены");
-                Remove?.Invoke(sender, eventArgs);
             }
         }
 
         private void OnSave(object sender, EventArgs eventArgs)
         {
             StationEditViewModel vm = (StationEditViewModel)sender;
-            Stations.Remove(vm);
+            vm.Remove -= OnRemove;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            
             Station station = _stationRepository.GetById(vm.Id);
             StationEditViewModel updatedVm = new StationEditViewModel(station,_stationRepository);
-            Stations.Add(updatedVm);
-            SelectedStation = updatedVm;
+            
+            vm.Remove += OnRemove;
+            vm.Save += OnSave;
+            vm.Error += OnError;
+            
+            int index = Stations.IndexOf(vm);
+            Stations.Insert(index, updatedVm);
+            Stations.Remove(vm);
+
             _messageBoxService.ShowMessage("Данные успешно сохранены");
-            Save?.Invoke(sender, eventArgs);
         }
 
         private void OnError(object sender, Exception exception)
         {
             _messageBoxService.ShowMessage($"Ошибка: {exception.Message}");
-            Error?.Invoke(sender, exception);
         }
     }
 }
