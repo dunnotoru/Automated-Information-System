@@ -1,6 +1,7 @@
 ﻿using Castle.Windsor;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UI.ViewModel;
 
 namespace UI
@@ -21,45 +22,21 @@ namespace UI
             _delete = delete;
         }
 
-        public List<MainMenuItemViewModel> ComposeMenu(IWindsorContainer container)
+        public List<MenuItemViewModel> ComposeMenu(IWindsorContainer container)
         {
-            List<MainMenuItemViewModel> menuList = new List<MainMenuItemViewModel>()
+            List<MenuItemViewModel> menuList = new List<MenuItemViewModel>()
             {
-                new MainMenuItemViewModel()
-                {
-                    Header = "Найти",
-                    GetViewModel = () => container.Resolve<RunSearchViewModel>(),
-                },
+                new MenuItemViewModel("Найти", () => container.Resolve<RunSearchViewModel>()),
 
-                new MainMenuItemViewModel()
-                {
-                    Header = "Диспетчер",
-                    GetViewModel = () => container.Resolve<DispatcherViewModel>()
-                },
+                new MenuItemViewModel("Диспетчер", () => container.Resolve<DispatcherViewModel>()),
 
-                new MainMenuItemViewModel()
-                {
-                    Header = "Справочники",
-                    GetViewModel = () => container.Resolve<GuideBookViewModel>()
-                },
+                new MenuItemViewModel("Справочники", () => container.Resolve<GuideBookViewModel>()),
 
-                new MainMenuItemViewModel()
-                {
-                    Header = "Справка",
-                    GetViewModel = () => container.Resolve<CertificateViewModel>(),
-                },
+                new MenuItemViewModel("Справка", () => container.Resolve<CertificateViewModel>()),
 
-                new MainMenuItemViewModel()
-                {
-                    Header = "Настройки",
-                    GetViewModel = () => container.Resolve<SettingsViewModel>()
-                },
+                new MenuItemViewModel("Настройки", () => container.Resolve<SettingsViewModel>()),
 
-                new MainMenuItemViewModel()
-                {
-                    Header = "О программе",
-                    GetViewModel = () => container.Resolve<AboutViewModel>()
-                },
+                new MenuItemViewModel("О программе", () => container.Resolve<AboutViewModel>())
             };
             return menuList;
         }

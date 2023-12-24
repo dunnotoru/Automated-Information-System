@@ -13,6 +13,7 @@ namespace UI.ViewModel
         private NavigationStore _navigationStore;
 
         private static Timer _scheduleUpdateTimer;
+        public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
         public ViewModelBase CurrentViewModel
         {
@@ -34,22 +35,32 @@ namespace UI.ViewModel
             }
         }
 
-        public ObservableCollection<MainMenuItemViewModel> Items { get; set; }
-
         public ShellViewModel(NavigationStore navigationStore,
-            List<MainMenuItemViewModel> menuItems,
-            ScheduleService scheduleService)
+                              List<MenuItemViewModel> menuItems,
+                              ScheduleService scheduleService)
         {
-            Items = new ObservableCollection<MainMenuItemViewModel>(menuItems);
+            Items = new ObservableCollection<MenuItemViewModel>();
+            foreach (var item in menuItems)
+            {
+                item.ViewModelChanged += OnViewModelChanged;
+                Items.Add(item);
+            }
 
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+
+
             _scheduleService = scheduleService;
 
             _scheduleUpdateTimer = new Timer();
             _scheduleUpdateTimer.Interval = 1000 * 10;
             _scheduleUpdateTimer.Elapsed += OnTimerElapsed;
             _scheduleUpdateTimer.Start();
+        }
+
+        private void OnViewModelChanged(object? sender, Func<ViewModelBase> getViewModel)
+        {
+            _navigationStore.CurrentViewModel = getViewModel();
         }
 
         private void OnTimerElapsed(object? sender, ElapsedEventArgs e)

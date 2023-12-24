@@ -46,7 +46,7 @@
         <Menu ItemsSource="{Binding Items}" VerticalAlignment="Top">
             <Menu.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
-                    <TextBlock Text="{Binding Header}"/>
+                    <TextBlock Text="{Binding Name}"/>
                 </HierarchicalDataTemplate>
             </Menu.ItemTemplate>
             <Menu.ItemContainerStyle>
