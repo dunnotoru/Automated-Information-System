@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using System;
 
-namespace UI.ViewModel.Dispatcher.EditViewModels
+namespace UI.ViewModel.HelperViewModels
 {
     internal class VehicleModelViewModel : ViewModelBase
     {

@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace UI.ViewModel.Dispatcher.EditViewModels
+namespace UI.ViewModel.HelperViewModels
 {
     internal class DriverViewModel : ViewModelBase
     {

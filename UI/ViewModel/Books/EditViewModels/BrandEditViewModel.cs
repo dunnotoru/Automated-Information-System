@@ -1,34 +1,34 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
-using System.Windows.Input;
 using System;
+using System.Windows.Input;
 using UI.Command;
 using UI.Services;
 
-namespace UI.ViewModel.Books.BookEditViewModels
+namespace UI.ViewModel.Books.EditViewModels
 {
-    internal class RepairTypeEditViewModel : ViewModelBase
+    internal class BrandEditViewModel : ViewModelBase
     {
-        private readonly IRepairTypeRepository _repairTypeRepository;
-        private readonly IMessageBoxService _messageBoxService;
-        private int _id;
-        private string _name;
+        private readonly IBrandRepository _brandRepository;
+		private readonly IMessageBoxService _messageBoxService;
+		private int _id;
+		private string _name;
 
-        public Action<RepairTypeEditViewModel> RemoveEvent;
+		public Action<BrandEditViewModel> RemoveEvent;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public RepairTypeEditViewModel(int id, string name, IMessageBoxService messageBoxService, IRepairTypeRepository brandRepository) : this()
+        public BrandEditViewModel(int id, string name, IMessageBoxService messageBoxService, IBrandRepository brandRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(messageBoxService);
             ArgumentNullException.ThrowIfNull(brandRepository);
             _id = id;
             _name = name;
             _messageBoxService = messageBoxService;
-            _repairTypeRepository = brandRepository;
+            _brandRepository = brandRepository;
         }
-        public RepairTypeEditViewModel(IMessageBoxService messageBoxService, IRepairTypeRepository brandRepository) : this()
+        public BrandEditViewModel(IMessageBoxService messageBoxService, IBrandRepository brandRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(messageBoxService);
             ArgumentNullException.ThrowIfNull(brandRepository);
@@ -36,9 +36,9 @@ namespace UI.ViewModel.Books.BookEditViewModels
             _id = 0;
             _name = "";
             _messageBoxService = messageBoxService;
-            _repairTypeRepository = brandRepository;
+            _brandRepository = brandRepository;
         }
-        private RepairTypeEditViewModel()
+        private BrandEditViewModel()
         {
             SaveCommand = new RelayCommand(Save, CanSave);
             RemoveCommand = new RelayCommand(Remove);
@@ -51,7 +51,7 @@ namespace UI.ViewModel.Books.BookEditViewModels
 
         private void Save()
         {
-            RepairType type = new RepairType()
+            Brand brand = new Brand()
             {
                 Id = _id,
                 Name = _name,
@@ -61,11 +61,11 @@ namespace UI.ViewModel.Books.BookEditViewModels
             {
                 if (Id == 0)
                 {
-                    _repairTypeRepository.Create(type);
+                    _brandRepository.Create(brand);
                 }
                 else
                 {
-                    _repairTypeRepository.Update(Id, type);
+                    _brandRepository.Update(Id, brand);
                 }
                 _messageBoxService.ShowMessage("Данные успешно сохранены.");
             }
@@ -81,7 +81,7 @@ namespace UI.ViewModel.Books.BookEditViewModels
 
             try
             {
-                _repairTypeRepository.Remove(Id);
+                _brandRepository.Remove(Id);
                 RemoveEvent?.Invoke(this);
                 _messageBoxService.ShowMessage("Данные успешно удалены.");
             }
@@ -92,15 +92,15 @@ namespace UI.ViewModel.Books.BookEditViewModels
         }
 
         public int Id
-        {
-            get { return _id; }
-            set { _id = value; OnPropertyChanged(); }
-        }
+		{
+			get { return _id; }
+			set { _id = value; OnPropertyChanged(); }
+		}
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; OnPropertyChanged(); }
-        }
-    }
+		public string Name
+		{
+			get { return _name; }
+			set { _name = value; OnPropertyChanged(); }
+		}
+	}
 }

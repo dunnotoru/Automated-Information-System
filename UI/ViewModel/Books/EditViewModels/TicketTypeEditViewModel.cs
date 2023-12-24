@@ -1,43 +1,46 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
-using System.Windows.Input;
 using System;
+using System.Windows.Input;
 using UI.Command;
 
-namespace UI.ViewModel.Dispatcher.EditViewModels
+namespace UI.ViewModel.Books.EditViewModels
 {
-    internal class CategoryEditViewModel : ViewModelBase
+    internal class TicketTypeEditViewModel : ViewModelBase
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ITicketTypeRepository _ticketTypeRepository;
         private string _name;
+        private int _modifier;
 
-        public Action<CategoryEditViewModel> RemoveEvent;
+        public Action<TicketTypeEditViewModel> RemoveEvent;
         public Action<string> ErrorEvent;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public CategoryEditViewModel(Category category, ICategoryRepository categoryRepository) : this()
+        public TicketTypeEditViewModel(TicketType ticketType, ITicketTypeRepository ticketTypeRepository) : this()
         {
-            ArgumentNullException.ThrowIfNull(category);
-            ArgumentNullException.ThrowIfNull(categoryRepository);
+            ArgumentNullException.ThrowIfNull(ticketType);
+            ArgumentNullException.ThrowIfNull(ticketTypeRepository);
 
-            Id = category.Id;
-            Name = category.Name;
+            Id = ticketType.Id;
+            Name = ticketType.Name;
+            Modifier = ticketType.PriceModifierInPercent;
 
-            _categoryRepository = categoryRepository;
+            _ticketTypeRepository = ticketTypeRepository;
         }
 
-        public CategoryEditViewModel(ICategoryRepository categoryRepository) : this()
+        public TicketTypeEditViewModel(ITicketTypeRepository stationRepository) : this()
         {
-            ArgumentNullException.ThrowIfNull(categoryRepository);
+            ArgumentNullException.ThrowIfNull(stationRepository);
 
             Id = 0;
             Name = "";
-            _categoryRepository = categoryRepository;
+            Modifier = 100;
+            _ticketTypeRepository = stationRepository;
         }
 
-        private CategoryEditViewModel()
+        private TicketTypeEditViewModel()
         {
             SaveCommand = new RelayCommand(Save, () => CanSave());
             RemoveCommand = new RelayCommand(Remove);
@@ -54,22 +57,28 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
+        public int Modifier
+        {
+            get => _modifier;
+            set { _modifier = value; OnPropertyChanged(); }
+        }
 
         public void Save()
         {
-            Category createdStation = new Category()
+            TicketType createdStation = new TicketType()
             {
                 Name = Name,
+                PriceModifierInPercent = Modifier,
             };
             try
             {
                 if (Id == 0)
                 {
-                    _categoryRepository.Create(createdStation);
+                    _ticketTypeRepository.Create(createdStation);
                 }
                 else
                 {
-                    _categoryRepository.Update(Id, createdStation);
+                    _ticketTypeRepository.Update(Id, createdStation);
                 }
             }
             catch (Exception e)
@@ -83,7 +92,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             if (Id == 0) return;
             try
             {
-                _categoryRepository.Remove(Id);
+                _ticketTypeRepository.Remove(Id);
                 RemoveEvent?.Invoke(this);
             }
             catch (Exception e)

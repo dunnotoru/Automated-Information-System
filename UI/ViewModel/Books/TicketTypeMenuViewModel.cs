@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
-using UI.ViewModel.Dispatcher.EditViewModels;
+using UI.ViewModel.Books.EditViewModels;
 
 namespace UI.ViewModel
 {

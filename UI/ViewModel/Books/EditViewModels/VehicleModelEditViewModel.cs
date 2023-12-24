@@ -5,8 +5,9 @@ using System;
 using UI.Command;
 using UI.Services;
 using System.Collections.ObjectModel;
+using UI.ViewModel.HelperViewModels;
 
-namespace UI.ViewModel.Books.BookEditViewModels
+namespace UI.ViewModel.Books.EditViewModels
 {
     internal class VehicleModelEditViewModel : ViewModelBase
     {

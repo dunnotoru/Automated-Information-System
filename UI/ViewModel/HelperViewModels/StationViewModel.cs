@@ -2,7 +2,7 @@
 using Domain.RepositoryInterfaces;
 using System;
 
-namespace UI.ViewModel.Dispatcher.EditViewModels
+namespace UI.ViewModel.HelperViewModels
 {
     internal class StationViewModel : ViewModelBase
     {

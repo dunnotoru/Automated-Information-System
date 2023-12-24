@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace UI.ViewModel.Dispatcher.EditViewModels
+namespace UI.ViewModel.HelperViewModels
 {
     internal class TicketTypeViewModel : ViewModelBase
     {

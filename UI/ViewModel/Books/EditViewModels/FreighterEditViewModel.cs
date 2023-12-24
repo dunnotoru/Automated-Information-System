@@ -5,30 +5,30 @@ using System.Windows.Input;
 using UI.Command;
 using UI.Services;
 
-namespace UI.ViewModel.Books.BookEditViewModels
+namespace UI.ViewModel.Books.EditViewModels
 {
-    internal class BrandEditViewModel : ViewModelBase
+    internal class FreighterEditViewModel : ViewModelBase
     {
-        private readonly IBrandRepository _brandRepository;
-		private readonly IMessageBoxService _messageBoxService;
-		private int _id;
-		private string _name;
+        private readonly IFreighterRepository _freighterRepository;
+        private readonly IMessageBoxService _messageBoxService;
+        private int _id;
+        private string _name;
 
-		public Action<BrandEditViewModel> RemoveEvent;
+        public Action<FreighterEditViewModel> RemoveEvent;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public BrandEditViewModel(int id, string name, IMessageBoxService messageBoxService, IBrandRepository brandRepository) : this()
+        public FreighterEditViewModel(int id, string name, IMessageBoxService messageBoxService, IFreighterRepository brandRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(messageBoxService);
             ArgumentNullException.ThrowIfNull(brandRepository);
             _id = id;
             _name = name;
             _messageBoxService = messageBoxService;
-            _brandRepository = brandRepository;
+            _freighterRepository = brandRepository;
         }
-        public BrandEditViewModel(IMessageBoxService messageBoxService, IBrandRepository brandRepository) : this()
+        public FreighterEditViewModel(IMessageBoxService messageBoxService, IFreighterRepository brandRepository) : this()
         {
             ArgumentNullException.ThrowIfNull(messageBoxService);
             ArgumentNullException.ThrowIfNull(brandRepository);
@@ -36,9 +36,9 @@ namespace UI.ViewModel.Books.BookEditViewModels
             _id = 0;
             _name = "";
             _messageBoxService = messageBoxService;
-            _brandRepository = brandRepository;
+            _freighterRepository = brandRepository;
         }
-        private BrandEditViewModel()
+        private FreighterEditViewModel()
         {
             SaveCommand = new RelayCommand(Save, CanSave);
             RemoveCommand = new RelayCommand(Remove);
@@ -51,7 +51,7 @@ namespace UI.ViewModel.Books.BookEditViewModels
 
         private void Save()
         {
-            Brand brand = new Brand()
+            Freighter freighter = new Freighter()
             {
                 Id = _id,
                 Name = _name,
@@ -61,11 +61,11 @@ namespace UI.ViewModel.Books.BookEditViewModels
             {
                 if (Id == 0)
                 {
-                    _brandRepository.Create(brand);
+                    _freighterRepository.Create(freighter);
                 }
                 else
                 {
-                    _brandRepository.Update(Id, brand);
+                    _freighterRepository.Update(Id, freighter);
                 }
                 _messageBoxService.ShowMessage("Данные успешно сохранены.");
             }
@@ -81,7 +81,7 @@ namespace UI.ViewModel.Books.BookEditViewModels
 
             try
             {
-                _brandRepository.Remove(Id);
+                _freighterRepository.Remove(Id);
                 RemoveEvent?.Invoke(this);
                 _messageBoxService.ShowMessage("Данные успешно удалены.");
             }
@@ -89,18 +89,19 @@ namespace UI.ViewModel.Books.BookEditViewModels
             {
                 _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
             }
+
         }
 
         public int Id
-		{
-			get { return _id; }
-			set { _id = value; OnPropertyChanged(); }
-		}
+        {
+            get { return _id; }
+            set { _id = value; OnPropertyChanged(); }
+        }
 
-		public string Name
-		{
-			get { return _name; }
-			set { _name = value; OnPropertyChanged(); }
-		}
-	}
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; OnPropertyChanged(); }
+        }
+    }
 }

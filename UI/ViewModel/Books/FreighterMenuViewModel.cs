@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System;
 using UI.Command;
 using UI.Services;
-using UI.ViewModel.Books.BookEditViewModels;
+using UI.ViewModel.Books.EditViewModels;
 
 namespace UI.ViewModel
 {

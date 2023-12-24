@@ -3,6 +3,7 @@ using Domain.RepositoryInterfaces;
 using System;
 using System.Windows.Input;
 using UI.Command;
+using UI.ViewModel.HelperViewModels;
 
 namespace UI.ViewModel.Dispatcher.EditViewModels
 {

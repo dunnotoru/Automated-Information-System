@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
-namespace UI.ViewModel.Dispatcher.EditViewModels
+namespace UI.ViewModel.HelperViewModels
 {
     class DriverLicenseViewModel : ViewModelBase
     {
