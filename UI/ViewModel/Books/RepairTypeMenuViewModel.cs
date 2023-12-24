@@ -1,36 +1,36 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System;
 using UI.Command;
 using UI.Services;
+using System.Collections.ObjectModel;
 using UI.ViewModel.Books.BookEditViewModels;
 
 namespace UI.ViewModel
 {
-    internal class FreighterBookViewModel : ViewModelBase
+    internal class RepairTypeMenuViewModel : ViewModelBase
     {
         private readonly IMessageBoxService _messageBoxService;
-        private readonly IFreighterRepository _freighterRepository;
+        private readonly IRepairTypeRepository _repairTypeRepository;
 
-        private ObservableCollection<FreighterEditViewModel> _items;
-        private FreighterEditViewModel _selectedItem;
+        private ObservableCollection<RepairTypeEditViewModel> _items;
+        private RepairTypeEditViewModel _selectedItem;
 
         public ICommand AddCommand { get; }
 
-        public FreighterBookViewModel(IMessageBoxService messageBoxService, IFreighterRepository freighterRepository)
+        public RepairTypeMenuViewModel(IMessageBoxService messageBoxService, IRepairTypeRepository repairType)
         {
             ArgumentNullException.ThrowIfNull(messageBoxService);
-            ArgumentNullException.ThrowIfNull(freighterRepository);
+            ArgumentNullException.ThrowIfNull(repairType);
 
             _messageBoxService = messageBoxService;
-            _freighterRepository = freighterRepository;
+            _repairTypeRepository = repairType;
 
-            Items = new ObservableCollection<FreighterEditViewModel>();
-            foreach (Freighter item in _freighterRepository.GetAll())
+            Items = new ObservableCollection<RepairTypeEditViewModel>();
+            foreach (RepairType item in _repairTypeRepository.GetAll())
             {
-                FreighterEditViewModel vm = new FreighterEditViewModel(item.Id, item.Name, _messageBoxService, _freighterRepository);
+                RepairTypeEditViewModel vm = new RepairTypeEditViewModel(item.Id, item.Name, _messageBoxService, _repairTypeRepository);
                 vm.RemoveEvent += OnRemove;
                 Items.Add(vm);
             }
@@ -38,7 +38,7 @@ namespace UI.ViewModel
             AddCommand = new RelayCommand(Add);
         }
 
-        private void OnRemove(FreighterEditViewModel model)
+        private void OnRemove(RepairTypeEditViewModel model)
         {
             model.RemoveEvent -= OnRemove;
             Items.Remove(model);
@@ -46,7 +46,7 @@ namespace UI.ViewModel
 
         private void Add()
         {
-            FreighterEditViewModel vm = new FreighterEditViewModel(_messageBoxService, _freighterRepository);
+            RepairTypeEditViewModel vm = new RepairTypeEditViewModel(_messageBoxService, _repairTypeRepository);
             vm.RemoveEvent += OnRemove;
             Items.Add(vm);
             SelectedItem = vm;
@@ -54,13 +54,13 @@ namespace UI.ViewModel
 
         public bool IsRedactingEnabled => SelectedItem != null;
 
-        public ObservableCollection<FreighterEditViewModel> Items
+        public ObservableCollection<RepairTypeEditViewModel> Items
         {
             get { return _items; }
             set { _items = value; OnPropertyChanged(); }
         }
 
-        public FreighterEditViewModel SelectedItem
+        public RepairTypeEditViewModel SelectedItem
         {
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }

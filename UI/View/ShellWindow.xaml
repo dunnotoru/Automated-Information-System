@@ -11,6 +11,7 @@
         MinHeight="500" MinWidth="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        
         <DataTemplate DataType="{x:Type vm:CertificateViewModel}">
             <local:Certificate/>
         </DataTemplate>
@@ -20,7 +21,6 @@
         <DataTemplate DataType="{x:Type vm:PassengerRegistrationViewModel}">
             <local:PassengerRegistrationView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:ShellViewModel}"/>
         <DataTemplate DataType="{x:Type vm:UpdatePasswordViewModel}">
             <local:UpdatePasswordView/>
         </DataTemplate>
@@ -35,6 +35,39 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:GuideBookViewModel}">
             <local:GuidebooksUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StationMenuViewModel}">
+            <local:StationMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RouteMenuViewModel}">
+            <local:RouteMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RunMenuViewModel}">
+            <local:RunMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DriverMenuViewModel}">
+            <local:DriverMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:VehicleMenuViewModel}">
+            <local:VehicleMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BrandMenuViewModel}">
+            <local:BrandBookUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:VehicleModelMenuViewModel}">
+            <local:VehicleModelBookUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RepairTypeMenuViewModel}">
+            <local:RepairTypeBookUserContol/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:FreighterMenuViewModel}">
+            <local:FreighterBookUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CategoryMenuViewModel}">
+            <local:CategoryBookUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TicketTypeMenuViewModel}">
+            <local:TicketTypeBookUserControl/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -53,7 +86,6 @@
                 <Style TargetType="{x:Type MenuItem}">
                     <Setter Property="Visibility" Value="{Binding Visible, Converter={StaticResource BoolToVis}}"/>
                     <Setter Property="Command" Value="{Binding MenuItemCommand}"/>
-                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.NavigationStore}"/>
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>

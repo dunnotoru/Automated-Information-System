@@ -25,13 +25,23 @@ namespace UI.ViewModel
         public MenuItemViewModel(string name, IEnumerable<MenuItemViewModel> subItems)
         {
             ArgumentNullException.ThrowIfNull(subItems);
-            Items = new ObservableCollection<MenuItemViewModel>(subItems);
+            Items = new ObservableCollection<MenuItemViewModel>();
+            foreach (var item in subItems)
+            {
+                item.ViewModelChanged += OnViewModelChanged;
+                Items.Add(item);
+            }
 
             Name = name;
             isReadRequired = false;
             isWriteRequired = false;
             isEditRequired = false;
             isDeleteRequired = false;
+        }
+
+        private void OnViewModelChanged(object sender, Func<ViewModelBase> e)
+        {
+            ViewModelChanged?.Invoke(sender, e);
         }
 
         public MenuItemViewModel(string name, Func<ViewModelBase> getViewModel)
@@ -48,7 +58,13 @@ namespace UI.ViewModel
 
         public ICommand MenuItemCommand
         {
-            get => new RelayCommand(() => ViewModelChanged?.Invoke(this, _getViewModel));
+            get => new RelayCommand(Handler);
+        }
+
+        private void Handler()
+        {
+            if (_getViewModel != null)
+                ViewModelChanged?.Invoke(this, _getViewModel);
         }
 
         public string Name
@@ -56,5 +72,6 @@ namespace UI.ViewModel
             get => _name;
             set { _name = value; OnPropertyChanged(); }
         }
+
     }
 }

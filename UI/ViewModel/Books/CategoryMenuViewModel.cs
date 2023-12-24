@@ -10,7 +10,7 @@ using UI.ViewModel.Dispatcher.EditViewModels;
 
 namespace UI.ViewModel
 {
-    internal class CategoryBookViewModel : ViewModelBase
+    internal class CategoryMenuViewModel : ViewModelBase
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMessageBoxService _messageBoxService;
@@ -34,7 +34,7 @@ namespace UI.ViewModel
 
         public ICommand AddCommand { get; }
 
-        public CategoryBookViewModel(ICategoryRepository categoryRepository,
+        public CategoryMenuViewModel(ICategoryRepository categoryRepository,
             IMessageBoxService messageBoxService)
         {
             ArgumentNullException.ThrowIfNull(categoryRepository);

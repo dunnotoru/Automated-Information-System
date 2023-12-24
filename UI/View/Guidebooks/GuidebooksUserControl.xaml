@@ -8,22 +8,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:BrandBookViewModel}">
+        <DataTemplate DataType="{x:Type vm:BrandMenuViewModel}">
             <local:BrandBookUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:VehicleModelBookViewModel}">
+        <DataTemplate DataType="{x:Type vm:VehicleModelMenuViewModel}">
             <local:VehicleModelBookUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:RepairTypeBookViewModel}">
+        <DataTemplate DataType="{x:Type vm:RepairTypeMenuViewModel}">
             <local:RepairTypeBookUserContol/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:FreighterBookViewModel}">
+        <DataTemplate DataType="{x:Type vm:FreighterMenuViewModel}">
             <local:FreighterBookUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:CategoryBookViewModel}">
+        <DataTemplate DataType="{x:Type vm:CategoryMenuViewModel}">
             <local:CategoryBookUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:TicketTypeBookViewModel}">
+        <DataTemplate DataType="{x:Type vm:TicketTypeMenuViewModel}">
             <local:TicketTypeBookUserControl/>
         </DataTemplate>
     </UserControl.Resources>

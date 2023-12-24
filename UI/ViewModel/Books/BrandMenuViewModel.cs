@@ -9,7 +9,7 @@ using UI.ViewModel.Books.BookEditViewModels;
 
 namespace UI.ViewModel
 {
-    internal class BrandBookViewModel : ViewModelBase
+    internal class BrandMenuViewModel : ViewModelBase
     {
 		private readonly IMessageBoxService _messageBoxService;
 		private readonly IBrandRepository _brandRepository;
@@ -19,7 +19,7 @@ namespace UI.ViewModel
 
 		public ICommand AddCommand { get; }
 
-        public BrandBookViewModel(IMessageBoxService messageBoxService, IBrandRepository brandRepository)
+        public BrandMenuViewModel(IMessageBoxService messageBoxService, IBrandRepository brandRepository)
         {
 			ArgumentNullException.ThrowIfNull(messageBoxService);
 			ArgumentNullException.ThrowIfNull(brandRepository);

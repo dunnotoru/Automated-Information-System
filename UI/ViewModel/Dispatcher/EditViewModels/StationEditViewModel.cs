@@ -14,9 +14,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private string _name;
         private string _address;
 
-        public EventHandler Remove;
-        public EventHandler Save;
-        public EventHandler<Exception> Error;
+        public event EventHandler Remove;
+        public event EventHandler Save;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }

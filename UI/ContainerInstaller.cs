@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using Castle.Facilities.Startable;
+using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Domain.EntityFramework.Repositories;
@@ -55,31 +56,15 @@ namespace UI
             #endregion
 
             #region guidebook viewmodels
-            container.Register(Component.For<CategoryBookViewModel>().LifestyleTransient());
-            container.Register(Component.For<BrandBookViewModel>().LifestyleTransient());
-            container.Register(Component.For<TicketTypeBookViewModel>().LifestyleTransient());
-            container.Register(Component.For<RepairTypeBookViewModel>().LifestyleTransient());
-            container.Register(Component.For<VehicleModelBookViewModel>().LifestyleTransient());
-            container.Register(Component.For<FreighterBookViewModel>().LifestyleTransient());
+            container.Register(Component.For<CategoryMenuViewModel>().LifestyleTransient());
+            container.Register(Component.For<BrandMenuViewModel>().LifestyleTransient());
+            container.Register(Component.For<TicketTypeMenuViewModel>().LifestyleTransient());
+            container.Register(Component.For<RepairTypeMenuViewModel>().LifestyleTransient());
+            container.Register(Component.For<VehicleModelMenuViewModel>().LifestyleTransient());
+            container.Register(Component.For<FreighterMenuViewModel>().LifestyleTransient());
             #endregion
 
             container.Register(Component.For<RegistrationViewModel>().LifestyleTransient());
-
-            container.Register(Component
-                .For<DispatcherViewModel>()
-                .UsingFactoryMethod(() => CreateDispatcherViewModel(container))
-                .LifestyleTransient());
-
-            container.Register(Component
-                .For<GuideBookViewModel>()
-                .UsingFactoryMethod(() => CreateGuidebookViewModel(container))
-                .LifestyleTransient());
-
-
-            container.Register(Component
-                .For<SettingsViewModel>()
-                .UsingFactoryMethod(() => CreateSettingsViewModel(container))
-                .LifestyleTransient());
 
             container.Register(Component.For<RunSearchViewModel>().LifestyleTransient());
             container.Register(Component.For<PassengerRegistrationViewModel>().LifestyleTransient());
@@ -117,32 +102,13 @@ namespace UI
             return new ViewModelFactory(container);
         }
 
-        private DispatcherViewModel CreateDispatcherViewModel(IWindsorContainer container)
-        {
-            DispatcherMenuCompositor compositor = new DispatcherMenuCompositor();
-            return new DispatcherViewModel(compositor.ComposeMenu(container));
-        }
-
-        private SettingsViewModel CreateSettingsViewModel(IWindsorContainer container)
-        {
-            SettingsMenuCompositor compositor = new SettingsMenuCompositor();
-            return new SettingsViewModel(compositor.ComposeMenu(container));
-        }
-
-        private GuideBookViewModel CreateGuidebookViewModel(IWindsorContainer container)
-        {
-            GuidebookMenuCompositor compositor = new GuidebookMenuCompositor();
-            return new GuideBookViewModel(compositor.ComposeMenu(container));
-
-        }
-
         private ShellViewModel CreateShell(IWindsorContainer container)
         {
-            MenuCompositor mc = new MenuCompositor(true, true, true, true);
+            MenuCompositor mc = new MenuCompositor(container);
 
             return new ShellViewModel(
                 container.Resolve<NavigationStore>(),
-                mc.ComposeMenu(container),
+                mc.ComposeMenu(),
                 container.Resolve<ScheduleService>());
         }
     }
