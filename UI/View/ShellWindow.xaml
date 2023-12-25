@@ -60,6 +60,9 @@
         <DataTemplate DataType="{x:Type vm:TicketTypeMenuViewModel}">
             <local:TicketTypeBookUserControl/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RegistrationViewModel}">
+            <local:RegistrationUserControl/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -77,6 +80,7 @@
                 <Style TargetType="{x:Type MenuItem}">
                     <Setter Property="Visibility" Value="{Binding Visible, Converter={StaticResource BoolToVis}}"/>
                     <Setter Property="Command" Value="{Binding MenuItemCommand}"/>
+                    <Setter Property="Height" Value="25"/>
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>

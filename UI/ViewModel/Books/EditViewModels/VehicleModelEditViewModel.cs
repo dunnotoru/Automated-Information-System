@@ -38,13 +38,9 @@ namespace UI.ViewModel.Books.EditViewModels
             _capacity = vehicleModel.Capacity;
             _selectedBrand = new BrandViewModel(_brandRepository.GetById(vehicleModel.BrandId));
 
-            foreach (Brand item in _brandRepository.GetAll())
-            {
-                BrandViewModel vm = new BrandViewModel(item);
-                Brands.Add(vm);
-            }
+            
         }
-        public VehicleModelEditViewModel(IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) : this()
+        public VehicleModelEditViewModel(IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) 
         {
             ArgumentNullException.ThrowIfNull(brandRepository);
             ArgumentNullException.ThrowIfNull(vehicleModelRepository);
@@ -60,6 +56,11 @@ namespace UI.ViewModel.Books.EditViewModels
             SaveCommand = new RelayCommand(ExecuteSave, CanSave);
             RemoveCommand = new RelayCommand(ExecuteRemove);
             Brands = new ObservableCollection<BrandViewModel>();
+            foreach (Brand item in _brandRepository.GetAll())
+            {
+                BrandViewModel vm = new BrandViewModel(item);
+                Brands.Add(vm);
+            }
         }
         
         private bool CanSave()
@@ -89,7 +90,7 @@ namespace UI.ViewModel.Books.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _vehicleModelRepository.Create(model);
+                    Id = _vehicleModelRepository.Create(model);
                 }
                 else
                 {
@@ -108,7 +109,7 @@ namespace UI.ViewModel.Books.EditViewModels
 
             try
             {
-                _brandRepository.Remove(Id);
+                _vehicleModelRepository.Remove(Id);
                 Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
@@ -120,6 +121,7 @@ namespace UI.ViewModel.Books.EditViewModels
         public int Id
         {
             get { return _id; }
+            set { _id = value; OnPropertyChanged(); }
         }
         public string Name
         {

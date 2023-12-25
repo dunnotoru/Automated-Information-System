@@ -10,6 +10,7 @@ namespace Domain.EntityFramework.Repositories
     {
         public int Create(VehicleModel entity)
         {
+            int id = 0;
             using (ApplicationContext context = new ApplicationContext())
             {
                 VehicleModel createdEntity = new VehicleModel();
@@ -20,8 +21,10 @@ namespace Domain.EntityFramework.Repositories
 
                 context.VehicleModels.Add(createdEntity);
                 context.SaveChanges();
+
+                id = createdEntity.Id;
             }
-            return entity.Id;
+            return id;
         }
         public void Update(int id, VehicleModel entity)
         {
