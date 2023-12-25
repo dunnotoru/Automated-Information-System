@@ -31,6 +31,7 @@ namespace UI
 
             container.Register(Component.For<AuthenticationService>());
             container.Register(Component.For<RegistrationService>());
+            container.Register(Component.For<RunSearchService>());
             container.Register(Component.For<OrderProcessService>().LifestyleTransient());
             container.Register(Component.For<LoginViewModel>());
             container.Register(Component.For<ScheduleService>());
@@ -69,7 +70,7 @@ namespace UI
             container.Register(Component.For<FreighterMenuViewModel>().LifestyleTransient());
             #endregion
 
-            container.Register(Component.For<RegistrationViewModel>().LifestyleTransient());
+            container.Register(Component.For<AccountMenuViewModel>().LifestyleTransient());
 
             container.Register(Component.For<RunSearchViewModel>().LifestyleTransient());
             container.Register(Component.For<PassengerRegistrationViewModel>().LifestyleTransient());

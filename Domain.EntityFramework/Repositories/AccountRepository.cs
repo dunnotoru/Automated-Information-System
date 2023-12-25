@@ -65,5 +65,17 @@ namespace Domain.EntityFramework.Repositories
                 return context.Accounts.ToList();
             }
         }
+
+        public bool IsAccountExist(string username)
+        {
+            using (AccountContext context = new AccountContext())
+            {
+                Account? acc =  context.Accounts.FirstOrDefault(_ => _.Username == username);
+                if(acc == null)
+                    return false;
+
+                return true;
+            }
+        }
     }
 }

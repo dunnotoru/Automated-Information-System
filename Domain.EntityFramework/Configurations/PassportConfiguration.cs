@@ -10,6 +10,7 @@ namespace Domain.EntityFramework.Configurations
         {
             builder.HasKey(o => o.Id);
             builder.HasIndex(o => new { o.Series, o.Number }).IsUnique();
+            builder.HasIndex(o => new { o.Series, o.Number, o.Name, o.Surname, o.Patronymic, o.BirthDate }).IsUnique();
         }
     }
 }

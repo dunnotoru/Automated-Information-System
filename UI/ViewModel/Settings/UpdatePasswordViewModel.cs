@@ -61,7 +61,7 @@ namespace UI.ViewModel
 
         private void UpdatePassword()
         {
-            if (_registrationUseCase.UpdatePassword(_accountStore.CurrentAccount, OldPassword, NewPassword))
+            if (_registrationUseCase.UpdatePassword(_accountStore.CurrentAccount.Username, OldPassword, NewPassword))
                 _navigationService.Navigate<ShellViewModel>();
         }
     }

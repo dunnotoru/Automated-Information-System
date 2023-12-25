@@ -54,6 +54,7 @@
                 <DataGridTextColumn Width="auto" Binding="{Binding RouteName}" Header="Маршрута"/>
                 <DataGridTextColumn Width="auto" Binding="{Binding DepartureDateTime, StringFormat=\{0:dd.MM.yyyy в hh.mm\}}" Header="Время отправления"/>
                 <DataGridTextColumn Width="auto" Binding="{Binding EstimatedArrivalDateTime, StringFormat=\{0:dd.MM.yyyy в hh.mm\}}" Header="Расчетное время прибытия"/>
+                <DataGridTextColumn Width="auto" Binding="{Binding FreePlaces}" Header="Мест осталось"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0 0 10 35" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Bottom" Width="120" Height="18"/>

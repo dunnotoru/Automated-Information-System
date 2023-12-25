@@ -4,6 +4,7 @@ using Domain.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -18,12 +19,12 @@ namespace UI.ViewModel
         private readonly IMessageBoxService _messageBoxService;
         private readonly IRunRepository _runRepository;
         private readonly IPassportRepository _passportRepository;
+        private readonly ITicketRepository _ticketRepository;
         private readonly OrderProcessService _orderProcessService;
         private readonly AccountStore _accountStore;
 
         private readonly OrderStore _orderStore;
         private readonly NavigationService _navigationService;
-
         private int _price;
         private int _cash;
 
@@ -40,8 +41,14 @@ namespace UI.ViewModel
         public ICommand CashPaymentCommand { get; }
         public ICommand NoncashPaymentCommand { get; }
 
-        public PassengerRegistrationViewModel(NavigationService navigationService, OrderStore orderStore,
-            IMessageBoxService messageBoxService, AccountStore accountStore, IRunRepository runRepository, OrderProcessService orderProcessService, IPassportRepository passportRepository)
+        public PassengerRegistrationViewModel(NavigationService navigationService,
+                                              OrderStore orderStore,
+                                              IMessageBoxService messageBoxService,
+                                              AccountStore accountStore,
+                                              IRunRepository runRepository,
+                                              OrderProcessService orderProcessService,
+                                              IPassportRepository passportRepository,
+                                              ITicketRepository ticketRepository)
         {
             _orderStore = orderStore;
             _orderStore.OrderCreated += OnOrderCreated;
@@ -59,8 +66,9 @@ namespace UI.ViewModel
             AddPassengerCommand = new RelayCommand(AddPassenger);
             DeletePassengerCommand = new RelayCommand(DeletePassenger);
             DeclineCommand = new RelayCommand(Decline);
+            _ticketRepository = ticketRepository;
         }
-        
+
         private void Decline()
         {
             _navigationService.Navigate<RunSearchViewModel>();
@@ -70,21 +78,23 @@ namespace UI.ViewModel
         {
             Run run = _runRepository.GetById(SelectedRun.Id);
             string cashierName = _accountStore.CurrentAccount.Username;
+
             try
             {
                 foreach (PassengerViewModel item in Passengers)
                 {
                     IdentityDocument identityDocument = item.GetDocument();
+                    IdentityDocument doc;
                     try
                     {
-                        identityDocument = _passportRepository.Get(identityDocument.Number, identityDocument.Series);
+                        doc = _passportRepository.Get(identityDocument.Number, identityDocument.Series);
                     }
                     catch
                     {
-
+                        doc = identityDocument;
                     }
-
-                    _orderProcessService.AddTicket(identityDocument, run, cashierName, null);
+                    
+                    _orderProcessService.AddTicket(doc, run, cashierName, null);
                 }
 
                 _orderProcessService.PrintTickets();
@@ -102,10 +112,10 @@ namespace UI.ViewModel
 
         private void OnOrderCreated(OrderViewModel order)
         {
-
             DepartureStation = new StationViewModel(order.DepartureStation);
             ArrivalStation = new StationViewModel(order.ArrivalStation);
-            SelectedRun = new RunViewModel(order.SelectedRun);
+            int freePlaces = _runRepository.GetFreePlaces(order.SelectedRun.Id);
+            SelectedRun = new RunViewModel(order.SelectedRun, freePlaces);
             DepartureDateTime = SelectedRun.DepartureDateTime;
             ArrivalDateTime = SelectedRun.EstimatedArrivalDateTime;
         }

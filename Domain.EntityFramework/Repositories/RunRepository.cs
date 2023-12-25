@@ -60,9 +60,8 @@ namespace Domain.EntityFramework.Repositories
             using (ApplicationContext context = new ApplicationContext())
             {
                 return context.Runs
-                    .Include(o => o.Route)
-                    .ThenInclude(x => x.Stations)
-                    .Include(o => o.Vehicle)
+                    .Include(o => o.Route).ThenInclude(x => x.Stations)
+                    .Include(o => o.Vehicle).ThenInclude(x => x.VehicleModel)
                     .Include(o => o.Drivers)
                     .First(x => x.Id == id);
             }
@@ -73,9 +72,8 @@ namespace Domain.EntityFramework.Repositories
             using (ApplicationContext context = new ApplicationContext())
             {
                 return context.Runs
-                    .Include(o => o.Route)
-                    .ThenInclude(x => x.Stations)
-                    .Include(o => o.Vehicle)
+                    .Include(o => o.Route).ThenInclude(x => x.Stations)
+                    .Include(o => o.Vehicle).ThenInclude(x => x.VehicleModel)
                     .Include(o => o.Drivers)
                     .Where(x => x.Route.Id == route.Id).ToList();
             }
@@ -86,11 +84,23 @@ namespace Domain.EntityFramework.Repositories
             using (ApplicationContext context = new ApplicationContext())
             {
                 return context.Runs
-                    .Include(o => o.Route)
-                    .ThenInclude(x => x.Stations)
-                    .Include(o => o.Vehicle)
+                    .Include(o => o.Route).ThenInclude(x => x.Stations)
+                    .Include(o => o.Vehicle).ThenInclude(x => x.VehicleModel)
                     .Include(o => o.Drivers)
                     .ToList();
+            }
+        }
+
+        public int GetFreePlaces(int id)
+        {
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                int takenPlaces = context.Tickets.Where(o => o.RunId == id).Count();
+                int allPlaces = context.Runs
+                    .Include(o => o.Vehicle).ThenInclude(x => x.VehicleModel)
+                    .First(o => o.Id == id).Vehicle.VehicleModel.Capacity;
+
+                return allPlaces - takenPlaces;
             }
         }
     }

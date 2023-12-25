@@ -15,20 +15,14 @@ namespace Domain.Services
             _passwordHasher = passwordHasher;
         }
 
-        public bool Register(string username, string password,
+        public int Register(string username, string password,
             bool read = false, bool write = false, bool edit = false, bool delete = false)
         {
-            Account? storedAccount;
-            try
+            bool exist = _accountRepository.IsAccountExist(username);
+            if (exist)
             {
-                storedAccount = _accountRepository.GetByUsername(username);
-                if (storedAccount != null) return false;
+                throw new InvalidOperationException("Аккаунт с таким именем уже существует.");
             }
-            catch
-            {
-                return false;
-            }
-
 
             string passwordHash = _passwordHasher.CalcHash(password);
             Account newAccount = new Account()
@@ -41,21 +35,21 @@ namespace Domain.Services
                 Delete = delete
             };
 
-            try
-            {
-                _accountRepository.Create(newAccount);
-            }
-            catch 
-            {
-                return false;
-            }
-
-            return true;
+            return _accountRepository.Create(newAccount);
         }
 
-        public bool UpdatePassword(Account account, string oldPassword, string newPassword)
+        public bool UpdatePassword(string username, string oldPassword, string newPassword)
         {
-            Account? storedAccount = _accountRepository.GetByUsername(account.Username);
+            Account storedAccount = null;
+            try
+            {
+                storedAccount = _accountRepository.GetByUsername(username);
+            }
+            catch
+            {
+                storedAccount = null;
+            }
+
             if (storedAccount == null) return false;
             if (storedAccount.PasswordHash != _passwordHasher.CalcHash(oldPassword)) return false;
 

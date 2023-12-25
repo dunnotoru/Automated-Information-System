@@ -147,7 +147,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _runRepository.Create(run);
+                    Id = _runRepository.Create(run);
                 }
                 else
                 {

@@ -2,9 +2,9 @@
 
 namespace UI.View
 {
-    public partial class RegistrationUserControl : UserControl
+    public partial class AccountMenuUserControl : UserControl
     {
-        public RegistrationUserControl()
+        public AccountMenuUserControl()
         {
             InitializeComponent();
         }

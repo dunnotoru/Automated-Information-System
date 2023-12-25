@@ -60,8 +60,8 @@
         <DataTemplate DataType="{x:Type vm:TicketTypeMenuViewModel}">
             <local:TicketTypeBookUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:RegistrationViewModel}">
-            <local:RegistrationUserControl/>
+        <DataTemplate DataType="{x:Type vm:AccountMenuViewModel}">
+            <local:AccountMenuUserControl/>
         </DataTemplate>
     </Window.Resources>
     <Grid>

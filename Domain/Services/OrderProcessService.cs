@@ -30,6 +30,12 @@ namespace Domain.Services
 
         public void AddTicket(IdentityDocument document, Run run, string cashierName, TicketType ticketType)
         {
+
+            int count = _ticketRepository.GetAll().Where(o => o.RunId == run.Id).Count();
+            int capacity = run.Vehicle.VehicleModel.Capacity;
+            if (count >= capacity)
+                throw new InvalidOperationException($"Количество свободных мест: {capacity - count}");
+
             int price = _ticketPriceCalculator.CalcPrice(run, ticketType);
             Ticket t = new Ticket()
             {
@@ -60,6 +66,7 @@ namespace Domain.Services
 
         public void PrintTickets()
         {
+            
             foreach (Ticket item in _tickets)
             {
                 _ticketRepository.Create(item);
@@ -75,8 +82,18 @@ namespace Domain.Services
                 ReceiptLine line = new ReceiptLine("Билет", item.Price, 1);
                 lines.Add(line);
             }
-            Receipt receipt = new Receipt("123", "ООО Возня", "Тута", DateTime.Now, cashierName, lines);
+            Receipt receipt = new Receipt(Guid.NewGuid().ToString(), "ООО Возня", "Тута", DateTime.Now, cashierName, lines);
             _receiptPrintService.Print(receipt);
+        }
+
+        public int GetFullPrice()
+        {
+            int price = 0;
+            foreach (var item in _tickets)
+            {
+                price += item.Price;
+            }
+            return price;
         }
     }
 }

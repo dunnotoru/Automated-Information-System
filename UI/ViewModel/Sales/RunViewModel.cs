@@ -11,8 +11,9 @@ namespace UI.ViewModel.Sales
         private string _routeName;
         private DateTime _departureDateTime;
         private DateTime _estimatedArrivalDateTime;
+        private int _freePlaces;
 
-        public RunViewModel(Run run)
+        public RunViewModel(Run run, int freePlaces)
         {
             ArgumentNullException.ThrowIfNull(run);
 
@@ -21,9 +22,14 @@ namespace UI.ViewModel.Sales
             RouteName = run.Route.Name;
             DepartureDateTime = run.DepartureDateTime;
             EstimatedArrivalDateTime = run.EstimatedArrivalDateTime;
-
+            FreePlaces = freePlaces;
         }
 
+        public int FreePlaces
+        {
+            get { return _freePlaces; }
+            set { _freePlaces = value; }
+        }
         public int Id
         {
             get { return _id; }

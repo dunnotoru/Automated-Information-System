@@ -1,5 +1,7 @@
-﻿using Domain.Models;
+﻿using Domain.EntityFramework.Repositories;
+using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ namespace UI.ViewModel
         private readonly IRunRepository _runRepository;
         private readonly IRouteRepository _routeRepository;
         private readonly IMessageBoxService _messageBoxService;
+        private readonly RunSearchService _runSearchService;
         private readonly OrderStore _orderStore;
         private readonly NavigationService _navigationService;
 
@@ -28,7 +31,88 @@ namespace UI.ViewModel
         private Station _departureStation;
         private Station _arrivalStation;
         private RunViewModel _selectedRun;
+        private int _freePlaces;
 
+        public ICommand SellTicketCommand { get; private set; }
+        public ICommand FindRunsCommand { get; private set; }
+
+        public RunSearchViewModel(IStationRepository stationRepository, IRunRepository runRepository,
+            NavigationService navigationService, OrderStore orderStore, IRouteRepository routeRepository,
+            IMessageBoxService messageBoxService, RunSearchService runSearchService)
+        {
+            ArgumentNullException.ThrowIfNull(stationRepository);
+            ArgumentNullException.ThrowIfNull(runRepository);
+            ArgumentNullException.ThrowIfNull(navigationService);
+
+            _orderStore = orderStore;
+            _stationRepository = stationRepository;
+            _runRepository = runRepository;
+            _routeRepository = routeRepository;
+            _navigationService = navigationService;
+            _messageBoxService = messageBoxService;
+
+            try
+            {
+                StationItems = new ObservableCollection<Station>(_stationRepository.GetAll());
+            }
+            catch (DbUpdateException e)
+            {
+                StationItems = new ObservableCollection<Station>();
+                _messageBoxService.ShowMessage(e.Message);
+            }
+
+            Runs = new ObservableCollection<RunViewModel>();
+
+            DepartureDateTimeMinimum = DateTime.Now;
+            DepartureDateTimeMaximum = DateTime.MaxValue;
+
+            FindRunsCommand = new RelayCommand(FindRunsMethod);
+            SellTicketCommand = new RelayCommand(SellTicket, () => SelectedRun != null && DepartureStation != null && ArrivalStation != null);
+            _runSearchService = runSearchService;
+        }
+
+        private void FindRunsMethod()
+        {
+            if (DepartureStation == null)
+            {
+                _messageBoxService.ShowMessage("Не выбрана станция отправки");
+                return;
+            }
+            if (ArrivalStation == null)
+            {
+                _messageBoxService.ShowMessage("Не выбрана станция прибытия");
+                return;
+            }
+
+            List<Run> run = new List<Run>();
+            
+            run = _runSearchService.GetAvailableRuns(DepartureStation,
+                                                        ArrivalStation,
+                                                        DepartureDateTimeMinimum,
+                                                        DepartureDateTimeMaximum);
+            
+            Runs.Clear();
+            foreach (var item in run)
+            {
+                int freePlaces = _runRepository.GetFreePlaces(item.Id);
+                RunViewModel vm = new RunViewModel(item, freePlaces);
+                Runs.Add(vm);
+            }
+        }
+
+        private void SellTicket()
+        {
+            OrderViewModel order = new OrderViewModel(DepartureStation, ArrivalStation, _runRepository.GetById(SelectedRun.Id));
+            _navigationService.Navigate<PassengerRegistrationViewModel>();
+            _orderStore.CreateOrder(order);
+        }
+
+        
+        public int FreePlaces
+        {
+            get { return _freePlaces; }
+            set { _freePlaces = value; OnPropertyChanged(); }
+        }
         public ObservableCollection<Station> StationItems { get; set; }
         public ObservableCollection<RunViewModel> Runs
         {
@@ -59,90 +143,6 @@ namespace UI.ViewModel
         {
             get => _selectedRun;
             set { _selectedRun = value; OnPropertyChanged(); }
-        }
-
-        public ICommand SellTicketCommand { get; private set; }
-        public ICommand FindRunsCommand { get; private set; }
-
-        public RunSearchViewModel(IStationRepository stationRepository, IRunRepository runRepository,
-            NavigationService navigationService, OrderStore orderStore, IRouteRepository routeRepository,
-            IMessageBoxService messageBoxService)
-        {
-            ArgumentNullException.ThrowIfNull(stationRepository);
-            ArgumentNullException.ThrowIfNull(runRepository);
-            ArgumentNullException.ThrowIfNull(navigationService);
-
-            _orderStore = orderStore;
-            _stationRepository = stationRepository;
-            _runRepository = runRepository;
-            _routeRepository = routeRepository;
-            _navigationService = navigationService;
-            _messageBoxService = messageBoxService;
-
-            try
-            {
-                StationItems = new ObservableCollection<Station>(_stationRepository.GetAll());
-            }
-            catch (DbUpdateException e)
-            {
-                StationItems = new ObservableCollection<Station>();
-                _messageBoxService.ShowMessage(e.Message);
-            }
-
-            Runs = new ObservableCollection<RunViewModel>();
-
-            DepartureDateTimeMinimum = DateTime.Now;
-            DepartureDateTimeMaximum = DateTime.MaxValue;
-
-            FindRunsCommand = new RelayCommand(FindRunsMethod);
-            SellTicketCommand = new RelayCommand(SellTicket, () => SelectedRun != null && DepartureStation != null && ArrivalStation != null);
-        }
-
-        private void FindRunsMethod()
-        {
-            if (DepartureStation == null)
-            {
-                _messageBoxService.ShowMessage("Не выбрана станция отправки");
-                return;
-            }
-            if (ArrivalStation == null)
-            {
-                _messageBoxService.ShowMessage("Не выбрана станция прибытия");
-                return;
-            }
-
-            List<Run> run = new List<Run>();
-            IEnumerable<Route> routes;
-            try
-            {
-                routes = _routeRepository.GetByStations(DepartureStation, ArrivalStation);
-                foreach (Route route in routes)
-                {
-                    run.AddRange(_runRepository.GetByRoute(route));
-                }
-            }
-            catch (DbUpdateException e)
-            {
-                _messageBoxService.ShowMessage(e.Message);
-                return;
-            }
-
-            run = run.Where(o => o.DepartureDateTime > DepartureDateTimeMinimum
-                && o.DepartureDateTime < DepartureDateTimeMaximum).ToList();
-
-            Runs.Clear();
-            foreach (var item in run)
-            {
-                RunViewModel vm = new RunViewModel(item);
-                Runs.Add(vm);
-            }
-        }
-
-        private void SellTicket()
-        {
-            OrderViewModel order = new OrderViewModel(DepartureStation, ArrivalStation, _runRepository.GetById(SelectedRun.Id));
-            _navigationService.Navigate<PassengerRegistrationViewModel>();
-            _orderStore.CreateOrder(order);
         }
     }
 }

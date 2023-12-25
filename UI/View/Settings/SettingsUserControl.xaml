@@ -8,8 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:RegistrationViewModel}">
-            <local:RegistrationUserControl/>
+        <DataTemplate DataType="{x:Type vm:AccountMenuViewModel}">
+            <local:AccountMenuUserControl/>
         </DataTemplate>
     </UserControl.Resources>
     <Grid Background="White">

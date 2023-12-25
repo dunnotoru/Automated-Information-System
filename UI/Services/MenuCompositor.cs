@@ -64,7 +64,7 @@ namespace UI.Services
         {
             List<MenuItemViewModel> menuList = new List<MenuItemViewModel>()
             {
-                new MenuItemViewModel("Регистрация", () => _container.Resolve<RegistrationViewModel>()),
+                new MenuItemViewModel("Регистрация", () => _container.Resolve<AccountMenuViewModel>()),
                 new MenuItemViewModel("Смена пароля", () => _container.Resolve<UpdatePasswordViewModel>()),
             };
             return menuList;
