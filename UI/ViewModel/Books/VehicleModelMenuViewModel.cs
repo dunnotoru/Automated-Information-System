@@ -33,25 +33,59 @@ namespace UI.ViewModel
             Items = new ObservableCollection<VehicleModelEditViewModel>();
             foreach (VehicleModel item in _vehicleModelRepository.GetAll())
             {
-                VehicleModelEditViewModel vm = new VehicleModelEditViewModel(item.Id,
-                    item.Name, item.Capacity, item.BrandId, _messageBoxService, _brandRepository, _vehicleModelRepository);
-                vm.RemoveEvent += OnRemove;
+                VehicleModelEditViewModel vm = new VehicleModelEditViewModel(item, _brandRepository, _vehicleModelRepository);
+                vm.Save += OnSave;
+                vm.Error += OnError;
+                vm.Remove += OnRemove;
                 Items.Add(vm);
             }
 
             AddCommand = new RelayCommand(Add);
         }
 
-        private void OnRemove(VehicleModelEditViewModel model)
+        private void OnRemove(object? sender, EventArgs e)
         {
-            model.RemoveEvent -= OnRemove;
-            Items.Remove(model);
+            VehicleModelEditViewModel vm = (VehicleModelEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+            Items.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно удалены.");
+        }
+
+        private void OnSave(object? sender, EventArgs e)
+        {
+            VehicleModelEditViewModel vm = (VehicleModelEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+
+            VehicleModel vehicleModel = _vehicleModelRepository.GetById(vm.Id);
+            VehicleModelEditViewModel updatedVm = new VehicleModelEditViewModel(vehicleModel, _brandRepository, _vehicleModelRepository);
+
+            updatedVm.Remove += OnRemove;
+            updatedVm.Save += OnSave;
+            updatedVm.Error += OnError;
+
+            int index = Items.IndexOf(vm);
+            Items.Insert(index, updatedVm);
+            Items.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно сохранены.");
+        }
+
+        private void OnError(object? sender, Exception e)
+        {
+            _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
         }
 
         private void Add()
         {
-            VehicleModelEditViewModel vm = new VehicleModelEditViewModel(_messageBoxService, _brandRepository, _vehicleModelRepository);
-            vm.RemoveEvent += OnRemove;
+            VehicleModelEditViewModel vm = new VehicleModelEditViewModel(_brandRepository, _vehicleModelRepository);
+            vm.Save += OnSave;
+            vm.Error += OnError;
+            vm.Remove += OnRemove;
             Items.Add(vm);
             SelectedItem = vm;
         }

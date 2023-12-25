@@ -46,36 +46,61 @@ namespace UI.ViewModel
             foreach (Category item in categories)
             {
                 CategoryEditViewModel vm = new CategoryEditViewModel(item, _categoryRepository);
-                vm.RemoveEvent += OnRemove;
-                vm.ErrorEvent += OnError;
+                vm.Save += OnSave;
+                vm.Error += OnError;
+                vm.Remove += OnRemove;
                 Items.Add(vm);
             }
 
             AddCommand = new RelayCommand(Add);
         }
 
-        private void Add()
+        private void OnRemove(object? sender, EventArgs e)
         {
-            CategoryEditViewModel vm = new CategoryEditViewModel(_categoryRepository);
-            vm.RemoveEvent += OnRemove;
-            vm.ErrorEvent += OnError;
-            Items.Add(vm);
-            SelectedItem = vm;
-        }
-
-        private void OnRemove(CategoryEditViewModel viewModel)
-        {
-            viewModel.RemoveEvent -= OnRemove;
-            viewModel.ErrorEvent -= OnError;
-            if (Items.Remove(viewModel))
+            CategoryEditViewModel vm = (CategoryEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+            if (Items.Remove(vm))
             {
-                _messageBoxService.ShowMessage("Станция удалена");
+                _messageBoxService.ShowMessage("Данные успешно удалены.");
             }
         }
 
-        private void OnError(string message)
+        private void OnError(object? sender, Exception e)
         {
-            _messageBoxService.ShowMessage($"Ошибка: {message}");
+            _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+        }
+
+        private void OnSave(object? sender, EventArgs e)
+        {
+            CategoryEditViewModel vm = (CategoryEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+
+            Category category = _categoryRepository.GetById(vm.Id);
+            CategoryEditViewModel updatedVm = new CategoryEditViewModel(category, _categoryRepository);
+
+            updatedVm.Save += OnSave;
+            updatedVm.Error += OnError;
+            updatedVm.Remove += OnRemove;
+
+            int index = Items.IndexOf(vm);
+            Items.Insert(index, updatedVm);
+            Items.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно сохранены.");
+        }
+
+        private void Add()
+        {
+            CategoryEditViewModel vm = new CategoryEditViewModel(_categoryRepository);
+            vm.Save += OnSave;
+            vm.Error += OnError;
+            vm.Remove += OnRemove;
+            Items.Add(vm);
+            SelectedItem = vm;
         }
     }
 }

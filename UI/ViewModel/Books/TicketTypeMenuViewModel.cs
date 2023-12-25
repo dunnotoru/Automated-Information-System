@@ -15,22 +15,22 @@ namespace UI.ViewModel
         private readonly ITicketTypeRepository _ticketTypeRepository;
         private readonly IMessageBoxService _messageBoxService;
 
-        private ObservableCollection<TicketTypeEditViewModel> _stations;
-        private TicketTypeEditViewModel _selectedStation;
+        private ObservableCollection<TicketTypeEditViewModel> _items;
+        private TicketTypeEditViewModel _selectedtem;
 
-        public ObservableCollection<TicketTypeEditViewModel> Stations
+        public ObservableCollection<TicketTypeEditViewModel> Items
         {
-            get { return _stations; }
-            set { _stations = value; OnPropertyChanged(); }
+            get { return _items; }
+            set { _items = value; OnPropertyChanged(); }
         }
 
-        public TicketTypeEditViewModel SelectedStation
+        public TicketTypeEditViewModel SelectedItem
         {
-            get => _selectedStation;
-            set { _selectedStation = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+            get => _selectedtem;
+            set { _selectedtem = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
         }
 
-        public bool IsRedactingEnabled => SelectedStation != null;
+        public bool IsRedactingEnabled => SelectedItem != null;
 
         public ICommand AddCommand { get; }
 
@@ -41,41 +41,67 @@ namespace UI.ViewModel
             _ticketTypeRepository = ticketTypeRepository;
             _messageBoxService = messageBoxService;
 
-            Stations = new ObservableCollection<TicketTypeEditViewModel>();
+            Items = new ObservableCollection<TicketTypeEditViewModel>();
             IEnumerable<TicketType> stations = _ticketTypeRepository.GetAll();
             foreach (TicketType item in stations)
             {
                 TicketTypeEditViewModel vm = new TicketTypeEditViewModel(item, _ticketTypeRepository);
-                vm.RemoveEvent += OnRemove;
-                vm.ErrorEvent += OnError;
-                Stations.Add(vm);
+                vm.Save += OnSave;
+                vm.Error += OnError;
+                vm.Remove += OnRemove;
+                Items.Add(vm);
             }
 
             AddCommand = new RelayCommand(Add);
         }
 
-        private void Add()
+        private void OnRemove(object? sender, EventArgs e)
         {
-            TicketTypeEditViewModel vm = new TicketTypeEditViewModel(_ticketTypeRepository);
-            vm.RemoveEvent += OnRemove;
-            vm.ErrorEvent += OnError;
-            Stations.Add(vm);
-            SelectedStation = vm;
-        }
-
-        private void OnRemove(TicketTypeEditViewModel viewModel)
-        {
-            viewModel.RemoveEvent -= OnRemove;
-            viewModel.ErrorEvent -= OnError;
-            if (Stations.Remove(viewModel))
+            TicketTypeEditViewModel vm = (TicketTypeEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+            if (Items.Remove(vm))
             {
-                _messageBoxService.ShowMessage("Станция удалена");
+                _messageBoxService.ShowMessage("Данные успешно удалены.");
             }
         }
 
-        private void OnError(string message)
+        private void OnError(object? sender, Exception e)
         {
-            _messageBoxService.ShowMessage($"Ошибка: {message}");
+            _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+        }
+
+        private void OnSave(object? sender, EventArgs e)
+        {
+            TicketTypeEditViewModel vm = (TicketTypeEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+
+            TicketType ticketType = _ticketTypeRepository.GetById(vm.Id);
+            TicketTypeEditViewModel updatedVm = new TicketTypeEditViewModel(ticketType, _ticketTypeRepository);
+
+            updatedVm.Remove += OnRemove;
+            updatedVm.Save += OnSave;
+            updatedVm.Error += OnError;
+
+            int index = Items.IndexOf(vm);
+            Items.Insert(index, updatedVm);
+            Items.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно сохранены.");
+        }
+
+        private void Add()
+        {
+            TicketTypeEditViewModel vm = new TicketTypeEditViewModel(_ticketTypeRepository);
+            vm.Save += OnSave;
+            vm.Error += OnError;
+            vm.Remove += OnRemove;
+
+            Items.Add(vm);
+            SelectedItem = vm;
         }
     }
 }

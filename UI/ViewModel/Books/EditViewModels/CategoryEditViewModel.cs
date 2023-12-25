@@ -11,8 +11,9 @@ namespace UI.ViewModel.Books.EditViewModels
         private readonly ICategoryRepository _categoryRepository;
         private string _name;
 
-        public Action<CategoryEditViewModel> RemoveEvent;
-        public Action<string> ErrorEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
@@ -39,8 +40,8 @@ namespace UI.ViewModel.Books.EditViewModels
 
         private CategoryEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save, () => CanSave());
-            RemoveCommand = new RelayCommand(Remove);
+            SaveCommand = new RelayCommand(ExecuteSave, () => CanSave());
+            RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
         private bool CanSave()
@@ -55,7 +56,7 @@ namespace UI.ViewModel.Books.EditViewModels
             set { _name = value; OnPropertyChanged(); }
         }
 
-        public void Save()
+        public void ExecuteSave()
         {
             Category createdStation = new Category()
             {
@@ -65,30 +66,32 @@ namespace UI.ViewModel.Books.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _categoryRepository.Create(createdStation);
+                    Id = _categoryRepository.Create(createdStation);
                 }
                 else
                 {
                     _categoryRepository.Update(Id, createdStation);
                 }
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
-        public void Remove()
+        public void ExecuteRemove()
         {
             if (Id == 0) return;
             try
             {
                 _categoryRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
+                Remove?.Invoke(this, EventArgs.Empty);
+             
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
     }

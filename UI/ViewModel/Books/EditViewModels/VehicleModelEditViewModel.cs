@@ -6,6 +6,7 @@ using UI.Command;
 using UI.Services;
 using System.Collections.ObjectModel;
 using UI.ViewModel.HelperViewModels;
+using UI.View;
 
 namespace UI.ViewModel.Books.EditViewModels
 {
@@ -13,71 +14,60 @@ namespace UI.ViewModel.Books.EditViewModels
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IVehicleModelRepository _vehicleModelRepository;
-        private readonly IMessageBoxService _messageBoxService;
+        
         private int _id;
         private string _name;
         private int _capacity;
         private BrandViewModel _selectedBrand;
         private ObservableCollection<BrandViewModel> _brands;
 
-        public Action<VehicleModelEditViewModel> RemoveEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public VehicleModelEditViewModel(int id, string name, int capacity, int brandId, IMessageBoxService messageBoxService, IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) : this()
+        public VehicleModelEditViewModel(VehicleModel vehicleModel, IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) 
+            : this(brandRepository, vehicleModelRepository)
         {
-            ArgumentNullException.ThrowIfNull(messageBoxService);
-            ArgumentNullException.ThrowIfNull(vehicleModelRepository);
-            _messageBoxService = messageBoxService;
-            _brandRepository = brandRepository;
-            _vehicleModelRepository = vehicleModelRepository;
+            ArgumentNullException.ThrowIfNull(vehicleModel);
             
-            _id = id;
-            _name = name;
-            _capacity = capacity;
-            _selectedBrand = new BrandViewModel(_brandRepository.GetById(brandId));
+            _id = vehicleModel.Id;
+            _name = vehicleModel.Name;
+            _capacity = vehicleModel.Capacity;
+            _selectedBrand = new BrandViewModel(_brandRepository.GetById(vehicleModel.BrandId));
 
-            LoadBrands();
-        }
-        public VehicleModelEditViewModel(IMessageBoxService messageBoxService, IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) : this()
-        {
-            ArgumentNullException.ThrowIfNull(messageBoxService);
-            ArgumentNullException.ThrowIfNull(brandRepository);
-            ArgumentNullException.ThrowIfNull(vehicleModelRepository);
-
-            _messageBoxService = messageBoxService;
-            _brandRepository = brandRepository;
-            _vehicleModelRepository = vehicleModelRepository;
-            _id = 0;
-            _name = "";
-            _capacity = 0;
-            _selectedBrand = null;
-
-            LoadBrands();
-        }
-        private VehicleModelEditViewModel()
-        {
-            SaveCommand = new RelayCommand(Save, CanSave);
-            RemoveCommand = new RelayCommand(Remove);
-            Brands = new ObservableCollection<BrandViewModel>();
-        }
-
-        private void LoadBrands()
-        {
-            foreach (Brand item in  _brandRepository.GetAll())
+            foreach (Brand item in _brandRepository.GetAll())
             {
                 BrandViewModel vm = new BrandViewModel(item);
                 Brands.Add(vm);
             }
         }
+        public VehicleModelEditViewModel(IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) : this()
+        {
+            ArgumentNullException.ThrowIfNull(brandRepository);
+            ArgumentNullException.ThrowIfNull(vehicleModelRepository);
 
+            _brandRepository = brandRepository;
+            _vehicleModelRepository = vehicleModelRepository;
+
+            _id = 0;
+            _name = "";
+            _capacity = 0;
+            _selectedBrand = null;
+
+            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+            RemoveCommand = new RelayCommand(ExecuteRemove);
+            Brands = new ObservableCollection<BrandViewModel>();
+        }
+        
         private bool CanSave()
         {
             return !string.IsNullOrWhiteSpace(Name) &&  SelectedBrand != null;
         }
 
-        private void Save()
+        private void ExecuteSave()
         {
             VehicleModel model;
             try
@@ -92,7 +82,7 @@ namespace UI.ViewModel.Books.EditViewModels
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}"); return;
+                Error?.Invoke(this, e); return;
             }
 
             try
@@ -105,53 +95,47 @@ namespace UI.ViewModel.Books.EditViewModels
                 {
                     _vehicleModelRepository.Update(Id, model);
                 }
-                _messageBoxService.ShowMessage("Модель успешно сохранена.");
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                Error?.Invoke(this, e);
             }
         }
-        private void Remove()
+        private void ExecuteRemove()
         {
             if (Id == 0) return;
 
             try
             {
                 _brandRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                Error?.Invoke(this, e);
             }
-
-            _messageBoxService.ShowMessage("Модель успешно удалена.");
         }
 
         public int Id
         {
             get { return _id; }
         }
-
         public string Name
         {
             get { return _name; }
             set { _name = value; OnPropertyChanged(); }
         }
-
         public BrandViewModel SelectedBrand
         {
             get { return _selectedBrand; }
             set { _selectedBrand = value; OnPropertyChanged(); }
         }
-
         public ObservableCollection<BrandViewModel> Brands
         {
             get { return _brands; }
             set { _brands = value; OnPropertyChanged(); }
         }
-
         public int Capacity
         {
             get { return _capacity; }

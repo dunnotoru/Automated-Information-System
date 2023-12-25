@@ -11,9 +11,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Freighter createdEntity = new Freighter();
-                createdEntity.Name = entity.Name;
-                context.Freighters.Add(createdEntity);
+                context.Freighters.Add(entity);
                 context.SaveChanges();
             }
             return entity.Id;

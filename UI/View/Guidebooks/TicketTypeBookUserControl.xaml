@@ -19,8 +19,8 @@
             <ColumnDefinition Width="136*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
-              SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
+        <DataGrid ItemsSource="{Binding Items}" Grid.Column="0" Margin="10,10,10,10"
+              SelectionMode="Single" SelectedItem="{Binding SelectedItem}"
               IsReadOnly="True"
               AutoGenerateColumns="False">
             <DataGrid.Columns>
@@ -39,12 +39,12 @@
 
         <Border Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}"
                 BorderBrush="Gray" BorderThickness="1" Margin="10">
-                <StackPanel DataContext="{Binding SelectedStation}" Margin="10,10,10,10">
+                <StackPanel DataContext="{Binding SelectedItem}" Margin="10,10,10,10">
                     <Label Margin="10" Content="Id"/>
-                    <TextBox Margin="10"  Text="{Binding Id}" IsReadOnly="True"/>
+                    <TextBlock Margin="10"  Text="{Binding Id}"/>
 
                     <Label Margin="10" Content="Название"/>
-                    <TextBox Margin="10" Text="{Binding Name}"/>
+                    <TextBox Margin="10" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <Label Margin="10" Content="Модификатор стоимости в процентах"/>
                     <TextBox x:Name="Mod" Margin="10">

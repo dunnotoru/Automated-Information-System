@@ -31,8 +31,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private ObservableCollection<RepairTypeViewModel> _repairTypes;
         private ObservableCollection<FreighterViewModel> _freighters;
 
-        public Action<string> ErrorEvent;
-        public Action<VehicleEditViewModel> RemoveEvent;
+        public EventHandler Save;
+        public EventHandler Remove;
+        public EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
@@ -87,8 +88,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         private VehicleEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save, () => CanSave());
-            RemoveCommand = new RelayCommand(Remove);
+            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+            RemoveCommand = new RelayCommand(ExecuteRemove);
 
             Freighters = new ObservableCollection<FreighterViewModel>();
             RepairTypes = new ObservableCollection<RepairTypeViewModel>();
@@ -116,10 +117,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 !string.IsNullOrWhiteSpace(InsuranceDetails) &&
                 Mileage >= 0;
         }
-        private void Save()
+        private void ExecuteSave()
         {
-
-
             Vehicle vehicle = new Vehicle()
             {
                 InsuranceDetails = InsuranceDetails,
@@ -142,24 +141,25 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 {
                     _vehicleRepository.Update(Id, vehicle);
                 }
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
-        private void Remove()
+        private void ExecuteRemove()
         {
             if (Id == 0) return;
             try
             {
                 _vehicleRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
@@ -168,79 +168,65 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             get { return _id; }
             set { _id = value; OnPropertyChanged(); }
         }
-
         public string LicensePlateNumber
         {
             get { return _licensePlateNumber; }
             set { _licensePlateNumber = value; OnPropertyChanged(); }
         }
-
         public DateTime Manufacture
         {
             get { return _manufacture; }
             set { _manufacture = value; OnPropertyChanged(); }
         }
-
         public DateTime LastRepair
         {
             get { return _lastRepair; }
             set { _lastRepair = value; OnPropertyChanged(); }
         }
-
         public RepairTypeViewModel SelectedRepairType
         {
             get { return _selectedRepairType; }
             set { _selectedRepairType = value; OnPropertyChanged(); }
         }
-
         public int Mileage
         {
             get { return _mileage; }
             set { _mileage = value; OnPropertyChanged(); }
         }
-
         public string Photography
         {
             get { return _photography; }
             set { _photography = value; OnPropertyChanged(); }
         }
-
         public FreighterViewModel SelectedFreighter
         {
             get { return __selectedFreighter; }
             set { __selectedFreighter = value; OnPropertyChanged(); }
         }
-        
         public VehicleModelViewModel SelectedVehicleModel
         {
             get { return _selectedVehicleModel; }
             set { _selectedVehicleModel = value; OnPropertyChanged(); }
         }
-
         public string InsuranceDetails
         {
             get { return _insuranceDetails; }
             set { _insuranceDetails = value; OnPropertyChanged(); }
         }
-
         public ObservableCollection<VehicleModelViewModel> VehicleModels
         {
             get { return _vehicleModels; }
             set { _vehicleModels = value; OnPropertyChanged(); }
         }
-
         public ObservableCollection<RepairTypeViewModel> RepairTypes
         {
             get { return _repairTypes; }
             set { _repairTypes = value; OnPropertyChanged(); }
         }
-
         public ObservableCollection<FreighterViewModel> Freighters
         {
             get { return _freighters; }
             set { _freighters = value; OnPropertyChanged(); }
         }
-
-
     }
 }

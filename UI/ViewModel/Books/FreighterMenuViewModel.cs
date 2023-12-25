@@ -30,24 +30,59 @@ namespace UI.ViewModel
             Items = new ObservableCollection<FreighterEditViewModel>();
             foreach (Freighter item in _freighterRepository.GetAll())
             {
-                FreighterEditViewModel vm = new FreighterEditViewModel(item.Id, item.Name, _messageBoxService, _freighterRepository);
-                vm.RemoveEvent += OnRemove;
+                FreighterEditViewModel vm = new FreighterEditViewModel(item, _freighterRepository);
+                vm.Save += OnSave;
+                vm.Error += OnError;
+                vm.Remove += OnRemove;
                 Items.Add(vm);
             }
 
             AddCommand = new RelayCommand(Add);
         }
 
-        private void OnRemove(FreighterEditViewModel model)
+        private void OnRemove(object? sender, EventArgs e)
         {
-            model.RemoveEvent -= OnRemove;
-            Items.Remove(model);
+            FreighterEditViewModel vm = (FreighterEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+            Items.Remove(vm);
+            _messageBoxService.ShowMessage("Данные успешно удалены");
+        }
+
+        private void OnError(object? sender, Exception e)
+        {
+            _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+        }
+
+        private void OnSave(object? sender, EventArgs e)
+        {
+            FreighterEditViewModel vm = (FreighterEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+
+            Freighter freighter = _freighterRepository.GetById(vm.Id);
+            FreighterEditViewModel updatedVm = new FreighterEditViewModel(freighter, _freighterRepository);
+
+            updatedVm.Save += OnSave;
+            updatedVm.Error += OnError;
+            updatedVm.Remove += OnRemove;
+
+            int index = Items.IndexOf(vm);
+            Items.Insert(index, updatedVm);
+            Items.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно сохранены.");
         }
 
         private void Add()
         {
-            FreighterEditViewModel vm = new FreighterEditViewModel(_messageBoxService, _freighterRepository);
-            vm.RemoveEvent += OnRemove;
+            FreighterEditViewModel vm = new FreighterEditViewModel(_freighterRepository);
+            vm.Save += OnSave;
+            vm.Error += OnError;
+            vm.Remove += OnRemove;
+
             Items.Add(vm);
             SelectedItem = vm;
         }

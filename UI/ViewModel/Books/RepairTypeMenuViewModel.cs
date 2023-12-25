@@ -6,6 +6,7 @@ using UI.Command;
 using UI.Services;
 using System.Collections.ObjectModel;
 using UI.ViewModel.Books.EditViewModels;
+using Domain.EntityFramework.Repositories;
 
 namespace UI.ViewModel
 {
@@ -30,36 +31,69 @@ namespace UI.ViewModel
             Items = new ObservableCollection<RepairTypeEditViewModel>();
             foreach (RepairType item in _repairTypeRepository.GetAll())
             {
-                RepairTypeEditViewModel vm = new RepairTypeEditViewModel(item.Id, item.Name, _messageBoxService, _repairTypeRepository);
-                vm.RemoveEvent += OnRemove;
+                RepairTypeEditViewModel vm = new RepairTypeEditViewModel(item, _repairTypeRepository);
+                vm.Save += OnSave;
+                vm.Error += OnError;
+                vm.Remove += OnRemove;
                 Items.Add(vm);
             }
 
             AddCommand = new RelayCommand(Add);
         }
 
-        private void OnRemove(RepairTypeEditViewModel model)
+        private void OnRemove(object? sender, EventArgs e)
         {
-            model.RemoveEvent -= OnRemove;
-            Items.Remove(model);
+            RepairTypeEditViewModel vm = (RepairTypeEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+            Items.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно удалены.");
+        }
+
+        private void OnError(object? sender, Exception e)
+        {
+            _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+        }
+
+        private void OnSave(object? sender, EventArgs e)
+        {
+            RepairTypeEditViewModel vm = (RepairTypeEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Error -= OnError;
+            vm.Remove -= OnRemove;
+
+            RepairType brand = _repairTypeRepository.GetById(vm.Id);
+            RepairTypeEditViewModel updatedVm = new RepairTypeEditViewModel(brand, _repairTypeRepository);
+
+            updatedVm.Remove += OnRemove;
+            updatedVm.Save += OnSave;
+            updatedVm.Error += OnError;
+
+            int index = Items.IndexOf(vm);
+            Items.Insert(index, updatedVm);
+            Items.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно сохранены.");
         }
 
         private void Add()
         {
-            RepairTypeEditViewModel vm = new RepairTypeEditViewModel(_messageBoxService, _repairTypeRepository);
-            vm.RemoveEvent += OnRemove;
+            RepairTypeEditViewModel vm = new RepairTypeEditViewModel(_repairTypeRepository);
+            vm.Save += OnSave;
+            vm.Error += OnError;
+            vm.Remove += OnRemove;
             Items.Add(vm);
             SelectedItem = vm;
         }
 
         public bool IsRedactingEnabled => SelectedItem != null;
-
         public ObservableCollection<RepairTypeEditViewModel> Items
         {
             get { return _items; }
             set { _items = value; OnPropertyChanged(); }
         }
-
         public RepairTypeEditViewModel SelectedItem
         {
             get { return _selectedItem; }

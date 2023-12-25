@@ -3,45 +3,40 @@ using Domain.RepositoryInterfaces;
 using System;
 using System.Windows.Input;
 using UI.Command;
-using UI.Services;
 
 namespace UI.ViewModel.Books.EditViewModels
 {
     internal class BrandEditViewModel : ViewModelBase
     {
         private readonly IBrandRepository _brandRepository;
-		private readonly IMessageBoxService _messageBoxService;
 		private int _id;
 		private string _name;
 
-		public Action<BrandEditViewModel> RemoveEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public BrandEditViewModel(int id, string name, IMessageBoxService messageBoxService, IBrandRepository brandRepository) : this()
+        public BrandEditViewModel(Brand brand, IBrandRepository brandRepository) : this(brandRepository)
         {
-            ArgumentNullException.ThrowIfNull(messageBoxService);
-            ArgumentNullException.ThrowIfNull(brandRepository);
-            _id = id;
-            _name = name;
-            _messageBoxService = messageBoxService;
+            ArgumentNullException.ThrowIfNull(brand);
+            Id = brand.Id;
+            Name = brand.Name;
             _brandRepository = brandRepository;
         }
-        public BrandEditViewModel(IMessageBoxService messageBoxService, IBrandRepository brandRepository) : this()
-        {
-            ArgumentNullException.ThrowIfNull(messageBoxService);
-            ArgumentNullException.ThrowIfNull(brandRepository);
 
-            _id = 0;
-            _name = "";
-            _messageBoxService = messageBoxService;
-            _brandRepository = brandRepository;
-        }
-        private BrandEditViewModel()
+        public BrandEditViewModel(IBrandRepository brandRepository)
         {
-            SaveCommand = new RelayCommand(Save, CanSave);
-            RemoveCommand = new RelayCommand(Remove);
+            ArgumentNullException.ThrowIfNull(brandRepository);
+            _brandRepository = brandRepository;
+
+            Id = 0;
+            Name = "";
+
+            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+            RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
         private bool CanSave()
@@ -49,7 +44,7 @@ namespace UI.ViewModel.Books.EditViewModels
             return !string.IsNullOrWhiteSpace(Name);
         }
 
-        private void Save()
+        private void ExecuteSave()
         {
             Brand brand = new Brand()
             {
@@ -61,33 +56,31 @@ namespace UI.ViewModel.Books.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _brandRepository.Create(brand);
+                    Id = _brandRepository.Create(brand);
                 }
                 else
                 {
                     _brandRepository.Update(Id, brand);
                 }
-                _messageBoxService.ShowMessage("Данные успешно сохранены.");
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                Error?.Invoke(this, e);
             }
-
         }
-        private void Remove()
+        private void ExecuteRemove()
         {
             if (Id == 0) return;
 
             try
             {
                 _brandRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
-                _messageBoxService.ShowMessage("Данные успешно удалены.");
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                Error?.Invoke(this, e);
             }
         }
 
@@ -96,7 +89,6 @@ namespace UI.ViewModel.Books.EditViewModels
 			get { return _id; }
 			set { _id = value; OnPropertyChanged(); }
 		}
-
 		public string Name
 		{
 			get { return _name; }

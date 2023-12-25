@@ -12,38 +12,33 @@ namespace UI.ViewModel.Books.EditViewModels
         private string _name;
         private int _modifier;
 
-        public Action<TicketTypeEditViewModel> RemoveEvent;
-        public Action<string> ErrorEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public TicketTypeEditViewModel(TicketType ticketType, ITicketTypeRepository ticketTypeRepository) : this()
+        public TicketTypeEditViewModel(TicketType ticketType, ITicketTypeRepository ticketTypeRepository) : this(ticketTypeRepository)
         {
             ArgumentNullException.ThrowIfNull(ticketType);
-            ArgumentNullException.ThrowIfNull(ticketTypeRepository);
 
             Id = ticketType.Id;
             Name = ticketType.Name;
             Modifier = ticketType.PriceModifierInPercent;
-
-            _ticketTypeRepository = ticketTypeRepository;
         }
 
-        public TicketTypeEditViewModel(ITicketTypeRepository stationRepository) : this()
+        public TicketTypeEditViewModel(ITicketTypeRepository ticketTypeRepository)
         {
-            ArgumentNullException.ThrowIfNull(stationRepository);
+            ArgumentNullException.ThrowIfNull(ticketTypeRepository);
+            _ticketTypeRepository = ticketTypeRepository;
 
             Id = 0;
             Name = "";
             Modifier = 100;
-            _ticketTypeRepository = stationRepository;
-        }
 
-        private TicketTypeEditViewModel()
-        {
-            SaveCommand = new RelayCommand(Save, () => CanSave());
-            RemoveCommand = new RelayCommand(Remove);
+            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+            RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
         private bool CanSave()
@@ -63,9 +58,9 @@ namespace UI.ViewModel.Books.EditViewModels
             set { _modifier = value; OnPropertyChanged(); }
         }
 
-        public void Save()
+        public void ExecuteSave()
         {
-            TicketType createdStation = new TicketType()
+            TicketType ticketType = new TicketType()
             {
                 Name = Name,
                 PriceModifierInPercent = Modifier,
@@ -74,30 +69,31 @@ namespace UI.ViewModel.Books.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _ticketTypeRepository.Create(createdStation);
+                    Id = _ticketTypeRepository.Create(ticketType);
                 }
                 else
                 {
-                    _ticketTypeRepository.Update(Id, createdStation);
+                    _ticketTypeRepository.Update(Id, ticketType);
                 }
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
-        public void Remove()
+        public void ExecuteRemove()
         {
             if (Id == 0) return;
             try
             {
                 _ticketTypeRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
     }

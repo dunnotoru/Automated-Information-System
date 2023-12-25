@@ -10,38 +10,35 @@ namespace UI.ViewModel.Books.EditViewModels
     internal class FreighterEditViewModel : ViewModelBase
     {
         private readonly IFreighterRepository _freighterRepository;
-        private readonly IMessageBoxService _messageBoxService;
         private int _id;
         private string _name;
 
-        public Action<FreighterEditViewModel> RemoveEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public FreighterEditViewModel(int id, string name, IMessageBoxService messageBoxService, IFreighterRepository brandRepository) : this()
+        public FreighterEditViewModel(Freighter freighter, IFreighterRepository brandRepository) : this()
         {
-            ArgumentNullException.ThrowIfNull(messageBoxService);
             ArgumentNullException.ThrowIfNull(brandRepository);
-            _id = id;
-            _name = name;
-            _messageBoxService = messageBoxService;
+            Id = freighter.Id;
+            Name = freighter.Name;
             _freighterRepository = brandRepository;
         }
-        public FreighterEditViewModel(IMessageBoxService messageBoxService, IFreighterRepository brandRepository) : this()
+        public FreighterEditViewModel(IFreighterRepository brandRepository) : this()
         {
-            ArgumentNullException.ThrowIfNull(messageBoxService);
             ArgumentNullException.ThrowIfNull(brandRepository);
 
-            _id = 0;
-            _name = "";
-            _messageBoxService = messageBoxService;
+            Id = 0;
+            Name = "";
             _freighterRepository = brandRepository;
         }
         private FreighterEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save, CanSave);
-            RemoveCommand = new RelayCommand(Remove);
+            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+            RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
         private bool CanSave()
@@ -49,7 +46,7 @@ namespace UI.ViewModel.Books.EditViewModels
             return !string.IsNullOrWhiteSpace(Name);
         }
 
-        private void Save()
+        private void ExecuteSave()
         {
             Freighter freighter = new Freighter()
             {
@@ -61,33 +58,32 @@ namespace UI.ViewModel.Books.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _freighterRepository.Create(freighter);
+                    Id = _freighterRepository.Create(freighter);
                 }
                 else
                 {
                     _freighterRepository.Update(Id, freighter);
                 }
-                _messageBoxService.ShowMessage("Данные успешно сохранены.");
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                Error?.Invoke(this, e);
             }
 
         }
-        private void Remove()
+        private void ExecuteRemove()
         {
             if (Id == 0) return;
 
             try
             {
                 _freighterRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
-                _messageBoxService.ShowMessage("Данные успешно удалены.");
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                Error?.Invoke(this, e);
             }
 
         }

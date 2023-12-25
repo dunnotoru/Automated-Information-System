@@ -24,8 +24,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private string _professionalStandard;
         private string _employmentBookDetails;
 
-        public Action<DriverEditViewModel> RemoveEvent;
-        public Action<string> ErrorEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
@@ -74,10 +75,10 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             License = new DriverLicenseViewModel(_categoryRepository);
         }
 
-        public DriverEditViewModel()
+        private DriverEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save, () => CanSave());
-            RemoveCommand = new RelayCommand(Remove);
+            SaveCommand = new RelayCommand(ExecuteSave, () => CanSave());
+            RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
         private bool CanSave()
@@ -97,7 +98,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 !string.IsNullOrWhiteSpace(License.LicenseNumber);
         }
 
-        private void Save()
+        private void ExecuteSave()
         {
             Driver driver = new Driver()
             {
@@ -117,30 +118,31 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _driverRepository.Create(driver);
+                    Id = _driverRepository.Create(driver);
                 }
                 else
                 {
                     _driverRepository.Update(Id, driver);
                 }
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
-        private void Remove()
+        private void ExecuteRemove()
         {
             if (Id == 0) return;
             try
             {
                 _driverRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 

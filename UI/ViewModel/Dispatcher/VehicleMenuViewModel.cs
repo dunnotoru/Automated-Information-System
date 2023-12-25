@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using UI.Command;
@@ -46,8 +47,9 @@ namespace UI.ViewModel
                                                                           _vehicleModelRepository,
                                                                           _repairTypeRepository,
                                                                           _freighterRepository);
-                viewModel.RemoveEvent += OnRemove;
-                viewModel.ErrorEvent += OnError;
+                viewModel.Remove += OnRemove;
+                viewModel.Error += OnError;
+                viewModel.Save += OnSave;
                 Vehicles.Add(viewModel);
             }
 
@@ -56,29 +58,54 @@ namespace UI.ViewModel
 
         private void Add()
         {
-            VehicleEditViewModel viewModel = new VehicleEditViewModel(_vehicleRepository,
+            VehicleEditViewModel vm = new VehicleEditViewModel(_vehicleRepository,
                                                                       _vehicleModelRepository,
                                                                       _repairTypeRepository,
                                                                       _freighterRepository);
-            viewModel.RemoveEvent += OnRemove;
-            viewModel.ErrorEvent += OnError;
-            Vehicles.Add(viewModel);
-            SelectedVehicle = viewModel;
+            vm.Remove += OnRemove;
+            vm.Save += OnSave;
+            vm.Error += OnError;
+            Vehicles.Add(vm);
+            SelectedVehicle = vm;
         }
 
-        private void OnRemove(VehicleEditViewModel viewModel)
+        private void OnSave(object? sender, EventArgs e)
         {
-            viewModel.RemoveEvent -= OnRemove;
-            viewModel.ErrorEvent -= OnError;
-            if (Vehicles.Remove(viewModel))
+            VehicleEditViewModel vm = (VehicleEditViewModel)sender;
+            vm.Remove -= OnRemove;
+            vm.Error -= OnError;
+            vm.Save -= OnSave;
+
+            Vehicle vehicle = _vehicleRepository.GetById(vm.Id);
+            VehicleEditViewModel updatedVm = new VehicleEditViewModel(vehicle,
+                _vehicleRepository, _vehicleModelRepository, _repairTypeRepository, _freighterRepository);
+
+            vm.Remove += OnRemove;
+            vm.Save += OnSave;
+            vm.Error += OnError;
+
+            int index = Vehicles.IndexOf(vm);
+            Vehicles.Insert(index, updatedVm);
+            Vehicles.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно сохранены");
+        }
+
+        private void OnRemove(object? sender, EventArgs e)
+        {
+            VehicleEditViewModel vm = (VehicleEditViewModel)sender;
+            vm.Remove-= OnRemove;
+            vm.Error -= OnError;
+            vm.Save -= OnSave;
+            if (Vehicles.Remove(vm))
             {
-                _messageBoxService.ShowMessage("Станция удалена");
+                _messageBoxService.ShowMessage("Данные успешно удалены.");
             }
         }
 
-        private void OnError(string message)
+        private void OnError(object? sender, Exception e)
         {
-            _messageBoxService.ShowMessage($"Ошибка: {message}");
+            _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
         }
     }
 }

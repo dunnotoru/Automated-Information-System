@@ -3,45 +3,37 @@ using Domain.RepositoryInterfaces;
 using System.Windows.Input;
 using System;
 using UI.Command;
-using UI.Services;
 
 namespace UI.ViewModel.Books.EditViewModels
 {
     internal class RepairTypeEditViewModel : ViewModelBase
     {
         private readonly IRepairTypeRepository _repairTypeRepository;
-        private readonly IMessageBoxService _messageBoxService;
         private int _id;
         private string _name;
 
-        public Action<RepairTypeEditViewModel> RemoveEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public RepairTypeEditViewModel(int id, string name, IMessageBoxService messageBoxService, IRepairTypeRepository brandRepository) : this()
+        public RepairTypeEditViewModel(RepairType repairType, IRepairTypeRepository brandRepository) : this(brandRepository)
         {
-            ArgumentNullException.ThrowIfNull(messageBoxService);
-            ArgumentNullException.ThrowIfNull(brandRepository);
-            _id = id;
-            _name = name;
-            _messageBoxService = messageBoxService;
-            _repairTypeRepository = brandRepository;
+            Id = repairType.Id;
+            Name = repairType.Name;
         }
-        public RepairTypeEditViewModel(IMessageBoxService messageBoxService, IRepairTypeRepository brandRepository) : this()
+        public RepairTypeEditViewModel(IRepairTypeRepository brandRepository) 
         {
-            ArgumentNullException.ThrowIfNull(messageBoxService);
             ArgumentNullException.ThrowIfNull(brandRepository);
+            _repairTypeRepository = brandRepository;
 
-            _id = 0;
-            _name = "";
-            _messageBoxService = messageBoxService;
-            _repairTypeRepository = brandRepository;
-        }
-        private RepairTypeEditViewModel()
-        {
-            SaveCommand = new RelayCommand(Save, CanSave);
-            RemoveCommand = new RelayCommand(Remove);
+            Id = 0;
+            Name = "";
+
+            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+            RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
         private bool CanSave()
@@ -49,7 +41,7 @@ namespace UI.ViewModel.Books.EditViewModels
             return !string.IsNullOrWhiteSpace(Name);
         }
 
-        private void Save()
+        private void ExecuteSave()
         {
             RepairType type = new RepairType()
             {
@@ -61,33 +53,32 @@ namespace UI.ViewModel.Books.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _repairTypeRepository.Create(type);
+                    Id = _repairTypeRepository.Create(type);
                 }
                 else
                 {
                     _repairTypeRepository.Update(Id, type);
                 }
-                _messageBoxService.ShowMessage("Данные успешно сохранены.");
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                Error?.Invoke(this, e);
             }
 
         }
-        private void Remove()
+        private void ExecuteRemove()
         {
             if (Id == 0) return;
 
             try
             {
                 _repairTypeRepository.Remove(Id);
-                RemoveEvent?.Invoke(this);
-                _messageBoxService.ShowMessage("Данные успешно удалены.");
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                Error?.Invoke(this, e);
             }
         }
 

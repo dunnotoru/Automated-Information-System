@@ -10,9 +10,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                RepairType createdEntity = new RepairType();
-                createdEntity.Name = entity.Name;
-                context.RepairTypes.Add(createdEntity);
+                context.RepairTypes.Add(entity);
                 context.SaveChanges();
             }
             return entity.Id;

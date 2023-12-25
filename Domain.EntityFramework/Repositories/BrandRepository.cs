@@ -10,9 +10,7 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Brand createdEntity = new Brand();
-                createdEntity.Name = entity.Name;
-                context.Brands.Add(createdEntity);
+                context.Brands.Add(entity);
                 context.SaveChanges();
             }
             return entity.Id;
