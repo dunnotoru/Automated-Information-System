@@ -13,7 +13,6 @@ namespace Domain.EntityFramework.Repositories
             using (ApplicationContext context = new ApplicationContext())
             {
                 context.VehicleModels.Attach(entity.VehicleModel);
-                context.Brands.Attach(entity.VehicleModel.Brand);
                 context.Freighters.Attach(entity.Freighter);
                 context.RepairTypes.Attach(entity.RepairType);
                 context.Vehicles.Add(entity);

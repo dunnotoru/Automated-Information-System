@@ -8,15 +8,19 @@ namespace UI.Services
     public class TicketPrintService : ITicketPrintService
     {
         private readonly string _path;
+        private readonly IDocumentFormatter<Ticket> _documentFormatter;
 
-        public TicketPrintService(string path)
+
+        public TicketPrintService(string path, IDocumentFormatter<Ticket> documentFormatter)
         {
             _path = path;
+            _documentFormatter = documentFormatter;
         }
 
-        public void Print(IDocumentFormatter document)
+        public void Print(Ticket ticket)
         {
-            string data = document.GetFormattedData();
+
+            string data = _documentFormatter.GetFormattedData(ticket);
             string name = "Билет " + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".txt";
             string fullPath = Path.Combine(_path, name);
 

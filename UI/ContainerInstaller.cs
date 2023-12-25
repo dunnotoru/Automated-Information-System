@@ -2,8 +2,10 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Domain.EntityFramework.Repositories;
+using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Domain.Services;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Configuration;
 using UI.Services;
 using UI.Stores;
@@ -29,8 +31,12 @@ namespace UI
 
             container.Register(Component.For<AuthenticationService>());
             container.Register(Component.For<RegistrationService>());
+            container.Register(Component.For<OrderProcessService>().LifestyleTransient());
             container.Register(Component.For<LoginViewModel>());
             container.Register(Component.For<ScheduleService>());
+
+            container.Register(Component.For<IDocumentFormatter<Ticket>>().ImplementedBy<TicketFormatter>());
+            container.Register(Component.For<IDocumentFormatter<Receipt>>().ImplementedBy<ReceiptFormatter>());
             
             container.Register(Component
                 .For<ITicketPrintService>()
@@ -86,7 +92,9 @@ namespace UI
             container.Register(Component.For<IRunRepository>().ImplementedBy<RunRepository>());
             container.Register(Component.For<IVehicleRepository>().ImplementedBy<VehicleRepository>());
             container.Register(Component.For<IDriverRepository>().ImplementedBy<DriverRepository>());
+            container.Register(Component.For<ITicketRepository>().ImplementedBy<TicketRepository>());
             container.Register(Component.For<IScheduleRepository>().ImplementedBy<ScheduleRepository>());
+            container.Register(Component.For<IPassportRepository>().ImplementedBy<PassportRepository>());
             
             container.Register(Component.For<ICategoryRepository>().ImplementedBy<CategoryRepository>());
             container.Register(Component.For<ITicketTypeRepository>().ImplementedBy<TicketTypeRepository>());

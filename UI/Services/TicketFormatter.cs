@@ -3,16 +3,9 @@ using Domain.Services;
 
 namespace UI.Services
 {
-    public class TicketFormatter : IDocumentFormatter
+    public class TicketFormatter : IDocumentFormatter<Ticket>
     {
-        private readonly Ticket _ticket;
-
-        public TicketFormatter(Ticket ticket)
-        {
-            _ticket = ticket;
-        }
-
-        public string GetFormattedData()
+        public string GetFormattedData(Ticket ticket)
         {
             return "БИЛЕТ";
         }

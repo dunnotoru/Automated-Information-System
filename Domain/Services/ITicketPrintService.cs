@@ -1,9 +1,10 @@
-﻿using Domain.Models;
+﻿
+using Domain.Models;
 
 namespace Domain.Services
 {
     public interface ITicketPrintService
     {
-        void Print(IDocumentFormatter document);
+        void Print(Ticket ticket);
     }
 }

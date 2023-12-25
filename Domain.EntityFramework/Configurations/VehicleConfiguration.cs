@@ -20,7 +20,7 @@ namespace Domain.EntityFramework.Configurations
             builder
                 .HasOne(l => l.RepairType)
                 .WithMany(r => r.Vehicles)
-                .HasForeignKey(o => o.VehicleModelId);
+                .HasForeignKey(o => o.RepairTypeId);
 
             builder
                 .HasOne(l => l.Freighter)

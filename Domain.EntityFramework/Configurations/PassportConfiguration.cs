@@ -9,8 +9,7 @@ namespace Domain.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<IdentityDocument> builder)
         {
             builder.HasKey(o => o.Id);
-            builder.HasIndex(o => o.Series).IsUnique();
-            builder.HasIndex(o => o.Number).IsUnique();
+            builder.HasIndex(o => new { o.Series, o.Number }).IsUnique();
         }
     }
 }

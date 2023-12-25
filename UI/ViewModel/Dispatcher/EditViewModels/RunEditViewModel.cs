@@ -29,8 +29,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private ObservableCollection<DriverViewModel> _drivers;
         private ObservableCollection<DriverViewModel> _selectedDrivers;
 
-        public Action<RunEditViewModel> RemoveEvent;
-        public Action<string> ErrorEvent;
+        public event EventHandler Save;
+        public event EventHandler Remove;
+        public event EventHandler<Exception> Error;
 
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
@@ -119,8 +120,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         private RunEditViewModel()
         {
-            SaveCommand = new RelayCommand(Save, () => CanSave());
-            RemoveCommand = new RelayCommand(Remove);
+            SaveCommand = new RelayCommand(ExecuteSave, () => CanSave());
+            RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
         private bool CanSave()
@@ -131,7 +132,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 Periodity > 0;
         }
 
-        private void Save()
+        private void ExecuteSave()
         {
             Run run = new Run()
             {
@@ -155,7 +156,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
+                return;
             }
 
             Schedule schedule = new Schedule()
@@ -170,91 +172,79 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 {
                     _scheduleRepository.Create(schedule);
                 }
+                Save?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
 
-        private void Remove()
+        private void ExecuteRemove()
         {
             if (Id == 0) return;
             try
             {
                 _runRepository.Remove(Id);
 
-                RemoveEvent?.Invoke(this);
+                Remove?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
             {
-                ErrorEvent?.Invoke(e.Message);
+                Error?.Invoke(this, e);
             }
         }
-
 
         public ObservableCollection<RouteViewModel> Routes
         {
             get { return _routes; }
             set { _routes = value; OnPropertyChanged(); }
         }
-
-
         public ObservableCollection<VehicleViewModel> Vehicles
         {
             get { return _vehicles; }
             set { _vehicles = value; OnPropertyChanged(); }
         }
-
-
         public ObservableCollection<DriverViewModel> Drivers
         {
             get { return _drivers; }
             set { _drivers = value; OnPropertyChanged(); }
         }
-
         public int Id
         {
             get { return _id; }
             set { _id = value; OnPropertyChanged(); }
         }
-
         public string Number
         {
             get { return _number; }
             set { _number = value; OnPropertyChanged(); }
         }
-
         public RouteViewModel SelectedRoute
         {
             get { return _selectedRoute; }
             set { _selectedRoute = value; OnPropertyChanged(); }
         }
-
         public DateTime DepartureDateTime
         {
             get { return _departureDateTime; }
             set { _departureDateTime = value; OnPropertyChanged(); }
         }
-
         public int Periodity
         {
             get { return _periodity; }
             set { _periodity = value; OnPropertyChanged(); }
         }
-
         public DateTime EstimatedArrivalDateTime
         {
             get { return _estimatedArrivalDateTime; }
             set { _estimatedArrivalDateTime = value; OnPropertyChanged(); }
         }
-
         public VehicleViewModel SelectedVehicle
         {
             get { return _selectedVehicle; }
             set { _selectedVehicle = value; OnPropertyChanged(); }
         }
-
         public ObservableCollection<DriverViewModel> SelectedDrivers
         {
             get { return _selectedDrivers; }

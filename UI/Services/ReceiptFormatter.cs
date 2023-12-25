@@ -3,16 +3,9 @@ using Domain.Services;
 
 namespace UI.Services
 {
-    public class ReceiptFormatter : IDocumentFormatter
+    public class ReceiptFormatter : IDocumentFormatter<Receipt>
     {
-        private readonly Receipt _receipt;
-
-        public ReceiptFormatter(Receipt receipt)
-        {
-            _receipt = receipt;
-        }
-
-        public string GetFormattedData()
+        public string GetFormattedData(Receipt docuement)
         {
             return "ЧЕК";
         }

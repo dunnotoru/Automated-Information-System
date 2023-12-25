@@ -11,6 +11,20 @@ namespace UI.ViewModel
         private string _series;
         private string _number;
         private DateTime _dateOfBirth;
+
+        public IdentityDocument GetDocument()
+        {
+            return new IdentityDocument()
+            {
+                Name = _name,
+                Surname = _surname,
+                Patronymic = _patronymic,
+                Number = _number,
+                Series = _series,
+                BirthDate = _dateOfBirth,
+            };
+        }
+
         public string Name
         {
             get => _name;
@@ -42,17 +56,6 @@ namespace UI.ViewModel
             set { _dateOfBirth = value; OnPropertyChanged(); }
         }
 
-        public IdentityDocument GetDocument()
-        {
-            return new IdentityDocument()
-            {
-                Name = _name,
-                Surname = _surname,
-                Patronymic = _patronymic,
-                Number = _number,
-                Series = _series,
-                BirthDate = _dateOfBirth,
-            };
-        }
+        
     }
 }

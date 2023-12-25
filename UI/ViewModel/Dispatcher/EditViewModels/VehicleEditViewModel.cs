@@ -135,7 +135,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             {
                 if (Id == 0)
                 {
-                    _vehicleRepository.Create(vehicle);
+                    Id = _vehicleRepository.Create(vehicle);
                 }
                 else
                 {

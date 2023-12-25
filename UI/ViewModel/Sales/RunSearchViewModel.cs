@@ -133,14 +133,14 @@ namespace UI.ViewModel
             Runs.Clear();
             foreach (var item in run)
             {
-                RunViewModel vm = new RunViewModel(item, _runRepository);
+                RunViewModel vm = new RunViewModel(item);
                 Runs.Add(vm);
             }
         }
 
         private void SellTicket()
         {
-            OrderViewModel order = new OrderViewModel(DepartureStation, ArrivalStation, SelectedRun.GetRun());
+            OrderViewModel order = new OrderViewModel(DepartureStation, ArrivalStation, _runRepository.GetById(SelectedRun.Id));
             _navigationService.Navigate<PassengerRegistrationViewModel>();
             _orderStore.CreateOrder(order);
         }

@@ -15,19 +15,5 @@ namespace Domain.Models
         public Run Run { get; set; }
         public IdentityDocument IdentityDocument { get; set; }
         public TicketType TicketType { get; set; }
-
-        public Ticket()
-        {
-            
-        }
-
-        public Ticket(IdentityDocument document, Run run, Account casshier, TicketType type, ITicketPriceCalculator priceCalculator)
-        {
-            IdentityDocument = document;
-            Run = run;
-            Cashier = casshier.Username;
-            TicketType = type;
-            Price = priceCalculator.CalcPrice(run, type);
-        }
     }
 }

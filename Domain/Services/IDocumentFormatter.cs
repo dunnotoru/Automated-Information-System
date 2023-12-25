@@ -1,7 +1,7 @@
 ﻿namespace Domain.Services
 {
-    public interface IDocumentFormatter
+    public interface IDocumentFormatter<T>
     {
-        string GetFormattedData();
+        string GetFormattedData(T document);
     }
 }

@@ -11,7 +11,10 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                context.Add(entity);
+                entity.TicketType = context.TicketTypes.First();
+                context.Runs.Attach(entity.Run);
+                context.Passports.Attach(entity.IdentityDocument);
+                context.Tickets.Add(entity);
                 context.SaveChanges();
             }
             return entity.Id;   

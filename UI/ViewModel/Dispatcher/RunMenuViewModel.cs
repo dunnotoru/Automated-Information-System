@@ -1,4 +1,6 @@
-﻿using Domain.RepositoryInterfaces;
+﻿using Domain.EntityFramework.Repositories;
+using Domain.Models;
+using Domain.RepositoryInterfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -53,6 +55,9 @@ namespace UI.ViewModel
             {
                 RunEditViewModel vm = new RunEditViewModel(item, _runRepository,
                     _routeRepository, _vehicleRepository, _driverRepository, _scheduleRepository);
+                vm.Save += OnSave;
+                vm.Remove += OnRemove;
+                vm.Error += OnError;
                 Runs.Add(vm);
             }
 
@@ -63,26 +68,55 @@ namespace UI.ViewModel
         {
             RunEditViewModel vm = new RunEditViewModel(_runRepository,
                     _routeRepository, _vehicleRepository, _driverRepository, _scheduleRepository);
+            vm.Save += OnSave;
+            vm.Remove += OnRemove;
+            vm.Error += OnError;
 
-            vm.RemoveEvent += OnRemove;
-            vm.ErrorEvent += OnError;
             Runs.Add(vm);
-            SelectedRun = Runs.Last();
+            SelectedRun = vm;
         }
 
-        private void OnRemove(RunEditViewModel vm)
+        private void OnError(object? sender, Exception e)
         {
-            vm.RemoveEvent -= OnRemove;
-            vm.ErrorEvent -= OnError;
+            _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+        }
+
+        private void OnRemove(object? sender, EventArgs e)
+        {
+            RunEditViewModel vm = (RunEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Remove -= OnRemove;
+            vm.Error -= OnError;
             if (Runs.Remove(vm))
             {
-                _messageBoxService.ShowMessage("Рейс удалён");
+                _messageBoxService.ShowMessage("Данные успешно удалены.");
             }
         }
 
-        private void OnError(string message)
+        private void OnSave(object? sender, EventArgs e)
         {
-            _messageBoxService.ShowMessage($"Ошибка: {message}");
+            RunEditViewModel vm = (RunEditViewModel)sender;
+            vm.Save -= OnSave;
+            vm.Remove -= OnRemove;
+            vm.Error -= OnError;
+
+            Run run = _runRepository.GetById(vm.Id);
+            RunEditViewModel updatedVm = new RunEditViewModel(run,
+                                                              _runRepository,
+                                                              _routeRepository,
+                                                              _vehicleRepository,
+                                                              _driverRepository,
+                                                              _scheduleRepository);
+
+            updatedVm.Remove += OnRemove;
+            updatedVm.Save += OnSave;
+            updatedVm.Error += OnError;
+
+            int index = Runs.IndexOf(vm);
+            Runs.Insert(index, updatedVm);
+            Runs.Remove(vm);
+
+            _messageBoxService.ShowMessage("Данные успешно сохранены");
         }
     }
 }
