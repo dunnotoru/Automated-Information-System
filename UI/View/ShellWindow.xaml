@@ -66,11 +66,11 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="23*"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="511*"/>
         </Grid.RowDefinitions>
 
-        <Menu ItemsSource="{Binding Items}" VerticalAlignment="Top">
+        <Menu ItemsSource="{Binding Items}" VerticalAlignment="Stretch">
             <Menu.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Items}">
                     <TextBlock Text="{Binding Name}"/>

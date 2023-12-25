@@ -21,7 +21,7 @@ namespace UI.Services
         {
 
             string data = _documentFormatter.GetFormattedData(ticket);
-            string name = "Билет " + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".txt";
+            string name = $"Билет {ticket.IdentityDocument.GetFullName()} " + DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + ".txt";
             string fullPath = Path.Combine(_path, name);
 
             using (FileStream fs = File.Create(fullPath))

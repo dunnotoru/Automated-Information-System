@@ -46,7 +46,8 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             Number = run.Number;
             SelectedRoute = new RouteViewModel(run.Route);
             DepartureDateTime = run.DepartureDateTime;
-            SelectedVehicle = new VehicleViewModel(run.Vehicle);
+            SelectedVehicle = Vehicles.First(o => o.Id == run.VehicleId);
+            SelectedDriver = Drivers.First(o => run.Drivers.Any(x => x.Id == o.Id));
             Periodity = _scheduleRepository.GetByRun(run).PeriodInMinutes;
             _arrivalTimeCalculator = arrivalTimeCalculator;
         }
@@ -64,7 +65,6 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             Number = "";
             SelectedRoute = new RouteViewModel();
             DepartureDateTime = DateTime.Now;
-            SelectedVehicle = new VehicleViewModel();
             Periodity = 0;
 
             Drivers = new ObservableCollection<DriverViewModel>();

@@ -6,42 +6,47 @@
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
              xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             
              mc:Ignorable="d" d:DesignHeight="582" d:DesignWidth="942">
     <UserControl.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanKey"/>
     </UserControl.Resources>
     <Grid Background="White">
-        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Height="20" Margin="10 30 0 0" 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="104*"/>
+            <ColumnDefinition Width="53*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <TextBlock VerticalAlignment="Top" Width="152" Height="20" Margin="10 30 0 0" 
                  Text="{Binding DepartureStation.Name, Mode=OneWay}"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="10 100 0 0" VerticalAlignment="Top" Width="152" Height="20"
+        <TextBlock Margin="10 100 0 0" VerticalAlignment="Top" Width="152" Height="20"
                  Text="{Binding DepartureDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="250 30 0 0" VerticalAlignment="Top" Width="152" Height="20"
+        <TextBlock Margin="250 30 0 0" VerticalAlignment="Top" Width="152" Height="20"
                  Text="{Binding ArrivalStation.Name, Mode=OneWay}"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="250 100 0 0" VerticalAlignment="Top" Width="155" Height="20"
+        <TextBlock Margin="250 100 0 0" VerticalAlignment="Top" Width="155" Height="20"
                  Text="{Binding ArrivalDateTime}"/>
 
-        <TextBox HorizontalAlignment="Right" Margin="0,0,11,218" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="28"/>
-        <TextBox HorizontalAlignment="Right" Margin="0,0,11,174" Text="{Binding Cash, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Width="189" Height="28"/>
-        <TextBox HorizontalAlignment="Right" Margin="0,0,11,136" Text="{Binding Change, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" VerticalAlignment="Bottom" Width="189" Height="26"/>
-
-        <Button Command="{Binding CashPaymentCommand}" Content="Подтвердить оплату" HorizontalAlignment="Right" Margin="0,0,10,80" VerticalAlignment="Bottom" Height="42" Width="190"/>
-        <Button Command="{Binding NoncashPaymentCommand}" Content="Безналичный расчёт" HorizontalAlignment="Right" Margin="0,0,10,20" VerticalAlignment="Bottom" Height="42" Width="190"/>
         
+
+        
+
         <Button Command="{Binding DeclineCommand}" Content="Отмена" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="54" Width="100"/>
 
-        <Label Content="Станция отправления" HorizontalAlignment="Left" Margin="20 0 0 0" VerticalAlignment="Top"/>
-        <Label Content="Дата и время отправления" HorizontalAlignment="Left" Margin="10 60 0 0" VerticalAlignment="Top"/>
+        <Label Content="Станция отправления" HorizontalAlignment="Left" Margin="20 0 0 0" VerticalAlignment="Top" Height="33" Width="172"/>
+        <Label Content="Дата и время отправления" HorizontalAlignment="Left" Margin="10 60 0 0" VerticalAlignment="Top" Height="33" Width="208"/>
 
-        <Label Content="Станция прибытия" HorizontalAlignment="Left" Margin="270 0 0 0 " VerticalAlignment="Top"/>
-        <Label Content="Дата и время прибытия" HorizontalAlignment="Left" Margin="255 60 0 0" VerticalAlignment="Top"/>
+        <Label Content="Станция прибытия" HorizontalAlignment="Left" Margin="270 0 0 0 " VerticalAlignment="Top" Height="33" Width="150"/>
+        <Label Content="Дата и время прибытия" HorizontalAlignment="Left" Margin="255 60 0 0" VerticalAlignment="Top" Height="33" Width="186"/>
 
-        <Label Content="Пассажиры" HorizontalAlignment="Left" Margin="10 150 0 0" VerticalAlignment="Top" Width="78"/>
+        <Label Content="Пассажиры" HorizontalAlignment="Left" Margin="10 150 0 0" VerticalAlignment="Top" Width="78" Height="33"/>
 
-        <Label Content="Стоимость" HorizontalAlignment="Right" Margin="0,0,201,218" VerticalAlignment="Bottom" Height="28" Width="84"/>
-        <ListView ItemsSource="{Binding Passengers}" SelectedItem="{Binding SelectedPassenger}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 180 345 70 " SelectionMode="Single">
+        
+        <ListView ItemsSource="{Binding Passengers}" SelectedItem="{Binding SelectedPassenger}" Margin="10,180,48,70" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Серия" DisplayMemberBinding="{Binding Series}" Width="50"/>
@@ -54,49 +59,72 @@
             </ListView.View>
         </ListView>
 
-        <Button Command="{Binding AddPassengerCommand}" Content="Добавить" HorizontalAlignment="Center" Margin="0 0 150 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
-        <Button Command="{Binding DeletePassengerCommand}" Content="Удалить" HorizontalAlignment="Center" Margin="25 0 0 40" VerticalAlignment="Bottom" Height="24" Width="82"/>
-        <GroupBox IsEnabled="{Binding IsPassengerSelected}" Header="Пассажир" Margin="0 10 00 260" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="274">
-            <ScrollViewer >
-                <StackPanel Margin="0 0 10 0" DataContext="{Binding SelectedPassenger}">
-                    <Label Content="Серия"/>
-                    <TextBox x:Name="SeriesTextBox">
-                        <TextBox.Text>
-                            <Binding Path="Series" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validationrules:PassportSeriesValidationRule Length="4"/>
-                                    <DataErrorValidationRule/>
-                                    <ExceptionValidationRule/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
+        <Button Command="{Binding AddPassengerCommand}" Content="Добавить" HorizontalAlignment="Left" Margin="355,0,0,40" VerticalAlignment="Bottom" Height="30" Width="82"/>
+        <Button Command="{Binding DeletePassengerCommand}" Content="Удалить" HorizontalAlignment="Left" Margin="442,0,0,40" VerticalAlignment="Bottom" Height="30" Width="82"/>
 
-                    <Label Content="Номер"/>
-                    <TextBox>
-                        <TextBox.Text>
-                            <Binding Path="Number" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validationrules:PassportNumberValidationRule Length="6"/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
+        <Border BorderBrush="Gray" BorderThickness="1" 
+                Grid.Column="1">
+            <ScrollViewer Margin="10">
+                <StackPanel>
+                    <GroupBox Header="Пассажир" IsEnabled="{Binding IsPassengerSelected}" >
+                        <StackPanel Margin="0 0 10 0" DataContext="{Binding SelectedPassenger}">
+                            <Label Content="Серия"/>
+                            <TextBox x:Name="SeriesTextBox" PreviewTextInput="NumberTextBox_PreviewTextInput">
+                                <TextBox.Text>
+                                    <Binding Path="Series" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validationrules:PassportSeriesValidationRule Length="4"/>
+                                            <DataErrorValidationRule/>
+                                            <ExceptionValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
 
-                    <Label Content="Имя"/>
-                    <TextBox Text="{Binding Name}"/>
-                    <Label Content="Фамилия"/>
-                    <TextBox Text="{Binding Surname}"/>
+                            <Label Content="Номер" />
+                            <TextBox PreviewTextInput="NumberTextBox_PreviewTextInput">
+                                <TextBox.Text>
+                                    <Binding Path="Number" UpdateSourceTrigger="PropertyChanged" >
+                                        <Binding.ValidationRules>
+                                            <validationrules:PassportNumberValidationRule Length="6"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
 
-                    <Label Content="Отчество"/>
-                    <TextBox Text="{Binding Patronymic}"/>
+                            <Label Content="Имя"/>
+                            <TextBox Text="{Binding Name}" PreviewTextInput="NotNumberTextBox_PreviewTextInput"/>
 
-                    <Label Content="Дата рождения"/>
-                    <DatePicker SelectedDate="{Binding DateOfBirth}"/>
+                            <Label Content="Фамилия"/>
+                            <TextBox Text="{Binding Surname}" PreviewTextInput="NotNumberTextBox_PreviewTextInput"/>
+
+                            <Label Content="Отчество"/>
+                            <TextBox Text="{Binding Patronymic}" PreviewTextInput="NotNumberTextBox_PreviewTextInput"/>
+
+                            <Label Content="Дата рождения"/>
+                            <DatePicker SelectedDate="{Binding DateOfBirth}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <StackPanel>
+                        <GroupBox Header="Стоимость">
+                            <TextBox Margin="5" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" />
+                        </GroupBox>
+
+                        <GroupBox Header="Внесено">
+                            <TextBox Margin="5" Text="{Binding Cash, UpdateSourceTrigger=PropertyChanged}" />
+                        </GroupBox>
+
+                        <GroupBox Header="Сдача">
+                            <TextBox Margin="5" Text="{Binding Change, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+                        </GroupBox>
+
+                        <Button Command="{Binding CashPaymentCommand}" Content="Подтвердить оплату"
+                                Margin="5" />
+                        <Button Command="{Binding NoncashPaymentCommand}" Content="Безналичный расчёт"
+                                Margin="5"/>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
-        </GroupBox>
-        <Label Content="Внесено" HorizontalAlignment="Right" Margin="0,0,200,176" VerticalAlignment="Bottom" Height="28" Width="84"/>
-        <Label Content="Сдача" HorizontalAlignment="Right" Margin="0,0,200,136" VerticalAlignment="Bottom" Height="26" Width="84"/>
+        </Border>
     </Grid>
 </UserControl>

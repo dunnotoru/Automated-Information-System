@@ -15,5 +15,6 @@ namespace Domain.Models
         public Run Run { get; set; }
         public IdentityDocument IdentityDocument { get; set; }
         public TicketType TicketType { get; set; }
+
     }
 }

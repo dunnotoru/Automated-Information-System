@@ -26,23 +26,21 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Column="1" Height="25">
-            <Button Content="Добавить" VerticalAlignment="Center" Height="25"
-                    Command="{Binding AddCommand}"/>
-        </StackPanel>
+        
+        <Button Grid.Column="1" Content="Добавить" VerticalAlignment="Center"
+                Command="{Binding AddCommand}"/>
+        
 
         <Border Grid.Column="2" Margin="10" BorderBrush="Gray" BorderThickness="1" IsEnabled="{Binding IsRedactingEnabled}">
             <StackPanel Margin="10" Grid.RowSpan="2" 
                         DataContext="{Binding SelectedItem}">
-                <GroupBox Header="Логин">
-                    <TextBox Height="25" Text="{Binding Username}"/>
-                </GroupBox>
-                <GroupBox Header="Пароль">
-                    <TextBox Height="25" Text="{Binding Password}"/>
-                </GroupBox>
-                <GroupBox Header="Подтверждение пароля" >
-                    <TextBox Height="25" Text="{Binding PasswordConfirmation}"/>
-                </GroupBox>
+
+                <Label Content="Имя пользователя"/>
+                <TextBox Text="{Binding Username}"/>
+                <Label Content="Пароль"/>
+                <TextBox Text="{Binding Password}"/>
+                <Label Content="Подтверждение пароля"/>
+                <TextBox Text="{Binding PasswordConfirmation}"/>
                 <GroupBox Header="Права">
                     <StackPanel>
                         <CheckBox 

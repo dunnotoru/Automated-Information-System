@@ -43,13 +43,14 @@
             <ScrollViewer>
                 <StackPanel DataContext="{Binding SelectedRun}" Margin="10 10 10 10">
                     <Label Content="Id"/>
-                    <TextBox Text="{Binding Id}" IsReadOnly="True"/>
+                    <TextBlock Text="{Binding Id}"/>
 
                     <Label Content="Номер"/>
                     <TextBox Text="{Binding Number}"/>
 
+                   
                     <Label Content="Маршрут" />
-                    <TextBox Text="{Binding SelectedRoute.Name}" IsReadOnly="True"/>
+                    <TextBlock Text="{Binding SelectedRoute.Name}"/>
 
                     <Label Content="Переодичность в минутах"/>
                     <TextBox>
@@ -62,15 +63,18 @@
                         </TextBox.Text>
                     </TextBox>
 
-                    <Label Content="Время отправления"/>
+                    <Label Content="Дата отправления"/>
                     <DatePicker SelectedDate="{Binding DepartureDateTime}"/>
+
+                    <Label Content="Время отправления"/>
+                    <TextBox Text=""/>
 
                     <Label Content="Время прибытия"/>
                     <TextBox Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}', Mode=OneWay}" IsReadOnly="True"/>
 
                     <Label Content="Транспорт"/>
                     <ComboBox ItemsSource="{Binding Vehicles}" 
-                              SelectedItem="{Binding SelectedVehicle}"
+                              SelectedItem="{Binding SelectedVehicle}" 
                               DisplayMemberPath="LicensePlateNumber"/>
 
                     <Label Content="Водитель"/>

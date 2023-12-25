@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="582" d:DesignWidth="942">
     <UserControl.Resources>
@@ -21,9 +22,9 @@
             <RowDefinition Height="48*"/>
             <RowDefinition Height="49*"/>
         </Grid.RowDefinitions>
-        <Label Content="Отправление" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="89"/>
+        <Label Content="Отправление" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <ListView ItemsSource="{Binding StationItems}"
-                  Margin="10,40,10,65"
+                  Margin="10,45,10,65"
                    SelectedItem="{Binding DepartureStation}">
             <ListView.View>
                 <GridView>
@@ -33,9 +34,9 @@
             </ListView.View>
         </ListView>
 
-        <Label Grid.Row="0" Grid.Column="1" Content="Прибытие" HorizontalAlignment="Left" Margin="10 10 0 0" VerticalAlignment="Top" Height="26" Width="83"/>
+        <Label Grid.Row="0" Grid.Column="1" Content="Прибытие" HorizontalAlignment="Left" Margin="10 10 0 0" VerticalAlignment="Top"/>
         <ListView ItemsSource="{Binding StationItems}"
-                  Margin="10,40,10,65"
+                  Margin="10,45,10,65"
                   SelectedItem="{Binding ArrivalStation}" Grid.Column="1">
             <ListView.View>
                 <GridView>
@@ -57,16 +58,16 @@
                 <DataGridTextColumn Width="auto" Binding="{Binding FreePlaces}" Header="Мест осталось"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Margin="0 0 10 35" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Bottom" Width="120" Height="18"/>
+        <TextBox HorizontalAlignment="Right" Margin="0 0 10 20" Text="Поиск станции" VerticalAlignment="Bottom"/>
 
-        <DatePicker Height="25" Margin="50" DisplayDate="{Binding DepartureDateTimeMinimum}" Grid.Column="2"/>
-        <DatePicker Height="25" Margin="50" DisplayDate="{Binding DepartureDateTimeMaximum}" Grid.Column="3"/>
+        <DatePicker Height="35" Margin="50" DisplayDate="{Binding DepartureDateTimeMinimum}" DisplayDateStart="{x:Static sys:DateTime.Now}" Grid.Column="2"/>
+        <DatePicker Height="35" Margin="50" DisplayDate="{Binding DepartureDateTimeMaximum}" DisplayDateStart="{x:Static sys:DateTime.Now}" Grid.Column="3"/>
 
-        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 35" TextWrapping="Wrap" Text="Поиск станции" VerticalAlignment="Bottom" Width="120" Height="18"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 20" Text="Поиск станции" VerticalAlignment="Bottom"/>
 
-        <Label Content="Дата отправления" HorizontalAlignment="Right" Margin="0,10,89,0" VerticalAlignment="Top" Height="26" Width="110" Grid.Column="2"/>
-        <Label Content="от" HorizontalAlignment="Right" Margin="0,10,14,0" VerticalAlignment="Top" Height="26" Width="22" Grid.Column="2"/>
-        <Label Content="до" HorizontalAlignment="Right" Margin="0 10 185 0" VerticalAlignment="Top" Height="26" Width="24" Grid.Column="3"/>
+        <Label Content="Дата отправления" HorizontalAlignment="Right" Margin="0,10,89,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <Label Content="от" HorizontalAlignment="Right" Margin="0,10,14,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <Label Content="до" HorizontalAlignment="Right" Margin="0 10 185 0" VerticalAlignment="Top" Grid.Column="3"/>
 
         <Button Content="Найти рейсы" Command="{Binding FindRunsCommand}" Margin="10,93,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
         <Button Content="Продажа билета" Command="{Binding SellTicketCommand}" Margin="10,153,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
