@@ -37,6 +37,7 @@ namespace UI.ViewModel.Settings.EditViewModels
             Write = account.Write;
             Edit = account.Edit;
             Delete = account.Delete;
+            IsNew = false;
         }
 
         public AccountEditViewModel(IAccountRepository accountRepository, RegistrationService registrationService)
@@ -53,6 +54,7 @@ namespace UI.ViewModel.Settings.EditViewModels
             Write = false;
             Edit = false;
             Delete = false;
+            IsNew = true;
 
             SaveCommand = new RelayCommand(ExecuteSave, CanSave);
             RemoveCommand = new RelayCommand(ExecuteRemove);
@@ -113,6 +115,8 @@ namespace UI.ViewModel.Settings.EditViewModels
                 Error?.Invoke(this, e);
             }
         }
+
+        public bool IsNew {  get; }
 
         public int Id
         {

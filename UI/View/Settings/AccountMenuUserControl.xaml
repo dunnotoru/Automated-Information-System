@@ -31,8 +31,8 @@
                     Command="{Binding AddCommand}"/>
         </StackPanel>
 
-        <Border Grid.Column="2" Margin="10" BorderBrush="Gray" BorderThickness="1">
-            <StackPanel Margin="10" Grid.RowSpan="2" IsEnabled="{Binding IsRedactingEnabled}"
+        <Border Grid.Column="2" Margin="10" BorderBrush="Gray" BorderThickness="1" IsEnabled="{Binding IsRedactingEnabled}">
+            <StackPanel Margin="10" Grid.RowSpan="2" 
                         DataContext="{Binding SelectedItem}">
                 <GroupBox Header="Логин">
                     <TextBox Height="25" Text="{Binding Username}"/>
@@ -62,12 +62,12 @@
                 <Button 
                     Margin="10"
                         Command="{Binding SaveCommand}"
-                        Content="Подтвердить"/>
+                        Content="Сохранить"/>
 
                 <Button 
                     Margin="10"
                         Command="{Binding RemoveCommand}"
-                        Content="Отмена"/>
+                        Content="Удалить"/>
             </StackPanel>
         </Border>
     </Grid>

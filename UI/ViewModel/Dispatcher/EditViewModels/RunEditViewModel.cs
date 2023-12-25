@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Domain.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IDriverRepository _driverRepository;
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IArrivalTimeCalculator _arrivalTimeCalculator;
 
         private int _id;
         private string _number;
@@ -27,7 +29,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private ObservableCollection<RouteViewModel> _routes;
         private ObservableCollection<VehicleViewModel> _vehicles;
         private ObservableCollection<DriverViewModel> _drivers;
-        private ObservableCollection<DriverViewModel> _selectedDrivers;
+        private DriverViewModel _selectedDriver;
 
         public event EventHandler Save;
         public event EventHandler Remove;
@@ -37,65 +39,33 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         public ICommand RemoveCommand { get; }
 
         public RunEditViewModel(Run run, IRunRepository runRepository, IRouteRepository routeRepository,
-            IVehicleRepository vehicleRepository, IDriverRepository driverRepository, IScheduleRepository scheduleRepository) : this()
+            IVehicleRepository vehicleRepository, IDriverRepository driverRepository, IScheduleRepository scheduleRepository, IArrivalTimeCalculator arrivalTimeCalculator)
+            : this(runRepository, routeRepository, vehicleRepository, driverRepository, scheduleRepository, arrivalTimeCalculator)
         {
-            _runRepository = runRepository;
-            _routeRepository = routeRepository;
-            _vehicleRepository = vehicleRepository;
-            _driverRepository = driverRepository;
-
             Id = run.Id;
             Number = run.Number;
-            SelectedRoute = new RouteViewModel(run.Route, _routeRepository);
+            SelectedRoute = new RouteViewModel(run.Route);
             DepartureDateTime = run.DepartureDateTime;
-            EstimatedArrivalDateTime = run.EstimatedArrivalDateTime;
-            SelectedVehicle = new VehicleViewModel(run.Vehicle, _vehicleRepository);
-            SelectedDrivers = new ObservableCollection<DriverViewModel>();
-            foreach (Driver item in run.Drivers)
-            {
-                DriverViewModel vm = new DriverViewModel(item);
-                SelectedDrivers.Add(vm);
-            }
-
-
-            Drivers = new ObservableCollection<DriverViewModel>();
-            Routes = new ObservableCollection<RouteViewModel>();
-            Vehicles = new ObservableCollection<VehicleViewModel>();
-
-            foreach (var item in _driverRepository.GetAll())
-            {
-                DriverViewModel vm = new DriverViewModel(item);
-                Drivers.Add(vm);
-            }
-            foreach (var item in _routeRepository.GetAll())
-            {
-                RouteViewModel vm = new RouteViewModel(item, _routeRepository);
-                Routes.Add(vm);
-            }
-            foreach (var item in _vehicleRepository.GetAll())
-            {
-                VehicleViewModel vm = new VehicleViewModel(item, _vehicleRepository);
-                Vehicles.Add(vm);
-            }
-            _scheduleRepository = scheduleRepository;
+            SelectedVehicle = new VehicleViewModel(run.Vehicle);
+            Periodity = _scheduleRepository.GetByRun(run).PeriodInMinutes;
+            _arrivalTimeCalculator = arrivalTimeCalculator;
         }
 
         public RunEditViewModel(IRunRepository runRepository, IRouteRepository routeRepository,
-            IVehicleRepository vehicleRepository, IDriverRepository driverRepository, IScheduleRepository scheduleRepository) : this()
+            IVehicleRepository vehicleRepository, IDriverRepository driverRepository, IScheduleRepository scheduleRepository, IArrivalTimeCalculator arrivalTimeCalculator)
         {
             _runRepository = runRepository;
             _routeRepository = routeRepository;
             _vehicleRepository = vehicleRepository;
             _driverRepository = driverRepository;
+            _scheduleRepository = scheduleRepository;
 
             Id = 0;
             Number = "";
-            SelectedRoute = new RouteViewModel(_routeRepository);
+            SelectedRoute = new RouteViewModel();
             DepartureDateTime = DateTime.Now;
-            EstimatedArrivalDateTime = DateTime.Now;
-            SelectedVehicle = new VehicleViewModel(_vehicleRepository);
-            SelectedDrivers = new ObservableCollection<DriverViewModel>();
-
+            SelectedVehicle = new VehicleViewModel();
+            Periodity = 0;
 
             Drivers = new ObservableCollection<DriverViewModel>();
             Routes = new ObservableCollection<RouteViewModel>();
@@ -107,21 +77,18 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             }
             foreach (var item in _routeRepository.GetAll())
             {
-                RouteViewModel vm = new RouteViewModel(item, _routeRepository);
+                RouteViewModel vm = new RouteViewModel(item);
                 Routes.Add(vm);
             }
             foreach (var item in _vehicleRepository.GetAll())
             {
-                VehicleViewModel vm = new VehicleViewModel(item, _vehicleRepository);
+                VehicleViewModel vm = new VehicleViewModel(item);
                 Vehicles.Add(vm);
             }
-            _scheduleRepository = scheduleRepository;
-        }
 
-        private RunEditViewModel()
-        {
             SaveCommand = new RelayCommand(ExecuteSave, () => CanSave());
             RemoveCommand = new RelayCommand(ExecuteRemove);
+            _arrivalTimeCalculator = arrivalTimeCalculator;
         }
 
         private bool CanSave()
@@ -137,10 +104,10 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             Run run = new Run()
             {
                 Number = Number,
-                Route = SelectedRoute.GetRoute(),
+                Route = _routeRepository.GetById(SelectedRoute.Id),
                 DepartureDateTime = DepartureDateTime,
-                EstimatedArrivalDateTime = DepartureDateTime.AddMinutes(SelectedRoute.GetRoute().Stations.Count * 30),
-                Vehicle = SelectedVehicle.GetVehicle(),
+                EstimatedArrivalDateTime = EstimatedArrivalDateTime,
+                Vehicle = _vehicleRepository.GetById(SelectedVehicle.Id)
             };
             
             try
@@ -228,7 +195,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         public DateTime DepartureDateTime
         {
             get { return _departureDateTime; }
-            set { _departureDateTime = value; OnPropertyChanged(); }
+            set { _departureDateTime = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(EstimatedArrivalDateTime)); }
         }
         public int Periodity
         {
@@ -237,18 +204,19 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         }
         public DateTime EstimatedArrivalDateTime
         {
-            get { return _estimatedArrivalDateTime; }
-            set { _estimatedArrivalDateTime = value; OnPropertyChanged(); }
+            get => _arrivalTimeCalculator.Calculate(_routeRepository.GetById(SelectedRoute.Id), DepartureDateTime);
         }
+            
+            
         public VehicleViewModel SelectedVehicle
         {
             get { return _selectedVehicle; }
             set { _selectedVehicle = value; OnPropertyChanged(); }
         }
-        public ObservableCollection<DriverViewModel> SelectedDrivers
+        public DriverViewModel SelectedDriver
         {
-            get { return _selectedDrivers; }
-            set { _selectedDrivers = value; OnPropertyChanged(); }
+            get { return _selectedDriver; }
+            set { _selectedDriver = value; OnPropertyChanged(); }
         }
     }
 }

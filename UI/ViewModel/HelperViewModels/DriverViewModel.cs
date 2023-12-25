@@ -12,6 +12,7 @@ namespace UI.ViewModel.HelperViewModels
         {
             Id = driver.Id;
             FullName = $"{driver.Surname} {driver.Name} {driver.Patronymic}";
+            PayrollNumber = driver.PayrollNumber;
         }
 
         public DriverViewModel()

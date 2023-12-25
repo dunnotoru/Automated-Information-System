@@ -77,6 +77,10 @@ namespace UI.ViewModel
 
         private void OnError(object? sender, Exception e)
         {
+            AccountEditViewModel vm = (AccountEditViewModel)sender;
+
+            Items.Remove(vm);
+
             _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
         }
 
@@ -90,7 +94,7 @@ namespace UI.ViewModel
             SelectedItem = vm;
         }
 
-        public bool IsRedactingEnabled => SelectedItem != null;
+        public bool IsRedactingEnabled => SelectedItem != null && SelectedItem.IsNew == true;
 
         public ObservableCollection<AccountEditViewModel> Items
         {

@@ -5,22 +5,19 @@ namespace UI.ViewModel.HelperViewModels
 {
     public class VehicleViewModel : ViewModelBase
     {
-        private readonly IVehicleRepository _vehicleRepository;
         private int _id;
         private string _licensePlateNumber;
 
-        public VehicleViewModel(Vehicle vehicle, IVehicleRepository vehicleRepository)
+        public VehicleViewModel(Vehicle vehicle)
         {
             Id = vehicle.Id;
             LicensePlateNumber = vehicle.LicensePlateNumber;
-            _vehicleRepository = vehicleRepository;
         }
 
-        public VehicleViewModel(IVehicleRepository vehicleRepository)
+        public VehicleViewModel()
         {
             Id = 0;
             LicensePlateNumber = "";
-            _vehicleRepository = vehicleRepository;
         }
 
         public string LicensePlateNumber
@@ -33,11 +30,6 @@ namespace UI.ViewModel.HelperViewModels
         {
             get { return _id; }
             set { _id = value; OnPropertyChanged(); }
-        }
-
-        public Vehicle GetVehicle()
-        {
-            return _vehicleRepository.GetById(Id);
         }
     }
 }

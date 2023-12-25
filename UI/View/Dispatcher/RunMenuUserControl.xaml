@@ -40,43 +40,48 @@
 
 
         <GroupBox Grid.Column="3" IsEnabled="{Binding IsRedactingEnabled}">
-            <StackPanel DataContext="{Binding SelectedRun}" Margin="10 10 10 10">
-                <Label Content="Id"/>
-                <TextBox Text="{Binding Id}" IsReadOnly="True"/>
+            <ScrollViewer>
+                <StackPanel DataContext="{Binding SelectedRun}" Margin="10 10 10 10">
+                    <Label Content="Id"/>
+                    <TextBox Text="{Binding Id}" IsReadOnly="True"/>
 
-                <Label Content="Номер"/>
-                <TextBox Text="{Binding Number}"/>
+                    <Label Content="Номер"/>
+                    <TextBox Text="{Binding Number}"/>
 
-                <Label Content="Маршрут" />
-                <TextBox Text="{Binding SelectedRoute.Name}" IsReadOnly="True"/>
+                    <Label Content="Маршрут" />
+                    <TextBox Text="{Binding SelectedRoute.Name}" IsReadOnly="True"/>
 
-                <Label Content="Переодичность в минутах"/>
-                <TextBox>
-                    <TextBox.Text>
-                        <Binding Path="Periodity" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <validationrules:NotEmptyValidationRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                    <Label Content="Переодичность в минутах"/>
+                    <TextBox>
+                        <TextBox.Text>
+                            <Binding Path="Periodity" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationrules:NotEmptyValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
-                <Label Content="Время отправления"/>
-                <DatePicker SelectedDate="{Binding DepartureDateTime}"/>
+                    <Label Content="Время отправления"/>
+                    <DatePicker SelectedDate="{Binding DepartureDateTime}"/>
 
-                <Label Content="Время прибытия"/>
-                <TextBox Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}" IsReadOnly="True"/>
+                    <Label Content="Время прибытия"/>
+                    <TextBox Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}', Mode=OneWay}" IsReadOnly="True"/>
 
-                <Label Content="Транспорт"/>
-                <ComboBox ItemsSource="{Binding Vehicles}" 
-                          SelectedItem="{Binding SelectedVehicle}"
-                          DisplayMemberPath="LicensePlateNumber"/>
+                    <Label Content="Транспорт"/>
+                    <ComboBox ItemsSource="{Binding Vehicles}" 
+                              SelectedItem="{Binding SelectedVehicle}"
+                              DisplayMemberPath="LicensePlateNumber"/>
 
-                <Label Content="Водитель"/>
+                    <Label Content="Водитель"/>
+                    <ComboBox ItemsSource="{Binding Drivers}"
+                              SelectedItem="{Binding SelectedDriver}"
+                              DisplayMemberPath="FullName"/>
 
-                <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}"/>
-                <Button Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" Content="Удалить" Command="{Binding RemoveCommand}"/>
-            </StackPanel>
+                    <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}"/>
+                    <Button Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" Content="Удалить" Command="{Binding RemoveCommand}"/>
+                </StackPanel>
+            </ScrollViewer>
         </GroupBox>
 
         <DataGrid Grid.Column="2" Margin="10,10,10,10" DataContext="{Binding SelectedRun}"

@@ -5,22 +5,19 @@ namespace UI.ViewModel.HelperViewModels
 {
     internal class RouteViewModel : ViewModelBase
     {
-        private readonly IRouteRepository _routeRepository;
         private int _id;
         private string _name;
 
-        public RouteViewModel(Route route, IRouteRepository routeRepository)
+        public RouteViewModel(Route route)
         {
             Id = route.Id;
             Name = route.Name;
-            _routeRepository = routeRepository;
         }
 
-        public RouteViewModel(IRouteRepository routeRepository)
+        public RouteViewModel()
         {
             Id = 0;
             Name = "";
-            _routeRepository = routeRepository;
         }
 
         public int Id
@@ -33,11 +30,6 @@ namespace UI.ViewModel.HelperViewModels
         {
             get { return _name; }
             set { _name = value; OnPropertyChanged(); }
-        }
-
-        public Route GetRoute()
-        {
-            return _routeRepository.GetById(Id);
         }
     }
 }

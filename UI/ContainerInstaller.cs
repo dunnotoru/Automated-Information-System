@@ -5,7 +5,6 @@ using Domain.EntityFramework.Repositories;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Domain.Services;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Configuration;
 using UI.Services;
 using UI.Stores;
@@ -29,6 +28,7 @@ namespace UI
 
             container.Register(Component.For<IMessageBoxService>().ImplementedBy<MessageBoxService>());
 
+            container.Register(Component.For<IArrivalTimeCalculator>().ImplementedBy<ArrivalTimeCalculator>());
             container.Register(Component.For<AuthenticationService>());
             container.Register(Component.For<RegistrationService>());
             container.Register(Component.For<RunSearchService>());

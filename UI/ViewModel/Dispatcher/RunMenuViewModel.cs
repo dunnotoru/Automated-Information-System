@@ -1,9 +1,8 @@
-﻿using Domain.EntityFramework.Repositories;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Domain.Services;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -19,7 +18,7 @@ namespace UI.ViewModel
         private readonly IDriverRepository _driverRepository;
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IMessageBoxService _messageBoxService;
-
+        private readonly IArrivalTimeCalculator _arrivalTimeCalculator;
 
         private RunEditViewModel _selectedRun;
 
@@ -35,13 +34,19 @@ namespace UI.ViewModel
 
         public ICommand AddCommand { get; }
 
-        public RunMenuViewModel(IRunRepository runRepository, IRouteRepository routeRepository,
-            IVehicleRepository vehicleRepository, IMessageBoxService messageBoxService, IDriverRepository driverRepository, IScheduleRepository scheduleRepository)
+        public RunMenuViewModel(IRunRepository runRepository,
+                                IRouteRepository routeRepository,
+                                IVehicleRepository vehicleRepository,
+                                IMessageBoxService messageBoxService,
+                                IDriverRepository driverRepository,
+                                IScheduleRepository scheduleRepository,
+                                IArrivalTimeCalculator arrivalTimeCalculator)
         {
             ArgumentNullException.ThrowIfNull(runRepository);
             ArgumentNullException.ThrowIfNull(routeRepository);
             ArgumentNullException.ThrowIfNull(messageBoxService);
             ArgumentNullException.ThrowIfNull(driverRepository);
+            ArgumentNullException.ThrowIfNull(arrivalTimeCalculator);
 
             _runRepository = runRepository;
             _routeRepository = routeRepository;
@@ -49,12 +54,13 @@ namespace UI.ViewModel
             _messageBoxService = messageBoxService;
             _driverRepository = driverRepository;
             _scheduleRepository = scheduleRepository;
+            _arrivalTimeCalculator = arrivalTimeCalculator;
 
             Runs = new ObservableCollection<RunEditViewModel>();
             foreach (var item in _runRepository.GetAll())
             {
                 RunEditViewModel vm = new RunEditViewModel(item, _runRepository,
-                    _routeRepository, _vehicleRepository, _driverRepository, _scheduleRepository);
+                    _routeRepository, _vehicleRepository, _driverRepository, _scheduleRepository, _arrivalTimeCalculator);
                 vm.Save += OnSave;
                 vm.Remove += OnRemove;
                 vm.Error += OnError;
@@ -67,7 +73,7 @@ namespace UI.ViewModel
         private void Add()
         {
             RunEditViewModel vm = new RunEditViewModel(_runRepository,
-                    _routeRepository, _vehicleRepository, _driverRepository, _scheduleRepository);
+                    _routeRepository, _vehicleRepository, _driverRepository, _scheduleRepository, _arrivalTimeCalculator);
             vm.Save += OnSave;
             vm.Remove += OnRemove;
             vm.Error += OnError;
@@ -106,7 +112,8 @@ namespace UI.ViewModel
                                                               _routeRepository,
                                                               _vehicleRepository,
                                                               _driverRepository,
-                                                              _scheduleRepository);
+                                                              _scheduleRepository,
+                                                              _arrivalTimeCalculator);
 
             updatedVm.Remove += OnRemove;
             updatedVm.Save += OnSave;
