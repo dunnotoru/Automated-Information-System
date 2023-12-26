@@ -9,9 +9,14 @@ namespace UI.ViewModel
 {
     internal class LoginViewModel : ViewModelBase
     {
+        private readonly AuthenticationService _authenticationService;
+        private readonly AccountStore _accountStore;
+        private readonly IMessageBoxService _messageBoxService;
+        
         private string _username;
         private string _password;
 
+        public event Action AuthenticationDone;
 
         public string Username
         {
@@ -40,10 +45,10 @@ namespace UI.ViewModel
             }
         }
 
-        private readonly AuthenticationService _authenticationService;
-        private readonly AccountStore _accountStore;
-        public event Action AuthenticationDone;
-        private readonly IMessageBoxService _messageBoxService;
+        private bool CanLogin()
+        {
+            return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
+        }
 
         public LoginViewModel(AuthenticationService authenticationUseCase,
             AccountStore accountStore,
@@ -53,8 +58,10 @@ namespace UI.ViewModel
             _accountStore = accountStore;
             _messageBoxService = messageBoxService;
 
-            LoginCommand = new RelayCommand(Authenticate);
-        }
+            Username = string.Empty;
+            Password = string.Empty;
 
+            LoginCommand = new RelayCommand(Authenticate, CanLogin);
+        }
     }
 }

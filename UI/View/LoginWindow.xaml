@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.View"
         xmlns:vm="clr-namespace:UI.ViewModel"
+        xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
+        xmlns:converters="clr-namespace:UI.Converters"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Height="467" Width="665" ResizeMode="NoResize" Icon="/View/icon.ico">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,12 +21,39 @@
                    VerticalAlignment="Bottom" HorizontalAlignment="Center" >
         </TextBlock>
 
-        <TextBox Text="{Binding Username}" Margin="100,20,100,0" Width="350" VerticalAlignment="Top"
-                 Grid.Row="1"/>
+        <TextBox x:Name="UsernameTextBox" Margin="100,20,100,0" Width="350" VerticalAlignment="Top" Grid.Row="1">
+            <TextBox.Text>
+                <Binding Path="Username" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validationrules:NotEmptyValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <TextBox Text="{Binding Password}" Margin="100,70,100,20" Width="350" VerticalAlignment="Bottom"
-                  Grid.Row="1" />
+        <TextBox Name="PasswordTextBox" Margin="100,70,100,20" Width="350" VerticalAlignment="Bottom" Grid.Row="1">
+            <TextBox.Text>
+                <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validationrules:NotEmptyValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <Button Content="Войти" Command="{Binding LoginCommand}" HorizontalAlignment="Center" Margin="0 0 0 0" Grid.Row="2" VerticalAlignment="Center" Height="20" Width="40"/>
+        <Button x:Name="EnterButton" Content="Войти" Command="{Binding LoginCommand}" 
+                HorizontalAlignment="Center" Margin="0 0 0 0" Grid.Row="2" VerticalAlignment="Center" Width="80" Height="40">
+            <Button.IsEnabled>
+                <MultiBinding>
+                    <MultiBinding.Converter>
+                        <converters:MultiBoolConverter/>
+                    </MultiBinding.Converter>
+                    <MultiBinding.Bindings>
+                        <Binding ElementName="UsernameTextBox" Path="(Validation.HasError)"/>
+                        <Binding ElementName="PasswordTextBox" Path="(Validation.HasError)"/>
+                    </MultiBinding.Bindings>
+                </MultiBinding>
+            </Button.IsEnabled>
+        </Button>
     </Grid>
 </Window>

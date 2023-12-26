@@ -4,6 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
+             xmlns:converters="clr-namespace:UI.Converters"
+             xmlns:valid="clr-namespace:UI.View.ValidationRules"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
@@ -36,11 +39,38 @@
                         DataContext="{Binding SelectedItem}">
                 <StackPanel IsEnabled="{Binding IsNew}">
                     <Label Content="Имя пользователя"/>
-                    <TextBox Text="{Binding Username}"/>
+
+                    <TextBox x:Name="UsernameTextBox">
+                        <TextBox.Text>
+                            <Binding Path="Username" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <valid:NotEmptyValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    
                     <Label Content="Пароль"/>
-                    <TextBox Text="{Binding Password}"/>
+                    <TextBox x:Name="PasswordTextBox" >
+                        <TextBox.Text>
+                            <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <valid:PasswordValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    
                     <Label Content="Подтверждение пароля"/>
-                    <TextBox Text="{Binding PasswordConfirmation}"/>
+                    <TextBox x:Name="PasswordConfirmationTextBox">
+                        <TextBox.Text>
+                            <Binding Path="PasswordConfirmation" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <valid:PasswordValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </StackPanel>
 
                 <GroupBox Header="Права">
@@ -59,10 +89,23 @@
                                 Content="Удалять" IsChecked="{Binding Delete}"/>
                         </StackPanel>
                     </GroupBox>
-                    <Button 
+                <Button 
                         Margin="10"
                             Command="{Binding SaveCommand}"
-                            Content="Сохранить"/>
+                            Content="Сохранить">
+                    <Button.IsEnabled>
+                        <MultiBinding>
+                            <MultiBinding.Converter>
+                                <converters:MultiBoolConverter/>
+                            </MultiBinding.Converter>
+                            <MultiBinding.Bindings>
+                                <Binding ElementName="UsernameTextBox" Path="(Validation.HasError)"/>
+                                <Binding ElementName="PasswordTextBox" Path="(Validation.HasError)"/>
+                                <Binding ElementName="PasswordConfirmationTextBox" Path="(Validation.HasError)"/>
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
 
                     <Button 
                         Margin="10"

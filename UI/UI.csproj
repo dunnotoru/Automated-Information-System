@@ -12,6 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Resourses\Converters.xaml" />
+    <Page Remove="Resourses\Styles.xaml" />
+    <Page Remove="Resourses\Validations.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resourses\Converters.xaml" />
+    <Resource Include="Resourses\Validations.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="6.0.0" />
   </ItemGroup>
 
@@ -21,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resourses\Styles.xaml" />
     <Resource Include="View\icon.ico" />
   </ItemGroup>
 
