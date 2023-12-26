@@ -95,6 +95,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 License.DateOfIssue.Year - BirthDate.Year > 16 &&
                 License.DateOfExpiration > License.DateOfIssue &&
                 License.Categories != null &&
+                License.Categories.Count > 0 &&
                 !string.IsNullOrWhiteSpace(License.LicenseNumber);
         }
 

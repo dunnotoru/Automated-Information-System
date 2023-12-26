@@ -39,6 +39,7 @@ namespace Domain.EntityFramework.Repositories
             {
                 Freighter stored = context.Freighters.First(o => o.Id == id);
                 context.Freighters.Remove(stored);
+                context.SaveChanges();
             }
         }
 

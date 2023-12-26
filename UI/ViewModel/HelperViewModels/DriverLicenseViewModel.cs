@@ -3,7 +3,6 @@ using Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
 namespace UI.ViewModel.HelperViewModels
@@ -85,7 +84,7 @@ namespace UI.ViewModel.HelperViewModels
         public DateTime DateOfIssue
         {
             get { return _dateOfIssue; }
-            set { _dateOfIssue = value; OnPropertyChanged(); }
+            set { _dateOfIssue = value; OnPropertyChanged(); DateOfExpiration = DateOfIssue.AddYears(10); }
         }
 
         public DateTime DateOfExpiration

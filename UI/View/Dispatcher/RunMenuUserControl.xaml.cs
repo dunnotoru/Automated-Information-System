@@ -17,7 +17,7 @@ namespace UI.View
             {
                 if (!char.IsDigit(c) && c != ':')
                 {
-                    e.Handled = true; // Если символ не цифра и не ":", игнорируем ввод
+                    e.Handled = true;
                     break;
                 }
             }
@@ -29,7 +29,7 @@ namespace UI.View
             {
                 if (!char.IsDigit(c))
                 {
-                    e.Handled = true; // Если символ не цифра и не ":", игнорируем ввод
+                    e.Handled = true; 
                     break;
                 }
             }

@@ -15,17 +15,20 @@ namespace Domain.EntityFramework.Configurations
             builder
                 .HasOne(l => l.VehicleModel)
                 .WithMany(r => r.Vehicles)
-                .HasForeignKey(o => o.VehicleModelId);
+                .HasForeignKey(o => o.VehicleModelId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasOne(l => l.RepairType)
                 .WithMany(r => r.Vehicles)
-                .HasForeignKey(o => o.RepairTypeId);
+                .HasForeignKey(o => o.RepairTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasOne(l => l.Freighter)
                 .WithMany(r => r.Vehicles)
-                .HasForeignKey(o => o.FreighterId);
+                .HasForeignKey(o => o.FreighterId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
