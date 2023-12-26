@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace UI.View
 {
@@ -27,7 +28,7 @@ namespace UI.View
             }
         }
 
-        private void NotNumberTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        private void NotNumberTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             bool result = false;
             foreach (char item in e.Text)
@@ -44,7 +45,7 @@ namespace UI.View
             }
         }
 
-        private void DatePicker_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        private void DatePicker_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             DateTime result;
             bool r = DateTime.TryParse(e.Text, out result);

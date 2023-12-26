@@ -24,6 +24,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
         private RouteViewModel _selectedRoute;
         private DateTime _departureDateTime;
         private DateTime _estimatedArrivalDateTime;
+        private string _departureTime;
         private int _periodity;
         private VehicleViewModel _selectedVehicle;
         private ObservableCollection<RouteViewModel> _routes;
@@ -47,8 +48,9 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             SelectedRoute = new RouteViewModel(run.Route);
             DepartureDateTime = run.DepartureDateTime;
 
-            SelectedVehicle = new VehicleViewModel(_vehicleRepository.GetById(run.VehicleId));
+            DepartureTime = DepartureDateTime.ToShortTimeString();
 
+            SelectedVehicle = new VehicleViewModel(_vehicleRepository.GetById(run.VehicleId));
             SelectedDriver = new DriverViewModel(_driverRepository.GetById(run.DriverId));
 
             Vehicles.Add(SelectedVehicle);
@@ -115,6 +117,12 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         private void ExecuteSave()
         {
+            TimeOnly t = TimeOnly.Parse(DepartureTime);
+
+            DepartureDateTime = DepartureDateTime.Date;
+            DepartureDateTime = DepartureDateTime.AddHours(t.Hour);
+            DepartureDateTime = DepartureDateTime.AddMinutes(t.Minute);
+
             Run run = new Run()
             {
                 Number = Number,
@@ -232,6 +240,13 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             get { return _selectedDriver; }
             set { _selectedDriver = value; OnPropertyChanged(); }
         }
+        
+        public string DepartureTime
+        {
+            get { return _departureTime; }
+            set { _departureTime = value; OnPropertyChanged(); }
+        }
+
 
         private void CalcEstimatedDateTime()
         {

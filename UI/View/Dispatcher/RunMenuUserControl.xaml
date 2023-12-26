@@ -11,6 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <validationrules:DateTimeValidationRule x:Key="DateTimeValidationKey"/>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
     </UserControl.Resources>
     <Grid Background="White">
@@ -48,14 +49,23 @@
                     <TextBlock Text="{Binding Id}"/>
 
                     <Label Content="Номер"/>
-                    <TextBox Text="{Binding Number}"/>
+                    <TextBox x:Name="NumberTextBox">
+                        <TextBox.Text>
+                            <Binding Path="Number" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationrules:NotEmptyValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                    
                     <Label Content="Маршрут" />
                     <TextBlock Text="{Binding SelectedRoute.Name}"/>
 
                     <Label Content="Переодичность в минутах"/>
-                    <TextBox>
+                    <TextBox Name="PeriodityTextBox"
+                        PreviewTextInput="NumberPreviewTextInput">
                         <TextBox.Text>
                             <Binding Path="Periodity" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -70,7 +80,17 @@
                                 DisplayDateStart="{x:Static sys:DateTime.Now}"/>
 
                     <Label Content="Время отправления"/>
-                    <TextBox Text=""/>
+                    <TextBox x:Name="DepartureTimeTextBox"
+                        PreviewTextInput="TextBox_PreviewTextInput">
+                        <TextBox.Text>
+                            <Binding Path="DepartureTime" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationrules:DateTimeValidationRule/>
+                                    <validationrules:NotEmptyValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <Label Content="Время прибытия"/>
                     <TextBlock Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}"/>
@@ -85,7 +105,20 @@
                               SelectedItem="{Binding SelectedDriver}"
                               DisplayMemberPath="FullName"/>
 
-                    <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}"/>
+                    <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}">
+                        <Button.IsEnabled>
+                            <MultiBinding>
+                                <MultiBinding.Converter>
+                                    <converters:MultiBoolConverter/>
+                                </MultiBinding.Converter>
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="NumberTextBox" Path="(Validation.HasError)" UpdateSourceTrigger="PropertyChanged"/>
+                                    <Binding ElementName="PeriodityTextBox" Path="(Validation.HasError)" UpdateSourceTrigger="PropertyChanged"/>
+                                    <Binding ElementName="DepartureTimeTextBox" Path="(Validation.HasError)" UpdateSourceTrigger="PropertyChanged"/>
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
                     <Button Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" Content="Удалить" Command="{Binding RemoveCommand}"/>
                 </StackPanel>
             </ScrollViewer>

@@ -71,7 +71,7 @@
                     <Button.IsEnabled>
                         <MultiBinding>
                             <MultiBinding.Converter>
-                                <converters:MultiEnableConverter/>
+                                <converters:MultiBoolConverter/>
                             </MultiBinding.Converter>
                             <MultiBinding.Bindings>
                                 <Binding ElementName="NameTextBox" 

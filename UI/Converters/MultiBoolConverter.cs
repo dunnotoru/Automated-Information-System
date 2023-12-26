@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace UI.Converters
 {
-    internal class MultiEnableConverter : IMultiValueConverter
+    internal class MultiBoolConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -18,7 +18,7 @@ namespace UI.Converters
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            throw new InvalidOperationException();
+            throw new NotImplementedException();
         }
     }
 }
