@@ -43,11 +43,14 @@ namespace UI
         {
             string ticketFolderPath = ConfigurationManager.AppSettings.Get("TicketFolderPath") ?? Directory.GetCurrentDirectory();
             string receiptFolderPath = ConfigurationManager.AppSettings.Get("ReceiptFolderPath") ?? Directory.GetCurrentDirectory();
+            string certificatePath = ConfigurationManager.AppSettings.Get("CertificatePath") ?? Directory.GetCurrentDirectory();
 
             if(!Directory.Exists(ticketFolderPath))
                 Directory.CreateDirectory(ticketFolderPath);
             if(!Directory.Exists(receiptFolderPath))
                 Directory.CreateDirectory(receiptFolderPath);
+            if(!File.Exists(certificatePath))
+                File.Create(certificatePath);
         }
 
         private void Configure()

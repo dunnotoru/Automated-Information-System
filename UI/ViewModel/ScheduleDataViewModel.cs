@@ -1,37 +1,31 @@
 ﻿using Domain.RepositoryInterfaces;
 using System;
 using System.Collections.ObjectModel;
-using System.Timers;
+using System.Threading;
+using System.Windows.Input;
+using UI.Command;
 using UI.ViewModel.HelperViewModels;
 
 namespace UI.ViewModel
 {
-    internal class ScheduleDataViewModel : ViewModelBase, IDisposable
+    internal class ScheduleDataViewModel : ViewModelBase
     {
 		private readonly IScheduleRepository _scheduleRepository;
-        private static Timer _scheduleUpdateTimer;
 
         private ObservableCollection<ScheduleViewModel> _items;
 
+        public ICommand UpdateDataCommand { get; }
+
         public ScheduleDataViewModel(IScheduleRepository scheduleRepository)
         {
-            _scheduleRepository = scheduleRepository;
-
             Items = new ObservableCollection<ScheduleViewModel>();
-            UpdateSchedule();
+            _scheduleRepository = scheduleRepository;
+            Update();
 
-            _scheduleUpdateTimer = new Timer();
-            _scheduleUpdateTimer.Interval = 1000 * 10;
-            _scheduleUpdateTimer.Elapsed += OnTimerElapsed; ;
-            _scheduleUpdateTimer.Start();
+            UpdateDataCommand = new RelayCommand(Update);
         }
 
-        private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
-        {
-            UpdateSchedule();
-        }
-
-        private void UpdateSchedule()
+        private void Update()
         {
             Items.Clear();
             foreach (var item in _scheduleRepository.GetAll())
@@ -40,16 +34,11 @@ namespace UI.ViewModel
                 Items.Add(vm);
             }
         }
-        
+
         public ObservableCollection<ScheduleViewModel> Items
         {
             get { return _items; }
             set { _items = value; OnPropertyChanged(); }
-        }
-        public void Dispose()
-        {
-            _scheduleUpdateTimer.Stop();
-            _scheduleUpdateTimer.Dispose();
         }
     }
 }

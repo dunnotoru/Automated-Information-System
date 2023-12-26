@@ -28,5 +28,8 @@
                 <DataGridTextColumn Header="Номер транспорта" Binding="{Binding VehicleLicensePlate}"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button Grid.Column="1" Grid.Row="2" Margin="200 10 200 10"
+                Content="Обновить" Command="{Binding UpdateDataCommand}"/>
     </Grid>
 </UserControl>

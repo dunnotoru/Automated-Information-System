@@ -46,8 +46,11 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             Number = run.Number;
             SelectedRoute = new RouteViewModel(run.Route);
             DepartureDateTime = run.DepartureDateTime;
+
+
             SelectedVehicle = Vehicles.FirstOrDefault(o => o.Id == run.VehicleId);
             SelectedDriver = Drivers.FirstOrDefault(o => run.Driver.Id == o.Id);
+
             try
             {
                 Periodity = _scheduleRepository.GetByRun(run).PeriodInMinutes;

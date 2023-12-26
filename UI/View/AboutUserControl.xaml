@@ -6,7 +6,17 @@
              xmlns:local="clr-namespace:UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Blue">
-            
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="21*"/>
+            <RowDefinition Height="107*"/>
+            <RowDefinition Height="22*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140*"/>
+            <ColumnDefinition Width="507*"/>
+            <ColumnDefinition Width="153*"/>
+        </Grid.ColumnDefinitions>
+
     </Grid>
 </UserControl>

@@ -51,6 +51,12 @@ namespace UI
                 .DependsOn(Dependency
                     .OnValue("path", ConfigurationManager.AppSettings.Get("ReceiptFolderPath"))));
 
+            container.Register(Component
+                .For<CertificateViewModel>()
+                .DependsOn(Dependency
+                    .OnValue("path", ConfigurationManager.AppSettings.Get("CertificatePath"))));
+
+
             container.Register(Component.For<ITicketPriceCalculator>().ImplementedBy<TicketPriceCalculator>());
 
             #region dispatcher menu viewmodels
@@ -75,8 +81,7 @@ namespace UI
             container.Register(Component.For<RunSearchViewModel>().LifestyleTransient());
             container.Register(Component.For<PassengerRegistrationViewModel>().LifestyleTransient());
             container.Register(Component.For<UpdatePasswordViewModel>().LifestyleTransient());
-            container.Register(Component.For<ScheduleDataViewModel>());
-            container.Register(Component.For<CertificateViewModel>());
+            container.Register(Component.For<ScheduleDataViewModel>().LifestyleTransient());
             container.Register(Component.For<AboutViewModel>());
 
             container.Register(Component
