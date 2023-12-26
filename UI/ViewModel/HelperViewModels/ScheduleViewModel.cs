@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using System;
 
 namespace UI.ViewModel.HelperViewModels
 {
@@ -9,6 +10,8 @@ namespace UI.ViewModel.HelperViewModels
         private string _runNumber;
         private string _driverFullName;
         private string _vehicleLicensePlate;
+        private DateTime _departureDateTime;
+        private DateTime _arrivalDateTime;
 
         public ScheduleViewModel(Schedule schedule)
         {
@@ -20,6 +23,8 @@ namespace UI.ViewModel.HelperViewModels
             string patronymic = schedule.Run.Driver.Patronymic ?? "";
             VehicleLicensePlate = schedule.Run.Vehicle.LicensePlateNumber;
             DriverFullName = $"{surname} {name} {patronymic}";
+            DepartureDateTime = schedule.Run.DepartureDateTime;
+            ArrivalDateTime = schedule.Run.EstimatedArrivalDateTime;
         }
 
         public int Id
@@ -46,6 +51,17 @@ namespace UI.ViewModel.HelperViewModels
         {
             get { return _vehicleLicensePlate; }
             set { _vehicleLicensePlate = value; OnPropertyChanged(); }
+        }
+        
+        public DateTime DepartureDateTime
+        {
+            get { return _departureDateTime; }
+            set { _departureDateTime = value; OnPropertyChanged(); }
+        }
+        public DateTime ArrivalDateTime
+        {
+            get { return _arrivalDateTime; }
+            set { _arrivalDateTime = value; OnPropertyChanged(); }
         }
     }
 }

@@ -53,7 +53,7 @@ namespace UI.ViewModel
             _scheduleService = scheduleService;
 
             _scheduleUpdateTimer = new Timer();
-            _scheduleUpdateTimer.Interval = 1000 * 10;
+            _scheduleUpdateTimer.Interval = 1000* 5;
             _scheduleUpdateTimer.Elapsed += OnTimerElapsed;
             _scheduleUpdateTimer.Start();
 

@@ -1,7 +1,5 @@
 ﻿using Domain.RepositoryInterfaces;
-using System;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Windows.Input;
 using UI.Command;
 using UI.ViewModel.HelperViewModels;

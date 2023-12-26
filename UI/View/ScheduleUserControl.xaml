@@ -22,8 +22,10 @@
                   ItemsSource="{Binding Items}" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Маршрут" Binding="{Binding RouteName}"/>
+                <DataGridTextColumn Header="Отправление" Binding="{Binding DepartureDateTime}"/>
+                <DataGridTextColumn Header="Прибытие" Binding="{Binding ArrivalDateTime}"/>
                 <DataGridTextColumn Header="Номер рейса" Binding="{Binding RunNumber}"/>
+                <DataGridTextColumn Header="Маршрут" Binding="{Binding RouteName}"/>
                 <DataGridTextColumn Header="Водитель" Binding="{Binding DriverFullName}"/>
                 <DataGridTextColumn Header="Номер транспорта" Binding="{Binding VehicleLicensePlate}"/>
             </DataGrid.Columns>
