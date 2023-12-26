@@ -59,6 +59,9 @@ namespace Domain.EntityFramework.Repositories
             {
                 return context.Schedules
                     .Include(o => o.Run)
+                    .ThenInclude(o => o.Driver)
+                    .Include(o => o.Run)
+                    .ThenInclude(o => o.Vehicle)
                     .Include(o => o.Route)
                     .ToList();
             }

@@ -4,7 +4,6 @@ using Domain.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using UI.Command;
 using UI.Services;
@@ -19,7 +18,7 @@ namespace UI.ViewModel
         private readonly IMessageBoxService _messageBoxService;
         private readonly IRunRepository _runRepository;
         private readonly IPassportRepository _passportRepository;
-        private readonly ITicketRepository _ticketRepository;
+        private readonly ITicketTypeRepository _ticketTypeRepository;
         private readonly OrderProcessService _orderProcessService;
         private readonly AccountStore _accountStore;
 
@@ -48,7 +47,7 @@ namespace UI.ViewModel
                                               IRunRepository runRepository,
                                               OrderProcessService orderProcessService,
                                               IPassportRepository passportRepository,
-                                              ITicketRepository ticketRepository)
+                                              ITicketTypeRepository ticketTypeRepository)
         {
             _orderStore = orderStore;
             _orderStore.OrderCreated += OnOrderCreated;
@@ -58,6 +57,7 @@ namespace UI.ViewModel
             _runRepository = runRepository;
             _orderProcessService = orderProcessService;
             _passportRepository = passportRepository;
+            _ticketTypeRepository = ticketTypeRepository;
 
             Passengers = new ObservableCollection<PassengerViewModel>();
 
@@ -66,7 +66,6 @@ namespace UI.ViewModel
             AddPassengerCommand = new RelayCommand(AddPassenger);
             DeletePassengerCommand = new RelayCommand(DeletePassenger);
             DeclineCommand = new RelayCommand(Decline);
-            _ticketRepository = ticketRepository;
         }
 
         private void Decline()
@@ -79,30 +78,42 @@ namespace UI.ViewModel
             Run run = _runRepository.GetById(SelectedRun.Id);
             string cashierName = _accountStore.CurrentAccount.Username;
 
-            try
+            foreach (PassengerViewModel item in Passengers)
             {
-                foreach (PassengerViewModel item in Passengers)
+                TicketType tt = _ticketTypeRepository.GetById(item.SelectedTicketType.Id);
+                IdentityDocument document = item.GetDocument();
+
+                bool isExist = false;
+                try
                 {
-                    IdentityDocument identityDocument = item.GetDocument();
-                    IdentityDocument doc;
-                    try
-                    {
-                        doc = _passportRepository.Get(identityDocument.Number, identityDocument.Series);
-                    }
-                    catch
-                    {
-                        doc = identityDocument;
-                    }
-                    
-                    _orderProcessService.AddTicket(doc, run, cashierName, null);
+                    isExist = _passportRepository.IsExist(document);
+                }
+                catch
+                {
+                    _messageBoxService.ShowMessage($"Неверные паспортные данные {item.Series} {item.Number}"); return;
                 }
 
+                try
+                {
+                    if (!isExist)
+                    {
+                        _passportRepository.Create(document);
+                    }
+                    _orderProcessService.AddTicket(_passportRepository.Get(document.Number, document.Series),
+                        run, cashierName, tt);
+                }
+                catch(Exception e)
+                {
+                    _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                }
+
+            }
+            try
+            {
                 _orderProcessService.PrintTickets();
                 _orderProcessService.PrintReceipt(cashierName);
-
-                _messageBoxService.ShowMessage("Оплата прошла успешно.");
+                _messageBoxService.ShowMessage("Оплата прошла успешно");
                 _navigationService.Navigate<RunSearchViewModel>();
-
             }
             catch (Exception e)
             {
@@ -130,7 +141,7 @@ namespace UI.ViewModel
                     return;
             }
 
-            Passengers.Add(new PassengerViewModel() { });
+            Passengers.Add(new PassengerViewModel(_ticketTypeRepository) { });
             SelectedPassenger = Passengers.Last();
         }
 
@@ -167,7 +178,8 @@ namespace UI.ViewModel
                    string.IsNullOrWhiteSpace(passenger.Number) ||
                    string.IsNullOrWhiteSpace(passenger.Name) ||
                    string.IsNullOrWhiteSpace(passenger.Surname) ||
-                   string.IsNullOrWhiteSpace(passenger.Patronymic))
+                   string.IsNullOrWhiteSpace(passenger.Patronymic) ||
+                    passenger.SelectedTicketType == null)
             {
                 return false;
             }

@@ -75,6 +75,7 @@ namespace UI
             container.Register(Component.For<RunSearchViewModel>().LifestyleTransient());
             container.Register(Component.For<PassengerRegistrationViewModel>().LifestyleTransient());
             container.Register(Component.For<UpdatePasswordViewModel>().LifestyleTransient());
+            container.Register(Component.For<ScheduleDataViewModel>());
             container.Register(Component.For<CertificateViewModel>());
             container.Register(Component.For<AboutViewModel>());
 

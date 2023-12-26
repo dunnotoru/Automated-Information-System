@@ -36,7 +36,14 @@ namespace Domain.EntityFramework.Repositories
             {
                 Station stored = context.Stations.Include(o => o.Routes).First(o => o.Id == id);
                 if (stored.Routes.Count != 0)
-                    throw new InvalidOperationException();
+                {
+                    string message = "";
+                    foreach(Route route in stored.Routes)
+                    {
+                        message += route.Name + " ";
+                    }
+                    throw new InvalidOperationException($"Эта станция состоит в одном или нескольких маршрутах: {message}");
+                }
 
                 context.Remove(stored);
                 context.SaveChanges();

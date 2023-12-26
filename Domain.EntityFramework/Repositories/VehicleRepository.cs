@@ -25,7 +25,12 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Vehicle stored = context.Vehicles.First(o => o.Id == id);
+                Vehicle stored = context.Vehicles.Include(o => o.Run).First(o => o.Id == id);
+                if (stored.Run != null)
+                {
+                    string message = stored.Run.Number + " ";
+                    throw new InvalidOperationException($"Этот транспорт участвует в рейсе: {message}");
+                }
                 context.Vehicles.Remove(stored);
                 context.SaveChanges();
             }
@@ -76,6 +81,26 @@ namespace Domain.EntityFramework.Repositories
                     .Include(o => o.RepairType)
                     .Include(o => o.VehicleModel).ThenInclude(x => x.Brand)
                     .ToList();
+            }
+        }
+
+        public IEnumerable<Vehicle> GetIdleVehicles()
+        {
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                try
+                {
+                    return context.Vehicles
+                        .Include(o => o.Freighter)
+                        .Include(o => o.RepairType)
+                        .Include(o => o.VehicleModel).ThenInclude(x => x.Brand)
+                        .Where(o => o.Run == null)
+                        .ToList();
+                }
+                catch
+                {
+                    return new List<Vehicle>();
+                }
             }
         }
     }

@@ -12,10 +12,11 @@ namespace Domain.EntityFramework.Configurations
             builder.HasIndex(o => o.Number).IsUnique();
 
             builder
-                .HasMany(l => l.Drivers)
+                .HasOne(l => l.Driver)
                 .WithOne(r => r.Run)
-                .HasForeignKey(o => o.RunId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasForeignKey<Run>(o => o.DriverId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder
                 .HasOne(l => l.Vehicle)

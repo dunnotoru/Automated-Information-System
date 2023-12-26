@@ -1,5 +1,9 @@
 ﻿using Domain.Models;
+using Domain.RepositoryInterfaces;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using UI.ViewModel.HelperViewModels;
 
 namespace UI.ViewModel
 {
@@ -11,6 +15,21 @@ namespace UI.ViewModel
         private string _series;
         private string _number;
         private DateTime _dateOfBirth;
+        private ObservableCollection<TicketTypeViewModel> _ticketTypes;
+        private TicketTypeViewModel _selectedTicketType;
+
+        public PassengerViewModel(ITicketTypeRepository ticketTypeRepository)
+        {
+            ArgumentNullException.ThrowIfNull(ticketTypeRepository);
+
+            _ticketTypes = new ObservableCollection<TicketTypeViewModel>();
+            foreach (var item in ticketTypeRepository.GetAll())
+            {
+                TicketTypeViewModel vm = new TicketTypeViewModel(item);
+                _ticketTypes.Add(vm);
+            }
+            SelectedTicketType = _ticketTypes.FirstOrDefault();
+        }
 
         public IdentityDocument GetDocument()
         {
@@ -56,6 +75,16 @@ namespace UI.ViewModel
             set { _dateOfBirth = value; OnPropertyChanged(); }
         }
 
-        
+        public TicketTypeViewModel SelectedTicketType
+        {
+            get { return _selectedTicketType; }
+            set { _selectedTicketType = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<TicketTypeViewModel> TicketTypes
+        {
+            get { return _ticketTypes; }
+            set { _ticketTypes = value; OnPropertyChanged(); }
+        }
     }
 }

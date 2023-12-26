@@ -70,7 +70,7 @@
                     <TextBox Text=""/>
 
                     <Label Content="Время прибытия"/>
-                    <TextBox Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}', Mode=OneWay}" IsReadOnly="True"/>
+                    <TextBlock Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}"/>
 
                     <Label Content="Транспорт"/>
                     <ComboBox ItemsSource="{Binding Vehicles}" 

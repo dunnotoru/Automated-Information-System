@@ -11,6 +11,11 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
+                entity.Name = entity.Name.ToLower();
+                entity.Surname = entity.Surname.ToLower();
+                entity.Patronymic = entity.Patronymic.ToLower();
+                entity.BirthDate = entity.BirthDate.Date;
+                
                 context.Passports.Add(entity);
                 context.SaveChanges();
             }
@@ -23,8 +28,11 @@ namespace Domain.EntityFramework.Repositories
             {
                 IdentityDocument stored = context.Passports.First(o => o.Id == id);
 
-                stored = entity;
                 stored.Id = id;
+                stored.Name = entity.Name.ToLower();
+                stored.Surname = entity.Surname.ToLower();
+                stored.Patronymic = entity.Patronymic.ToLower();
+                stored.BirthDate = entity.BirthDate.Date;
 
                 context.Passports.Update(stored);
                 context.SaveChanges();
@@ -63,6 +71,29 @@ namespace Domain.EntityFramework.Repositories
             using (ApplicationContext context = new ApplicationContext())
             {
                 return context.Passports.ToList();
+            }
+        }
+
+        public bool IsExist(IdentityDocument document)
+        {
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                IdentityDocument? stored = 
+                    context.Passports
+                    .FirstOrDefault(o => o.Series == document.Series 
+                    && o.Number == document.Number);
+
+                if (stored == null) return false;
+
+                if (stored.Name.ToLower() == document.Name.ToLower() &&
+                    stored.Surname.ToLower() == document.Surname.ToLower() &&
+                    stored.Patronymic.ToLower() == document.Patronymic.ToLower() &&
+                    stored.BirthDate.Date == document.BirthDate)
+                {
+                    return true;
+                }
+
+                throw new InvalidDataException("Неверные паспортные данные");
             }
         }
     }

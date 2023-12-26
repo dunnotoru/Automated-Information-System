@@ -17,6 +17,8 @@ namespace UI.Services
         {
             List<MenuItemViewModel> list = new List<MenuItemViewModel>()
             {
+                new MenuItemViewModel("Расписание", () => _container.Resolve<ScheduleDataViewModel>()),
+
                 new MenuItemViewModel("Найти", () => _container.Resolve<RunSearchViewModel>()),
 
                 new MenuItemViewModel("Диспетчер", ComposeDispatcher()),
@@ -27,7 +29,7 @@ namespace UI.Services
 
                 new MenuItemViewModel("Настройки", ComposeSettings()),
 
-                new MenuItemViewModel("О программе", () => _container.Resolve<AboutViewModel>())
+                new MenuItemViewModel("О программе", () => _container.Resolve<AboutViewModel>()),
             };
 
             return list;

@@ -44,7 +44,17 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Route? stored = context.Routes.First(r => r.Id == id);
+                Route stored = context.Routes.Include(o => o.Runs).First(r => r.Id == id);
+                if(stored.Runs.Count > 0)
+                {
+                    string message = "";
+                    foreach (Run run in stored.Runs)
+                    {
+                        message += run.Number + " ";
+                    }
+                    throw new InvalidOperationException($"На этом маршруте назначен один или несколько рейсов: {message}");
+                }
+
                 context.Remove(stored);
                 context.SaveChanges();
             }

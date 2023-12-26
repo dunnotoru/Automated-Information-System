@@ -1,11 +1,9 @@
 ﻿using Domain.Models;
-using Domain.RepositoryInterfaces;
 
 namespace UI.ViewModel.HelperViewModels
 {
     internal class TicketTypeViewModel : ViewModelBase
     {
-        private readonly ITicketTypeRepository _ticketTypeRepository;
         private string _name;
         private int _modifier;
 
@@ -23,19 +21,11 @@ namespace UI.ViewModel.HelperViewModels
             set { _modifier = value; OnPropertyChanged(); }
         }
 
-        public TicketTypeViewModel(TicketType ticketType, ITicketTypeRepository ticketTypeRepository)
+        public TicketTypeViewModel(TicketType ticketType)
         {
-            _ticketTypeRepository = ticketTypeRepository;
-
             Id = ticketType.Id;
             Name = ticketType.Name;
             Modifier = ticketType.PriceModifierInPercent;
         }
-
-        public TicketType GetTicketType()
-        {
-            return _ticketTypeRepository.GetById(Id);
-        }
-
     }
 }

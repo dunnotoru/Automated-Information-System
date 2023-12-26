@@ -2,7 +2,6 @@
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Contracts;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -60,8 +59,19 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                VehicleModel stored = context.VehicleModels.First(o => o.Id == id);
+                VehicleModel stored = context.VehicleModels.Include(o => o.Vehicles).First(o => o.Id == id);
+                if (stored.Vehicles.Count > 0)
+                {
+                    string message = "";
+                    foreach (Vehicle vehicle in stored.Vehicles)
+                    {
+                        message += vehicle.LicensePlateNumber + " ";
+                    }
+                    throw new InvalidOperationException($"В системе присутствуют транспортные средства этой модели: {message}");
+                }
+
                 context.VehicleModels.Remove(stored);
+
                 context.SaveChanges();
             }
         }

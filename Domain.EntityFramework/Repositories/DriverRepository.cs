@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -58,8 +59,12 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Driver? stored = context.Drivers.Include(o => o.DriverLicense).First(o => o.Id == id);
-
+                Driver? stored = context.Drivers.Include(o => o.DriverLicense).Include(o => o.Run).First(o => o.Id == id);
+                if (stored.Run != null)
+                {
+                    string message = stored.Run.Number + " ";
+                    throw new InvalidOperationException($"Этот водитель назначен на рейс: {message}");
+                }
                 context.Drivers.Remove(stored);
                 context.SaveChanges();
             }
@@ -92,7 +97,28 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Drivers.Include(o => o.DriverLicense).First(o => o.PayrollNumber == payrollNumber);
+                return context.Drivers
+                    .Include(o => o.DriverLicense)
+                    .First(o => o.PayrollNumber == payrollNumber);
+            }
+        }
+
+        public IEnumerable<Driver> GetIdleDrivers()
+        {
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                try
+                {
+                    return context.Drivers
+                        .Include(o => o.DriverLicense)
+                        .ThenInclude(x => x.Categories)
+                        .Where(o => o.Run == null)
+                        .ToList();
+                }
+                catch
+                {
+                    return new List<Driver>();
+                }
             }
         }
     }

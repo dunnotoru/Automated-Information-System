@@ -1,9 +1,7 @@
 ﻿using Castle.Windsor;
 using System.Windows;
-using System.Timers;
 using UI.View;
 using UI.ViewModel;
-using System;
 using System.IO;
 using System.Configuration;
 
@@ -14,11 +12,6 @@ namespace UI
         private readonly IWindsorContainer _container
             = new WindsorContainer();
 
-        public App()
-        {
-
-        }
-        
         protected override void OnStartup(StartupEventArgs e)
         {
             Configure();
@@ -43,6 +36,8 @@ namespace UI
             window.Show();
             MainWindow.Close();
             MainWindow = window;
+            MainWindow.WindowState = WindowState.Maximized;
+
         }
         private void CheckFiles()
         {

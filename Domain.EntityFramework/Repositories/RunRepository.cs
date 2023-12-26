@@ -9,28 +9,31 @@ namespace Domain.EntityFramework.Repositories
     {
         public int Create(Run entity)
         {
+            int id = 0;
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
                 Vehicle? b = context.Vehicles.First(o => o.Id == entity.Vehicle.Id);
                 Route? route = context.Routes.First(o => o.Id == entity.Route.Id);
-                ICollection<Driver> drivers = context.Drivers.ToList();
+                Driver? driver = context.Drivers.First(o => o.Id == entity.Driver.Id);
 
                 Run r = new Run()
                 {
-                    Id = entity.Id,
                     DepartureDateTime = entity.DepartureDateTime,
                     EstimatedArrivalDateTime = entity.EstimatedArrivalDateTime,
                     Vehicle = b,
                     Route = route,
-                    Drivers = drivers,
+                    Driver = driver,
                     Number = entity.Number,
                 };
 
+
                 context.Runs.Add(r);
                 context.SaveChanges();
+
+                id = r.Id;
             }
-            return entity.Id;
+            return id;
         }
 
         public void Remove(int id)
@@ -62,7 +65,7 @@ namespace Domain.EntityFramework.Repositories
                 return context.Runs
                     .Include(o => o.Route).ThenInclude(x => x.Stations)
                     .Include(o => o.Vehicle).ThenInclude(x => x.VehicleModel)
-                    .Include(o => o.Drivers)
+                    .Include(o => o.Driver)
                     .First(x => x.Id == id);
             }
         }
@@ -74,7 +77,7 @@ namespace Domain.EntityFramework.Repositories
                 return context.Runs
                     .Include(o => o.Route).ThenInclude(x => x.Stations)
                     .Include(o => o.Vehicle).ThenInclude(x => x.VehicleModel)
-                    .Include(o => o.Drivers)
+                    .Include(o => o.Driver)
                     .Where(x => x.Route.Id == route.Id).ToList();
             }
         }
@@ -86,7 +89,7 @@ namespace Domain.EntityFramework.Repositories
                 return context.Runs
                     .Include(o => o.Route).ThenInclude(x => x.Stations)
                     .Include(o => o.Vehicle).ThenInclude(x => x.VehicleModel)
-                    .Include(o => o.Drivers)
+                    .Include(o => o.Driver)
                     .ToList();
             }
         }

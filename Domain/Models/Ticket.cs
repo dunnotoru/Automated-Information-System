@@ -1,6 +1,4 @@
-﻿using Domain.Services;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
     public class Ticket : EntityBase
     {

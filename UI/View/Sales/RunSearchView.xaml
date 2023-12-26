@@ -23,7 +23,8 @@
             <RowDefinition Height="49*"/>
         </Grid.RowDefinitions>
         <Label Content="Отправление" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <ListView ItemsSource="{Binding StationItems}"
+        <ListView x:Name="DepartureListBox"
+            ItemsSource="{Binding DepartureStations}"
                   Margin="10,45,10,65"
                    SelectedItem="{Binding DepartureStation}">
             <ListView.View>
@@ -35,7 +36,7 @@
         </ListView>
 
         <Label Grid.Row="0" Grid.Column="1" Content="Прибытие" HorizontalAlignment="Left" Margin="10 10 0 0" VerticalAlignment="Top"/>
-        <ListView ItemsSource="{Binding StationItems}"
+        <ListView ItemsSource="{Binding ArrivalStations}"
                   Margin="10,45,10,65"
                   SelectedItem="{Binding ArrivalStation}" Grid.Column="1">
             <ListView.View>
@@ -52,25 +53,27 @@
                   SelectedItem="{Binding SelectedRun}" Grid.Row="1" Grid.ColumnSpan="3">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="auto" Binding="{Binding Number}" Header="Номер"/>
-                <DataGridTextColumn Width="auto" Binding="{Binding RouteName}" Header="Маршрута"/>
+                <DataGridTextColumn Width="auto" Binding="{Binding RouteName}" Header="Маршрут"/>
                 <DataGridTextColumn Width="auto" Binding="{Binding DepartureDateTime, StringFormat=\{0:dd.MM.yyyy в hh.mm\}}" Header="Время отправления"/>
                 <DataGridTextColumn Width="auto" Binding="{Binding EstimatedArrivalDateTime, StringFormat=\{0:dd.MM.yyyy в hh.mm\}}" Header="Расчетное время прибытия"/>
                 <DataGridTextColumn Width="auto" Binding="{Binding FreePlaces}" Header="Мест осталось"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox HorizontalAlignment="Right" Margin="0 0 10 20" Text="Поиск станции" VerticalAlignment="Bottom"/>
+        <TextBox HorizontalAlignment="Right" Margin="0 0 10 20" VerticalAlignment="Bottom" Width="150"
+                 Text="{Binding DepartureStationSearch, UpdateSourceTrigger=PropertyChanged}"/>
 
         <DatePicker Height="35" Margin="50" DisplayDate="{Binding DepartureDateTimeMinimum}" DisplayDateStart="{x:Static sys:DateTime.Now}" Grid.Column="2"/>
         <DatePicker Height="35" Margin="50" DisplayDate="{Binding DepartureDateTimeMaximum}" DisplayDateStart="{x:Static sys:DateTime.Now}" Grid.Column="3"/>
 
-        <TextBox Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 20" Text="Поиск станции" VerticalAlignment="Bottom"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 20"  VerticalAlignment="Bottom" Width="150"
+                 Text="{Binding ArrivalStationSearch, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label Content="Дата отправления" HorizontalAlignment="Right" Margin="0,10,89,0" VerticalAlignment="Top" Grid.Column="2"/>
         <Label Content="от" HorizontalAlignment="Right" Margin="0,10,14,0" VerticalAlignment="Top" Grid.Column="2"/>
         <Label Content="до" HorizontalAlignment="Right" Margin="0 10 185 0" VerticalAlignment="Top" Grid.Column="3"/>
 
         <Button Content="Найти рейсы" Command="{Binding FindRunsCommand}" Margin="10,93,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
-        <Button Content="Продажа билета" Command="{Binding SellTicketCommand}" Margin="10,153,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
+        <Button Content="Перейти к оформлению" Command="{Binding SellTicketCommand}" Margin="10,153,10,0" Height="50" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3"/>
         
     </Grid>
 </UserControl>
