@@ -95,5 +95,10 @@ namespace Domain.Services
             }
             return price;
         }
+
+        public void Clear()
+        {
+            _tickets.Clear();
+        }
     }
 }

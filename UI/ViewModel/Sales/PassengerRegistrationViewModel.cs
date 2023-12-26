@@ -61,11 +61,45 @@ namespace UI.ViewModel
 
             Passengers = new ObservableCollection<PassengerViewModel>();
 
-            CashPaymentCommand = new RelayCommand(ProcessOrder, () => CanSell() && ValidateCash());
-            NoncashPaymentCommand = new RelayCommand(ProcessOrder, CanSell);
+            CashPaymentCommand = new RelayCommand(CalcPrice, CanSell);
+            NoncashPaymentCommand = new RelayCommand(ProcessOrder, () => CanSell() && ValidateCash());
             AddPassengerCommand = new RelayCommand(AddPassenger);
             DeletePassengerCommand = new RelayCommand(DeletePassenger);
             DeclineCommand = new RelayCommand(Decline);
+        }
+
+        private void CalcPrice()
+        {
+            _orderProcessService.Clear();
+            Run run = _runRepository.GetById(SelectedRun.Id);
+            string cashierName = _accountStore.CurrentAccount.Username;
+
+            foreach (PassengerViewModel item in Passengers)
+            {
+                TicketType tt = _ticketTypeRepository.GetById(item.SelectedTicketType.Id);
+                IdentityDocument document = item.GetDocument();
+
+                bool isExist = false;
+                try
+                {
+                    isExist = _passportRepository.IsExist(document);
+                }
+                catch
+                {
+                    _messageBoxService.ShowMessage($"Неверные паспортные данные {item.Series} {item.Number}"); return;
+                }
+
+                try
+                {
+                    _orderProcessService.AddTicket(null,
+                        run, cashierName, tt);
+                }
+                catch (Exception e)
+                {
+                    _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
+                }
+            }
+            Price = _orderProcessService.GetFullPrice();
         }
 
         private void Decline()
@@ -75,6 +109,7 @@ namespace UI.ViewModel
 
         private void ProcessOrder()
         {
+            _orderProcessService.Clear();
             Run run = _runRepository.GetById(SelectedRun.Id);
             string cashierName = _accountStore.CurrentAccount.Username;
 

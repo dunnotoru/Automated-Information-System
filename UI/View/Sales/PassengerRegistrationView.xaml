@@ -127,9 +127,9 @@
                             <TextBox Margin="5" Text="{Binding Change, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
                         </GroupBox>
 
-                        <Button Command="{Binding CashPaymentCommand}" Content="Подтвердить оплату"
+                        <Button Command="{Binding CashPaymentCommand}" Content="Рассчитать цену"
                                 Margin="5" />
-                        <Button Command="{Binding NoncashPaymentCommand}" Content="Безналичный расчёт"
+                        <Button Command="{Binding NoncashPaymentCommand}" Content="Оплатить"
                                 Margin="5"/>
                     </StackPanel>
                 </StackPanel>

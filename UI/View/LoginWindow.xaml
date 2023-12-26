@@ -21,25 +21,29 @@
                    VerticalAlignment="Bottom" HorizontalAlignment="Center" >
         </TextBlock>
 
-        <TextBox x:Name="UsernameTextBox" Margin="100,20,100,0" Width="350" VerticalAlignment="Top" Grid.Row="1">
-            <TextBox.Text>
-                <Binding Path="Username" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:NotEmptyValidationRule/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+        <GroupBox Header="Логин" Margin="100,20,100,0" Width="350" VerticalAlignment="Top" Grid.Row="1">
+            <TextBox x:Name="UsernameTextBox" >
+                <TextBox.Text>
+                    <Binding Path="Username" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validationrules:NotEmptyValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </GroupBox>
 
-        <TextBox Name="PasswordTextBox" Margin="100,70,100,20" Width="350" VerticalAlignment="Bottom" Grid.Row="1">
-            <TextBox.Text>
-                <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validationrules:NotEmptyValidationRule/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+        <GroupBox Header="Пароль" Margin="100,70,100,0" Width="350" VerticalAlignment="Bottom" Grid.Row="1">
+            <TextBox Name="PasswordTextBox" >
+                <TextBox.Text>
+                    <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validationrules:NotEmptyValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </GroupBox>
 
         <Button x:Name="EnterButton" Content="Войти" Command="{Binding LoginCommand}" 
                 HorizontalAlignment="Center" Margin="0 0 0 0" Grid.Row="2" VerticalAlignment="Center" Width="80" Height="40">
