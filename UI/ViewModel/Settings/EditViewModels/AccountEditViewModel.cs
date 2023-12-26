@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System;
 using UI.Command;
 using Domain.Services;
+using UI.Stores;
 
 namespace UI.ViewModel.Settings.EditViewModels
 {
@@ -11,6 +12,8 @@ namespace UI.ViewModel.Settings.EditViewModels
     {
         private readonly IAccountRepository _accountRepository;
         private readonly RegistrationService _registrationService;
+        private readonly AccountStore _accountStore;
+
         private int _id;
         private string _username;
         private string _password;
@@ -28,7 +31,8 @@ namespace UI.ViewModel.Settings.EditViewModels
         public ICommand SaveCommand { get; }
         public ICommand RemoveCommand { get; }
 
-        public AccountEditViewModel(Account account, IAccountRepository accountRepository, RegistrationService registrationService) : this(accountRepository, registrationService)
+        public AccountEditViewModel(Account account, IAccountRepository accountRepository, RegistrationService registrationService, AccountStore accountStore) 
+            : this(accountRepository, registrationService, accountStore)
         {
             ArgumentNullException.ThrowIfNull(account);
 
@@ -41,11 +45,11 @@ namespace UI.ViewModel.Settings.EditViewModels
             IsNew = false;
         }
 
-        public AccountEditViewModel(IAccountRepository accountRepository, RegistrationService registrationService)
+        public AccountEditViewModel(IAccountRepository accountRepository, RegistrationService registrationService, AccountStore accountStore)
         {
             ArgumentNullException.ThrowIfNull(accountRepository);
             ArgumentNullException.ThrowIfNull(registrationService);
-            
+
             _accountRepository = accountRepository;
             _registrationService = registrationService;
 
@@ -59,6 +63,7 @@ namespace UI.ViewModel.Settings.EditViewModels
 
             SaveCommand = new RelayCommand(ExecuteSave, CanSave);
             RemoveCommand = new RelayCommand(ExecuteRemove);
+            _accountStore = accountStore;
         }
 
         private bool CanSave()
@@ -110,6 +115,12 @@ namespace UI.ViewModel.Settings.EditViewModels
         {
             if (Id == 0) return;
 
+            if(Username == _accountStore.CurrentAccount.Username)
+            {
+                Error?.Invoke(this, new InvalidOperationException("Нельзя удалить авторизированный аккаунт"));
+                return;
+            }
+            
             try
             {
                 _accountRepository.Remove(Id);

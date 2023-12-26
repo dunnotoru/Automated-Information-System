@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UI.View"
         xmlns:vm="clr-namespace:UI.ViewModel"
         mc:Ignorable="d"
-        Height="467" Width="665" ResizeMode="NoResize">
+        Height="467" Width="665" ResizeMode="NoResize" Icon="/View/icon.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="90*"/>

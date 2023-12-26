@@ -7,6 +7,7 @@ using System;
 using UI.Command;
 using UI.Services;
 using UI.ViewModel.Settings.EditViewModels;
+using UI.Stores;
 
 namespace UI.ViewModel
 {
@@ -15,25 +16,27 @@ namespace UI.ViewModel
 		private readonly IMessageBoxService _messageBoxService;
 		private readonly RegistrationService _registrationService;
         private readonly IAccountRepository _accountRepository;
+        private readonly AccountStore _accountStore;
 
         private ObservableCollection<AccountEditViewModel> _items;
         private AccountEditViewModel _selectedItem;
 
         public ICommand AddCommand { get; }
 
-        public AccountMenuViewModel(IMessageBoxService messageBoxService, IAccountRepository accountRepository, 
-            RegistrationService registrationService)
+        public AccountMenuViewModel(IMessageBoxService messageBoxService, IAccountRepository accountRepository,
+            RegistrationService registrationService, AccountStore accountStore)
         {
             ArgumentNullException.ThrowIfNull(messageBoxService);
 
             _messageBoxService = messageBoxService;
             _accountRepository = accountRepository;
             _registrationService = registrationService;
+            _accountStore = accountStore;
 
             Items = new ObservableCollection<AccountEditViewModel>();
             foreach (Account item in _accountRepository.GetAll())
             {
-                AccountEditViewModel vm = new AccountEditViewModel(item, _accountRepository, _registrationService);
+                AccountEditViewModel vm = new AccountEditViewModel(item, _accountRepository, _registrationService, _accountStore);
                 vm.Save += OnSave;
                 vm.Error += OnError;
                 vm.Remove += OnRemove;
@@ -62,7 +65,7 @@ namespace UI.ViewModel
             vm.Remove -= OnRemove;
 
             Account account = _accountRepository.GetById(vm.Id);
-            AccountEditViewModel updatedVm = new AccountEditViewModel(account, _accountRepository, _registrationService);
+            AccountEditViewModel updatedVm = new AccountEditViewModel(account, _accountRepository, _registrationService, _accountStore);
 
             updatedVm.Remove += OnRemove;
             updatedVm.Save += OnSave;
@@ -86,7 +89,7 @@ namespace UI.ViewModel
 
         private void Add()
         {
-            AccountEditViewModel vm = new AccountEditViewModel(_accountRepository, _registrationService);
+            AccountEditViewModel vm = new AccountEditViewModel(_accountRepository, _registrationService, _accountStore);
             vm.Save += OnSave;
             vm.Error += OnError;
             vm.Remove += OnRemove;

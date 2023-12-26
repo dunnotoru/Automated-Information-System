@@ -88,7 +88,7 @@ namespace Domain.EntityFramework.Repositories
                 return context.Schedules
                     .Include(o => o.Run)
                     .Include(o => o.Route)
-                    .First(s => s.Run == run);
+                    .First(s => s.RunId == run.Id);
             }
         }
     }

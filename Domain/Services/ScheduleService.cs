@@ -16,24 +16,24 @@ namespace Domain.Services
 
         public void UpdateSchedule()
         {
-            List<Schedule> schedules = _scheduleRepository.GetAll().ToList();
-            foreach (Run item in _runRepository.GetAll())
+            try
             {
-                if (item.DepartureDateTime > DateTime.Now)
+                List<Schedule> schedules = _scheduleRepository.GetAll().ToList();
+                foreach (Run item in _runRepository.GetAll())
                 {
-                    item.DepartureDateTime.AddMinutes(30);
-                    item.EstimatedArrivalDateTime.AddMinutes(30);
-                }
-
-                if (schedules.Any(o => o.RunId == item.Id))
-                    _scheduleRepository.Create(new Schedule()
+                    if (item.DepartureDateTime > DateTime.Now)
                     {
-                        PeriodInMinutes = 30,
-                        Run = item,
-                        Route = item.Route
-                    });
+                        int period = _scheduleRepository.GetByRun(item).PeriodInMinutes;
+                        item.DepartureDateTime.AddMinutes(period);
+                        item.EstimatedArrivalDateTime.AddMinutes(period);
+                    }
 
-                _runRepository.Update(item.Id, item);
+                    _runRepository.Update(item.Id, item);
+                }
+            }
+            catch
+            {
+                
             }
         }
     }

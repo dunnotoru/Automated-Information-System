@@ -28,8 +28,6 @@ namespace UI.Services
                 new MenuItemViewModel("Справка", () => _container.Resolve<CertificateViewModel>()),
 
                 new MenuItemViewModel("Настройки", ComposeSettings()),
-
-                new MenuItemViewModel("О программе", () => _container.Resolve<AboutViewModel>()),
             };
 
             return list;
