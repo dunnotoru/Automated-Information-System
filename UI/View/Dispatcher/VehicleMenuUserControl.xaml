@@ -115,7 +115,7 @@
                     <Label Margin="5" Content="Номер страховки"/>
                     <TextBox x:Name="InsuranceNumber" Margin="5">
                         <TextBox.Text>
-                            <Binding Path="InsuranceNumber" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="InsuranceDetails" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <validationrules:NotEmptyValidationRule/>
                                 </Binding.ValidationRules>

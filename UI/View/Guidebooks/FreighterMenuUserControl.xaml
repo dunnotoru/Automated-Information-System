@@ -10,10 +10,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="171*"/>
-            <ColumnDefinition Width="101*"/>
-            <ColumnDefinition Width="192*"/>
-            <ColumnDefinition Width="336*"/>
+            <ColumnDefinition Width="181*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="130*"/>
+            <ColumnDefinition Width="32*"/>
         </Grid.ColumnDefinitions>
 
         <Grid>

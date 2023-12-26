@@ -14,14 +14,14 @@
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="245*" MinWidth="50"/>
-            <ColumnDefinition Width="118*" MinWidth="50"/>
-            <ColumnDefinition Width="317*" MinWidth="130"/>
-            <ColumnDefinition Width="120*"/>
+            <ColumnDefinition Width="419*" MinWidth="50"/>
+            <ColumnDefinition Width="142*" MinWidth="50"/>
+            <ColumnDefinition Width="236*" MinWidth="130"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
         <Label Content="Станции" HorizontalAlignment="Center" VerticalAlignment="Top"
-               Padding="10"/>
+               Padding="10" Height="43" Width="86"/>
         <DataGrid ItemsSource="{Binding Stations}" Margin="10,45,10,10"
                   SelectedItem="{Binding SelectedStation}">
             <DataGrid.Columns>

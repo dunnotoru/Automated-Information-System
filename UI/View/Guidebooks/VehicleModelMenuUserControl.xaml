@@ -11,10 +11,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="173*"/>
-            <ColumnDefinition Width="99*"/>
-            <ColumnDefinition Width="210*"/>
-            <ColumnDefinition Width="318*"/>
+            <ColumnDefinition Width="245*"/>
+            <ColumnDefinition Width="102*"/>
+            <ColumnDefinition Width="324*"/>
+            <ColumnDefinition Width="129*"/>
         </Grid.ColumnDefinitions>
 
         <Grid>
@@ -26,6 +26,7 @@
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                     <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Марка" Binding="{Binding SelectedBrand.Name}"/>
+                    <DataGridTextColumn Header="Вместимость" Binding="{Binding Capacity}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
@@ -38,7 +39,7 @@
             <StackPanel DataContext="{Binding SelectedItem}">
                 <Label Content="Id"/>
                 <TextBlock Text="{Binding Id}" Margin="10"/>
-                
+
                 <Label Content="Название"/>
                 <TextBox x:Name="Name" Margin="10">
                     <TextBox.Text>
@@ -49,13 +50,21 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                
+
                 <Label Content="Марка"/>
                 <ComboBox ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand}" Margin="10"
                           DisplayMemberPath="Name"/>
-                
+
                 <Label Content="Вместимость (Кол-во человек)"/>
-                <TextBox PreviewTextInput="NumberTextBoxPreviewInput" Text="{Binding Capacity, UpdateSourceTrigger=PropertyChanged}" Margin="10"/>
+                <TextBox PreviewTextInput="NumberTextBoxPreviewInput"  Margin="10">
+                    <TextBox.Text>
+                        <Binding Path="Capacity" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationrules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
                 <Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10">
                     <Button.IsEnabled>

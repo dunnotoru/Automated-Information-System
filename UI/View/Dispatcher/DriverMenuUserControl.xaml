@@ -72,7 +72,7 @@
 
                 <Label Margin="10" Content="Категории"/>
                 <DataGrid Margin="10" VerticalAlignment="Stretch" ItemsSource="{Binding Categories}"
-                          DisplayMemberPath="Name"> 
+                          DisplayMemberPath="Name" IsReadOnly="False"> 
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding IsSelected}"/>
                         <DataGridTextColumn Header="Категория" Binding="{Binding Name}"/>
@@ -98,21 +98,21 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <Label Margin="10" Content="Имя"/>
-                <TextBox x:Name="Name" Margin="10">
+                <Label Margin="10" Content="Фамилия"/>
+                <TextBox x:Name="Surname" Margin="10">
                     <TextBox.Text>
-                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validationrules:NotEmptyValidationRule/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-
-                <Label Margin="10" Content="Фамилия"/>
-                <TextBox x:Name="Surname" Margin="10">
+                
+                <Label Margin="10" Content="Имя"/>
+                <TextBox x:Name="Name" Margin="10">
                     <TextBox.Text>
-                        <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validationrules:NotEmptyValidationRule/>
                             </Binding.ValidationRules>
@@ -146,7 +146,7 @@
                 <DatePicker Margin="10" SelectedDate="{Binding BirthDate}"/>
 
                 <Label Margin="10" Content="Класс"/>
-                <TextBox x:Name="DriverClass" Margin="10">
+                <TextBox x:Name="DriverClass" Margin="10" PreviewTextInput="NumberPreviewTextInput">
                     <TextBox.Text>
                         <Binding Path="DriverClass" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -157,9 +157,9 @@
                 </TextBox>
 
                 <Label Margin="10" Content="Стандарт"/>
-                <TextBox x:Name="ProfessionalStandardDetails" Margin="10">
+                <TextBox x:Name="ProfessionalStandardDetails" Margin="10" PreviewTextInput="NumberPreviewTextInput">
                     <TextBox.Text>
-                        <Binding Path="ProfessionalStandardDetails" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="ProfessionalStandardDetails" UpdateSourceTrigger="PropertyChanged" >
                             <Binding.ValidationRules>
                                 <validationrules:NotEmptyValidationRule/>
                             </Binding.ValidationRules>

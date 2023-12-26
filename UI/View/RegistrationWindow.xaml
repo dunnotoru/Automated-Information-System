@@ -8,7 +8,6 @@
     xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
     xmlns:converters="clr-namespace:UI.Converters"
     mc:Ignorable="d"
-    Loaded="Window_Loaded"
     Height="467" Width="665" ResizeMode="NoResize" Icon="/View/icon.ico">
     <Grid>
         <Grid.RowDefinitions>

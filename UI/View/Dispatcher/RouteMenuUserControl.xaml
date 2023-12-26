@@ -52,15 +52,16 @@
                              Text="{Binding Id}"/>
 
                     <TextBlock Padding="5" Text="Все станции"/>
-                    <ListView Margin="10" ItemsSource="{Binding AvailableStations}"
-                              SelectedItem="{Binding SelectedAvailableStation}" SelectionMode="Single" VerticalAlignment="Stretch">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
-                                <GridViewColumn Width="auto" Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                        <ListView Margin="10" ItemsSource="{Binding AvailableStations}"
+                                  SelectedItem="{Binding SelectedAvailableStation}" SelectionMode="Single"
+                                  Height="300">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Width="auto" Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                         <Button Content="+"
                                 HorizontalAlignment="Center"
                                 Command="{Binding AddStationCommand}"/>
@@ -82,7 +83,8 @@
 
                     <TextBlock Padding="5" Text="Станции в этом маршурте"/>
                     <ListView Margin="10" ItemsSource="{Binding Stations}" VerticalAlignment="Stretch"
-                              SelectionMode="Single" SelectedItem="{Binding SelectedStation}">
+                              SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
+                              Height="300">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
