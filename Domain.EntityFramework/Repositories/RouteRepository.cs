@@ -1,7 +1,9 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Configurations;
+using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -26,15 +28,24 @@ namespace Domain.EntityFramework.Repositories
             {
                 Route stored = context.Routes.Include(r => r.Stations).First(r => r.Id == id);
                 List<Station> entityStations = new List<Station>();
+
+                context.StationRoute.RemoveRange(context.StationRoute.Where(o => o.RouteId == id));
+
+                int i = 0;
                 foreach (Station item in entity.Stations)
                 {
-                    if (context.Stations.Any(o => o.Id == item.Id))
-                        entityStations.Add(context.Stations.First(o => o.Id == item.Id));
+                    StationRoute sr = new StationRoute()
+                    {
+                        RouteId = id,
+                        StationId = item.Id,
+                        Order = i
+                    };
+                    context.StationRoute.Add(sr);
+
+                    i++;
                 }
 
-
                 stored.Name = entity.Name;
-                stored.Stations = entityStations;
 
                 context.SaveChanges();
             }
@@ -64,7 +75,16 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Routes.Include(r => r.Stations).First(r => r.Id == id);
+                Route r = context.Routes.First(r => r.Id == id);
+                List<StationRoute> linking = context.StationRoute.Include(o => o.Station).Where(o => o.RouteId == id).ToList();
+                List<Station> stations = new List<Station>();
+                linking = linking.OrderBy(o => o.Order).ToList();
+                foreach (StationRoute item in linking)
+                {
+                    stations.Add(item.Station);
+                }
+                r.Stations = stations;
+                return r;
             }
         }
 
@@ -72,7 +92,22 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Routes.Include(r => r.Stations).ToList();
+                List<Route> routes = context.Routes.ToList();
+
+                foreach(Route route in routes)
+                {
+                    List<StationRoute> linking = context.StationRoute.Include(o => o.Station).Where(o => o.RouteId == route.Id).ToList();
+                    List<Station> stations = new List<Station>();
+                    linking = linking.OrderBy(o => o.Order).ToList();
+                    foreach (StationRoute item in linking)
+                    {
+                        stations.Add(item.Station);
+                    }
+
+                    route.Stations = stations;
+                }
+
+                return routes;
             }
         }
 
@@ -83,9 +118,24 @@ namespace Domain.EntityFramework.Repositories
 
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Routes.Include(r => r.Stations)
+                List<Route> routes = context.Routes.Include(r => r.Stations)
                     .Where(r => r.Stations.Contains(from) && r.Stations.Contains(to))
                     .ToList();
+
+                
+                foreach (Route route in routes)
+                {
+                    route.Stations.Clear();
+                    List<StationRoute> linking = context.StationRoute.Include(o => o.Station).Where(o => o.RouteId == route.Id).ToList();
+                    List<Station> stations = new List<Station>();
+                    linking = linking.OrderBy(o => o.Order).ToList();
+                    foreach (StationRoute item in linking)
+                    {
+                        stations.Add(item.Station);
+                    }
+                    route.Stations = stations;
+                }
+                return routes;
             }
         }
     }

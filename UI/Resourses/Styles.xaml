@@ -44,7 +44,7 @@
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="MinHeight" Value="30"/>
-        <Setter Property="MinWidth" Value="80"/>
+        <Setter Property="MinWidth" Value="50"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">

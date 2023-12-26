@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace Domain.EntityFramework.Configurations
 {
-    internal class StationRoute
+    public class StationRoute
     {
         public Station Station { get; set; }
         public Route Route { get; set; }

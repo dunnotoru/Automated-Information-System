@@ -93,7 +93,7 @@
                     </TextBox>
 
                     <Label Content="Время прибытия"/>
-                    <TextBlock Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}"/>
+                    <TextBlock Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в HH:mm}'}"/>
 
                     <Label Content="Транспорт"/>
                     <ComboBox ItemsSource="{Binding Vehicles}" 

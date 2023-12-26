@@ -13,9 +13,9 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="198*"/>
+            <ColumnDefinition Width="179*"/>
             <ColumnDefinition Width="123*"/>
-            <ColumnDefinition Width="479*"/>
+            <ColumnDefinition Width="498*"/>
         </Grid.ColumnDefinitions>
 
         <DataGrid ItemsSource="{Binding Routes}" Grid.Column="0" Margin="10,10,10,10"
@@ -45,18 +45,15 @@
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
 
-                <Grid Margin="10 10 10 10" Grid.Column="0" >
-                    <Label Margin="10 0 0 0"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Content="Id" Height="26" Width="20"/>
-                    <TextBox Margin="10 30 10 0"
+                <StackPanel Margin="10 10 10 10" Grid.Column="0" >
+                    <TextBlock Padding="5" Text="Id" />
+                    <TextBox Margin="10"
                              HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                             Text="{Binding Id}" IsReadOnly="True" Height="18"/>
+                             Text="{Binding Id}" IsReadOnly="True"/>
 
-                    <ListView HorizontalAlignment="Stretch"
-                              Margin="10 60 30 10" 
-                              ItemsSource="{Binding AvailableStations}"
-                              SelectedItem="{Binding SelectedAvailableStation}" SelectionMode="Single" >
+                    <TextBlock Padding="5" Text="Все станции"/>
+                    <ListView Margin="10" ItemsSource="{Binding AvailableStations}"
+                              SelectedItem="{Binding SelectedAvailableStation}" SelectionMode="Single" VerticalAlignment="Stretch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
@@ -64,23 +61,16 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                        <Button Content="+"
+                                HorizontalAlignment="Center"
+                                Command="{Binding AddStationCommand}"/>
 
-                    <Button Content="add" Margin="0 0 0 40" Width="25"
-                            HorizontalAlignment="Right" VerticalAlignment="Center"
-                            Command="{Binding AddStationCommand}"/>
-                    <Button Content="remove" Margin="0 40,0 0" Width="25"
-                            HorizontalAlignment="Right" VerticalAlignment="Center"
-                            Command="{Binding RemoveStationCommand}"/>
-                </Grid>
+                </StackPanel>
+                   
 
-                <Grid Margin="10,10,10,10" Grid.Column="1">
-                    <Label Margin="10 0 0 0"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Content="Название" Height="26" Width="63"/>
-                    <TextBox x:Name="NameTextBox"
-                             Margin="10 30 10 0"
-                             HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                             Height="18">
+                <StackPanel Margin="10,10,10,10" Grid.Column="1">
+                    <TextBlock Padding="5" Text="Название"/>
+                    <TextBox Margin="10" x:Name="NameTextBox">
                         <TextBox.Text>
                             <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -90,8 +80,8 @@
                         </TextBox.Text>
                     </TextBox>
 
-                    <ListView HorizontalAlignment="Stretch"
-                              Margin="10 60 30 10" ItemsSource="{Binding Stations}"
+                    <TextBlock Padding="5" Text="Станции в этом маршурте"/>
+                    <ListView Margin="10" ItemsSource="{Binding Stations}" VerticalAlignment="Stretch"
                               SelectionMode="Single" SelectedItem="{Binding SelectedStation}">
                         <ListView.View>
                             <GridView>
@@ -101,13 +91,12 @@
                         </ListView.View>
                     </ListView>
 
-                    <Button Content="Up" Margin="0 0 0 40" Width="25"
-                            HorizontalAlignment="Right" VerticalAlignment="Center"
-                            Command="{Binding MoveUpCommand}"/>
-                    <Button Content="Down" Margin="0 40,0 0" Width="25"
-                            HorizontalAlignment="Right" VerticalAlignment="Center"
-                            Command="{Binding MoveDownCommand}"/>
-                </Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Margin="5" Content="-" Command="{Binding RemoveStationCommand}"/>
+                        <Button Margin="5" Content="Up" Command="{Binding MoveUpCommand}"/>
+                        <Button Margin="5" Content="Down" Command="{Binding MoveDownCommand}"/>
+                    </StackPanel>
+                </StackPanel>
 
                 <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}">
                     <Button.IsEnabled>
