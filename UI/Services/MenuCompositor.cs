@@ -25,9 +25,9 @@ namespace UI.Services
 
                 new MenuItemViewModel("Справочники", ComposeGuidebook()),
 
-                new MenuItemViewModel("Справка", () => _container.Resolve<CertificateViewModel>()),
-
                 new MenuItemViewModel("Настройки", ComposeSettings()),
+              
+                new MenuItemViewModel("Справка", () => _container.Resolve<CertificateViewModel>()),
             };
 
             return list;

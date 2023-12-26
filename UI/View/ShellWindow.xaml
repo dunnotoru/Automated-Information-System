@@ -43,22 +43,22 @@
             <local:VehicleMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:BrandMenuViewModel}">
-            <local:BrandBookUserControl/>
+            <local:BrandMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:VehicleModelMenuViewModel}">
-            <local:VehicleModelBookUserControl/>
+            <local:VehicleModelMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RepairTypeMenuViewModel}">
-            <local:RepairTypeBookUserContol/>
+            <local:RepairTypeMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:FreighterMenuViewModel}">
-            <local:FreighterBookUserControl/>
+            <local:FreighterMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:CategoryMenuViewModel}">
-            <local:CategoryBookUserControl/>
+            <local:CategoryMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:TicketTypeMenuViewModel}">
-            <local:TicketTypeBookUserControl/>
+            <local:TicketTypeMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:AccountMenuViewModel}">
             <local:AccountMenuUserControl/>

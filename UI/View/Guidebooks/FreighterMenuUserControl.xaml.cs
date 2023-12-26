@@ -2,9 +2,9 @@
 
 namespace UI.View
 {
-    public partial class BrandBookUserControl : UserControl
+    public partial class FreighterMenuUserControl : UserControl
     {
-        public BrandBookUserControl()
+        public FreighterMenuUserControl()
         {
             InitializeComponent();
         }

@@ -2,9 +2,9 @@
 
 namespace UI.View
 {
-    public partial class VehicleModelBookUserControl : UserControl
+    public partial class RepairTypeMenuUserControl : UserControl
     {
-        public VehicleModelBookUserControl()
+        public RepairTypeMenuUserControl()
         {
             InitializeComponent();
         }
