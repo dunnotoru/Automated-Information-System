@@ -42,6 +42,7 @@ namespace UI.Services
                 new MenuItemViewModel("Рейсы", () => _container.Resolve<RunMenuViewModel>()),
                 new MenuItemViewModel("Водители", () => _container.Resolve<DriverMenuViewModel>()),
                 new MenuItemViewModel("Транспорт", () => _container.Resolve<VehicleMenuViewModel>()),
+                new MenuItemViewModel("Список пассажиров", () => _container.Resolve<TicketMenuViewModel>()),
             };
             return list;
         }

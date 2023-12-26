@@ -65,6 +65,7 @@ namespace UI
             container.Register(Component.For<RunMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<DriverMenuViewModel>().LifestyleTransient());
             container.Register(Component.For<VehicleMenuViewModel>().LifestyleTransient());
+            container.Register(Component.For<TicketMenuViewModel>().LifestyleTransient());
             #endregion
 
             #region guidebook viewmodels
