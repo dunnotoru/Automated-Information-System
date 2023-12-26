@@ -44,7 +44,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
         private StationEditViewModel()
         {
-            SaveCommand = new RelayCommand(ExecuteSave);
+            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
             RemoveCommand = new RelayCommand(ExecuteRemove);
         }
 
