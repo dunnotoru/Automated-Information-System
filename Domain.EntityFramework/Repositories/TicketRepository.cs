@@ -1,6 +1,7 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -24,7 +25,11 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Tickets.ToList();
+                return context.Tickets
+                    .Include(o => o.Run)
+                    .Include(o => o.IdentityDocument)
+                    .Include(o => o.TicketType)
+                    .ToList();
             }
         }
 
@@ -32,7 +37,11 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                return context.Tickets.First(o => o.Id == id);
+                return context.Tickets
+                    .Include(o => o.Run)
+                    .Include(o => o.IdentityDocument)
+                    .Include(o => o.TicketType)
+                    .First(o => o.Id == id);
             }
         }
 
@@ -40,7 +49,8 @@ namespace Domain.EntityFramework.Repositories
         {
             using (ApplicationContext context = new ApplicationContext())
             {
-                Ticket stored = context.Tickets.First(o => o.Id == id);
+                Ticket stored = context.Tickets
+                    .First(o => o.Id == id);
                 context.Tickets.Remove(stored);
                 context.SaveChanges();
             }
