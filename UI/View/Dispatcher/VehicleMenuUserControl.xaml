@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
              xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -13,15 +14,15 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="425*" MinWidth="50"/>
-            <ColumnDefinition Width="78*" MinWidth="50"/>
+            <ColumnDefinition Width="377*" MinWidth="50"/>
+            <ColumnDefinition Width="126*" MinWidth="50"/>
             <ColumnDefinition Width="297*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid ItemsSource="{Binding Vehicles}" Grid.Column="0" Margin="10,10,10,10"
-          SelectionMode="Single" SelectedItem="{Binding SelectedVehicle}"
-          IsReadOnly="True"
-          AutoGenerateColumns="False">
+        <Label Padding="10" Content="Транспорт" VerticalAlignment="Top"
+               HorizontalAlignment="Center"/>
+        <DataGrid ItemsSource="{Binding Vehicles}" Margin="10,45,10,10"
+          SelectedItem="{Binding SelectedVehicle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Государственный номер" Width="auto" Binding="{Binding LicensePlateNumber}"/>
@@ -51,6 +52,7 @@
                 <ColumnDefinition Width="25*"/>
             </Grid.ColumnDefinitions>
 
+            
             <GroupBox Grid.Column="0" Margin="2,2,2,2" Header="Модель">
                 <Grid Margin="1" DataContext="{Binding SelectedVehicle}">
                     <DataGrid IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False"
@@ -71,13 +73,13 @@
                     <TextBox Margin="5" Text="{Binding Id}" IsReadOnly="True"/>
 
                     <Label Margin="5" Content="Марка"/>
-                    <TextBox Margin="5"  Text="{Binding SelectedVehicleModel.BrandName}" IsReadOnly="True"/>
+                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.BrandName}"/>
 
                     <Label Margin="5" Content="Модель"/>
-                    <TextBox Margin="5"  Text="{Binding SelectedVehicleModel.Name}" IsReadOnly="True"/>
+                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.Name}" />
 
                     <Label Margin="5" Content="Вместимость"/>
-                    <TextBox Margin="5"  Text="{Binding SelectedVehicleModel.Capacity}" IsReadOnly="True"/>
+                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.Capacity}" />
 
                     <Label Margin="5" Content="Гос. номер"/>
                     <TextBox x:Name="LicensePlateNumberTextBox" Margin="5">
@@ -91,27 +93,35 @@
                     </TextBox>
 
                     <Label Margin="5" Content="Дата производства"/>
-                    <DatePicker Margin="5" SelectedDate="{Binding Manufacture}"/>
+                    <DatePicker Margin="5" SelectedDate="{Binding Manufacture}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
 
                     <Label Margin="5" Content="Дата последнего ремонта"/>
-                    <DatePicker Margin="5"  SelectedDate="{Binding LastRepair}" />
+                    <DatePicker Margin="5"  SelectedDate="{Binding LastRepair}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
 
                     <Label Margin="5" Content="Тип последнего ремонта"/>
                     <ComboBox Margin="5" ItemsSource="{Binding RepairTypes}" SelectedItem="{Binding SelectedRepairType}"
                               DisplayMemberPath="Name"/>
 
                     <Label Margin="5" Content="Прогон"/>
-                    <TextBox x:Name="MileageTextBox" Margin="5"  Text="{Binding Mileage}"/>
+                    <TextBox x:Name="MileageTextBox" Margin="5" Text="{Binding Mileage}" PreviewTextInput="NumberPreviewTextInput"/>
 
                     <Label Margin="5" Content="Фото"/>
-                    <TextBox Margin="5"  Text="{Binding Photography}"/>
+                    <TextBox Margin="5" Text="{Binding Photography}"/>
 
                     <Label Margin="5" Content="Фрахтовщик"/>
                     <ComboBox Margin="5" Text="{Binding SelectedFreighter.Name}" ItemsSource="{Binding Freighters}"
                               SelectedItem="{Binding SelectedFreighter}" DisplayMemberPath="Name"/>
 
                     <Label Margin="5" Content="Номер страховки"/>
-                    <TextBox Margin="5"  Text="{Binding InsuranceDetails}"/>
+                    <TextBox x:Name="InsuranceNumber" Margin="5">
+                        <TextBox.Text>
+                            <Binding Path="InsuranceNumber" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationrules:NotEmptyValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}">
                         <Button.IsEnabled>
@@ -122,6 +132,7 @@
                                 <MultiBinding.Bindings>
                                     <Binding ElementName="LicensePlateNumberTextBox" Path="(Validation.HasError)"/>
                                     <Binding ElementName="MileageTextBox" Path="(Validation.HasError)"/>
+                                    <Binding ElementName="InsuranceNumber" Path="(Validation.HasError)"/>
                                 </MultiBinding.Bindings>
                             </MultiBinding>
                         </Button.IsEnabled>

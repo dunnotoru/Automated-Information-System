@@ -18,12 +18,13 @@
             <ColumnDefinition Width="498*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid ItemsSource="{Binding Routes}" Grid.Column="0" Margin="10,10,10,10"
-                  SelectionMode="Single" SelectedItem="{Binding SelectedRoute}"
-                  IsReadOnly="True" AutoGenerateColumns="False">
+        <Label Content="Маршруты" Padding="10"
+               VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <DataGrid ItemsSource="{Binding Routes}" Margin="10,45,10,10"
+                  SelectedItem="{Binding SelectedRoute}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" CanUserResize="False"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="auto"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="auto"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -46,10 +47,9 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Margin="10 10 10 10" Grid.Column="0" >
-                    <TextBlock Padding="5" Text="Id" />
-                    <TextBox Margin="10"
-                             HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                             Text="{Binding Id}" IsReadOnly="True"/>
+                    <Label Padding="10" Content="Id" />
+                    <TextBlock Margin="10"
+                             Text="{Binding Id}"/>
 
                     <TextBlock Padding="5" Text="Все станции"/>
                     <ListView Margin="10" ItemsSource="{Binding AvailableStations}"

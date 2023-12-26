@@ -11,17 +11,19 @@
     <UserControl.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
     </UserControl.Resources>
+
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="147*" MinWidth="50"/>
-            <ColumnDefinition Width="48*" MinWidth="50"/>
-            <ColumnDefinition Width="205*" MinWidth="130"/>
+            <ColumnDefinition Width="245*" MinWidth="50"/>
+            <ColumnDefinition Width="118*" MinWidth="50"/>
+            <ColumnDefinition Width="317*" MinWidth="130"/>
+            <ColumnDefinition Width="120*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid ItemsSource="{Binding Stations}" Grid.Column="0" Margin="10,10,10,10"
-                  SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
-                  IsReadOnly="True"
-                  AutoGenerateColumns="False">
+        <Label Content="Станции" HorizontalAlignment="Center" VerticalAlignment="Top"
+               Padding="10"/>
+        <DataGrid ItemsSource="{Binding Stations}" Margin="10,45,10,10"
+                  SelectedItem="{Binding SelectedStation}">
             <DataGrid.Columns>
                 <DataGridTextColumn CanUserResize="False" Header="Id" Width="auto" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding Name}"/>
@@ -39,7 +41,7 @@
         <StackPanel Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
             <StackPanel DataContext="{Binding SelectedStation}" Grid.Column="2" Margin="10,10,10,10">
                 <Label Margin="10" Content="Id"/>
-                <TextBox Margin="10"  Text="{Binding Id}" IsReadOnly="True"/>
+                <TextBlock Margin="10"  Text="{Binding Id}"/>
 
                 <Label Margin="10" Content="Название"/>
                 <TextBox Margin="10" x:Name="NameTextBox">
@@ -64,30 +66,24 @@
                 </TextBox>
 
                 <Button Content="Сохранить"
-                        Margin="100 10 100 10"
-                        Height="30"
+                        Margin="10"
                         Command="{Binding SaveCommand}">
-                    
+
                     <Button.IsEnabled>
                         <MultiBinding>
                             <MultiBinding.Converter>
                                 <converters:MultiBoolConverter/>
                             </MultiBinding.Converter>
                             <MultiBinding.Bindings>
-                                <Binding ElementName="NameTextBox" 
-                                         Path="(Validation.HasError)">
-                                </Binding>
-                                <Binding ElementName="AddressTextBox"
-                                         Path="(Validation.HasError)">
-                                </Binding>
+                                <Binding ElementName="NameTextBox" Path="(Validation.HasError)"/>
+                                <Binding ElementName="AddressTextBox" Path="(Validation.HasError)"/>
                             </MultiBinding.Bindings>
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
 
                 <Button Content="Удалить"
-                        Margin="100 10 100 10"
-                        Height="30"
+                        Margin="10"
                         Command="{Binding RemoveCommand}"/>
             </StackPanel>
         </StackPanel>

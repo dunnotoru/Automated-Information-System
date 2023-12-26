@@ -168,7 +168,7 @@
                 </TextBox>
 
                 <Label Margin="10" Content="Номер Трудовой книжки"/>
-                <TextBox Name="EmploymentBookDetails" Margin="10" PreviewTextInput="NumberPreviewTextInput>
+                <TextBox Name="EmploymentBookDetails" Margin="10" PreviewTextInput="NumberPreviewTextInput">
                     <TextBox.Text>
                         <Binding Path="EmploymentBookDetails" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
