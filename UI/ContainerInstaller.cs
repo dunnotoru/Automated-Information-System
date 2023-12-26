@@ -34,6 +34,7 @@ namespace UI
             container.Register(Component.For<RunSearchService>());
             container.Register(Component.For<OrderProcessService>().LifestyleTransient());
             container.Register(Component.For<LoginViewModel>());
+            container.Register(Component.For<RegistrationViewModel>());
             container.Register(Component.For<ScheduleService>());
 
             container.Register(Component.For<IDocumentFormatter<Ticket>>().ImplementedBy<TicketFormatter>());

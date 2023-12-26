@@ -4,6 +4,11 @@ using UI.View;
 using UI.ViewModel;
 using System.IO;
 using System.Configuration;
+using Domain.RepositoryInterfaces;
+using System.Collections.Generic;
+using Domain.Models;
+using System.Linq;
+using System;
 
 namespace UI
 {
@@ -17,18 +22,38 @@ namespace UI
             Configure();
             CheckFiles();
 
-            LoginViewModel viewModel = _container.Resolve<LoginViewModel>();
-            viewModel.AuthenticationDone += ChangeLoginToMain;
+            IAccountRepository repo = _container.Resolve<IAccountRepository>();
+            List<Account> accounts = repo.GetAll().ToList();
+            if (accounts.Count == 0)
+                LoadRegistration();
+            else 
+                LoadLogin();
 
-            MainWindow = new LoginWindow() { DataContext = viewModel };
-            MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            MainWindow.Show();
+            
 
             base.OnStartup(e);
         }
 
+        private void LoadLogin()
+        {
+            LoginViewModel vm = _container.Resolve<LoginViewModel>();
+            vm.AuthenticationDone += ChangeLoginToMain;
 
-        private void ChangeLoginToMain()
+            MainWindow = new LoginWindow() { DataContext = vm };
+            MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            MainWindow.Show();
+        }
+
+        private void LoadRegistration()
+        {
+            RegistrationViewModel vm = _container.Resolve<RegistrationViewModel>();
+            vm.Registration += ChangeLoginToMain;
+            MainWindow = new RegistrationWindow() { DataContext = vm };
+            MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            MainWindow.Show();
+        }
+
+        private void ChangeLoginToMain(object sender, EventArgs e)
         {
             ShellWindow window = new ShellWindow() { DataContext = _container.Resolve<ShellViewModel>() };
 

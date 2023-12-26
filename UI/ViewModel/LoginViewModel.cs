@@ -16,7 +16,7 @@ namespace UI.ViewModel
         private string _username;
         private string _password;
 
-        public event Action AuthenticationDone;
+        public event EventHandler AuthenticationDone;
 
         public string Username
         {
@@ -37,7 +37,7 @@ namespace UI.ViewModel
             {
                 Account acc = _authenticationService.Authenticate(Username, Password);
                 _accountStore.CurrentAccount = acc;
-                AuthenticationDone?.Invoke();
+                AuthenticationDone?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e) 
             {
