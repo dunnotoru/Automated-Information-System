@@ -1,6 +1,7 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.Win32.SafeHandles;
 
 namespace Domain.EntityFramework.Repositories
 {
@@ -34,10 +35,11 @@ namespace Domain.EntityFramework.Repositories
             {
                 Account stored = context.Accounts.First(o => o.Id == id);
 
-                stored = entity;
-                stored.Id = id;
-
-                context.Accounts.Update(entity);
+                stored.Read = entity.Read;
+                stored.Write = entity.Write;
+                stored.Edit = entity.Edit;
+                stored.Delete = entity.Delete;
+                
                 context.SaveChanges();
             }
         }
@@ -75,6 +77,18 @@ namespace Domain.EntityFramework.Repositories
                     return false;
 
                 return true;
+            }
+        }
+
+        public void UpdatePasswordHash(int id,string password_hash)
+        {
+            using (AccountContext context = new AccountContext())
+            {
+                Account stored = context.Accounts.First(o => o.Id == id);
+
+                stored.PasswordHash = password_hash;
+
+                context.SaveChanges();
             }
         }
     }

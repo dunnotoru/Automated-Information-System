@@ -53,10 +53,10 @@ namespace Domain.Services
             if (storedAccount == null) return false;
             if (storedAccount.PasswordHash != _passwordHasher.CalcHash(oldPassword)) return false;
 
-            storedAccount.PasswordHash = _passwordHasher.CalcHash(newPassword);
+            string passwordHash = _passwordHasher.CalcHash(newPassword);
             try
             {
-                _accountRepository.Update(storedAccount.Id, storedAccount);
+                _accountRepository.UpdatePasswordHash(storedAccount.Id, passwordHash);
             }
             catch
             { 

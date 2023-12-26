@@ -40,6 +40,7 @@ namespace UI.ViewModel
         private readonly RegistrationService _registrationUseCase;
         private readonly NavigationService _navigationService;
         private readonly AccountStore _accountStore;
+        private readonly IMessageBoxService _messageBoxService;
 
         public ICommand UpdatePasswordCommand
         {
@@ -48,21 +49,36 @@ namespace UI.ViewModel
 
         public ICommand BackToShellCommand
         {
-            get => new RelayCommand(() => _navigationService.Navigate<ShellViewModel>());
+            get => new RelayCommand(() => _navigationService.Navigate<ScheduleDataViewModel>());
         }
 
         public UpdatePasswordViewModel(RegistrationService registrationUseCase,
-            NavigationService navigationService, AccountStore accountStore)
+            NavigationService navigationService, AccountStore accountStore, IMessageBoxService messageBoxService)
         {
             _registrationUseCase = registrationUseCase;
             _navigationService = navigationService;
             _accountStore = accountStore;
+            _messageBoxService = messageBoxService;
         }
 
         private void UpdatePassword()
         {
+            if(NewPassword != ConfirmNewPassword)
+            {
+                _messageBoxService.ShowMessage("Пароли не совпадают.");
+                return;
+            }
+                
             if (_registrationUseCase.UpdatePassword(_accountStore.CurrentAccount.Username, OldPassword, NewPassword))
-                _navigationService.Navigate<ShellViewModel>();
+            {
+                _messageBoxService.ShowMessage("Пароль успешно изменён.");
+                _navigationService.Navigate<ScheduleDataViewModel>();
+            }
+            else
+            {
+                _messageBoxService.ShowMessage("Произошла ошибка.");
+                _navigationService.Navigate<ScheduleDataViewModel>();
+            }
         }
     }
 }

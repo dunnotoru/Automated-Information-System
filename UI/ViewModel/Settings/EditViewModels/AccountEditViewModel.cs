@@ -19,6 +19,7 @@ namespace UI.ViewModel.Settings.EditViewModels
         private bool _write;
         private bool _edit;
         private bool _delete;
+        private bool _isNew;
 
         public event EventHandler Save;
         public event EventHandler Remove;
@@ -77,6 +78,10 @@ namespace UI.ViewModel.Settings.EditViewModels
             {
                 Id = _id,
                 Username = _username,
+                Read = _read,
+                Write = _write,
+                Edit = _edit,
+                Delete = _delete,
             };
 
             try
@@ -116,7 +121,11 @@ namespace UI.ViewModel.Settings.EditViewModels
             }
         }
 
-        public bool IsNew {  get; }
+        public bool IsNew
+        {
+            get { return _isNew; }
+            set { _isNew = value; OnPropertyChanged(); }
+        }
 
         public int Id
         {

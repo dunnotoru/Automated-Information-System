@@ -56,6 +56,7 @@ namespace UI.ViewModel
             _scheduleUpdateTimer.Interval = 1000 * 10;
             _scheduleUpdateTimer.Elapsed += OnTimerElapsed;
             _scheduleUpdateTimer.Start();
+
         }
 
         private void OnViewModelChanged(object? sender, Func<ViewModelBase> getViewModel)

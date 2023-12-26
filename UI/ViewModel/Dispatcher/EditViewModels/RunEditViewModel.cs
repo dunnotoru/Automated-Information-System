@@ -47,10 +47,12 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             SelectedRoute = new RouteViewModel(run.Route);
             DepartureDateTime = run.DepartureDateTime;
 
+            SelectedVehicle = new VehicleViewModel(_vehicleRepository.GetById(run.VehicleId));
 
-            SelectedVehicle = Vehicles.FirstOrDefault(o => o.Id == run.VehicleId);
-            SelectedDriver = Drivers.FirstOrDefault(o => run.Driver.Id == o.Id);
+            SelectedDriver = new DriverViewModel(_driverRepository.GetById(run.DriverId));
 
+            Vehicles.Add(SelectedVehicle);
+            Drivers.Add(SelectedDriver);
             try
             {
                 Periodity = _scheduleRepository.GetByRun(run).PeriodInMinutes;
@@ -60,7 +62,6 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
                 Periodity = 0;
             }
 
-            _arrivalTimeCalculator = arrivalTimeCalculator;
         }
 
         public RunEditViewModel(IRunRepository runRepository, IRouteRepository routeRepository,
@@ -71,6 +72,7 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
             _vehicleRepository = vehicleRepository;
             _driverRepository = driverRepository;
             _scheduleRepository = scheduleRepository;
+            _arrivalTimeCalculator = arrivalTimeCalculator;
 
             Id = 0;
             Number = "";
@@ -99,7 +101,6 @@ namespace UI.ViewModel.Dispatcher.EditViewModels
 
             SaveCommand = new RelayCommand(ExecuteSave, () => CanSave());
             RemoveCommand = new RelayCommand(ExecuteRemove);
-            _arrivalTimeCalculator = arrivalTimeCalculator;
 
             CalcEstimatedDateTime();
         }

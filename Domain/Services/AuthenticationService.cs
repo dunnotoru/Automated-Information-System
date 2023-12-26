@@ -18,15 +18,22 @@ namespace Domain.Services
             _passwordValidator = passwordValidator;
         }
 
-        public Account? Authenticate(string username, string password)
+        public Account Authenticate(string username, string password)
         {
-            Account? storedAccount = _accountRepository.GetByUsername(username);
-            if (storedAccount == null) return null;
+            Account storedAccount;
+            try
+            {
+                storedAccount = _accountRepository.GetByUsername(username);
+            }
+            catch
+            {
+                throw new InvalidOperationException("Пользователя с таким именем не существует");
+            }
 
             if (_passwordValidator.Validate(password, storedAccount.PasswordHash))
                 return storedAccount;
             else
-                return null;
+                throw new InvalidOperationException("Неверные данные");
         }
     }
 }

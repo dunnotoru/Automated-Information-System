@@ -11,7 +11,7 @@ namespace Domain.EntityFramework.Repositories
             ArgumentNullException.ThrowIfNull(entity);
             using (ApplicationContext context = new ApplicationContext())
             {
-                entity.TicketType = context.TicketTypes.First();
+                context.TicketTypes.Attach(entity.TicketType);
                 context.Runs.Attach(entity.Run);
                 context.Passports.Attach(entity.IdentityDocument);
                 context.Tickets.Add(entity);

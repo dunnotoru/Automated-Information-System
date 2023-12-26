@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:UI.View"
              xmlns:converters="clr-namespace:UI.Converters"
              xmlns:validationrules="clr-namespace:UI.View.ValidationRules"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -64,7 +66,8 @@
                     </TextBox>
 
                     <Label Content="Дата отправления"/>
-                    <DatePicker SelectedDate="{Binding DepartureDateTime}"/>
+                    <DatePicker SelectedDate="{Binding DepartureDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}"
+                                DisplayDateStart="{x:Static sys:DateTime.Now}"/>
 
                     <Label Content="Время отправления"/>
                     <TextBox Text=""/>

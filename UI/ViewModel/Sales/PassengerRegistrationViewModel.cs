@@ -106,7 +106,6 @@ namespace UI.ViewModel
                 {
                     _messageBoxService.ShowMessage($"Ошибка: {e.Message}");
                 }
-
             }
             try
             {

@@ -3,10 +3,9 @@ using Domain.RepositoryInterfaces;
 using System.Windows.Input;
 using System;
 using UI.Command;
-using UI.Services;
 using System.Collections.ObjectModel;
 using UI.ViewModel.HelperViewModels;
-using UI.View;
+using System.Linq;
 
 namespace UI.ViewModel.Books.EditViewModels
 {
@@ -36,9 +35,7 @@ namespace UI.ViewModel.Books.EditViewModels
             _id = vehicleModel.Id;
             _name = vehicleModel.Name;
             _capacity = vehicleModel.Capacity;
-            _selectedBrand = new BrandViewModel(_brandRepository.GetById(vehicleModel.BrandId));
-
-            
+            _selectedBrand = Brands.FirstOrDefault(o => o.Id == vehicleModel.BrandId);
         }
         public VehicleModelEditViewModel(IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) 
         {

@@ -94,7 +94,7 @@ namespace UI.ViewModel
             SelectedItem = vm;
         }
 
-        public bool IsRedactingEnabled => SelectedItem != null && SelectedItem.IsNew == true;
+        public bool IsRedactingEnabled => SelectedItem != null;
 
         public ObservableCollection<AccountEditViewModel> Items
         {
@@ -105,7 +105,11 @@ namespace UI.ViewModel
         public AccountEditViewModel SelectedItem
         {
             get { return _selectedItem; }
-            set { _selectedItem = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+            set
+            {
+                _selectedItem = value; OnPropertyChanged();
+                OnPropertyChangedByName(nameof(IsRedactingEnabled));
+            }
         }
     }
 }

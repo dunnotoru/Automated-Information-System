@@ -2,6 +2,7 @@
 using Domain.Services;
 using System;
 using UI.Command;
+using UI.Services;
 using UI.Stores;
 
 namespace UI.ViewModel
@@ -27,21 +28,30 @@ namespace UI.ViewModel
 
         public void Authenticate()
         {
-            bool result = true; // _authenticationService.Authenticate(Username, Password);
-            _accountStore.CurrentAccount = new Account() { Username = "root", PasswordHash = "root_HASH" };
-            if (result)
+            try
+            {
+                Account acc = _authenticationService.Authenticate(Username, Password);
+                _accountStore.CurrentAccount = acc;
                 AuthenticationDone?.Invoke();
+            }
+            catch (Exception e) 
+            {
+                _messageBoxService.ShowMessage(e.Message);
+            }
         }
 
         private readonly AuthenticationService _authenticationService;
         private readonly AccountStore _accountStore;
         public event Action AuthenticationDone;
+        private readonly IMessageBoxService _messageBoxService;
 
         public LoginViewModel(AuthenticationService authenticationUseCase,
-            AccountStore accountStore)
+            AccountStore accountStore,
+            IMessageBoxService messageBoxService)
         {
             _authenticationService = authenticationUseCase;
             _accountStore = accountStore;
+            _messageBoxService = messageBoxService;
 
             LoginCommand = new RelayCommand(Authenticate);
         }
