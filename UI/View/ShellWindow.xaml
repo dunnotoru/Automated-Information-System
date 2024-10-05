@@ -5,6 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.View"
         xmlns:vm="clr-namespace:UI.ViewModel"
+        xmlns:sales="clr-namespace:UI.ViewModel.Sales"
+        xmlns:sales1="clr-namespace:UI.View.Sales"
+        xmlns:settings="clr-namespace:UI.ViewModel.Settings"
+        xmlns:settings1="clr-namespace:UI.View.Settings"
+        xmlns:dispatcher="clr-namespace:UI.ViewModel.Dispatcher"
+        xmlns:dispatcher1="clr-namespace:UI.View.Dispatcher"
+        xmlns:books="clr-namespace:UI.ViewModel.Books"
+        xmlns:guidebooks="clr-namespace:UI.View.Guidebooks"
         mc:Ignorable="d"
         Title="АИС" Height="550" Width="900"
         WindowState="Maximized"
@@ -15,59 +23,59 @@
         <DataTemplate DataType="{x:Type vm:CertificateViewModel}">
             <local:Certificate/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:RunSearchViewModel}">
-            <local:RunSearchView/>
+        <DataTemplate DataType="{x:Type sales:RunSearchViewModel}">
+            <sales1:RunSearchView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:PassengerRegistrationViewModel}">
-            <local:PassengerRegistrationView/>
+        <DataTemplate DataType="{x:Type sales:PassengerRegistrationViewModel}">
+            <sales1:PassengerRegistrationView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:UpdatePasswordViewModel}">
-            <local:UpdatePasswordView/>
+        <DataTemplate DataType="{x:Type settings:UpdatePasswordViewModel}">
+            <settings1:UpdatePasswordView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:AboutViewModel}">
             <local:AboutUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:StationMenuViewModel}">
-            <local:StationMenuUserControl/>
+        <DataTemplate DataType="{x:Type dispatcher:StationMenuViewModel}">
+            <dispatcher1:StationMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:RouteMenuViewModel}">
-            <local:RouteMenuUserControl/>
+        <DataTemplate DataType="{x:Type dispatcher:RouteMenuViewModel}">
+            <dispatcher1:RouteMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:RunMenuViewModel}">
-            <local:RunMenuUserControl/>
+        <DataTemplate DataType="{x:Type dispatcher:RunMenuViewModel}">
+            <dispatcher1:RunMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:DriverMenuViewModel}">
-            <local:DriverMenuUserControl/>
+        <DataTemplate DataType="{x:Type dispatcher:DriverMenuViewModel}">
+            <dispatcher1:DriverMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:VehicleMenuViewModel}">
-            <local:VehicleMenuUserControl/>
+        <DataTemplate DataType="{x:Type dispatcher:VehicleMenuViewModel}">
+            <dispatcher1:VehicleMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:BrandMenuViewModel}">
-            <local:BrandMenuUserControl/>
+        <DataTemplate DataType="{x:Type books:BrandMenuViewModel}">
+            <guidebooks:BrandMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:VehicleModelMenuViewModel}">
-            <local:VehicleModelMenuUserControl/>
+        <DataTemplate DataType="{x:Type books:VehicleModelMenuViewModel}">
+            <guidebooks:VehicleModelMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:RepairTypeMenuViewModel}">
-            <local:RepairTypeMenuUserControl/>
+        <DataTemplate DataType="{x:Type books:RepairTypeMenuViewModel}">
+            <guidebooks:RepairTypeMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:FreighterMenuViewModel}">
-            <local:FreighterMenuUserControl/>
+        <DataTemplate DataType="{x:Type books:FreighterMenuViewModel}">
+            <guidebooks:FreighterMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:CategoryMenuViewModel}">
-            <local:CategoryMenuUserControl/>
+        <DataTemplate DataType="{x:Type books:CategoryMenuViewModel}">
+            <guidebooks:CategoryMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:TicketTypeMenuViewModel}">
-            <local:TicketTypeMenuUserControl/>
+        <DataTemplate DataType="{x:Type books:TicketTypeMenuViewModel}">
+            <guidebooks:TicketTypeMenuUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:AccountMenuViewModel}">
-            <local:AccountMenuUserControl/>
+        <DataTemplate DataType="{x:Type settings:AccountMenuViewModel}">
+            <settings1:AccountMenuUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ScheduleDataViewModel}">
             <local:ScheduleUserControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:TicketMenuViewModel}">
-            <local:TicketMenuUserControl/>
+        <DataTemplate DataType="{x:Type dispatcher:TicketMenuViewModel}">
+            <dispatcher1:TicketMenuUserControl/>
         </DataTemplate>
     </Window.Resources>
     <Grid>

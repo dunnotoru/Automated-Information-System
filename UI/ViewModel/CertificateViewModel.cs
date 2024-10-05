@@ -1,34 +1,33 @@
 ﻿using System.IO;
 
-namespace UI.ViewModel
+namespace UI.ViewModel;
+
+internal class CertificateViewModel : ViewModelBase
 {
-    internal class CertificateViewModel : ViewModelBase
+    private string _certificate;
+
+    public string Certificate
     {
-		private string _certificate;
+        get { return _certificate; }
+        set { _certificate = value; OnPropertyChanged(); }
+    }
 
-		public string Certificate
-		{
-			get { return _certificate; }
-			set { _certificate = value; OnPropertyChanged(); }
-		}
-
-        public CertificateViewModel(string path)
+    public CertificateViewModel(string path)
+    {
+        if(!File.Exists(path))
         {
-            if(!File.Exists(path))
+            Certificate = "Данные не найдены.";
+        }
+        else
+        {
+            using (FileStream fs = File.OpenRead(path))
             {
-                Certificate = "Данные не найдены.";
-            }
-            else
-            {
-                using (FileStream fs = File.OpenRead(path))
+                using (StreamReader sr = new StreamReader(fs))
                 {
-                    using (StreamReader sr = new StreamReader(fs))
-                    {
-                        Certificate = sr.ReadToEnd();
-                    }
+                    Certificate = sr.ReadToEnd();
                 }
             }
-
         }
+
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace UI.ViewModel.Factories
+﻿namespace UI.ViewModel.Factories;
+
+internal interface IViewModelFactory
 {
-    internal interface IViewModelFactory
-    {
-        ViewModelBase CreateViewModel<TViewModel>()
-            where TViewModel : ViewModelBase;
-    }
+    ViewModelBase CreateViewModel<TViewModel>()
+        where TViewModel : ViewModelBase;
 }

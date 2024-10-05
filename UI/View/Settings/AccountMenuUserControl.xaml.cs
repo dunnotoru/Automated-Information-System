@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View.Settings;
+
+public partial class AccountMenuUserControl : UserControl
 {
-    public partial class AccountMenuUserControl : UserControl
+    public AccountMenuUserControl()
     {
-        public AccountMenuUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

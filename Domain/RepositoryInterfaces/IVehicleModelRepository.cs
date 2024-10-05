@@ -1,8 +1,7 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
+namespace Domain.RepositoryInterfaces;
+
+public interface IVehicleModelRepository : IRepositoryBase<VehicleModel>
 {
-    public interface IVehicleModelRepository : IRepositoryBase<VehicleModel>
-    {
-    }
 }

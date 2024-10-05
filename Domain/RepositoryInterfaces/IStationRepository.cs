@@ -1,10 +1,9 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
+namespace Domain.RepositoryInterfaces;
+
+public interface IStationRepository : IRepositoryBase<Station>
 {
-    public interface IStationRepository : IRepositoryBase<Station>
-    {
-        IEnumerable<Station> GetByName(string name);
-        IEnumerable<Station> GetByAddress(string address);
-    }
+    IEnumerable<Station> GetByName(string name);
+    IEnumerable<Station> GetByAddress(string address);
 }

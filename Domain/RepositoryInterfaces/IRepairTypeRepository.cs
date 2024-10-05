@@ -1,10 +1,9 @@
 ﻿
 using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
-{
-    public interface IRepairTypeRepository : IRepositoryBase<RepairType>
-    {
+namespace Domain.RepositoryInterfaces;
 
-    }
+public interface IRepairTypeRepository : IRepositoryBase<RepairType>
+{
+
 }

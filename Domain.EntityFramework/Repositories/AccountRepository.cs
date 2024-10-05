@@ -1,95 +1,101 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
-using Microsoft.Win32.SafeHandles;
 
-namespace Domain.EntityFramework.Repositories
+namespace Domain.EntityFramework.Repositories;
+
+public class AccountRepository : IAccountRepository
 {
-    public class AccountRepository : IAccountRepository
+    public int Create(Account entity)
     {
-        public int Create(Account entity)
+        ArgumentNullException.ThrowIfNull(entity);
+        using (AccountContext context = new AccountContext())
         {
-            ArgumentNullException.ThrowIfNull(entity);
-            using (AccountContext context = new AccountContext())
-            {
-                context.Accounts.Add(entity);
-                context.SaveChanges();
-            }
-            return entity.Id;
+            context.Accounts.Add(entity);
+            context.SaveChanges();
         }
+        return entity.Id;
+    }
 
-        public void Remove(int id)
+    public void Remove(int id)
+    {
+        using (AccountContext context = new AccountContext())
         {
-            using (AccountContext context = new AccountContext())
-            {
-                Account stored = context.Accounts.First(o => o.Id == id);
-                context.Accounts.Remove(stored);
-                context.SaveChanges();
-            }
+            Account stored = context.Accounts.First(o => o.Id == id);
+            context.Accounts.Remove(stored);
+            context.SaveChanges();
         }
+    }
 
-        public void Update(int id, Account entity)
+    public void Update(int id, Account entity)
+    {
+        ArgumentNullException.ThrowIfNull(entity);
+        using (AccountContext context = new AccountContext())
         {
-            ArgumentNullException.ThrowIfNull(entity);
-            using (AccountContext context = new AccountContext())
-            {
-                Account stored = context.Accounts.First(o => o.Id == id);
+            Account stored = context.Accounts.First(o => o.Id == id);
 
-                stored.Read = entity.Read;
-                stored.Write = entity.Write;
-                stored.Edit = entity.Edit;
-                stored.Delete = entity.Delete;
+            stored.Read = entity.Read;
+            stored.Write = entity.Write;
+            stored.Edit = entity.Edit;
+            stored.Delete = entity.Delete;
                 
-                context.SaveChanges();
-            }
+            context.SaveChanges();
         }
+    }
 
-        public Account GetById(int id)
+    public Account GetById(int id)
+    {
+        using (AccountContext context = new AccountContext())
         {
-            using (AccountContext context = new AccountContext())
-            {
-                return context.Accounts.First(_ => _.Id == id);
-            }
+            return context.Accounts.First(_ => _.Id == id);
         }
+    }
 
-        public Account GetByUsername(string username)
+    public Account GetByUsername(string username)
+    {
+        using (AccountContext context = new AccountContext())
         {
-            using (AccountContext context = new AccountContext())
-            {
-                return context.Accounts.First(_ => _.Username == username);
-            }
+            return context.Accounts.First(_ => _.Username == username);
         }
+    }
 
-        public IEnumerable<Account> GetAll()
+    public IEnumerable<Account> GetAll()
+    {
+        using (AccountContext context = new AccountContext())
         {
-            using (AccountContext context = new AccountContext())
-            {
-                return context.Accounts.ToList();
-            }
+            return context.Accounts.ToList();
         }
+    }
 
-        public bool IsAccountExist(string username)
+    public bool IsAccountExist(string username)
+    {
+        using (AccountContext context = new AccountContext())
         {
-            using (AccountContext context = new AccountContext())
-            {
-                Account? acc =  context.Accounts.FirstOrDefault(_ => _.Username == username);
-                if(acc == null)
-                    return false;
+            Account? acc =  context.Accounts.FirstOrDefault(_ => _.Username == username);
+            if(acc == null)
+                return false;
 
-                return true;
-            }
+            return true;
         }
+    }
 
-        public void UpdatePasswordHash(int id,string password_hash)
+    public int Count()
+    {
+        using (AccountContext context = new AccountContext())
         {
-            using (AccountContext context = new AccountContext())
-            {
-                Account stored = context.Accounts.First(o => o.Id == id);
+            return context.Accounts.Count();
+        }
+    }
 
-                stored.PasswordHash = password_hash;
+    public void UpdatePasswordHash(int id,string password_hash)
+    {
+        using (AccountContext context = new AccountContext())
+        {
+            Account stored = context.Accounts.First(o => o.Id == id);
 
-                context.SaveChanges();
-            }
+            stored.PasswordHash = password_hash;
+
+            context.SaveChanges();
         }
     }
 }

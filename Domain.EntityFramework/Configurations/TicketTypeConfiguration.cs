@@ -2,14 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Domain.EntityFramework.Configurations
+namespace Domain.EntityFramework.Configurations;
+
+internal class TicketTypeConfiguration : IEntityTypeConfiguration<TicketType>
 {
-    internal class TicketTypeConfiguration : IEntityTypeConfiguration<TicketType>
+    public void Configure(EntityTypeBuilder<TicketType> builder)
     {
-        public void Configure(EntityTypeBuilder<TicketType> builder)
-        {
-            builder.HasKey(o => o.Id);
-            builder.HasIndex(o => o.Name).IsUnique();
-        }
+        builder.HasKey(o => o.Id);
+        builder.HasIndex(o => o.Name).IsUnique();
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace Domain.Models
+﻿namespace Domain.Models;
+
+public class Category : EntityBase
 {
-    public class Category : EntityBase
-    {
-        public string Name { get; set; }
-        public ICollection<DriverLicense> Licenses { get; set;} = new List<DriverLicense>();
-    }
+    public string Name { get; set; }
+    public ICollection<DriverLicense> Licenses { get; set;} = new List<DriverLicense>();
 }

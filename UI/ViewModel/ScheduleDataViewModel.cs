@@ -4,39 +4,38 @@ using System.Windows.Input;
 using UI.Command;
 using UI.ViewModel.HelperViewModels;
 
-namespace UI.ViewModel
+namespace UI.ViewModel;
+
+internal class ScheduleDataViewModel : ViewModelBase
 {
-    internal class ScheduleDataViewModel : ViewModelBase
+    private readonly IScheduleRepository _scheduleRepository;
+
+    private ObservableCollection<ScheduleViewModel> _items;
+
+    public ICommand UpdateDataCommand { get; }
+
+    public ScheduleDataViewModel(IScheduleRepository scheduleRepository)
     {
-		private readonly IScheduleRepository _scheduleRepository;
+        Items = new ObservableCollection<ScheduleViewModel>();
+        _scheduleRepository = scheduleRepository;
+        Update();
 
-        private ObservableCollection<ScheduleViewModel> _items;
+        UpdateDataCommand = new RelayCommand(Update);
+    }
 
-        public ICommand UpdateDataCommand { get; }
-
-        public ScheduleDataViewModel(IScheduleRepository scheduleRepository)
+    private void Update()
+    {
+        Items.Clear();
+        foreach (var item in _scheduleRepository.GetAll())
         {
-            Items = new ObservableCollection<ScheduleViewModel>();
-            _scheduleRepository = scheduleRepository;
-            Update();
-
-            UpdateDataCommand = new RelayCommand(Update);
+            ScheduleViewModel vm = new ScheduleViewModel(item);
+            Items.Add(vm);
         }
+    }
 
-        private void Update()
-        {
-            Items.Clear();
-            foreach (var item in _scheduleRepository.GetAll())
-            {
-                ScheduleViewModel vm = new ScheduleViewModel(item);
-                Items.Add(vm);
-            }
-        }
-
-        public ObservableCollection<ScheduleViewModel> Items
-        {
-            get { return _items; }
-            set { _items = value; OnPropertyChanged(); }
-        }
+    public ObservableCollection<ScheduleViewModel> Items
+    {
+        get { return _items; }
+        set { _items = value; OnPropertyChanged(); }
     }
 }

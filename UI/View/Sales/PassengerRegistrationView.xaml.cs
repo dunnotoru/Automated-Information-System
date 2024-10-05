@@ -2,66 +2,65 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace UI.View
+namespace UI.View.Sales;
+
+public partial class PassengerRegistrationView : UserControl
 {
-    public partial class PassengerRegistrationView : UserControl
+    public PassengerRegistrationView()
     {
-        public PassengerRegistrationView()
+        InitializeComponent();
+    }
+
+    private void NumberTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        bool result = true;
+        foreach (char item in e.Text)
         {
-            InitializeComponent();
+            result &= char.IsDigit(item);
         }
-
-        private void NumberTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        if(result)
         {
-            bool result = true;
-            foreach (char item in e.Text)
-            {
-                result &= char.IsDigit(item);
-            }
-            if(result)
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void NotNumberTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            bool result = false;
-            foreach (char item in e.Text)
-            {
-                result |= char.IsDigit(item);
-            }
-            if (result)
-            {
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = false;
-            }
-        }
-
-        private void DatePicker_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            DateTime result;
-            bool r = DateTime.TryParse(e.Text, out result);
-
-            if (r == false)
-            {
-                e.Handled = true;
-                return;
-            }
-
-            if(result >= DateTime.Now)
-            {
-                e.Handled = true;
-                return;
-            }
             e.Handled = false;
         }
+        else
+        {
+            e.Handled = true;
+        }
+    }
+
+    private void NotNumberTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        bool result = false;
+        foreach (char item in e.Text)
+        {
+            result |= char.IsDigit(item);
+        }
+        if (result)
+        {
+            e.Handled = true;
+        }
+        else
+        {
+            e.Handled = false;
+        }
+    }
+
+    private void DatePicker_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        DateTime result;
+        bool r = DateTime.TryParse(e.Text, out result);
+
+        if (r == false)
+        {
+            e.Handled = true;
+            return;
+        }
+
+        if(result >= DateTime.Now)
+        {
+            e.Handled = true;
+            return;
+        }
+        e.Handled = false;
     }
 }

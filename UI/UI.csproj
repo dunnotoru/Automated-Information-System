@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

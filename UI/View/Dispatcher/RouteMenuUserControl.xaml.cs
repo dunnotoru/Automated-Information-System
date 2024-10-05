@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View.Dispatcher;
+
+public partial class RouteMenuUserControl : UserControl
 {
-    public partial class RouteMenuUserControl : UserControl
+    public RouteMenuUserControl()
     {
-        public RouteMenuUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

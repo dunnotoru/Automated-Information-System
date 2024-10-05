@@ -1,10 +1,9 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
+namespace Domain.RepositoryInterfaces;
+
+public interface IPassportRepository : IRepositoryBase<IdentityDocument>
 {
-    public interface IPassportRepository : IRepositoryBase<IdentityDocument>
-    {
-        IdentityDocument Get(string number, string series);
-        bool IsExist(IdentityDocument document);
-    }
+    IdentityDocument Get(string number, string series);
+    bool IsExist(IdentityDocument document);
 }

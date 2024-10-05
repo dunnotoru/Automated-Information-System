@@ -1,37 +1,35 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace UI.View
-{
-    public partial class RunMenuUserControl : UserControl
-    {
-        public RunMenuUserControl()
-        {
-            InitializeComponent();
-        }
+namespace UI.View.Dispatcher;
 
-        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+public partial class RunMenuUserControl : UserControl
+{
+    public RunMenuUserControl()
+    {
+        InitializeComponent();
+    }
+
+    private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        foreach (char c in e.Text)
         {
-            foreach (char c in e.Text)
+            if (!char.IsDigit(c) && c != ':')
             {
-                if (!char.IsDigit(c) && c != ':')
-                {
-                    e.Handled = true;
-                    break;
-                }
+                e.Handled = true;
+                break;
             }
         }
+    }
 
-        private void NumberPreviewTextInput(object sender, TextCompositionEventArgs e)
+    private void NumberPreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        foreach (char c in e.Text)
         {
-            foreach (char c in e.Text)
+            if (!char.IsDigit(c))
             {
-                if (!char.IsDigit(c))
-                {
-                    e.Handled = true; 
-                    break;
-                }
+                e.Handled = true; 
+                break;
             }
         }
     }

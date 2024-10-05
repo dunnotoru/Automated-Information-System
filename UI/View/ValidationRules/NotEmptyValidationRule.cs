@@ -1,18 +1,17 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace UI.View.ValidationRules
+namespace UI.View.ValidationRules;
+
+public class NotEmptyValidationRule : ValidationRule
 {
-    public class NotEmptyValidationRule : ValidationRule
+    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            string? text = value as string;
+        string? text = value as string;
 
-            if (string.IsNullOrWhiteSpace(text))
-                return new ValidationResult(false, "string is empty");
+        if (string.IsNullOrWhiteSpace(text))
+            return new ValidationResult(false, "string is empty");
 
-            return ValidationResult.ValidResult;
-        }
+        return ValidationResult.ValidResult;
     }
 }

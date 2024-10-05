@@ -1,29 +1,19 @@
 ﻿using Domain.EntityFramework.Configurations;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 
-namespace Domain.EntityFramework.Contexts
+namespace Domain.EntityFramework.Contexts;
+
+public sealed class AccountContext : DbContext
 {
-    internal class AccountContext : DbContext
+    public DbSet<Account> Accounts { get; set; }
+    public AccountContext()
     {
-        public DbSet<Account> Accounts { get; set; }
-        public AccountContext()
-        {
-            Database.EnsureCreated();
-        }
+        Database.EnsureCreated();
+    }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            string connectionString = ConfigurationManager
-                .ConnectionStrings["ApplicationDatabase"].ConnectionString;
-
-            optionsBuilder.UseSqlite(connectionString);
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration<Account>(new AccountConfiguration());
-        }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration<Account>(new AccountConfiguration());
     }
 }

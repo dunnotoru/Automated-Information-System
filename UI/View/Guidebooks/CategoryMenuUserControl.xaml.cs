@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View.Guidebooks;
+
+public partial class CategoryMenuUserControl : UserControl
 {
-    public partial class CategoryMenuUserControl : UserControl
+    public CategoryMenuUserControl()
     {
-        public CategoryMenuUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

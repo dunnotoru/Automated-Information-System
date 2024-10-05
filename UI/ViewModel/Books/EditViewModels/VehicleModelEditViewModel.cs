@@ -7,138 +7,137 @@ using System.Collections.ObjectModel;
 using UI.ViewModel.HelperViewModels;
 using System.Linq;
 
-namespace UI.ViewModel.Books.EditViewModels
+namespace UI.ViewModel.Books.EditViewModels;
+
+internal class VehicleModelEditViewModel : ViewModelBase
 {
-    internal class VehicleModelEditViewModel : ViewModelBase
+    private readonly IBrandRepository _brandRepository;
+    private readonly IVehicleModelRepository _vehicleModelRepository;
+        
+    private int _id;
+    private string _name;
+    private int _capacity;
+    private BrandViewModel _selectedBrand;
+    private ObservableCollection<BrandViewModel> _brands;
+
+    public event EventHandler Save;
+    public event EventHandler Remove;
+    public event EventHandler<Exception> Error;
+
+    public ICommand SaveCommand { get; }
+    public ICommand RemoveCommand { get; }
+
+    public VehicleModelEditViewModel(VehicleModel vehicleModel, IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) 
+        : this(brandRepository, vehicleModelRepository)
     {
-        private readonly IBrandRepository _brandRepository;
-        private readonly IVehicleModelRepository _vehicleModelRepository;
-        
-        private int _id;
-        private string _name;
-        private int _capacity;
-        private BrandViewModel _selectedBrand;
-        private ObservableCollection<BrandViewModel> _brands;
-
-        public event EventHandler Save;
-        public event EventHandler Remove;
-        public event EventHandler<Exception> Error;
-
-        public ICommand SaveCommand { get; }
-        public ICommand RemoveCommand { get; }
-
-        public VehicleModelEditViewModel(VehicleModel vehicleModel, IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) 
-            : this(brandRepository, vehicleModelRepository)
-        {
-            ArgumentNullException.ThrowIfNull(vehicleModel);
+        ArgumentNullException.ThrowIfNull(vehicleModel);
             
-            _id = vehicleModel.Id;
-            _name = vehicleModel.Name;
-            _capacity = vehicleModel.Capacity;
-            _selectedBrand = Brands.FirstOrDefault(o => o.Id == vehicleModel.BrandId);
-        }
-        public VehicleModelEditViewModel(IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) 
+        _id = vehicleModel.Id;
+        _name = vehicleModel.Name;
+        _capacity = vehicleModel.Capacity;
+        _selectedBrand = Brands.FirstOrDefault(o => o.Id == vehicleModel.BrandId);
+    }
+    public VehicleModelEditViewModel(IBrandRepository brandRepository, IVehicleModelRepository vehicleModelRepository) 
+    {
+        ArgumentNullException.ThrowIfNull(brandRepository);
+        ArgumentNullException.ThrowIfNull(vehicleModelRepository);
+
+        _brandRepository = brandRepository;
+        _vehicleModelRepository = vehicleModelRepository;
+
+        _id = 0;
+        _name = "";
+        _capacity = 0;
+        _selectedBrand = null;
+
+        SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+        RemoveCommand = new RelayCommand(ExecuteRemove);
+        Brands = new ObservableCollection<BrandViewModel>();
+        foreach (Brand item in _brandRepository.GetAll())
         {
-            ArgumentNullException.ThrowIfNull(brandRepository);
-            ArgumentNullException.ThrowIfNull(vehicleModelRepository);
-
-            _brandRepository = brandRepository;
-            _vehicleModelRepository = vehicleModelRepository;
-
-            _id = 0;
-            _name = "";
-            _capacity = 0;
-            _selectedBrand = null;
-
-            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
-            RemoveCommand = new RelayCommand(ExecuteRemove);
-            Brands = new ObservableCollection<BrandViewModel>();
-            foreach (Brand item in _brandRepository.GetAll())
-            {
-                BrandViewModel vm = new BrandViewModel(item);
-                Brands.Add(vm);
-            }
+            BrandViewModel vm = new BrandViewModel(item);
+            Brands.Add(vm);
         }
+    }
         
-        private bool CanSave()
+    private bool CanSave()
+    {
+        return !string.IsNullOrWhiteSpace(Name) &&  SelectedBrand != null;
+    }
+
+    private void ExecuteSave()
+    {
+        VehicleModel model;
+        try
         {
-            return !string.IsNullOrWhiteSpace(Name) &&  SelectedBrand != null;
+            model = new VehicleModel()
+            {
+                Id = _id,
+                Name = Name,
+                Capacity = _capacity,
+                Brand = _brandRepository.GetById(SelectedBrand.Id),
+            };
+        }
+        catch (Exception e)
+        {
+            Error?.Invoke(this, e); return;
         }
 
-        private void ExecuteSave()
+        try
         {
-            VehicleModel model;
-            try
+            if (Id == 0)
             {
-                model = new VehicleModel()
-                {
-                    Id = _id,
-                    Name = Name,
-                    Capacity = _capacity,
-                    Brand = _brandRepository.GetById(SelectedBrand.Id),
-                };
+                Id = _vehicleModelRepository.Create(model);
             }
-            catch (Exception e)
+            else
             {
-                Error?.Invoke(this, e); return;
+                _vehicleModelRepository.Update(Id, model);
             }
+            Save?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception e)
+        {
+            Error?.Invoke(this, e);
+        }
+    }
+    private void ExecuteRemove()
+    {
+        if (Id == 0) return;
 
-            try
-            {
-                if (Id == 0)
-                {
-                    Id = _vehicleModelRepository.Create(model);
-                }
-                else
-                {
-                    _vehicleModelRepository.Update(Id, model);
-                }
-                Save?.Invoke(this, EventArgs.Empty);
-            }
-            catch (Exception e)
-            {
-                Error?.Invoke(this, e);
-            }
-        }
-        private void ExecuteRemove()
+        try
         {
-            if (Id == 0) return;
+            _vehicleModelRepository.Remove(Id);
+            Remove?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception e)
+        {
+            Error?.Invoke(this, e);
+        }
+    }
 
-            try
-            {
-                _vehicleModelRepository.Remove(Id);
-                Remove?.Invoke(this, EventArgs.Empty);
-            }
-            catch (Exception e)
-            {
-                Error?.Invoke(this, e);
-            }
-        }
-
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; OnPropertyChanged(); }
-        }
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; OnPropertyChanged(); }
-        }
-        public BrandViewModel SelectedBrand
-        {
-            get { return _selectedBrand; }
-            set { _selectedBrand = value; OnPropertyChanged(); }
-        }
-        public ObservableCollection<BrandViewModel> Brands
-        {
-            get { return _brands; }
-            set { _brands = value; OnPropertyChanged(); }
-        }
-        public int Capacity
-        {
-            get { return _capacity; }
-            set { _capacity = value; OnPropertyChanged(); }
-        }
+    public int Id
+    {
+        get { return _id; }
+        set { _id = value; OnPropertyChanged(); }
+    }
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; OnPropertyChanged(); }
+    }
+    public BrandViewModel SelectedBrand
+    {
+        get { return _selectedBrand; }
+        set { _selectedBrand = value; OnPropertyChanged(); }
+    }
+    public ObservableCollection<BrandViewModel> Brands
+    {
+        get { return _brands; }
+        set { _brands = value; OnPropertyChanged(); }
+    }
+    public int Capacity
+    {
+        get { return _capacity; }
+        set { _capacity = value; OnPropertyChanged(); }
     }
 }

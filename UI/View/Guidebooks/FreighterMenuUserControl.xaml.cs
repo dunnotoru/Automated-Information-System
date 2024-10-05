@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View.Guidebooks;
+
+public partial class FreighterMenuUserControl : UserControl
 {
-    public partial class FreighterMenuUserControl : UserControl
+    public FreighterMenuUserControl()
     {
-        public FreighterMenuUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

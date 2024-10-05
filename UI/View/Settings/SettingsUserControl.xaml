@@ -1,15 +1,17 @@
-﻿<UserControl x:Class="UI.View.SettingsUserControl"
+﻿<UserControl x:Class="UI.View.Settings.SettingsUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.View"
              xmlns:vm="clr-namespace:UI.ViewModel"
+             xmlns:settings="clr-namespace:UI.ViewModel.Settings"
+             xmlns:settings1="clr-namespace:UI.View.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:AccountMenuViewModel}">
-            <local:AccountMenuUserControl/>
+        <DataTemplate DataType="{x:Type settings:AccountMenuViewModel}">
+            <settings1:AccountMenuUserControl/>
         </DataTemplate>
     </UserControl.Resources>
     <Grid Background="White">

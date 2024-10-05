@@ -1,7 +1,6 @@
-﻿namespace UI.ViewModel
-{
-    public class AboutViewModel : ViewModelBase
-    {
+﻿namespace UI.ViewModel;
 
-    }
+public class AboutViewModel : ViewModelBase
+{
+
 }

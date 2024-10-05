@@ -1,11 +1,11 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
+namespace Domain.RepositoryInterfaces;
+
+public interface IAccountRepository : IRepositoryBase<Account>
 {
-    public interface IAccountRepository : IRepositoryBase<Account>
-    {
-        Account GetByUsername(string username);
-        void UpdatePasswordHash(int id, string password_hash);
-        bool IsAccountExist(string username);
-    }
+    Account GetByUsername(string username);
+    void UpdatePasswordHash(int id, string password_hash);
+    bool IsAccountExist(string username);
+    int Count();
 }

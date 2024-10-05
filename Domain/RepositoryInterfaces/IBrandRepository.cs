@@ -1,9 +1,8 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
-{
-    public interface IBrandRepository : IRepositoryBase<Brand>
-    {
+namespace Domain.RepositoryInterfaces;
 
-    }
+public interface IBrandRepository : IRepositoryBase<Brand>
+{
+
 }

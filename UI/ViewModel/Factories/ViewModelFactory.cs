@@ -1,20 +1,20 @@
-﻿using Castle.Windsor;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace UI.ViewModel.Factories
+namespace UI.ViewModel.Factories;
+
+internal class ViewModelFactory : IViewModelFactory
 {
-    internal class ViewModelFactory : IViewModelFactory
+    private readonly IServiceProvider _provider;
+
+    public ViewModelFactory(IServiceProvider provider)
     {
-        private readonly IWindsorContainer _container;
+        _provider = provider;
+    }
 
-        public ViewModelFactory(IWindsorContainer container)
-        {
-            _container = container;
-        }
-
-        public ViewModelBase CreateViewModel<TViewModel>()
-            where TViewModel : ViewModelBase
-        {
-            return _container.Resolve<TViewModel>();
-        }
+    public ViewModelBase CreateViewModel<TViewModel>()
+        where TViewModel : ViewModelBase
+    {
+        return (ViewModelBase)_provider.GetRequiredService<TViewModel>();
     }
 }

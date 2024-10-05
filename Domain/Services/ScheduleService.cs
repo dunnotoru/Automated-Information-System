@@ -1,40 +1,39 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace Domain.Services
+namespace Domain.Services;
+
+public class ScheduleService
 {
-    public class ScheduleService
+    private readonly IScheduleRepository _scheduleRepository;
+    private readonly IRunRepository _runRepository;
+
+    public ScheduleService(IScheduleRepository scheduleRepository, IRunRepository runRepository)
     {
-        private readonly IScheduleRepository _scheduleRepository;
-        private readonly IRunRepository _runRepository;
+        _scheduleRepository = scheduleRepository;
+        _runRepository = runRepository;
+    }
 
-        public ScheduleService(IScheduleRepository scheduleRepository, IRunRepository runRepository)
+    public void UpdateSchedule()
+    {
+        try
         {
-            _scheduleRepository = scheduleRepository;
-            _runRepository = runRepository;
-        }
-
-        public void UpdateSchedule()
-        {
-            try
+            List<Schedule> schedules = _scheduleRepository.GetAll().ToList();
+            foreach (Run item in _runRepository.GetAll())
             {
-                List<Schedule> schedules = _scheduleRepository.GetAll().ToList();
-                foreach (Run item in _runRepository.GetAll())
+                if (item.DepartureDateTime > DateTime.Now)
                 {
-                    if (item.DepartureDateTime > DateTime.Now)
-                    {
-                        int period = _scheduleRepository.GetByRun(item).PeriodInMinutes;
-                        item.DepartureDateTime.AddMinutes(period);
-                        item.EstimatedArrivalDateTime.AddMinutes(period);
-                    }
-
-                    _runRepository.Update(item.Id, item);
+                    int period = _scheduleRepository.GetByRun(item).PeriodInMinutes;
+                    item.DepartureDateTime.AddMinutes(period);
+                    item.EstimatedArrivalDateTime.AddMinutes(period);
                 }
+
+                _runRepository.Update(item.Id, item);
             }
-            catch
-            {
+        }
+        catch
+        {
                 
-            }
         }
     }
 }

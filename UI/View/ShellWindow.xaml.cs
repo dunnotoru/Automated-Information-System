@@ -1,15 +1,14 @@
 ﻿using System.Windows;
 
-namespace UI.View
+namespace UI.View;
+
+/// <summary>
+/// Логика взаимодействия для ShellWindow.xaml
+/// </summary>
+public partial class ShellWindow : Window
 {
-    /// <summary>
-    /// Логика взаимодействия для ShellWindow.xaml
-    /// </summary>
-    public partial class ShellWindow : Window
+    public ShellWindow()
     {
-        public ShellWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

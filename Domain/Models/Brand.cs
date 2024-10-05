@@ -1,9 +1,8 @@
-﻿namespace Domain.Models
-{
-    public class Brand : EntityBase
-    {
-        public string Name { get; set; }
+﻿namespace Domain.Models;
 
-        public ICollection<VehicleModel> VehicleModels { get; set; } = new List<VehicleModel>();
-    }
+public class Brand : EntityBase
+{
+    public string Name { get; set; }
+
+    public ICollection<VehicleModel> VehicleModels { get; set; } = new List<VehicleModel>();
 }

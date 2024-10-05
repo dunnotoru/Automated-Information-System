@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View.Sales;
+
+public partial class RunSearchView : UserControl
 {
-    public partial class RunSearchView : UserControl
+    public RunSearchView()
     {
-        public RunSearchView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

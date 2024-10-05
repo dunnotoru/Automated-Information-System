@@ -5,98 +5,97 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace UI.ViewModel.HelperViewModels
+namespace UI.ViewModel.HelperViewModels;
+
+class DriverLicenseViewModel : ViewModelBase
 {
-    class DriverLicenseViewModel : ViewModelBase
+    private readonly ICategoryRepository _categoryRepository;
+    private int _id;
+    private string _licenseNumber;
+    private DateTime _dateOfIssue;
+    private DateTime _dateOfExpiration;
+    private ObservableCollection<CategoryViewModel> _categories;
+
+    public DriverLicenseViewModel(DriverLicense license, ICategoryRepository categoryRepository)
     {
-        private readonly ICategoryRepository _categoryRepository;
-        private int _id;
-        private string _licenseNumber;
-        private DateTime _dateOfIssue;
-        private DateTime _dateOfExpiration;
-        private ObservableCollection<CategoryViewModel> _categories;
+        ArgumentNullException.ThrowIfNull(license);
 
-        public DriverLicenseViewModel(DriverLicense license, ICategoryRepository categoryRepository)
+        _categoryRepository = categoryRepository;
+        Id = license.Id;
+        LicenseNumber = license.LicenseNumber;
+        DateOfIssue = license.DateOfIssue;
+        DateOfExpiration = license.DateOfExpiration;
+        Categories = new ObservableCollection<CategoryViewModel>();
+        foreach (Category item in _categoryRepository.GetAll())
         {
-            ArgumentNullException.ThrowIfNull(license);
+            CategoryViewModel vm = new CategoryViewModel(item, _categoryRepository);
+            if (license.Categories.Any(o => item.Id == o.Id))
+                vm.IsSelected = true;
+            Categories.Add(vm);
+        }
+    }
 
-            _categoryRepository = categoryRepository;
-            Id = license.Id;
-            LicenseNumber = license.LicenseNumber;
-            DateOfIssue = license.DateOfIssue;
-            DateOfExpiration = license.DateOfExpiration;
-            Categories = new ObservableCollection<CategoryViewModel>();
-            foreach (Category item in _categoryRepository.GetAll())
-            {
-                CategoryViewModel vm = new CategoryViewModel(item, _categoryRepository);
-                if (license.Categories.Any(o => item.Id == o.Id))
-                    vm.IsSelected = true;
-                Categories.Add(vm);
-            }
+    public DriverLicenseViewModel(ICategoryRepository categoryRepository)
+    {
+        _categoryRepository = categoryRepository;
+        Id = 0;
+        LicenseNumber = "";
+        DateOfIssue = DateTime.Now;
+        DateOfExpiration = DateTime.Now;
+        Categories = new ObservableCollection<CategoryViewModel>();
+        foreach (Category item in _categoryRepository.GetAll())
+        {
+            CategoryViewModel vm = new CategoryViewModel(item, _categoryRepository);
+            Categories.Add(vm);
+        }
+    }
+
+    public DriverLicense GetLicense()
+    {
+        List<Category> categories = new List<Category>();
+        foreach (CategoryViewModel item in Categories)
+        {
+            if (item.IsSelected == true)
+                categories.Add(item.GetCategory());
         }
 
-        public DriverLicenseViewModel(ICategoryRepository categoryRepository)
+        return new DriverLicense()
         {
-            _categoryRepository = categoryRepository;
-            Id = 0;
-            LicenseNumber = "";
-            DateOfIssue = DateTime.Now;
-            DateOfExpiration = DateTime.Now;
-            Categories = new ObservableCollection<CategoryViewModel>();
-            foreach (Category item in _categoryRepository.GetAll())
-            {
-                CategoryViewModel vm = new CategoryViewModel(item, _categoryRepository);
-                Categories.Add(vm);
-            }
-        }
+            Id = Id,
+            DateOfIssue = DateOfIssue,
+            DateOfExpiration = DateOfExpiration,
+            LicenseNumber = LicenseNumber,
+            Categories = categories
+        };
+    }
 
-        public DriverLicense GetLicense()
-        {
-            List<Category> categories = new List<Category>();
-            foreach (CategoryViewModel item in Categories)
-            {
-                if (item.IsSelected == true)
-                    categories.Add(item.GetCategory());
-            }
+    public int Id
+    {
+        get { return _id; }
+        set { _id = value; OnPropertyChanged(); }
+    }
 
-            return new DriverLicense()
-            {
-                Id = Id,
-                DateOfIssue = DateOfIssue,
-                DateOfExpiration = DateOfExpiration,
-                LicenseNumber = LicenseNumber,
-                Categories = categories
-            };
-        }
+    public string LicenseNumber
+    {
+        get { return _licenseNumber; }
+        set { _licenseNumber = value; OnPropertyChanged(); }
+    }
 
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; OnPropertyChanged(); }
-        }
+    public DateTime DateOfIssue
+    {
+        get { return _dateOfIssue; }
+        set { _dateOfIssue = value; OnPropertyChanged(); DateOfExpiration = DateOfIssue.AddYears(10); }
+    }
 
-        public string LicenseNumber
-        {
-            get { return _licenseNumber; }
-            set { _licenseNumber = value; OnPropertyChanged(); }
-        }
+    public DateTime DateOfExpiration
+    {
+        get { return _dateOfExpiration; }
+        set { _dateOfExpiration = value; OnPropertyChanged(); }
+    }
 
-        public DateTime DateOfIssue
-        {
-            get { return _dateOfIssue; }
-            set { _dateOfIssue = value; OnPropertyChanged(); DateOfExpiration = DateOfIssue.AddYears(10); }
-        }
-
-        public DateTime DateOfExpiration
-        {
-            get { return _dateOfExpiration; }
-            set { _dateOfExpiration = value; OnPropertyChanged(); }
-        }
-
-        public ObservableCollection<CategoryViewModel> Categories
-        {
-            get { return _categories; }
-            set { _categories = value; OnPropertyChanged(); }
-        }
+    public ObservableCollection<CategoryViewModel> Categories
+    {
+        get { return _categories; }
+        set { _categories = value; OnPropertyChanged(); }
     }
 }

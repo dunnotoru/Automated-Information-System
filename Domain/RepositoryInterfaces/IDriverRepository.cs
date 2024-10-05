@@ -1,10 +1,9 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
+namespace Domain.RepositoryInterfaces;
+
+public interface IDriverRepository : IRepositoryBase<Driver>
 {
-    public interface IDriverRepository : IRepositoryBase<Driver>
-    {
-        Driver GetByPayrollNumber(string payrollNumber);
-        IEnumerable<Driver> GetIdleDrivers();
-    }
+    Driver GetByPayrollNumber(string payrollNumber);
+    IEnumerable<Driver> GetIdleDrivers();
 }

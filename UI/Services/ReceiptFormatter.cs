@@ -1,32 +1,31 @@
 ﻿using Domain.Models;
-using Domain.Services;
 using System.Text;
+using Domain.Services.Abstractions;
 
-namespace UI.Services
+namespace UI.Services;
+
+public class ReceiptFormatter : IDocumentFormatter<Receipt>
 {
-    public class ReceiptFormatter : IDocumentFormatter<Receipt>
+    public string GetFormattedData(Receipt document)
     {
-        public string GetFormattedData(Receipt document)
-        {
-            string result;
+        string result;
 
-            StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
             
-            sb.AppendLine($"Номер чека: {document.Number}");
-            sb.AppendLine($"Организация: {document.CompanyName}");
-            sb.AppendLine($"Юридический адрес: {document.Address}");
-            sb.AppendLine($"Время: {document.OperationDateTime}");
-            sb.AppendLine($"Кассир: {document.CashierName}");
-            sb.AppendLine($"Товар Цена Кол-во Стоимость");
-            foreach (var item in document.ReceiptLines)
-            {
-                sb.AppendLine($"{item.Header}  {item.Price}  {item.Count}  {item.FullPrice}");
-            }
-            sb.AppendLine($"ИТОГ           {document.FullPrice}");
-
-            result = sb.ToString();
-
-            return result;
+        sb.AppendLine($"Номер чека: {document.Number}");
+        sb.AppendLine($"Организация: {document.CompanyName}");
+        sb.AppendLine($"Юридический адрес: {document.Address}");
+        sb.AppendLine($"Время: {document.OperationDateTime}");
+        sb.AppendLine($"Кассир: {document.CashierName}");
+        sb.AppendLine($"Товар Цена Кол-во Стоимость");
+        foreach (var item in document.ReceiptLines)
+        {
+            sb.AppendLine($"{item.Header}  {item.Price}  {item.Count}  {item.FullPrice}");
         }
+        sb.AppendLine($"ИТОГ           {document.FullPrice}");
+
+        result = sb.ToString();
+
+        return result;
     }
 }

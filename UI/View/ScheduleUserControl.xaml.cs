@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View;
+
+public partial class ScheduleUserControl : UserControl
 {
-    public partial class ScheduleUserControl : UserControl
+    public ScheduleUserControl()
     {
-        public ScheduleUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

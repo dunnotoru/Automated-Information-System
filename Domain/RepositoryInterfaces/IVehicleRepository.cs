@@ -1,11 +1,10 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
-{
-    public interface IVehicleRepository : IRepositoryBase<Vehicle>
-    {
-        Vehicle GetByLicenseNumber(string licensePlateNumber);
+namespace Domain.RepositoryInterfaces;
 
-        IEnumerable<Vehicle> GetIdleVehicles();
-    }
+public interface IVehicleRepository : IRepositoryBase<Vehicle>
+{
+    Vehicle GetByLicenseNumber(string licensePlateNumber);
+
+    IEnumerable<Vehicle> GetIdleVehicles();
 }

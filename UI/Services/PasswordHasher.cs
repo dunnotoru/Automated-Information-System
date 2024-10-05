@@ -1,24 +1,23 @@
-﻿using Domain.Services;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
+using Domain.Services.Abstractions;
 
-namespace UI.Services
+namespace UI.Services;
+
+internal class PasswordHasher : IPasswordHasher
 {
-    internal class PasswordHasher : IPasswordHasher
+    public string CalcHash(string password)
     {
-        public string CalcHash(string password)
+        using (SHA256 sha256Hash = SHA256.Create())
         {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2"));
             }
+            return builder.ToString();
         }
     }
 }

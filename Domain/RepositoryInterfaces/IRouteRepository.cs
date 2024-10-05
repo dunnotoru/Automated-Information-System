@@ -1,9 +1,8 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
+namespace Domain.RepositoryInterfaces;
+
+public interface IRouteRepository : IRepositoryBase<Route>
 {
-    public interface IRouteRepository : IRepositoryBase<Route>
-    {
-        IEnumerable<Route> GetByStations(Station from, Station to);
-    }
+    IEnumerable<Route> GetByStations(Station from, Station to);
 }

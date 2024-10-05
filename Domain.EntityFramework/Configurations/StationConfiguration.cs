@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Domain.EntityFramework.Configurations
+namespace Domain.EntityFramework.Configurations;
+
+internal sealed class StationConfiguration : IEntityTypeConfiguration<Station>
 {
-    internal sealed class StationConfiguration : IEntityTypeConfiguration<Station>
+    public void Configure(EntityTypeBuilder<Station> builder)
     {
-        public void Configure(EntityTypeBuilder<Station> builder)
-        {
-            builder.HasKey(x => x.Id);
-        }
+        builder.HasKey(x => x.Id);
     }
 }

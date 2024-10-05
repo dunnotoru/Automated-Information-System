@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace UI.Command
+namespace UI.Command;
+
+public abstract class CommandBase : ICommand
 {
-    public abstract class CommandBase : ICommand
+    public virtual event EventHandler? CanExecuteChanged;
+
+    public virtual bool CanExecute(object? parameter)
     {
-        public virtual event EventHandler? CanExecuteChanged;
+        return true;
+    }
 
-        public virtual bool CanExecute(object? parameter)
-        {
-            return true;
-        }
+    public abstract void Execute(object? parameter);
 
-        public abstract void Execute(object? parameter);
-
-        protected void OnCanExecutedChanged()
-        {
-            CanExecuteChanged?.Invoke(this, new EventArgs());
-        }
+    protected void OnCanExecutedChanged()
+    {
+        CanExecuteChanged?.Invoke(this, new EventArgs());
     }
 }

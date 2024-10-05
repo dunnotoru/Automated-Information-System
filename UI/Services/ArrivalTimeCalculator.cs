@@ -1,18 +1,17 @@
 ﻿using Domain.Models;
-using Domain.Services;
 using System;
+using Domain.Services.Abstractions;
 
-namespace UI.Services
+namespace UI.Services;
+
+public class ArrivalTimeCalculator : IArrivalTimeCalculator
 {
-    public class ArrivalTimeCalculator : IArrivalTimeCalculator
+    public DateTime Calculate(Route route, DateTime departureDateTime)
     {
-        public DateTime Calculate(Route route, DateTime departureDateTime)
+        foreach (var item in route.Stations)
         {
-            foreach (var item in route.Stations)
-            {
-                departureDateTime = departureDateTime.AddMinutes(30);
-            }
-            return departureDateTime;
+            departureDateTime = departureDateTime.AddMinutes(30);
         }
+        return departureDateTime;
     }
 }

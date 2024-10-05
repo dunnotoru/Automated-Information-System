@@ -1,14 +1,13 @@
 ﻿using System;
-using UI.ViewModel;
+using UI.ViewModel.Sales;
 
-namespace UI.Stores
+namespace UI.Stores;
+
+internal class OrderStore
 {
-    internal class OrderStore
+    public event Action<OrderViewModel> OrderCreated;
+    public void CreateOrder(OrderViewModel order)
     {
-        public event Action<OrderViewModel> OrderCreated;
-        public void CreateOrder(OrderViewModel order)
-        {
-            OrderCreated?.Invoke(order);
-        }
+        OrderCreated?.Invoke(order);
     }
 }

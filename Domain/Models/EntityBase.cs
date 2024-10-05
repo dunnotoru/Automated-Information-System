@@ -1,7 +1,6 @@
-﻿namespace Domain.Models
+﻿namespace Domain.Models;
+
+public class EntityBase
 {
-    public class EntityBase
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

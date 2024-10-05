@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View.Guidebooks;
+
+public partial class BrandMenuUserControl : UserControl
 {
-    public partial class BrandMenuUserControl : UserControl
+    public BrandMenuUserControl()
     {
-        public BrandMenuUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

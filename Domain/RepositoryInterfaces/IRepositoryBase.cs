@@ -1,14 +1,13 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
+namespace Domain.RepositoryInterfaces;
+
+public interface IRepositoryBase<TEntity>
+    where TEntity : EntityBase
 {
-    public interface IRepositoryBase<TEntity>
-        where TEntity : EntityBase
-    {
-        int Create(TEntity entity);
-        void Update(int id, TEntity entity);
-        void Remove(int id);
-        TEntity GetById(int id);
-        IEnumerable<TEntity> GetAll();
-    }
+    int Create(TEntity entity);
+    void Update(int id, TEntity entity);
+    void Remove(int id);
+    TEntity GetById(int id);
+    IEnumerable<TEntity> GetAll();
 }

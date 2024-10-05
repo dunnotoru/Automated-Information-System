@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View;
+
+/// <summary>
+/// Логика взаимодействия для Certificate.xaml
+/// </summary>
+public partial class Certificate : UserControl
 {
-    /// <summary>
-    /// Логика взаимодействия для Certificate.xaml
-    /// </summary>
-    public partial class Certificate : UserControl
+    public Certificate()
     {
-        public Certificate()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

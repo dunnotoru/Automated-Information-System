@@ -3,101 +3,99 @@ using Domain.RepositoryInterfaces;
 using System;
 using System.Windows.Input;
 using UI.Command;
-using UI.Services;
 
-namespace UI.ViewModel.Books.EditViewModels
+namespace UI.ViewModel.Books.EditViewModels;
+
+internal class FreighterEditViewModel : ViewModelBase
 {
-    internal class FreighterEditViewModel : ViewModelBase
+    private readonly IFreighterRepository _freighterRepository;
+    private int _id;
+    private string _name;
+
+    public event EventHandler Save;
+    public event EventHandler Remove;
+    public event EventHandler<Exception> Error;
+
+    public ICommand SaveCommand { get; }
+    public ICommand RemoveCommand { get; }
+
+    public FreighterEditViewModel(Freighter freighter, IFreighterRepository brandRepository) : this()
     {
-        private readonly IFreighterRepository _freighterRepository;
-        private int _id;
-        private string _name;
+        ArgumentNullException.ThrowIfNull(brandRepository);
+        Id = freighter.Id;
+        Name = freighter.Name;
+        _freighterRepository = brandRepository;
+    }
+    public FreighterEditViewModel(IFreighterRepository brandRepository) : this()
+    {
+        ArgumentNullException.ThrowIfNull(brandRepository);
 
-        public event EventHandler Save;
-        public event EventHandler Remove;
-        public event EventHandler<Exception> Error;
+        Id = 0;
+        Name = "";
+        _freighterRepository = brandRepository;
+    }
+    private FreighterEditViewModel()
+    {
+        SaveCommand = new RelayCommand(ExecuteSave, CanSave);
+        RemoveCommand = new RelayCommand(ExecuteRemove);
+    }
 
-        public ICommand SaveCommand { get; }
-        public ICommand RemoveCommand { get; }
+    private bool CanSave()
+    {
+        return !string.IsNullOrWhiteSpace(Name);
+    }
 
-        public FreighterEditViewModel(Freighter freighter, IFreighterRepository brandRepository) : this()
+    private void ExecuteSave()
+    {
+        Freighter freighter = new Freighter()
         {
-            ArgumentNullException.ThrowIfNull(brandRepository);
-            Id = freighter.Id;
-            Name = freighter.Name;
-            _freighterRepository = brandRepository;
-        }
-        public FreighterEditViewModel(IFreighterRepository brandRepository) : this()
-        {
-            ArgumentNullException.ThrowIfNull(brandRepository);
+            Id = _id,
+            Name = _name,
+        };
 
-            Id = 0;
-            Name = "";
-            _freighterRepository = brandRepository;
-        }
-        private FreighterEditViewModel()
+        try
         {
-            SaveCommand = new RelayCommand(ExecuteSave, CanSave);
-            RemoveCommand = new RelayCommand(ExecuteRemove);
-        }
-
-        private bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(Name);
-        }
-
-        private void ExecuteSave()
-        {
-            Freighter freighter = new Freighter()
+            if (Id == 0)
             {
-                Id = _id,
-                Name = _name,
-            };
-
-            try
-            {
-                if (Id == 0)
-                {
-                    Id = _freighterRepository.Create(freighter);
-                }
-                else
-                {
-                    _freighterRepository.Update(Id, freighter);
-                }
-                Save?.Invoke(this, EventArgs.Empty);
+                Id = _freighterRepository.Create(freighter);
             }
-            catch (Exception e)
+            else
             {
-                Error?.Invoke(this, e);
+                _freighterRepository.Update(Id, freighter);
             }
-
+            Save?.Invoke(this, EventArgs.Empty);
         }
-        private void ExecuteRemove()
+        catch (Exception e)
         {
-            if (Id == 0) return;
-
-            try
-            {
-                _freighterRepository.Remove(Id);
-                Remove?.Invoke(this, EventArgs.Empty);
-            }
-            catch (Exception e)
-            {
-                Error?.Invoke(this, e);
-            }
-
+            Error?.Invoke(this, e);
         }
 
-        public int Id
+    }
+    private void ExecuteRemove()
+    {
+        if (Id == 0) return;
+
+        try
         {
-            get { return _id; }
-            set { _id = value; OnPropertyChanged(); }
+            _freighterRepository.Remove(Id);
+            Remove?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception e)
+        {
+            Error?.Invoke(this, e);
         }
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; OnPropertyChanged(); }
-        }
+    }
+
+    public int Id
+    {
+        get { return _id; }
+        set { _id = value; OnPropertyChanged(); }
+    }
+
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; OnPropertyChanged(); }
     }
 }

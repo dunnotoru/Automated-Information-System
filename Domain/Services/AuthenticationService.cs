@@ -1,39 +1,39 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Domain.Services.Abstractions;
 
-namespace Domain.Services
+namespace Domain.Services;
+
+public class AuthenticationService
 {
-    public class AuthenticationService
+    private readonly IPasswordValidator _passwordValidator;
+    private readonly IAccountRepository _accountRepository;
+
+    public AuthenticationService(IAccountRepository accountRepository,
+        IPasswordValidator passwordValidator)
     {
-        private readonly IPasswordValidator _passwordValidator;
-        private readonly IAccountRepository _accountRepository;
+        ArgumentNullException.ThrowIfNull(nameof(accountRepository));
+        ArgumentNullException.ThrowIfNull(nameof(passwordValidator));
 
-        public AuthenticationService(IAccountRepository accountRepository,
-            IPasswordValidator passwordValidator)
+        _accountRepository = accountRepository;
+        _passwordValidator = passwordValidator;
+    }
+
+    public Account Authenticate(string username, string password)
+    {
+        Account storedAccount;
+        try
         {
-            ArgumentNullException.ThrowIfNull(nameof(accountRepository));
-            ArgumentNullException.ThrowIfNull(nameof(passwordValidator));
-
-            _accountRepository = accountRepository;
-            _passwordValidator = passwordValidator;
+            storedAccount = _accountRepository.GetByUsername(username);
+        }
+        catch
+        {
+            throw new InvalidOperationException("Пользователя с таким именем не существует");
         }
 
-        public Account Authenticate(string username, string password)
-        {
-            Account storedAccount;
-            try
-            {
-                storedAccount = _accountRepository.GetByUsername(username);
-            }
-            catch
-            {
-                throw new InvalidOperationException("Пользователя с таким именем не существует");
-            }
-
-            if (_passwordValidator.Validate(password, storedAccount.PasswordHash))
-                return storedAccount;
-            else
-                throw new InvalidOperationException("Неверные данные");
-        }
+        if (_passwordValidator.Validate(password, storedAccount.PasswordHash))
+            return storedAccount;
+        else
+            throw new InvalidOperationException("Неверные данные");
     }
 }

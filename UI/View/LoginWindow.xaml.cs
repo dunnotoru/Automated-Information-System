@@ -1,22 +1,21 @@
 ﻿using System.Windows;
 
-namespace UI.View
+namespace UI.View;
+
+public partial class LoginWindow : Window
 {
-    public partial class LoginWindow : Window
+    public LoginWindow()
     {
-        public LoginWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
+    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
             
-        }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Domain.Models;
 
-namespace Domain.RepositoryInterfaces
+namespace Domain.RepositoryInterfaces;
+
+public interface ITicketRepository : IRepositoryBase<Ticket>
 {
-    public interface ITicketRepository : IRepositoryBase<Ticket>
-    {
         
-    }
 }

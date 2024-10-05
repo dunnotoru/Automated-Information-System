@@ -1,42 +1,41 @@
 ﻿using Domain.Models;
 using Domain.RepositoryInterfaces;
 
-namespace Domain.Services
+namespace Domain.Services;
+
+public class RunSearchService
 {
-    public class RunSearchService
+    private readonly IRunRepository _runRepository;
+    private readonly IRouteRepository _routeRepository;
+    private readonly ITicketRepository _ticketRepository;
+
+    public RunSearchService(IRunRepository runRepository, IRouteRepository routeRepository, ITicketRepository ticketRepository)
     {
-        private readonly IRunRepository _runRepository;
-        private readonly IRouteRepository _routeRepository;
-        private readonly ITicketRepository _ticketRepository;
+        _runRepository = runRepository;
+        _routeRepository = routeRepository;
+        _ticketRepository = ticketRepository;
+    }
 
-        public RunSearchService(IRunRepository runRepository, IRouteRepository routeRepository, ITicketRepository ticketRepository)
+    public List<Run> GetAvailableRuns(Station departureStation, Station arrivalStation, DateTime departureDateTimeMinimum,
+        DateTime departureDateTimeMaximum)
+    {
+        List<Run> runs = new List<Run>();
+        IEnumerable<Route> routes;
+
+        routes = _routeRepository.GetByStations(departureStation, arrivalStation);
+        foreach (Route route in routes)
         {
-            _runRepository = runRepository;
-            _routeRepository = routeRepository;
-            _ticketRepository = ticketRepository;
+            runs.AddRange(_runRepository.GetByRoute(route));
         }
 
-        public List<Run> GetAvailableRuns(Station departureStation, Station arrivalStation, DateTime departureDateTimeMinimum,
-            DateTime departureDateTimeMaximum)
-        {
-            List<Run> runs = new List<Run>();
-            IEnumerable<Route> routes;
+        runs = runs.Where(o => o.DepartureDateTime > departureDateTimeMinimum
+                               && o.DepartureDateTime < departureDateTimeMaximum).ToList();
 
-            routes = _routeRepository.GetByStations(departureStation, arrivalStation);
-            foreach (Route route in routes)
-            {
-                runs.AddRange(_runRepository.GetByRoute(route));
-            }
+        runs = runs.Where(o => o.EstimatedArrivalDateTime > DateTime.Now).ToList();
+        runs = runs.Where(o => o.DepartureDateTime > DateTime.Now).ToList();
 
-            runs = runs.Where(o => o.DepartureDateTime > departureDateTimeMinimum
-                && o.DepartureDateTime < departureDateTimeMaximum).ToList();
+        runs = runs.Where(o => _runRepository.GetFreePlaces(o.Id) > 0).ToList();
 
-            runs = runs.Where(o => o.EstimatedArrivalDateTime > DateTime.Now).ToList();
-            runs = runs.Where(o => o.DepartureDateTime > DateTime.Now).ToList();
-
-            runs = runs.Where(o => _runRepository.GetFreePlaces(o.Id) > 0).ToList();
-
-            return runs;
-        }
+        return runs;
     }
 }

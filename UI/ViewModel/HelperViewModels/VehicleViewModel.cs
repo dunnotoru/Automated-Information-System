@@ -1,35 +1,33 @@
 ﻿using Domain.Models;
-using Domain.RepositoryInterfaces;
 
-namespace UI.ViewModel.HelperViewModels
+namespace UI.ViewModel.HelperViewModels;
+
+public class VehicleViewModel : ViewModelBase
 {
-    public class VehicleViewModel : ViewModelBase
+    private int _id;
+    private string _licensePlateNumber;
+
+    public VehicleViewModel(Vehicle vehicle)
     {
-        private int _id;
-        private string _licensePlateNumber;
+        Id = vehicle.Id;
+        LicensePlateNumber = vehicle.LicensePlateNumber;
+    }
 
-        public VehicleViewModel(Vehicle vehicle)
-        {
-            Id = vehicle.Id;
-            LicensePlateNumber = vehicle.LicensePlateNumber;
-        }
+    public VehicleViewModel()
+    {
+        Id = 0;
+        LicensePlateNumber = "";
+    }
 
-        public VehicleViewModel()
-        {
-            Id = 0;
-            LicensePlateNumber = "";
-        }
+    public string LicensePlateNumber
+    {
+        get { return _licensePlateNumber; }
+        set { _licensePlateNumber = value; }
+    }
 
-        public string LicensePlateNumber
-        {
-            get { return _licensePlateNumber; }
-            set { _licensePlateNumber = value; }
-        }
-
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; OnPropertyChanged(); }
-        }
+    public int Id
+    {
+        get { return _id; }
+        set { _id = value; OnPropertyChanged(); }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View.Dispatcher;
+
+public partial class TicketMenuUserControl : UserControl
 {
-    public partial class TicketMenuUserControl : UserControl
+    public TicketMenuUserControl()
     {
-        public TicketMenuUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

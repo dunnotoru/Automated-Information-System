@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.View
+namespace UI.View;
+
+public partial class AboutUserControl : UserControl
 {
-    public partial class AboutUserControl : UserControl
+    public AboutUserControl()
     {
-        public AboutUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
