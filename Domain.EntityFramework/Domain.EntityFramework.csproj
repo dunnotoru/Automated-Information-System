@@ -22,10 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DomainDb.db">
+    <None Update="Data\AppDb.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="AppDb.db">
+    <None Update="Data\DomainDb.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

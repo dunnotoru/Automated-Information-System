@@ -7,7 +7,7 @@ namespace Domain.EntityFramework.Contexts;
 public sealed class AccountContext : DbContext
 {
     public DbSet<Account> Accounts { get; set; }
-    public AccountContext()
+    public AccountContext(DbContextOptions<AccountContext> options) : base(options)
     {
         Database.EnsureCreated();
     }

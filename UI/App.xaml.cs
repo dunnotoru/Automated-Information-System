@@ -25,23 +25,10 @@ namespace UI;
 
 public partial class App : Application
 {
-    private string GetOrCreateContentRoot()
-    {
-        string path = Path.Combine(Directory.GetCurrentDirectory(), "Data");
-        if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }
-        return path;
-    }
-    
     protected override void OnStartup(StartupEventArgs e)
     {
         var h = Host.CreateDefaultBuilder()
             .UseEnvironment("Development")
-            .UseContentRoot(
-                GetOrCreateContentRoot()
-            )
             .ConfigureServices(Configure)
             .Build();
 
@@ -58,6 +45,16 @@ public partial class App : Application
         } 
 
         base.OnStartup(e);
+    }
+    
+    private static string GetOrCreateContentRoot()
+    {
+        string path = Path.Combine(Directory.GetCurrentDirectory(), "Data");
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        return path;
     }
 
     private void LoadLogin(IServiceProvider provider)
@@ -110,20 +107,24 @@ public partial class App : Application
         MainWindow = window;
     }
 
-    private void Configure(HostBuilderContext context, IServiceCollection services)
+    private static void Configure(HostBuilderContext context, IServiceCollection services)
     {
         services
-            .AddDbContextFactory<ApplicationContext>(builder =>
-            {
-                builder.UseSqlite(context.Configuration["ConnectionStrings:ApplicationDatabase"]
-                                  ?? throw new NullReferenceException());
-            })
             .AddDbContextFactory<AccountContext>(builder =>
             {
-                builder.UseSqlite(context.Configuration["ConnectionStrings:DomainDatabase"]
-                                  ?? throw new NullReferenceException());
+                string connection = context.Configuration["ConnectionStrings:ApplicationDatabase"]
+                                    ?? throw new NullReferenceException("No connection string provided");
+                connection = "Data Source=" + Path.Join(Directory.GetCurrentDirectory(), connection);
+                builder.UseSqlite(connection);
+            })
+            .AddDbContextFactory<ApplicationContext>(builder =>
+            {
+                string connection = context.Configuration["ConnectionStrings:DomainDatabase"]
+                                    ?? throw new NullReferenceException("No connection string provided");
+                connection = "Data Source=" + Path.Join(Directory.GetCurrentDirectory(), connection);
+                builder.UseSqlite(connection);
             });
-        
+
         services
             .AddSingleton<IPasswordHasher, PasswordHasher>()
             .AddSingleton<IPasswordValidator, PasswordValidator>()
