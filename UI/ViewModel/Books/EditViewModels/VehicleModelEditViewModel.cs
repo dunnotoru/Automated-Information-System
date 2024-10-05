@@ -118,26 +118,26 @@ internal class VehicleModelEditViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
     public BrandViewModel SelectedBrand
     {
         get { return _selectedBrand; }
-        set { _selectedBrand = value; OnPropertyChanged(); }
+        set { _selectedBrand = value; NotifyPropertyChanged(); }
     }
     public ObservableCollection<BrandViewModel> Brands
     {
         get { return _brands; }
-        set { _brands = value; OnPropertyChanged(); }
+        set { _brands = value; NotifyPropertyChanged(); }
     }
     public int Capacity
     {
         get { return _capacity; }
-        set { _capacity = value; OnPropertyChanged(); }
+        set { _capacity = value; NotifyPropertyChanged(); }
     }
 }

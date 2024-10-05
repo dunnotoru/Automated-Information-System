@@ -24,7 +24,7 @@ internal class VehicleMenuViewModel : ViewModelBase
     public VehicleEditViewModel SelectedVehicle
     {
         get => _selectedVehicle;
-        set { _selectedVehicle = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedVehicle = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 
     public bool IsRedactingEnabled => SelectedVehicle != null;

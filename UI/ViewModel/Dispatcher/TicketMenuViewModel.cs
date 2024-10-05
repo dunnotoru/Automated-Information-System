@@ -44,12 +44,12 @@ internal class TicketMenuViewModel : ViewModelBase
     public ObservableCollection<TicketEditViewModel> Items
     {
         get { return _items; }
-        set { _items = value; OnPropertyChanged(); }
+        set { _items = value; NotifyPropertyChanged(); }
     }
 
     public TicketEditViewModel SelectedItem
     {
         get { return _selectedItem; }
-        set { _selectedItem = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedItem = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 }

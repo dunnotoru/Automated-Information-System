@@ -22,13 +22,13 @@ internal class TicketTypeMenuViewModel : ViewModelBase
     public ObservableCollection<TicketTypeEditViewModel> Items
     {
         get { return _items; }
-        set { _items = value; OnPropertyChanged(); }
+        set { _items = value; NotifyPropertyChanged(); }
     }
 
     public TicketTypeEditViewModel SelectedItem
     {
         get => _selectedtem;
-        set { _selectedtem = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedtem = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 
     public bool IsRedactingEnabled => SelectedItem != null;

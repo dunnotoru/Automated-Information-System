@@ -13,7 +13,7 @@ public class CategoryItemViewModel : ViewModelBase
     public bool IsSelected
     {
         get { return _isSelected; }
-        set { _isSelected = value; OnPropertyChanged(); }
+        set { _isSelected = value; NotifyPropertyChanged(); }
     }
 
     public CategoryViewModel Category

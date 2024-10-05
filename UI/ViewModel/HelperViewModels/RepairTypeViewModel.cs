@@ -16,12 +16,12 @@ internal class RepairTypeViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
 
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 }

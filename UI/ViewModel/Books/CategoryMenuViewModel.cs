@@ -22,13 +22,13 @@ internal class CategoryMenuViewModel : ViewModelBase
     public ObservableCollection<CategoryEditViewModel> Items
     {
         get { return _items; }
-        set { _items = value; OnPropertyChanged(); }
+        set { _items = value; NotifyPropertyChanged(); }
     }
 
     public CategoryEditViewModel SelectedItem
     {
         get => _selectedItem;
-        set { _selectedItem = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedItem = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 
     public bool IsRedactingEnabled => SelectedItem != null;

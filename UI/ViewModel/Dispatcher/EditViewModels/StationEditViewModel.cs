@@ -51,12 +51,12 @@ internal class StationEditViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
     public string Address
     {
         get => _address;
-        set { _address = value; OnPropertyChanged(); }
+        set { _address = value; NotifyPropertyChanged(); }
     }
 
     public bool CanSave()

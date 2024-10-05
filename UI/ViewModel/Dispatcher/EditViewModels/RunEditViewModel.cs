@@ -187,64 +187,64 @@ internal class RunEditViewModel : ViewModelBase
     public ObservableCollection<RouteViewModel> Routes
     {
         get { return _routes; }
-        set { _routes = value; OnPropertyChanged(); }
+        set { _routes = value; NotifyPropertyChanged(); }
     }
     public ObservableCollection<VehicleViewModel> Vehicles
     {
         get { return _vehicles; }
-        set { _vehicles = value; OnPropertyChanged(); }
+        set { _vehicles = value; NotifyPropertyChanged(); }
     }
     public ObservableCollection<DriverViewModel> Drivers
     {
         get { return _drivers; }
-        set { _drivers = value; OnPropertyChanged(); }
+        set { _drivers = value; NotifyPropertyChanged(); }
     }
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
     public string Number
     {
         get { return _number; }
-        set { _number = value; OnPropertyChanged(); }
+        set { _number = value; NotifyPropertyChanged(); }
     }
     public RouteViewModel SelectedRoute
     {
         get { return _selectedRoute; }
-        set { _selectedRoute = value; OnPropertyChanged(); }
+        set { _selectedRoute = value; NotifyPropertyChanged(); }
     }
     public DateTime DepartureDateTime
     {
         get { return _departureDateTime; }
-        set { _departureDateTime = value; OnPropertyChanged(); CalcEstimatedDateTime(); }
+        set { _departureDateTime = value; NotifyPropertyChanged(); CalcEstimatedDateTime(); }
     }
     public int Periodity
     {
         get { return _periodity; }
-        set { _periodity = value; OnPropertyChanged(); }
+        set { _periodity = value; NotifyPropertyChanged(); }
     }
     public DateTime EstimatedArrivalDateTime
     {
         get { return _estimatedArrivalDateTime; }
-        set { _estimatedArrivalDateTime = value; OnPropertyChanged(); }
+        set { _estimatedArrivalDateTime = value; NotifyPropertyChanged(); }
     }
 
     public VehicleViewModel SelectedVehicle
     {
         get { return _selectedVehicle; }
-        set { _selectedVehicle = value; OnPropertyChanged(); }
+        set { _selectedVehicle = value; NotifyPropertyChanged(); }
     }
     public DriverViewModel SelectedDriver
     {
         get { return _selectedDriver; }
-        set { _selectedDriver = value; OnPropertyChanged(); }
+        set { _selectedDriver = value; NotifyPropertyChanged(); }
     }
         
     public string DepartureTime
     {
         get { return _departureTime; }
-        set { _departureTime = value; OnPropertyChanged(); }
+        set { _departureTime = value; NotifyPropertyChanged(); }
     }
 
 

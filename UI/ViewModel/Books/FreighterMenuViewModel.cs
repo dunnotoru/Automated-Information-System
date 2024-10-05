@@ -93,12 +93,12 @@ internal class FreighterMenuViewModel : ViewModelBase
     public ObservableCollection<FreighterEditViewModel> Items
     {
         get { return _items; }
-        set { _items = value; OnPropertyChanged(); }
+        set { _items = value; NotifyPropertyChanged(); }
     }
 
     public FreighterEditViewModel SelectedItem
     {
         get { return _selectedItem; }
-        set { _selectedItem = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedItem = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 }

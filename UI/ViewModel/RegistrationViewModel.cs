@@ -50,16 +50,16 @@ internal class RegistrationViewModel : ViewModelBase
     public string Username
     {
         get => _username;
-        set { _username = value; OnPropertyChanged(); }
+        set { _username = value; NotifyPropertyChanged(); }
     }
     public string Password
     {
         get => _password;
-        set { _password = value; OnPropertyChanged(); }
+        set { _password = value; NotifyPropertyChanged(); }
     }
     public string ConfirmPassport
     {
         get => _confirmPassport;
-        set { _confirmPassport = value; OnPropertyChanged(); }
+        set { _confirmPassport = value; NotifyPropertyChanged(); }
     }
 }

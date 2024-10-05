@@ -23,24 +23,24 @@ internal class VehicleModelViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
 
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
     public int Capacity
     {
         get { return _capacity; }
-        set { _capacity = value; OnPropertyChanged(); }
+        set { _capacity = value; NotifyPropertyChanged(); }
     }
 
     public string BrandName
     {
         get { return _brandName; }
-        set { _brandName = value; OnPropertyChanged(); }
+        set { _brandName = value; NotifyPropertyChanged(); }
     }
 }

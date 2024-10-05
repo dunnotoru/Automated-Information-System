@@ -7,11 +7,18 @@ namespace Domain.EntityFramework.Repositories;
 
 public class RunRepository : IRunRepository
 {
+    private readonly IDbContextFactory<ApplicationContext> _factory;
+
+    public RunRepository(IDbContextFactory<ApplicationContext> factory)
+    {
+        _factory = factory;
+    }
+
     public int Create(Run entity)
     {
         int id = 0;
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             Vehicle? b = context.Vehicles.First(o => o.Id == entity.Vehicle.Id);
             Route? route = context.Routes.First(o => o.Id == entity.Route.Id);
@@ -38,7 +45,7 @@ public class RunRepository : IRunRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             Run stored = context.Runs.First(o => o.Id == id);
             context.Remove(stored);
@@ -49,7 +56,7 @@ public class RunRepository : IRunRepository
     public void Update(int id, Run entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             entity.Id = id;
             context.Attach(entity);
@@ -60,7 +67,7 @@ public class RunRepository : IRunRepository
 
     public Run GetById(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.Runs
                 .Include(o => o.Route).ThenInclude(x => x.Stations)
@@ -72,7 +79,7 @@ public class RunRepository : IRunRepository
 
     public IEnumerable<Run> GetByRoute(Route route)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.Runs
                 .Include(o => o.Route).ThenInclude(x => x.Stations)
@@ -84,7 +91,7 @@ public class RunRepository : IRunRepository
 
     public IEnumerable<Run> GetAll()
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.Runs
                 .Include(o => o.Route).ThenInclude(x => x.Stations)
@@ -96,7 +103,7 @@ public class RunRepository : IRunRepository
 
     public int GetFreePlaces(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             int takenPlaces = context.Tickets.Where(o => o.RunId == id).Count();
             int allPlaces = context.Runs

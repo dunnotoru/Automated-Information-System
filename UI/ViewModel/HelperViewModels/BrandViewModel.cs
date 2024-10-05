@@ -19,6 +19,6 @@ internal class BrandViewModel : ViewModelBase
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 }

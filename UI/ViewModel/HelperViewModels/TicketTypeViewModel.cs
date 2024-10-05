@@ -12,13 +12,13 @@ internal class TicketTypeViewModel : ViewModelBase
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
     public int Modifier
     {
         get { return _modifier; }
-        set { _modifier = value; OnPropertyChanged(); }
+        set { _modifier = value; NotifyPropertyChanged(); }
     }
 
     public TicketTypeViewModel(TicketType ticketType)

@@ -165,66 +165,66 @@ internal class VehicleEditViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
     public string LicensePlateNumber
     {
         get { return _licensePlateNumber; }
-        set { _licensePlateNumber = value; OnPropertyChanged(); }
+        set { _licensePlateNumber = value; NotifyPropertyChanged(); }
     }
     public DateTime Manufacture
     {
         get { return _manufacture; }
-        set { _manufacture = value; OnPropertyChanged(); }
+        set { _manufacture = value; NotifyPropertyChanged(); }
     }
     public DateTime LastRepair
     {
         get { return _lastRepair; }
-        set { _lastRepair = value; OnPropertyChanged(); }
+        set { _lastRepair = value; NotifyPropertyChanged(); }
     }
     public RepairTypeViewModel SelectedRepairType
     {
         get { return _selectedRepairType; }
-        set { _selectedRepairType = value; OnPropertyChanged(); }
+        set { _selectedRepairType = value; NotifyPropertyChanged(); }
     }
     public int Mileage
     {
         get { return _mileage; }
-        set { _mileage = value; OnPropertyChanged(); }
+        set { _mileage = value; NotifyPropertyChanged(); }
     }
     public string Photography
     {
         get { return _photography; }
-        set { _photography = value; OnPropertyChanged(); }
+        set { _photography = value; NotifyPropertyChanged(); }
     }
     public FreighterViewModel SelectedFreighter
     {
         get { return __selectedFreighter; }
-        set { __selectedFreighter = value; OnPropertyChanged(); }
+        set { __selectedFreighter = value; NotifyPropertyChanged(); }
     }
     public VehicleModelViewModel SelectedVehicleModel
     {
         get { return _selectedVehicleModel; }
-        set { _selectedVehicleModel = value; OnPropertyChanged(); }
+        set { _selectedVehicleModel = value; NotifyPropertyChanged(); }
     }
     public string InsuranceDetails
     {
         get { return _insuranceDetails; }
-        set { _insuranceDetails = value; OnPropertyChanged(); }
+        set { _insuranceDetails = value; NotifyPropertyChanged(); }
     }
     public ObservableCollection<VehicleModelViewModel> VehicleModels
     {
         get { return _vehicleModels; }
-        set { _vehicleModels = value; OnPropertyChanged(); }
+        set { _vehicleModels = value; NotifyPropertyChanged(); }
     }
     public ObservableCollection<RepairTypeViewModel> RepairTypes
     {
         get { return _repairTypes; }
-        set { _repairTypes = value; OnPropertyChanged(); }
+        set { _repairTypes = value; NotifyPropertyChanged(); }
     }
     public ObservableCollection<FreighterViewModel> Freighters
     {
         get { return _freighters; }
-        set { _freighters = value; OnPropertyChanged(); }
+        set { _freighters = value; NotifyPropertyChanged(); }
     }
 }

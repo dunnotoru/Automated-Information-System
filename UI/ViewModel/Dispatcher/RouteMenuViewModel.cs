@@ -22,7 +22,7 @@ internal class RouteMenuViewModel : ViewModelBase
     public RouteEditViewModel SelectedRoute
     {
         get => _selectedRoute;
-        set { _selectedRoute = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedRoute = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 
     public bool IsRedactingEnabled => SelectedRoute != null;

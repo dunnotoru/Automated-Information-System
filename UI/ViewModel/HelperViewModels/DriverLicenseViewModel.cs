@@ -72,30 +72,30 @@ class DriverLicenseViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
 
     public string LicenseNumber
     {
         get { return _licenseNumber; }
-        set { _licenseNumber = value; OnPropertyChanged(); }
+        set { _licenseNumber = value; NotifyPropertyChanged(); }
     }
 
     public DateTime DateOfIssue
     {
         get { return _dateOfIssue; }
-        set { _dateOfIssue = value; OnPropertyChanged(); DateOfExpiration = DateOfIssue.AddYears(10); }
+        set { _dateOfIssue = value; NotifyPropertyChanged(); DateOfExpiration = DateOfIssue.AddYears(10); }
     }
 
     public DateTime DateOfExpiration
     {
         get { return _dateOfExpiration; }
-        set { _dateOfExpiration = value; OnPropertyChanged(); }
+        set { _dateOfExpiration = value; NotifyPropertyChanged(); }
     }
 
     public ObservableCollection<CategoryViewModel> Categories
     {
         get { return _categories; }
-        set { _categories = value; OnPropertyChanged(); }
+        set { _categories = value; NotifyPropertyChanged(); }
     }
 }

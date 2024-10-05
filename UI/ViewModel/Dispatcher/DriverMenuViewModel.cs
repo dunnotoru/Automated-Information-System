@@ -21,13 +21,13 @@ internal class DriverMenuViewModel : ViewModelBase
     public ObservableCollection<DriverEditViewModel> Drivers
     {
         get { return _drivers; }
-        set { _drivers = value; OnPropertyChanged(); }
+        set { _drivers = value; NotifyPropertyChanged(); }
     }
 
     public DriverEditViewModel SelectedDriver
     {
         get => _selectedDriver;
-        set { _selectedDriver = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedDriver = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 
     public bool IsRedactingEnabled => SelectedDriver != null;

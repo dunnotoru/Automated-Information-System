@@ -98,37 +98,37 @@ class RouteEditViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
 
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
     public ObservableCollection<StationViewModel> Stations
     {
         get { return _stations; }
-        set { _stations = value; OnPropertyChanged(); }
+        set { _stations = value; NotifyPropertyChanged(); }
     }
 
     public ObservableCollection<StationViewModel> AvailableStations
     {
         get { return _availableStations; }
-        set { _availableStations = value; OnPropertyChanged(); }
+        set { _availableStations = value; NotifyPropertyChanged(); }
     }
 
     public StationViewModel SelectedAvailableStation
     {
         get => _selectedAvailableStation;
-        set { _selectedAvailableStation = value; OnPropertyChanged(); }
+        set { _selectedAvailableStation = value; NotifyPropertyChanged(); }
     }
 
     public StationViewModel SelectedStation
     {
         get => _selectedStation;
-        set { _selectedStation = value; OnPropertyChanged(); }
+        set { _selectedStation = value; NotifyPropertyChanged(); }
     }
 
     private void ExecuteSave()

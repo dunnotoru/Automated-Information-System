@@ -22,12 +22,13 @@ internal class LoginViewModel : ViewModelBase
     public string Username
     {
         get => _username;
-        set { _username = value; OnPropertyChanged(); }
+        set { _username = value; NotifyPropertyChanged(); }
     }
+    
     public string Password
     {
         get => _password;
-        set { _password = value; OnPropertyChanged(); }
+        set { _password = value; NotifyPropertyChanged(); }
     }
 
     public RelayCommand LoginCommand { get; }

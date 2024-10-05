@@ -103,7 +103,7 @@ internal class AccountMenuViewModel : ViewModelBase
     public ObservableCollection<AccountEditViewModel> Items
     {
         get { return _items; }
-        set { _items = value; OnPropertyChanged(); }
+        set { _items = value; NotifyPropertyChanged(); }
     }
 
     public AccountEditViewModel SelectedItem
@@ -111,7 +111,7 @@ internal class AccountMenuViewModel : ViewModelBase
         get { return _selectedItem; }
         set
         {
-            _selectedItem = value; OnPropertyChanged();
+            _selectedItem = value; NotifyPropertyChanged();
             OnPropertyChangedByName(nameof(IsRedactingEnabled));
         }
     }

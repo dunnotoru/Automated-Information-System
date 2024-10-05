@@ -1,14 +1,17 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.EntityFramework.Repositories;
 
 public class RepairTypeRepository : IRepairTypeRepository
 {
+    private readonly IDbContextFactory<ApplicationContext> _factory;
+    
     public int Create(RepairType entity)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             context.RepairTypes.Add(entity);
             context.SaveChanges();
@@ -18,7 +21,7 @@ public class RepairTypeRepository : IRepairTypeRepository
 
     public IEnumerable<RepairType> GetAll()
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.RepairTypes.ToList();
         }
@@ -26,7 +29,7 @@ public class RepairTypeRepository : IRepairTypeRepository
 
     public RepairType GetById(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.RepairTypes.First(o => o.Id == id);
         }
@@ -34,7 +37,7 @@ public class RepairTypeRepository : IRepairTypeRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             RepairType stored = context.RepairTypes.First(o => o.Id == id);
             context.RepairTypes.Remove(stored);
@@ -44,7 +47,7 @@ public class RepairTypeRepository : IRepairTypeRepository
 
     public void Update(int id, RepairType entity)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             RepairType updatedEntity = context.RepairTypes.First(o => o.Id == id);
             updatedEntity.Name = entity.Name;

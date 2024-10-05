@@ -36,51 +36,51 @@ class TicketEditViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
     public string Series
     {
         get { return _series; }
-        set { _series = value; OnPropertyChanged(); }
+        set { _series = value; NotifyPropertyChanged(); }
     }
     public string Number
     {
         get { return _number; }
-        set { _number = value; OnPropertyChanged(); }
+        set { _number = value; NotifyPropertyChanged(); }
     }
     public DateTime BookDate
     {
         get { return _bookDate; }
-        set { _bookDate = value; OnPropertyChanged(); }
+        set { _bookDate = value; NotifyPropertyChanged(); }
     }
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
     public string Surname
     {
         get { return _surname; }
-        set { _surname = value; OnPropertyChanged(); }
+        set { _surname = value; NotifyPropertyChanged(); }
     }
     public string Patronymic
     {
         get { return _patronymic; }
-        set { _patronymic = value; OnPropertyChanged(); }
+        set { _patronymic = value; NotifyPropertyChanged(); }
     }
     public string RunNumber
     {
         get { return _runNumber; }
-        set { _runNumber = value; OnPropertyChanged(); }
+        set { _runNumber = value; NotifyPropertyChanged(); }
     }
     public string TicketTypeName
     {
         get { return _ticketTypeName; }
-        set { _ticketTypeName = value; OnPropertyChanged(); }
+        set { _ticketTypeName = value; NotifyPropertyChanged(); }
     }
     public int Price
     {
         get { return _price; }
-        set { _price = value; OnPropertyChanged(); }
+        set { _price = value; NotifyPropertyChanged(); }
     }
 }

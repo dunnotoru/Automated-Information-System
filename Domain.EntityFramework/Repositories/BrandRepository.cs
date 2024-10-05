@@ -1,14 +1,22 @@
 ﻿using Domain.EntityFramework.Contexts;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.EntityFramework.Repositories;
 
 public class BrandRepository : IBrandRepository
 {
+    private readonly IDbContextFactory<ApplicationContext> _factory;
+
+    public BrandRepository(IDbContextFactory<ApplicationContext> factory)
+    {
+        _factory = factory;
+    }
+
     public int Create(Brand entity)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             context.Brands.Add(entity);
             context.SaveChanges();
@@ -18,7 +26,7 @@ public class BrandRepository : IBrandRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             Brand storedEntity = context.Brands.First(o => o.Id == id);
             context.Brands.Remove(storedEntity);
@@ -28,7 +36,7 @@ public class BrandRepository : IBrandRepository
 
     public void Update(int id, Brand entity)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             Brand updatedEntity = context.Brands.First(o => o.Id == id);
             updatedEntity.Name = entity.Name;
@@ -37,7 +45,7 @@ public class BrandRepository : IBrandRepository
     }
     public Brand GetById(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.Brands.First(o => o.Id == id);
         }
@@ -45,7 +53,7 @@ public class BrandRepository : IBrandRepository
 
     public IEnumerable<Brand> GetAll()
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.Brands.ToList();
         }

@@ -24,18 +24,18 @@ internal class DriverViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
 
     public string FullName
     {
         get { return _fullName; }
-        set { _fullName = value; OnPropertyChanged(); }
+        set { _fullName = value; NotifyPropertyChanged(); }
     }
 
     public string PayrollNumber
     {
         get { return _payrollNumber; }
-        set { _payrollNumber = value; OnPropertyChanged(); }
+        set { _payrollNumber = value; NotifyPropertyChanged(); }
     }
 }

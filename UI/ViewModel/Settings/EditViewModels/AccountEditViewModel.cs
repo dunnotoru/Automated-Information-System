@@ -135,47 +135,47 @@ internal class AccountEditViewModel : ViewModelBase
     public bool IsNew
     {
         get { return _isNew; }
-        set { _isNew = value; OnPropertyChanged(); }
+        set { _isNew = value; NotifyPropertyChanged(); }
     }
 
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
     public string Username
     {
         get { return _username; }
-        set { _username = value; OnPropertyChanged(); }
+        set { _username = value; NotifyPropertyChanged(); }
     }
     public string Password
     {
         get { return _password; }
-        set { _password = value; OnPropertyChanged(); }
+        set { _password = value; NotifyPropertyChanged(); }
     }
     public string PasswordConfirmation
     {
         get { return _passwordConfirmation; }
-        set { _passwordConfirmation = value; OnPropertyChanged(); }
+        set { _passwordConfirmation = value; NotifyPropertyChanged(); }
     }
     public bool Read
     {
         get { return _read; }
-        set { _read = value; OnPropertyChanged(); }
+        set { _read = value; NotifyPropertyChanged(); }
     }
     public bool Write
     {
         get { return _write; }
-        set { _write = value; OnPropertyChanged(); }
+        set { _write = value; NotifyPropertyChanged(); }
     }
     public bool Edit
     {
         get { return _edit; }
-        set { _edit = value; OnPropertyChanged(); }
+        set { _edit = value; NotifyPropertyChanged(); }
     }
     public bool Delete
     {
         get { return _delete; }
-        set { _delete = value; OnPropertyChanged(); }
+        set { _delete = value; NotifyPropertyChanged(); }
     }
 }

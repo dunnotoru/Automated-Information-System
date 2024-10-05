@@ -28,7 +28,7 @@ internal class RunMenuViewModel : ViewModelBase
     public RunEditViewModel SelectedRun
     {
         get => _selectedRun;
-        set { _selectedRun = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedRun = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 
     public bool IsRedactingEnabled => SelectedRun != null;

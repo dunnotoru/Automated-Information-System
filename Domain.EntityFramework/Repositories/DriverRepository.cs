@@ -7,10 +7,17 @@ namespace Domain.EntityFramework.Repositories;
 
 public class DriverRepository : IDriverRepository
 {
+    private readonly IDbContextFactory<ApplicationContext> _factory;
+
+    public DriverRepository(IDbContextFactory<ApplicationContext> factory)
+    {
+        _factory = factory;
+    }
+
     public int Create(Driver entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             context.Categories.AttachRange(entity.DriverLicense.Categories);
             context.Drivers.Add(entity);
@@ -22,7 +29,7 @@ public class DriverRepository : IDriverRepository
     public void Update(int id, Driver entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             entity.Id = id;
 
@@ -56,7 +63,7 @@ public class DriverRepository : IDriverRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             Driver? stored = context.Drivers.Include(o => o.DriverLicense).Include(o => o.Run).First(o => o.Id == id);
             if (stored.Run != null)
@@ -72,7 +79,7 @@ public class DriverRepository : IDriverRepository
 
     public IEnumerable<Driver> GetAll()
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.Drivers
                 .Include(o => o.DriverLicense)
@@ -83,7 +90,7 @@ public class DriverRepository : IDriverRepository
 
     public Driver GetById(int id)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.Drivers
                 .Include(o => o.DriverLicense)
@@ -94,7 +101,7 @@ public class DriverRepository : IDriverRepository
 
     public Driver GetByPayrollNumber(string payrollNumber)
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             return context.Drivers
                 .Include(o => o.DriverLicense)
@@ -104,7 +111,7 @@ public class DriverRepository : IDriverRepository
 
     public IEnumerable<Driver> GetIdleDrivers()
     {
-        using (ApplicationContext context = new ApplicationContext())
+        using (ApplicationContext context = _factory.CreateDbContext())
         {
             try
             {

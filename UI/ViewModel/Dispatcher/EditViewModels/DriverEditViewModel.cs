@@ -150,66 +150,66 @@ class DriverEditViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
 
     public string PayrollNumber
     {
         get { return _payrollNumber; }
-        set { _payrollNumber = value; OnPropertyChanged(); }
+        set { _payrollNumber = value; NotifyPropertyChanged(); }
     }
 
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
     public string Surname
     {
         get { return _surname; }
-        set { _surname = value; OnPropertyChanged(); }
+        set { _surname = value; NotifyPropertyChanged(); }
     }
 
     public string Patronymic
     {
         get { return _patronymic; }
-        set { _patronymic = value; OnPropertyChanged(); }
+        set { _patronymic = value; NotifyPropertyChanged(); }
     }
 
     public DateTime BirthDate
     {
         get { return _birthDate; }
-        set { _birthDate = value; OnPropertyChanged(); }
+        set { _birthDate = value; NotifyPropertyChanged(); }
     }
 
     public string Gender
     {
         get { return _gender; }
-        set { _gender = value; OnPropertyChanged(); }
+        set { _gender = value; NotifyPropertyChanged(); }
     }
 
     public DriverLicenseViewModel License
     {
         get { return _license; }
-        set { _license = value; OnPropertyChanged(); }
+        set { _license = value; NotifyPropertyChanged(); }
     }
 
     public string DriverClass
     {
         get { return _driverClass; }
-        set { _driverClass = value; OnPropertyChanged(); }
+        set { _driverClass = value; NotifyPropertyChanged(); }
     }
 
     public string ProfessionalStandardDetails
     {
         get { return _professionalStandard; }
-        set { _professionalStandard = value; OnPropertyChanged(); }
+        set { _professionalStandard = value; NotifyPropertyChanged(); }
     }
 
     public string EmploymentBookDetails
     {
         get { return _employmentBookDetails; }
-        set { _employmentBookDetails = value; OnPropertyChanged(); }
+        set { _employmentBookDetails = value; NotifyPropertyChanged(); }
     }
 }

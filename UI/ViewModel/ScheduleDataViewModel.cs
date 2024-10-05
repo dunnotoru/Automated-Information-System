@@ -36,6 +36,6 @@ internal class ScheduleDataViewModel : ViewModelBase
     public ObservableCollection<ScheduleViewModel> Items
     {
         get { return _items; }
-        set { _items = value; OnPropertyChanged(); }
+        set { _items = value; NotifyPropertyChanged(); }
     }
 }

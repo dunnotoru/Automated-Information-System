@@ -20,13 +20,13 @@ public class CategoryViewModel : ViewModelBase
     public string Name
     {
         get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
     public bool IsSelected
     {
         get { return _isSelected; }
-        set { _isSelected = value; OnPropertyChanged(); }
+        set { _isSelected = value; NotifyPropertyChanged(); }
     }
 
     public Category GetCategory()

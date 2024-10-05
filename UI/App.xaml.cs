@@ -113,15 +113,15 @@ public partial class App : Application
     private void Configure(HostBuilderContext context, IServiceCollection services)
     {
         services
-            .AddDbContext<ApplicationContext>(options =>
+            .AddDbContextFactory<ApplicationContext>(builder =>
             {
-                options.UseSqlite(context.Configuration["ConnectionStrings:ApplicationDatabase"]
-                        ?? throw new NullReferenceException());
+                builder.UseSqlite(context.Configuration["ConnectionStrings:ApplicationDatabase"]
+                                  ?? throw new NullReferenceException());
             })
-            .AddDbContext<AccountContext>(options =>
+            .AddDbContextFactory<AccountContext>(builder =>
             {
-                options.UseSqlite(context.Configuration["ConnectionStrings:DomainDatabase"] 
-                        ?? throw new NullReferenceException());
+                builder.UseSqlite(context.Configuration["ConnectionStrings:DomainDatabase"]
+                                  ?? throw new NullReferenceException());
             });
         
         services

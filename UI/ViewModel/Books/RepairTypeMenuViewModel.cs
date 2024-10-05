@@ -92,11 +92,11 @@ internal class RepairTypeMenuViewModel : ViewModelBase
     public ObservableCollection<RepairTypeEditViewModel> Items
     {
         get { return _items; }
-        set { _items = value; OnPropertyChanged(); }
+        set { _items = value; NotifyPropertyChanged(); }
     }
     public RepairTypeEditViewModel SelectedItem
     {
         get { return _selectedItem; }
-        set { _selectedItem = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedItem = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
     }
 }

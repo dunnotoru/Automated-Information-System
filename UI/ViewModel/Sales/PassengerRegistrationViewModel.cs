@@ -228,27 +228,27 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
     public DateTime DepartureDateTime
     {
         get => _departureDateTime;
-        set { _departureDateTime = value; OnPropertyChanged(); }
+        set { _departureDateTime = value; NotifyPropertyChanged(); }
     }
     public DateTime ArrivalDateTime
     {
         get => _arrivalDateTime;
-        set { _arrivalDateTime = value; OnPropertyChanged(); }
+        set { _arrivalDateTime = value; NotifyPropertyChanged(); }
     }
     public StationViewModel DepartureStation
     {
         get => _departureStation;
-        set { _departureStation = value; OnPropertyChanged(); }
+        set { _departureStation = value; NotifyPropertyChanged(); }
     }
     public StationViewModel ArrivalStation
     {
         get => _arrivalStation;
-        set { _arrivalStation = value; OnPropertyChanged(); }
+        set { _arrivalStation = value; NotifyPropertyChanged(); }
     }
     public RunViewModel SelectedRun
     {
         get => _selectedRun;
-        set { _selectedRun = value; OnPropertyChanged(); }
+        set { _selectedRun = value; NotifyPropertyChanged(); }
     }
 
     public ObservableCollection<PassengerViewModel> Passengers { get; set; }
@@ -256,7 +256,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
     public PassengerViewModel SelectedPassenger
     {
         get => _selectedPassenger;
-        set { _selectedPassenger = value; OnPropertyChanged(); OnPropertyChangedByName(nameof(IsPassengerSelected)); }
+        set { _selectedPassenger = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsPassengerSelected)); }
     }
 
     public bool IsPassengerSelected => SelectedPassenger != null;
@@ -267,7 +267,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
         set
         {
             _price = value;
-            OnPropertyChanged();
+            NotifyPropertyChanged();
             OnPropertyChangedByName(nameof(Change));
         }
     }
@@ -277,7 +277,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
         set
         {
             _cash = value;
-            OnPropertyChanged();
+            NotifyPropertyChanged();
             OnPropertyChangedByName(nameof(Change));
         }
     }

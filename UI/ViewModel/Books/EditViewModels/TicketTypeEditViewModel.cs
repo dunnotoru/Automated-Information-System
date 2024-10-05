@@ -50,12 +50,12 @@ internal class TicketTypeEditViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
     public int Modifier
     {
         get => _modifier;
-        set { _modifier = value; OnPropertyChanged(); }
+        set { _modifier = value; NotifyPropertyChanged(); }
     }
 
     public void ExecuteSave()

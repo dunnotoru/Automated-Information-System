@@ -53,7 +53,7 @@ internal class CategoryEditViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
     public void ExecuteSave()
