@@ -14,18 +14,13 @@ internal class RegistrationViewModel : ViewModelBase
     private readonly AccountStore _accountStore;
     private readonly IMessageBoxService _messageBoxService;
 
-    private string _username;
-    private string _password;
-    private string _confirmPassport;
+    private string _username = string.Empty;
+    private string _password = string.Empty;
+    private string _confirmPassport = string.Empty;
 
-    public event EventHandler RegistrationDone;
+    public event EventHandler? RegistrationDone;
 
-    public ICommand RegisterCommand { get; }
-
-    public RegistrationViewModel()
-    {
-        RegisterCommand = new RelayCommand(Register, CanRegister);
-    }
+    public ICommand RegisterCommand => new RelayCommand(Register);
 
     public RegistrationViewModel(RegistrationService registrationService, 
         AccountStore accountStore, IMessageBoxService messageBoxService)
@@ -37,7 +32,15 @@ internal class RegistrationViewModel : ViewModelBase
 
     private void Register()
     {
-        _registrationService.Register(Username, Password, true, true, true, true);
+        try
+        {
+            _registrationService.Register(Username, Password, true, true, true, true);
+            RegistrationDone?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception e)
+        {
+            _messageBoxService.ShowMessage(e.InnerException?.Message ?? e.Message);
+        }
     }
 
     private bool CanRegister()
@@ -52,11 +55,13 @@ internal class RegistrationViewModel : ViewModelBase
         get => _username;
         set { _username = value; NotifyPropertyChanged(); }
     }
+    
     public string Password
     {
         get => _password;
         set { _password = value; NotifyPropertyChanged(); }
     }
+    
     public string ConfirmPassport
     {
         get => _confirmPassport;

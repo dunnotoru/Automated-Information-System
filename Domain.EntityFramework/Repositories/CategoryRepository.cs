@@ -1,4 +1,4 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Context;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,16 +7,16 @@ namespace Domain.EntityFramework.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private readonly IDbContextFactory<ApplicationContext> _factory;
+    private readonly IDbContextFactory<DomainContext> _factory;
 
-    public CategoryRepository(IDbContextFactory<ApplicationContext> factory)
+    public CategoryRepository(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }
 
     public int Create(Category entity)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             context.Categories.Add(entity);
             context.SaveChanges();
@@ -26,7 +26,7 @@ public class CategoryRepository : ICategoryRepository
 
     public void Update(int id, Category entity)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             entity.Id = id;
             context.Categories.Attach(entity);
@@ -37,7 +37,7 @@ public class CategoryRepository : ICategoryRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Category entity = context.Categories.First(o => o.Id == id);
             context.Categories.Remove(entity);
@@ -47,7 +47,7 @@ public class CategoryRepository : ICategoryRepository
 
     public IEnumerable<Category> GetAll()
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Categories.ToList();
         }
@@ -55,7 +55,7 @@ public class CategoryRepository : ICategoryRepository
 
     public Category GetById(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Categories.First(o => o.Id == id);
         }

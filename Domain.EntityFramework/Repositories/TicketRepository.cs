@@ -1,4 +1,4 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Context;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace Domain.EntityFramework.Repositories;
 
 public class TicketRepository : ITicketRepository
 {
-    private readonly IDbContextFactory<ApplicationContext> _factory;
+    private readonly IDbContextFactory<DomainContext> _factory;
 
-    public TicketRepository(IDbContextFactory<ApplicationContext> factory)
+    public TicketRepository(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }
@@ -17,7 +17,7 @@ public class TicketRepository : ITicketRepository
     public int Create(Ticket entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             context.TicketTypes.Attach(entity.TicketType);
             context.Runs.Attach(entity.Run);
@@ -30,7 +30,7 @@ public class TicketRepository : ITicketRepository
 
     public IEnumerable<Ticket> GetAll()
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Tickets
                 .Include(o => o.Run)
@@ -42,7 +42,7 @@ public class TicketRepository : ITicketRepository
 
     public Ticket GetById(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Tickets
                 .Include(o => o.Run)
@@ -54,7 +54,7 @@ public class TicketRepository : ITicketRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Ticket stored = context.Tickets
                 .First(o => o.Id == id);
@@ -66,7 +66,7 @@ public class TicketRepository : ITicketRepository
     public void Update(int id, Ticket entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Ticket stored = context.Tickets.First(o => o.Id == id);
             stored = entity;

@@ -1,4 +1,4 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Context;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace Domain.EntityFramework.Repositories;
 
 public class VehicleRepository : IVehicleRepository
 {
-    private readonly IDbContextFactory<ApplicationContext> _factory;
+    private readonly IDbContextFactory<DomainContext> _factory;
 
-    public VehicleRepository(IDbContextFactory<ApplicationContext> factory)
+    public VehicleRepository(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }
@@ -17,7 +17,7 @@ public class VehicleRepository : IVehicleRepository
     public int Create(Vehicle entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             context.VehicleModels.Attach(entity.VehicleModel);
             context.Freighters.Attach(entity.Freighter);
@@ -30,7 +30,7 @@ public class VehicleRepository : IVehicleRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Vehicle stored = context.Vehicles.Include(o => o.Run).First(o => o.Id == id);
             if (stored.Run != null)
@@ -46,7 +46,7 @@ public class VehicleRepository : IVehicleRepository
     public void Update(int id, Vehicle entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             entity.Id = id;
             context.Vehicles.Attach(entity);
@@ -57,7 +57,7 @@ public class VehicleRepository : IVehicleRepository
 
     public Vehicle GetById(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Vehicles
                 .Include(o => o.Freighter)
@@ -69,7 +69,7 @@ public class VehicleRepository : IVehicleRepository
 
     public Vehicle GetByLicenseNumber(string licensePlateNumber)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Vehicles
                 .Include(o => o.Freighter)
@@ -81,7 +81,7 @@ public class VehicleRepository : IVehicleRepository
 
     public IEnumerable<Vehicle> GetAll()
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Vehicles
                 .Include(o => o.Freighter)
@@ -93,7 +93,7 @@ public class VehicleRepository : IVehicleRepository
 
     public IEnumerable<Vehicle> GetIdleVehicles()
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             try
             {

@@ -1,4 +1,4 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Context;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace Domain.EntityFramework.Repositories;
 
 public class PassportRepository : IPassportRepository
 {
-    private readonly IDbContextFactory<ApplicationContext> _factory;
+    private readonly IDbContextFactory<DomainContext> _factory;
 
-    public PassportRepository(IDbContextFactory<ApplicationContext> factory)
+    public PassportRepository(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }
@@ -17,7 +17,7 @@ public class PassportRepository : IPassportRepository
     public int Create(IdentityDocument entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             entity.Name = entity.Name.ToLower();
             entity.Surname = entity.Surname.ToLower();
@@ -32,7 +32,7 @@ public class PassportRepository : IPassportRepository
     public void Update(int id, IdentityDocument entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             IdentityDocument stored = context.Passports.First(o => o.Id == id);
 
@@ -49,7 +49,7 @@ public class PassportRepository : IPassportRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             IdentityDocument stored = context.Passports.First(o => o.Id == id);
 
@@ -60,7 +60,7 @@ public class PassportRepository : IPassportRepository
 
     public IdentityDocument GetById(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Passports.First(o => o.Id == id);
         }
@@ -68,7 +68,7 @@ public class PassportRepository : IPassportRepository
 
     public IdentityDocument Get(string number, string series)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Passports.First(x => x.Number == number && x.Series == series);
         }
@@ -76,7 +76,7 @@ public class PassportRepository : IPassportRepository
 
     public IEnumerable<IdentityDocument> GetAll()
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Passports.ToList();
         }
@@ -84,7 +84,7 @@ public class PassportRepository : IPassportRepository
 
     public bool IsExist(IdentityDocument document)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             IdentityDocument? stored = 
                 context.Passports

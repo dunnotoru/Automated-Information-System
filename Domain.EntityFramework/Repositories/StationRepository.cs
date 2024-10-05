@@ -1,4 +1,4 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Context;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace Domain.EntityFramework.Repositories;
 
 public class StationRepository : IStationRepository
 {
-    private readonly IDbContextFactory<ApplicationContext> _factory;
+    private readonly IDbContextFactory<DomainContext> _factory;
 
-    public StationRepository(IDbContextFactory<ApplicationContext> factory)
+    public StationRepository(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }
@@ -17,7 +17,7 @@ public class StationRepository : IStationRepository
     public int Create(Station entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             context.Stations.Add(entity);
             context.SaveChanges();
@@ -28,7 +28,7 @@ public class StationRepository : IStationRepository
     public void Update(int id, Station entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             entity.Id = id;
             context.Stations.Attach(entity);
@@ -39,7 +39,7 @@ public class StationRepository : IStationRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Station stored = context.Stations.Include(o => o.Routes).First(o => o.Id == id);
             if (stored.Routes.Count != 0)
@@ -59,7 +59,7 @@ public class StationRepository : IStationRepository
 
     public IEnumerable<Station> GetAll()
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Stations.ToList();
         }
@@ -67,7 +67,7 @@ public class StationRepository : IStationRepository
 
     public IEnumerable<Station> GetByAddress(string address)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Stations.Where(s => s.Address == address).ToList();
         }
@@ -75,7 +75,7 @@ public class StationRepository : IStationRepository
 
     public Station GetById(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Stations.First(s => s.Id == id);
         }
@@ -83,7 +83,7 @@ public class StationRepository : IStationRepository
 
     public IEnumerable<Station> GetByName(string name)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Stations.Where(s => s.Name == name).ToList();
         }

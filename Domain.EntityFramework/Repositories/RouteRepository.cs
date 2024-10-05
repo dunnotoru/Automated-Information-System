@@ -1,4 +1,4 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Context;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace Domain.EntityFramework.Repositories;
 
 public class RouteRepository : IRouteRepository
 {
-    private readonly IDbContextFactory<ApplicationContext> _factory;
+    private readonly IDbContextFactory<DomainContext> _factory;
 
-    public RouteRepository(IDbContextFactory<ApplicationContext> factory)
+    public RouteRepository(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }
@@ -17,7 +17,7 @@ public class RouteRepository : IRouteRepository
     public int Create(Route entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             context.Stations.AttachRange(entity.Stations);
             context.Add(entity);
@@ -29,7 +29,7 @@ public class RouteRepository : IRouteRepository
     public void Update(int id, Route entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Route stored = context.Routes.Include(r => r.Stations).First(r => r.Id == id);
             List<Station> entityStations = new List<Station>();
@@ -58,7 +58,7 @@ public class RouteRepository : IRouteRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Route stored = context.Routes.Include(o => o.Runs).First(r => r.Id == id);
             if(stored.Runs.Count > 0)
@@ -78,7 +78,7 @@ public class RouteRepository : IRouteRepository
 
     public Route GetById(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Route r = context.Routes.First(r => r.Id == id);
             List<StationRoute> linking = context.StationRoute.Include(o => o.Station).Where(o => o.RouteId == id).ToList();
@@ -95,7 +95,7 @@ public class RouteRepository : IRouteRepository
 
     public IEnumerable<Route> GetAll()
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             List<Route> routes = context.Routes.ToList();
 
@@ -121,7 +121,7 @@ public class RouteRepository : IRouteRepository
         ArgumentNullException.ThrowIfNull(from);
         ArgumentNullException.ThrowIfNull(to);
 
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             List<Route> routes = context.Routes.Include(r => r.Stations)
                 .Where(r => r.Stations.Contains(from) && r.Stations.Contains(to))

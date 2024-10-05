@@ -1,4 +1,4 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Context;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace Domain.EntityFramework.Repositories;
 
 public class ScheduleRepository : IScheduleRepository
 {
-    private readonly IDbContextFactory<ApplicationContext> _factory;
+    private readonly IDbContextFactory<DomainContext> _factory;
 
-    public ScheduleRepository(IDbContextFactory<ApplicationContext> factory)
+    public ScheduleRepository(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }
@@ -17,7 +17,7 @@ public class ScheduleRepository : IScheduleRepository
     public int Create(Schedule entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             context.Attach(entity.Run);
             entity.Route = entity.Run.Route;
@@ -29,7 +29,7 @@ public class ScheduleRepository : IScheduleRepository
 
     public void Remove(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Schedule stored = context.Schedules.First(o => o.Id == id);
             context.Schedules.Remove(stored);
@@ -40,7 +40,7 @@ public class ScheduleRepository : IScheduleRepository
     public void Update(int id, Schedule entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Schedule stored = context.Schedules.First(o => o.Id == id);
             context.Update(stored);
@@ -50,7 +50,7 @@ public class ScheduleRepository : IScheduleRepository
 
     public Schedule GetById(int id)
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Schedules
                 .Include(o=>o.Run)
@@ -61,7 +61,7 @@ public class ScheduleRepository : IScheduleRepository
 
     public IEnumerable<Schedule> GetAll()
     {
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Schedules
                 .Include(o => o.Run)
@@ -76,7 +76,7 @@ public class ScheduleRepository : IScheduleRepository
     public IEnumerable<Schedule> GetByRoute(Route route)
     {
         ArgumentNullException.ThrowIfNull(route);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Schedules
                 .Include(o => o.Run)
@@ -89,7 +89,7 @@ public class ScheduleRepository : IScheduleRepository
     public Schedule GetByRun(Run run)
     {
         ArgumentNullException.ThrowIfNull(run);
-        using (ApplicationContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Schedules
                 .Include(o => o.Run)

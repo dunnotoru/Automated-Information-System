@@ -1,4 +1,4 @@
-﻿using Domain.EntityFramework.Contexts;
+﻿using Domain.EntityFramework.Context;
 using Domain.Models;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace Domain.EntityFramework.Repositories;
 
 public class AccountRepository : IAccountRepository
 {
-    private readonly IDbContextFactory<AccountContext> _factory;
+    private readonly IDbContextFactory<DomainContext> _factory;
 
-    public AccountRepository(IDbContextFactory<AccountContext> factory)
+    public AccountRepository(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }
@@ -17,7 +17,7 @@ public class AccountRepository : IAccountRepository
     public int Create(Account entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             context.Accounts.Add(entity);
             context.SaveChanges();
@@ -27,7 +27,7 @@ public class AccountRepository : IAccountRepository
 
     public void Remove(int id)
     {
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Account stored = context.Accounts.First(o => o.Id == id);
             context.Accounts.Remove(stored);
@@ -38,7 +38,7 @@ public class AccountRepository : IAccountRepository
     public void Update(int id, Account entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Account stored = context.Accounts.First(o => o.Id == id);
 
@@ -53,7 +53,7 @@ public class AccountRepository : IAccountRepository
 
     public Account GetById(int id)
     {
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Accounts.First(_ => _.Id == id);
         }
@@ -61,7 +61,7 @@ public class AccountRepository : IAccountRepository
 
     public Account GetByUsername(string username)
     {
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Accounts.First(_ => _.Username == username);
         }
@@ -69,7 +69,7 @@ public class AccountRepository : IAccountRepository
 
     public IEnumerable<Account> GetAll()
     {
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Accounts.ToList();
         }
@@ -77,7 +77,7 @@ public class AccountRepository : IAccountRepository
 
     public bool IsAccountExist(string username)
     {
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Account? acc =  context.Accounts.FirstOrDefault(_ => _.Username == username);
             if(acc == null)
@@ -89,7 +89,7 @@ public class AccountRepository : IAccountRepository
 
     public int Count()
     {
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             return context.Accounts.Count();
         }
@@ -97,7 +97,7 @@ public class AccountRepository : IAccountRepository
 
     public void UpdatePasswordHash(int id, string passwordHash)
     {
-        using (AccountContext context = _factory.CreateDbContext())
+        using (DomainContext context = _factory.CreateDbContext())
         {
             Account stored = context.Accounts.First(o => o.Id == id);
 

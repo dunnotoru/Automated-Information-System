@@ -5,7 +5,7 @@ using System.IO;
 using Domain.RepositoryInterfaces;
 using Domain.Models;
 using System;
-using Domain.EntityFramework.Contexts;
+using Domain.EntityFramework.Context;
 using Domain.EntityFramework.Repositories;
 using Domain.Services;
 using Domain.Services.Abstractions;
@@ -32,17 +32,7 @@ public partial class App : Application
             .ConfigureServices(Configure)
             .Build();
 
-        IAccountRepository repo = h.Services.GetRequiredService<IAccountRepository>();
-
-        int accountCount = repo.Count();
-        if (accountCount == 0)
-        {
-            LoadRegistration(h.Services);
-        }
-        else
-        {
-            LoadLogin(h.Services);
-        } 
+        SwitchWindowToMain(h.Services);
 
         base.OnStartup(e);
     }
@@ -99,10 +89,9 @@ public partial class App : Application
         ShellWindow window = new ShellWindow
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            WindowState= WindowState.Maximized
+            WindowState= WindowState.Maximized,
+            DataContext = provider.GetRequiredService<ShellViewModel>()
         };
-
-        MainWindow?.Close();
         window.Show();
         MainWindow = window;
     }
@@ -110,14 +99,7 @@ public partial class App : Application
     private static void Configure(HostBuilderContext context, IServiceCollection services)
     {
         services
-            .AddDbContextFactory<AccountContext>(builder =>
-            {
-                string connection = context.Configuration["ConnectionStrings:ApplicationDatabase"]
-                                    ?? throw new NullReferenceException("No connection string provided");
-                connection = "Data Source=" + Path.Join(Directory.GetCurrentDirectory(), connection);
-                builder.UseSqlite(connection);
-            })
-            .AddDbContextFactory<ApplicationContext>(builder =>
+            .AddDbContextFactory<DomainContext>(builder =>
             {
                 string connection = context.Configuration["ConnectionStrings:DomainDatabase"]
                                     ?? throw new NullReferenceException("No connection string provided");
