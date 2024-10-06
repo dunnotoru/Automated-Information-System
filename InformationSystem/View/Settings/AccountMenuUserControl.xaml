@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="InformationSystem.View.Settings.AccountMenuUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:validationRules="clr-namespace:InformationSystem.View.ValidationRules"
+             xmlns:converters="clr-namespace:InformationSystem.Converters"
+
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="395*"/>
+            <ColumnDefinition Width="97*"/>
+            <ColumnDefinition Width="231*"/>
+            <ColumnDefinition Width="77*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Margin="10,10,10,10"
+                  ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
+                  SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Имя пользователя" Binding="{Binding Username}"/>
+                <DataGridCheckBoxColumn Header="Читать" Binding="{Binding Read}"/>
+                <DataGridCheckBoxColumn Header="Добавлять" Binding="{Binding Write}"/>
+                <DataGridCheckBoxColumn Header="Редактировать" Binding="{Binding Edit}"/>
+                <DataGridCheckBoxColumn Header="Удалять" Binding="{Binding Delete}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        
+        <Button Grid.Column="1" Content="Добавить" VerticalAlignment="Center"
+                Command="{Binding AddCommand}"/>
+        
+
+        <Border Grid.Column="2" Margin="10" BorderBrush="Gray" BorderThickness="1" IsEnabled="{Binding IsRedactingEnabled}">
+            <StackPanel Margin="10" Grid.RowSpan="2" 
+                        DataContext="{Binding SelectedItem}">
+                <StackPanel IsEnabled="{Binding IsNew}">
+                    <Label Content="Имя пользователя"/>
+
+                    <TextBox x:Name="UsernameTextBox">
+                        <TextBox.Text>
+                            <Binding Path="Username" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationRules:NotEmptyValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    
+                    <Label Content="Пароль"/>
+                    <TextBox x:Name="PasswordTextBox" >
+                        <TextBox.Text>
+                            <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationRules:PasswordValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    
+                    <Label Content="Подтверждение пароля"/>
+                    <TextBox x:Name="PasswordConfirmationTextBox">
+                        <TextBox.Text>
+                            <Binding Path="PasswordConfirmation" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationRules:PasswordValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+
+                <GroupBox Header="Права">
+                        <StackPanel>
+                            <CheckBox 
+                                Margin="10"
+                                Content="Читать" IsChecked="{Binding Read}"/>
+                            <CheckBox 
+                                Margin="10"
+                                Content="Писать" IsChecked="{Binding Write}"/>
+                            <CheckBox 
+                                Margin="10"
+                                Content="Редактировать" IsChecked="{Binding Edit}"/>
+                            <CheckBox 
+                                Margin="10"
+                                Content="Удалять" IsChecked="{Binding Delete}"/>
+                        </StackPanel>
+                    </GroupBox>
+                <Button 
+                        Margin="10"
+                            Command="{Binding SaveCommand}"
+                            Content="Сохранить">
+                    <Button.IsEnabled>
+                        <MultiBinding>
+                            <MultiBinding.Converter>
+                                <converters:MultiBoolConverter/>
+                            </MultiBinding.Converter>
+                            <MultiBinding.Bindings>
+                                <Binding ElementName="UsernameTextBox" Path="(Validation.HasError)"/>
+                                <Binding ElementName="PasswordTextBox" Path="(Validation.HasError)"/>
+                                <Binding ElementName="PasswordConfirmationTextBox" Path="(Validation.HasError)"/>
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+
+                    <Button 
+                        Margin="10"
+                            Command="{Binding RemoveCommand}"
+                            Content="Удалить"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+</UserControl>

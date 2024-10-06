@@ -1,0 +1,202 @@
+﻿<UserControl x:Class="InformationSystem.View.Dispatcher.DriverMenuUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:InformationSystem.Converters"
+             xmlns:validationRules="clr-namespace:InformationSystem.View.ValidationRules"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="401*" MinWidth="50"/>
+            <ColumnDefinition Width="102*" MinWidth="50"/>
+            <ColumnDefinition Width="142*"/>
+            <ColumnDefinition Width="155*" MinWidth="130"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+
+            <Label Content="Водители" Padding="10"
+                   VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <DataGrid ItemsSource="{Binding Drivers}" Margin="10,45,10,10" SelectedItem="{Binding SelectedDriver}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="Табельный номер" Width="auto" Binding="{Binding PayrollNumber}"/>
+                    <DataGridTextColumn Header="Имя" Width="auto" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Фамилия" Width="auto" Binding="{Binding Surname}"/>
+                    <DataGridTextColumn Header="Отчество" Width="auto" Binding="{Binding Patronymic}"/>
+                    <DataGridTextColumn Header="Дата рождения" Width="auto" Binding="{Binding BirthDate, StringFormat='{}{0:dd.MM.yyyy}'}"/>
+                    <DataGridTextColumn Header="Пол" Width="auto" Binding="{Binding Gender}"/>
+                    <DataGridTextColumn Header="Класс" Width="auto" Binding="{Binding DriverClass}"/>
+                    <DataGridTextColumn Header="Профессиональный стандарт" Width="auto" Binding="{Binding ProfessionalStandardDetails}"/>
+                    <DataGridTextColumn Header="Трудовая книжка" Width="auto" Binding="{Binding EmploymentBookDetails}"/>
+                    <DataGridTextColumn Header="Номер лицензии" Width="auto" Binding="{Binding License.LicenseNumber}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="50">
+            <Button Content="Добавить" 
+                Margin="10" Grid.Column="1" Height="30"
+                Command="{Binding AddCommand}"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
+            <StackPanel DataContext="{Binding SelectedDriver.License}">
+                <Label Margin="10" Content="Лицензия" HorizontalAlignment="Center"/>
+                <Label Margin="10" Content="Id"/>
+                <TextBlock Margin="10" Text="{Binding Id}"/>
+
+                <Label Margin="10" Content="Номер"/>
+                <TextBox Margin="10" PreviewTextInput="NumberPreviewTextInput">
+                    <TextBox.Text>
+                        <Binding Path="LicenseNumber" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                
+                <Label Margin="10" Content="Дата выдачи"/>
+                <DatePicker Margin="10" SelectedDate="{Binding DateOfIssue}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
+                
+                <Label Margin="10" Content="Дата истечения"/>
+                <DatePicker Margin="10" SelectedDate="{Binding DateOfExpiration, Mode=OneWay}"/>
+
+                <Label Margin="10" Content="Категории"/>
+                <DataGrid Margin="10" VerticalAlignment="Stretch" ItemsSource="{Binding Categories}"
+                          DisplayMemberPath="Name" IsReadOnly="False"> 
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Binding="{Binding IsSelected}"/>
+                        <DataGridTextColumn Header="Категория" Binding="{Binding Name}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Column="3" IsEnabled="{Binding IsRedactingEnabled}">
+            <StackPanel DataContext="{Binding SelectedDriver}">
+                <Label Margin="10" Content="Водитель" HorizontalAlignment="Center"/>
+                <Label Margin="10" Content="Id"/>
+                <TextBlock Margin="10" Text="{Binding Id}"/>
+
+                <Label Margin="10" Content="Табельный номер" />
+                <TextBox Name="PayrollNumber" Margin="10" PreviewTextInput="NumberPreviewTextInput">
+                    <TextBox.Text>
+                        <Binding Path="PayrollNumber" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationRules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Label Margin="10" Content="Фамилия"/>
+                <TextBox x:Name="Surname" Margin="10">
+                    <TextBox.Text>
+                        <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationRules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                
+                <Label Margin="10" Content="Имя"/>
+                <TextBox x:Name="Name" Margin="10">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationRules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Label Margin="10" Content="Отчество"/>
+                <TextBox x:Name="Patronymic" Margin="10">
+                    <TextBox.Text>
+                        <Binding Path="Patronymic" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationRules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Label Margin="10" Content="Пол"/>
+                <TextBox x:Name="Gender" Margin="10">
+                    <TextBox.Text>
+                        <Binding Path="Gender" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationRules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Label Margin="10" Content="дата рождения"/>
+                <DatePicker Margin="10" SelectedDate="{Binding BirthDate}"/>
+
+                <Label Margin="10" Content="Класс"/>
+                <TextBox x:Name="DriverClass" Margin="10" PreviewTextInput="NumberPreviewTextInput">
+                    <TextBox.Text>
+                        <Binding Path="DriverClass" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationRules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Label Margin="10" Content="Стандарт"/>
+                <TextBox x:Name="ProfessionalStandardDetails" Margin="10" PreviewTextInput="NumberPreviewTextInput">
+                    <TextBox.Text>
+                        <Binding Path="ProfessionalStandardDetails" UpdateSourceTrigger="PropertyChanged" >
+                            <Binding.ValidationRules>
+                                <validationRules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Label Margin="10" Content="Номер Трудовой книжки"/>
+                <TextBox Name="EmploymentBookDetails" Margin="10" PreviewTextInput="NumberPreviewTextInput">
+                    <TextBox.Text>
+                        <Binding Path="EmploymentBookDetails" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validationRules:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}">
+                    <Button.IsEnabled>
+                        <MultiBinding>
+                            <MultiBinding.Converter>
+                                <converters:MultiBoolConverter/>
+                            </MultiBinding.Converter>
+                            <MultiBinding.Bindings>
+                                <Binding ElementName="Name" Path="(Validation.HasError)"/>
+                                <Binding ElementName="Surname" Path="(Validation.HasError)"/>
+                                <Binding ElementName="Patronymic" Path="(Validation.HasError)"/>
+                                <Binding ElementName="Gender" Path="(Validation.HasError)"/>
+                                <Binding ElementName="DriverClass" Path="(Validation.HasError)"/>
+                                <Binding ElementName="ProfessionalStandardDetails" Path="(Validation.HasError)"/>
+                                <Binding ElementName="ProfessionalStandardDetails" Path="(Validation.HasError)"/>
+                            </MultiBinding.Bindings>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <Button Content="Удалить" Margin="10" Command="{Binding RemoveCommand}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
