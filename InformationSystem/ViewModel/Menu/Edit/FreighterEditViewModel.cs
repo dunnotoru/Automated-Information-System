@@ -23,10 +23,7 @@ public sealed class FreighterEditViewModel : EditViewModel
         set { _name = value; NotifyPropertyChanged(); }
     }
 
-    protected override bool CanSave()
-    {
-        throw new NotImplementedException();
-    }
+    protected override bool CanSave() => !string.IsNullOrEmpty(Name);
 
     protected override void ExecuteSave()
     {
