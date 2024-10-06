@@ -2,7 +2,7 @@
 
 namespace InformationSystem.Domain.RepositoryInterfaces;
 
-public interface IBrandRepository : IRepositoryBase<Brand>
+public interface IBrandRepository1 : IRepositoryBase<Brand>
 {
 
 }

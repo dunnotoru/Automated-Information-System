@@ -1,4 +1,5 @@
-﻿using InformationSystem.Domain.Models;
+﻿using System;
+using InformationSystem.Domain.Models;
 
 namespace InformationSystem.Domain.Services.Abstractions;
 

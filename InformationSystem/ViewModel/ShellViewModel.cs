@@ -12,7 +12,6 @@ internal class ShellViewModel : ViewModelBase, IDisposable
     private readonly ScheduleService _scheduleService;
     private NavigationStore _navigationStore;
 
-    private static Timer _scheduleUpdateTimer;
     public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
     public ViewModelBase CurrentViewModel
@@ -49,14 +48,7 @@ internal class ShellViewModel : ViewModelBase, IDisposable
         _navigationStore = navigationStore;
         _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
 
-
         _scheduleService = scheduleService;
-
-        _scheduleUpdateTimer = new Timer();
-        _scheduleUpdateTimer.Interval = 1000* 5;
-        _scheduleUpdateTimer.Elapsed += OnTimerElapsed;
-        _scheduleUpdateTimer.Start();
-
     }
 
     private void OnViewModelChanged(object? sender, Func<ViewModelBase> getViewModel)
@@ -64,12 +56,7 @@ internal class ShellViewModel : ViewModelBase, IDisposable
         _navigationStore.CurrentViewModel = getViewModel();
     }
 
-    private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
-    {
-        _scheduleService.UpdateSchedule();
-    }
-
-    public void OnCurrentViewModelChanged()
+    private void OnCurrentViewModelChanged()
     {
         OnPropertyChangedByName(nameof(CurrentViewModel));
     }

@@ -1,42 +1,38 @@
 ﻿using System;
 using System.Windows.Input;
 using InformationSystem.Command;
+using InformationSystem.Data.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Books.EditViewModels;
 
 internal class BrandEditViewModel : ViewModelBase
 {
-    private readonly IBrandRepository _brandRepository;
+    private readonly IDbContextFactory<DomainContext> _contextFactory;
     private int _id;
-    private string _name;
+    private string _name = string.Empty;
 
-    public event EventHandler Save;
-    public event EventHandler Remove;
-    public event EventHandler<Exception> Error;
+    public event EventHandler? Save;
+    public event EventHandler? Remove;
+    public event EventHandler<Exception>? Error;
 
-    public ICommand SaveCommand { get; }
-    public ICommand RemoveCommand { get; }
+    public ICommand SaveCommand => new RelayCommand(ExecuteSave, CanSave);
+    public ICommand RemoveCommand => new RelayCommand(ExecuteRemove);
 
-    public BrandEditViewModel(Brand brand, IBrandRepository brandRepository) : this(brandRepository)
+    public BrandEditViewModel(Brand brand, IDbContextFactory<DomainContext> contextFactory) : this(contextFactory)
     {
-        ArgumentNullException.ThrowIfNull(brand);
         Id = brand.Id;
         Name = brand.Name;
-        _brandRepository = brandRepository;
     }
 
-    public BrandEditViewModel(IBrandRepository brandRepository)
+    public BrandEditViewModel(IDbContextFactory<DomainContext> contextFactory)
     {
-        ArgumentNullException.ThrowIfNull(brandRepository);
-        _brandRepository = brandRepository;
+        _contextFactory = contextFactory;
 
         Id = 0;
-        Name = "";
-
-        SaveCommand = new RelayCommand(ExecuteSave, CanSave);
-        RemoveCommand = new RelayCommand(ExecuteRemove);
+        Name = string.Empty;
     }
 
     private bool CanSave()

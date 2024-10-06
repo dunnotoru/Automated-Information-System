@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.Data.Repositories;
 
-public class BrandRepository : IBrandRepository
+public class BrandRepository1 : IBrandRepository
 {
     private readonly IDbContextFactory<DomainContext> _factory;
 
-    public BrandRepository(IDbContextFactory<DomainContext> factory)
+    public BrandRepository1(IDbContextFactory<DomainContext> factory)
     {
         _factory = factory;
     }

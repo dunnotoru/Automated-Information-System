@@ -1,40 +1,46 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using InformationSystem.Command;
+using InformationSystem.Data.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.Domain.RepositoryInterfaces;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.ViewModel.Books.EditViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Books;
 
 internal class BrandMenuViewModel : ViewModelBase
 {
 	private readonly IMessageBoxService _messageBoxService;
-	private readonly IBrandRepository _brandRepository;
+	private readonly IDbContextFactory<DomainContext> _contextFactory;
 
 	private ObservableCollection<BrandEditViewModel> _items;
 	private BrandEditViewModel _selectedItem;
 
 	public ICommand AddCommand { get; }
 
-	public BrandMenuViewModel(IMessageBoxService messageBoxService, IBrandRepository brandRepository)
+	public BrandMenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory)
 	{
 		ArgumentNullException.ThrowIfNull(messageBoxService);
-		ArgumentNullException.ThrowIfNull(brandRepository);
 
 		_messageBoxService = messageBoxService;
-		_brandRepository = brandRepository;
-			
+		_contextFactory = contextFactory;
+
 		Items = new ObservableCollection<BrandEditViewModel>();
-		foreach (Brand item in _brandRepository.GetAll())
+		
+		using (DomainContext context = _contextFactory.CreateDbContext())
 		{
-			BrandEditViewModel vm = new BrandEditViewModel(item, _brandRepository);
-			vm.Save += OnSave;
-			vm.Error += OnError;
-			vm.Remove += OnRemove;
-			Items.Add(vm);
+			foreach (Brand item in context.Brands)
+			{
+				BrandEditViewModel vm = new BrandEditViewModel(item, _contextFactory);
+				vm.Save += OnSave;
+				vm.Error += OnError;
+				vm.Remove += OnRemove;
+				Items.Add(vm);
+			}
 		}
 
 		AddCommand = new RelayCommand(Add);
@@ -42,7 +48,7 @@ internal class BrandMenuViewModel : ViewModelBase
 
 	private void OnRemove(object? sender, EventArgs e)
 	{
-		BrandEditViewModel vm = (BrandEditViewModel)sender;
+		BrandEditViewModel vm = (BrandEditViewModel)sender!;
 		vm.Save -= OnSave;
 		vm.Error -= OnError;
 		vm.Remove -= OnRemove;
@@ -53,13 +59,18 @@ internal class BrandMenuViewModel : ViewModelBase
 
 	private void OnSave(object? sender, EventArgs e)
 	{
-		BrandEditViewModel vm = (BrandEditViewModel)sender;
+		BrandEditViewModel vm = (BrandEditViewModel)sender!;
 		vm.Save -= OnSave;
 		vm.Error -= OnError;
 		vm.Remove -= OnRemove;
 
 		Brand brand = _brandRepository.GetById(vm.Id);
 		BrandEditViewModel updatedVm = new BrandEditViewModel(brand, _brandRepository);
+		
+		using (DomainContext context = _contextFactory.CreateDbContext())
+		{
+			Brand brand = context.Brands.First(o => o.Id == id);
+		}
 
 		updatedVm.Remove += OnRemove;
 		updatedVm.Save += OnSave;
@@ -98,6 +109,9 @@ internal class BrandMenuViewModel : ViewModelBase
 	public BrandEditViewModel SelectedItem
 	{
 		get { return _selectedItem; }
-		set { _selectedItem = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+		set
+		{
+			_selectedItem = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled));
+		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using InformationSystem.Domain.Models;
+﻿using System.Collections.Generic;
+using InformationSystem.Domain.Models;
 
 namespace InformationSystem.Domain.RepositoryInterfaces;
 

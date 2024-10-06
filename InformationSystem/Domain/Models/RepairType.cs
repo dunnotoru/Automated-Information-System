@@ -1,4 +1,6 @@
-﻿namespace InformationSystem.Domain.Models;
+﻿using System.Collections.Generic;
+
+namespace InformationSystem.Domain.Models;
 
 public class RepairType : EntityBase
 {

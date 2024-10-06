@@ -1,4 +1,6 @@
-﻿namespace InformationSystem.Domain.Models;
+﻿using System;
+
+namespace InformationSystem.Domain.Models;
 
 public class Vehicle : EntityBase
 {

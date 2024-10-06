@@ -32,9 +32,6 @@
         <DataTemplate DataType="{x:Type settings:UpdatePasswordViewModel}">
             <settings1:UpdatePasswordView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:AboutViewModel}">
-            <view:AboutUserControl/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type dispatcher:StationMenuViewModel}">
             <dispatcher1:StationMenuUserControl/>
         </DataTemplate>

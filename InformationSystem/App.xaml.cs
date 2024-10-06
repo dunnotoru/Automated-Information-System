@@ -120,7 +120,6 @@ public partial class App : Application
             .AddSingleton<ITicketTypeRepository, TicketTypeRepository>()
             .AddSingleton<IPassportRepository, PassportRepository>()
             .AddSingleton<ICategoryRepository, CategoryRepository>()
-            .AddSingleton<IBrandRepository, BrandRepository>()
             .AddSingleton<IVehicleModelRepository, VehicleModelRepository>()
             .AddSingleton<IRepairTypeRepository, RepairTypeRepository>()
             .AddSingleton<IFreighterRepository, FreighterRepository>()
@@ -175,8 +174,7 @@ public partial class App : Application
             .AddTransient<RunSearchViewModel>()
             .AddTransient<PassengerRegistrationViewModel>()
             .AddTransient<UpdatePasswordViewModel>()
-            .AddTransient<ScheduleDataViewModel>()
-            .AddTransient<AboutViewModel>();
+            .AddTransient<ScheduleDataViewModel>();
         
         services.AddSingleton<ShellViewModel>(provider =>
         {

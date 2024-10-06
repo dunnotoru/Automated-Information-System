@@ -1,4 +1,7 @@
-﻿namespace InformationSystem.Domain.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace InformationSystem.Domain.Models;
 
 public class DriverLicense : EntityBase
 {
