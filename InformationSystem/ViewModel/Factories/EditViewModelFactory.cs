@@ -1,5 +1,5 @@
 using System;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.Menu;
 using InformationSystem.ViewModel.Menu.Edit;
@@ -20,24 +20,18 @@ public class EditViewModelFactory
     {
         return typeof(TEntity) switch
         {
-            //Account
-            //Category
-            //Driver
-            //DriverLicense
-            //Freighter
-            //IdentityDocument
-            //LicenseCategory
-            //RepairType
-            //Route
-            //Run
-            //Schedule
-            //Station
-            //StationRoute
-            //Ticket
-            //TicketType
-            //Vehicle
-            //VehicleModel
-            var t when t == typeof(TEntity) => new BrandEditViewModel(_factory),
+            var t when t == typeof(Category) => new CategoryEditViewModel(_factory),
+            var t when t == typeof(Driver) => new DriverEditViewModel(_factory),
+            var t when t == typeof(Freighter) => new FreighterEditViewModel(_factory),
+            var t when t == typeof(RepairType) => new RepairTypeEditViewModel(_factory),
+            var t when t == typeof(Route) => new RouteEditViewModel(_factory),
+            var t when t == typeof(Run) => new RunEditViewModel(_factory),
+            var t when t == typeof(Station) => new StationEditViewModel(_factory),
+            var t when t == typeof(Ticket) => new TicketEditViewModel(_factory),
+            var t when t == typeof(TicketType) => new TicketTypeEditViewModel(_factory),
+            var t when t == typeof(Vehicle) => new VehicleEditViewModel(_factory),
+            var t when t == typeof(VehicleModel) => new VehicleModelEditViewModel(_factory),
+            var t when t == typeof(Brand) => new BrandEditViewModel(_factory),
             _ => throw new ArgumentOutOfRangeException(nameof(TEntity), typeof(TEntity), null)
         };
     }
@@ -47,24 +41,18 @@ public class EditViewModelFactory
     {
         return entity switch
         {
-            //Account
-            //Category
-            //Driver
-            //DriverLicense
-            //Freighter
-            //IdentityDocument
-            //LicenseCategory
-            //RepairType
-            //Route
-            //Run
-            //Schedule
-            //Station
-            //StationRoute
-            //Ticket
-            //TicketType
-            //Vehicle
-            //VehicleModel
-            Brand _ => new BrandEditViewModel(entity as Brand, _factory), 
+            Category obj => new CategoryEditViewModel(obj, _factory),
+            Driver obj => new DriverEditViewModel(obj, _factory),
+            Freighter obj => new FreighterEditViewModel(obj, _factory),
+            RepairType obj => new RepairTypeEditViewModel(obj, _factory),
+            Route obj => new RouteEditViewModel(obj, _factory),
+            Run obj => new RunEditViewModel(obj, _factory),
+            Station obj => new StationEditViewModel(obj, _factory),
+            Ticket obj => new TicketEditViewModel(obj, _factory),
+            TicketType obj => new TicketTypeEditViewModel(obj, _factory),
+            Vehicle obj => new VehicleEditViewModel(obj, _factory),
+            VehicleModel obj => new VehicleModelEditViewModel(obj, _factory),
+            Brand obj => new BrandEditViewModel(obj, _factory), 
             _ => throw new ArgumentOutOfRangeException(nameof(entity), entity, null)
         };
     }

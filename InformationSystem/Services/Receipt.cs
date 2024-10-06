@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace InformationSystem.Domain;
+namespace InformationSystem.Services;
 
 public class Receipt
 {

@@ -1,16 +1,22 @@
 ﻿using System;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
+using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
 
 public class RouteEditViewModel : EditViewModel
 {
-    private string _name;
+    private string _name = string.Empty;
 
-    public RouteEditViewModel(IDbContextFactory<DomainContext> contextFactory, string name) : base(contextFactory)
+    public RouteEditViewModel(Route route, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        _name = name;
+        
+    }
+    
+    public RouteEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        
     }
 
     protected override bool CanSave()

@@ -3,9 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using InformationSystem.Command;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.Services;
 using InformationSystem.Services;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.Stores;
@@ -44,7 +43,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
         OrderStore orderStore,
         IMessageBoxService messageBoxService,
         AccountStore accountStore,
-        OrderProcessService orderProcessService)
+        OrderProcessService orderProcessService, IDbContextFactory<DomainContext> contextFactory)
     {
         _orderStore = orderStore;
         _orderStore.OrderCreated += OnOrderCreated;
@@ -52,6 +51,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
         _messageBoxService = messageBoxService;
         _accountStore = accountStore;
         _orderProcessService = orderProcessService;
+        _contextFactory = contextFactory;
 
         Passengers = new ObservableCollection<PassengerViewModel>();
 
@@ -269,7 +269,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
     public PassengerViewModel SelectedPassenger
     {
         get => _selectedPassenger;
-        set { _selectedPassenger = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsPassengerSelected)); }
+        set { _selectedPassenger = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(IsPassengerSelected)); }
     }
 
     public bool IsPassengerSelected => SelectedPassenger != null;
@@ -281,7 +281,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
         {
             _price = value;
             NotifyPropertyChanged();
-            OnPropertyChangedByName(nameof(Change));
+            NotifyPropertyChanged(nameof(Change));
         }
     }
     public int Cash
@@ -291,7 +291,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
         {
             _cash = value;
             NotifyPropertyChanged();
-            OnPropertyChangedByName(nameof(Change));
+            NotifyPropertyChanged(nameof(Change));
         }
     }
     public int Change => Cash - Price;

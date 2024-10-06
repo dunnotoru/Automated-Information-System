@@ -1,7 +1,7 @@
 ﻿using System;
 using InformationSystem.Domain.Models;
 
-namespace InformationSystem.Domain.Services.Abstractions;
+namespace InformationSystem.Services.Abstractions;
 
 public interface IArrivalTimeCalculator
 {

@@ -1,10 +1,16 @@
-﻿using InformationSystem.Data.Context;
+﻿using InformationSystem.Domain.Context;
+using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
 
 public class TicketTypeEditViewModel : EditViewModel
 {
+    public TicketTypeEditViewModel(TicketType ticketType, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        
+    }
+    
     public TicketTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
     }

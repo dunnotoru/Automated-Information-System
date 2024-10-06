@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using InformationSystem.Domain.Models;
 
-namespace InformationSystem.Domain.Services;
+namespace InformationSystem.Services;
 
 public class RunSearchService
 {

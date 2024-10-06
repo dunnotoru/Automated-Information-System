@@ -1,10 +1,17 @@
-﻿using InformationSystem.Data.Context;
+﻿using InformationSystem.Domain.Context;
+using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
 
 public class VehicleModelEditViewModel : EditViewModel
 {
+
+    public VehicleModelEditViewModel(VehicleModel vehicleModel, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        
+    }
+    
     public VehicleModelEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
         

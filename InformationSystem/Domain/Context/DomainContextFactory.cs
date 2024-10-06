@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace InformationSystem.Data.Context;
+namespace InformationSystem.Domain.Context;
 
 public sealed class DomainContextFactory : IDesignTimeDbContextFactory<DomainContext>
 {

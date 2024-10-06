@@ -1,4 +1,4 @@
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.ViewModel.Factories;

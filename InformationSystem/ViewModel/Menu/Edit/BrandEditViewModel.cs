@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 

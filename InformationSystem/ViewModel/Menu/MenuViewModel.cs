@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using InformationSystem.Command;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.ViewModel.Factories;
@@ -118,6 +118,6 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
     public TEditViewModel? SelectedItem
     {
         get => _selectedItem;
-        set { _selectedItem = value; NotifyPropertyChanged(); OnPropertyChangedByName(nameof(IsRedactingEnabled)); }
+        set { _selectedItem = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(IsRedactingEnabled)); }
     }
 }

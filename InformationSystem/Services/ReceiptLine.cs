@@ -1,4 +1,4 @@
-﻿namespace InformationSystem.Domain;
+﻿namespace InformationSystem.Services;
 
 public class ReceiptLine
 {

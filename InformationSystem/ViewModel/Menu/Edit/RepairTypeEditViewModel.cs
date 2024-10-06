@@ -1,5 +1,6 @@
 ﻿using System;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
+using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
@@ -8,11 +9,11 @@ public class RepairTypeEditViewModel : EditViewModel
 {
     private string _name = string.Empty;
 
-    public RepairTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
+    public RepairTypeEditViewModel(RepairType repairType, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
     
-    public RepairTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory, string name) : base(contextFactory)
+    public RepairTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        _name = name;
+        
     }
     
     protected override bool CanSave()

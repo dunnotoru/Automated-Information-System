@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.Services.Abstractions;
+using InformationSystem.Services.Abstractions;
 
 namespace InformationSystem.Services;
 

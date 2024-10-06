@@ -3,10 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:InformationSystem.ViewModel"
-        xmlns:view="clr-namespace:InformationSystem.View"
-        xmlns:sales="clr-namespace:InformationSystem.ViewModel.Sales"
-        xmlns:sales1="clr-namespace:InformationSystem.View.Sales"
+
         mc:Ignorable="d"
         Title="АИС" Height="550" Width="900"
         WindowState="Maximized"
@@ -14,15 +11,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         
-        <DataTemplate DataType="{x:Type vm:CertificateViewModel}">
-            <view:Certificate/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type sales:RunSearchViewModel}">
-            <sales1:RunSearchView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type sales:PassengerRegistrationViewModel}">
-            <sales1:PassengerRegistrationView/>
-        </DataTemplate>
+        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

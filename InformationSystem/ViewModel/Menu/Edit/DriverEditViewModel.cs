@@ -1,5 +1,5 @@
 ﻿using System;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.HelperViewModels;
 using Microsoft.EntityFrameworkCore;

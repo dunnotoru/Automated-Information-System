@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Timers;
-using InformationSystem.Domain.Services;
+using InformationSystem.Services;
 using InformationSystem.Stores;
 
 namespace InformationSystem.ViewModel;
 
 internal class ShellViewModel : ViewModelBase, IDisposable
 {
-    private readonly ScheduleService _scheduleService;
     private NavigationStore _navigationStore;
 
-    public ObservableCollection<MenuItemViewModel> Items { get; set; }
+    public ObservableCollection<MenuItemViewModel> Items { get; private set; }
 
     public ViewModelBase CurrentViewModel
     {
@@ -20,7 +18,7 @@ internal class ShellViewModel : ViewModelBase, IDisposable
         set
         {
             _navigationStore.CurrentViewModel = value;
-            OnPropertyChangedByName(nameof(CurrentViewModel));
+            NotifyPropertyChanged(nameof(CurrentViewModel));
         }
     }
 
@@ -30,13 +28,12 @@ internal class ShellViewModel : ViewModelBase, IDisposable
         set
         {
             _navigationStore = value;
-            OnPropertyChangedByName(nameof(NavigationStore));
+            NotifyPropertyChanged(nameof(NavigationStore));
         }
     }
 
     public ShellViewModel(NavigationStore navigationStore,
-        List<MenuItemViewModel> menuItems,
-        ScheduleService scheduleService)
+        List<MenuItemViewModel> menuItems)
     {
         Items = new ObservableCollection<MenuItemViewModel>();
         foreach (var item in menuItems)
@@ -47,8 +44,6 @@ internal class ShellViewModel : ViewModelBase, IDisposable
 
         _navigationStore = navigationStore;
         _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
-
-        _scheduleService = scheduleService;
     }
 
     private void OnViewModelChanged(object? sender, Func<ViewModelBase> getViewModel)
@@ -58,7 +53,7 @@ internal class ShellViewModel : ViewModelBase, IDisposable
 
     private void OnCurrentViewModelChanged()
     {
-        OnPropertyChangedByName(nameof(CurrentViewModel));
+        NotifyPropertyChanged(nameof(CurrentViewModel));
     }
 
     public void Dispose()

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using InformationSystem.Data.Context;
 using InformationSystem.Domain;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.Services;
-using InformationSystem.Domain.Services.Abstractions;
 using InformationSystem.Services;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.Stores;
@@ -24,7 +22,7 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
-        var h = Host.CreateDefaultBuilder()
+        IHost h = Host.CreateDefaultBuilder()
             .UseEnvironment("Development")
             .ConfigureServices(Configure)
             .Build();
@@ -121,7 +119,6 @@ public partial class App : Application
             .AddTransient<OrderProcessService>()
             .AddSingleton<LoginViewModel>()
             .AddSingleton<RegistrationViewModel>()
-            .AddSingleton<ScheduleService>()
             .AddSingleton<IDocumentFormatter<Ticket>, TicketFormatter>()
             .AddSingleton<IDocumentFormatter<Receipt>, ReceiptFormatter>();
 
@@ -145,13 +142,13 @@ public partial class App : Application
             .AddTransient<RouteMenuViewModel>()
             .AddTransient<RunMenuViewModel>()
             .AddTransient<DriverMenuViewModel>()
+            .AddTransient<VehicleModelMenuViewModel>()
             .AddTransient<VehicleMenuViewModel>()
             .AddTransient<TicketMenuViewModel>()
             .AddTransient<CategoryMenuViewModel>()
             .AddTransient<BrandMenuViewModel>()
-            .AddTransient<TicketMenuViewModel>()
+            .AddTransient<TicketTypeMenuViewModel>()
             .AddTransient<RepairTypeMenuViewModel>()
-            .AddTransient<VehicleMenuViewModel>()
             .AddTransient<FreighterMenuViewModel>()
             .AddTransient<RunSearchViewModel>()
             .AddTransient<PassengerRegistrationViewModel>()
@@ -163,9 +160,7 @@ public partial class App : Application
 
             return new ShellViewModel(
                 provider.GetService<NavigationStore>() ?? throw new InvalidOperationException(),
-                compositor.ComposeMenu(),
-                provider.GetService<ScheduleService>() ?? throw new InvalidOperationException()
-                );
+                compositor.ComposeMenu());
         });
     }
 }

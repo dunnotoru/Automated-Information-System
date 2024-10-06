@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 using InformationSystem.Command;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu;

@@ -1,8 +1,8 @@
-﻿using InformationSystem.Data.Configurations;
+﻿using InformationSystem.Domain.Configurations;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.Data.Context;
+namespace InformationSystem.Domain.Context;
 
 public sealed class DomainContext : DbContext
 {

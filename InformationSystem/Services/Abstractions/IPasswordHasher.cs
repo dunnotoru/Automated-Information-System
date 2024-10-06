@@ -1,4 +1,4 @@
-﻿namespace InformationSystem.Domain.Services.Abstractions;
+﻿namespace InformationSystem.Services.Abstractions;
 
 public interface IPasswordHasher
 {

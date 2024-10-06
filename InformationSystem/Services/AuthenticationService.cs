@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.Services.Abstractions;
+using InformationSystem.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.Domain.Services;
+namespace InformationSystem.Services;
 
 public class AuthenticationService
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.Services.Abstractions;
+using InformationSystem.Services.Abstractions;
 
 namespace InformationSystem.Services;
 

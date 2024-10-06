@@ -1,9 +1,10 @@
-﻿namespace InformationSystem.Domain.Services;
+﻿namespace InformationSystem.Services;
 
 public class ScheduleService
 {
     public ScheduleService()
     {
+        
     }
 
     public void UpdateSchedule()

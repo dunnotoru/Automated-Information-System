@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:InformationSystem.ViewModel"
+                    xmlns:vmmenu="clr-namespace:InformationSystem.ViewModel.Menu"
+                    xmlns:vmedit="clr-namespace:InformationSystem.ViewModel.Menu.Edit"
+                    xmlns:vmenu="clr-namespace:InformationSystem.View.Menu"
+                    xmlns:view="clr-namespace:InformationSystem.View"
+                    xmlns:vmsales="clr-namespace:InformationSystem.ViewModel.Sales"
+                    xmlns:vsales="clr-namespace:InformationSystem.View.Sales"
+                    >
+    <DataTemplate DataType="{x:Type vm:CertificateViewModel}">
+            <view:Certificate/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmsales:RunSearchViewModel}">
+            <vsales:RunSearchView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmsales:PassengerRegistrationViewModel}">
+            <vsales:PassengerRegistrationView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vmmenu:StationMenuViewModel}">
+            <vmenu:StationMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:BrandMenuViewModel}">
+            <vmenu:BrandMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:CategoryMenuViewModel}">
+            <vmenu:CategoryMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:DriverMenuViewModel}">
+            <vmenu:DriverMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:FreighterMenuViewModel}">
+            <vmenu:FreighterMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:RepairTypeMenuViewModel}">
+            <vmenu:RepairTypeMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:RouteMenuViewModel}">
+            <vmenu:RouteMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:RunMenuViewModel}">
+            <vmenu:RunMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:TicketMenuViewModel}">
+            <vmenu:TicketMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:TicketTypeMenuViewModel}">
+            <vmenu:TicketTypeMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:VehicleMenuViewModel}">
+            <vmenu:VehicleMenuUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmmenu:VehicleModelMenuViewModel}">
+            <vmenu:VehicleModelMenuUserControl/>
+        </DataTemplate>
+</ResourceDictionary>

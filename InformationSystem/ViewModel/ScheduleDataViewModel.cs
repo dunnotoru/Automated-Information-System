@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using InformationSystem.Command;
-using InformationSystem.Data.Context;
+using InformationSystem.Domain.Context;
 using InformationSystem.ViewModel.HelperViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,15 +10,13 @@ namespace InformationSystem.ViewModel;
 internal class ScheduleDataViewModel : ViewModelBase
 {
     private readonly IDbContextFactory<DomainContext> _contextFactory;
-
     private ObservableCollection<ScheduleViewModel> _items;
-
     public ICommand UpdateDataCommand { get; }
 
     public ScheduleDataViewModel(IDbContextFactory<DomainContext> contextFactory)
     {
         _contextFactory = contextFactory;
-        Items = new ObservableCollection<ScheduleViewModel>();
+        _items = new ObservableCollection<ScheduleViewModel>();
         Update();
         UpdateDataCommand = new RelayCommand(Update);
     }
@@ -26,13 +24,11 @@ internal class ScheduleDataViewModel : ViewModelBase
     private void Update()
     {
         Items.Clear();
-        using (DomainContext context = _contextFactory.CreateDbContext())
+        using DomainContext context = _contextFactory.CreateDbContext();
+        foreach (var item in context.Schedules)
         {
-            foreach (var item in context.Schedules)
-            {
-                ScheduleViewModel vm = new ScheduleViewModel(item);
-                Items.Add(vm);
-            }
+            ScheduleViewModel vm = new ScheduleViewModel(item);
+            Items.Add(vm);
         }
     }
 

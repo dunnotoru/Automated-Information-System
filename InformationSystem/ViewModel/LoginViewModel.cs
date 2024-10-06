@@ -1,7 +1,7 @@
 ﻿using System;
 using InformationSystem.Command;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.Services;
+using InformationSystem.Services;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.Stores;
 
