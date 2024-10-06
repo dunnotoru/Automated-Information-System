@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
 using InformationSystem.ViewModel.HelperViewModels;
 
 namespace InformationSystem.ViewModel.Sales;
@@ -18,16 +17,8 @@ internal class PassengerViewModel : ViewModelBase
     private ObservableCollection<TicketTypeViewModel> _ticketTypes;
     private TicketTypeViewModel _selectedTicketType;
 
-    public PassengerViewModel(ITicketTypeRepository ticketTypeRepository)
+    public PassengerViewModel()
     {
-        ArgumentNullException.ThrowIfNull(ticketTypeRepository);
-
-        _ticketTypes = new ObservableCollection<TicketTypeViewModel>();
-        foreach (var item in ticketTypeRepository.GetAll())
-        {
-            TicketTypeViewModel vm = new TicketTypeViewModel(item);
-            _ticketTypes.Add(vm);
-        }
         SelectedTicketType = _ticketTypes.FirstOrDefault();
     }
 

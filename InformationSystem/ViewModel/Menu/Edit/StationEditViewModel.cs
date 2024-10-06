@@ -1,108 +1,27 @@
 ﻿using System;
-using System.Windows.Input;
-using InformationSystem.Command;
-using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
+using InformationSystem.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.ViewModel.Dispatcher.EditViewModels;
+namespace InformationSystem.ViewModel.Menu.Edit;
 
-internal class StationEditViewModel : ViewModelBase
+public class StationEditViewModel : EditViewModel
 {
-    private readonly IStationRepository _stationRepository;
-
-    private string _name;
-    private string _address;
-
-    public event EventHandler Remove;
-    public event EventHandler Save;
-    public event EventHandler<Exception> Error;
-
-    public ICommand SaveCommand { get; }
-    public ICommand RemoveCommand { get; }
-
-    public StationEditViewModel(Station station, IStationRepository stationRepository) : this()
+    public StationEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        ArgumentNullException.ThrowIfNull(station);
-        ArgumentNullException.ThrowIfNull(stationRepository);
-        _stationRepository = stationRepository;
-
-        Id = station.Id;
-        Name = station.Name ?? "";
-        Address = station.Address ?? "";
     }
 
-    public StationEditViewModel(IStationRepository stationRepository) : this()
+    protected override bool CanSave()
     {
-        ArgumentNullException.ThrowIfNull(stationRepository);
-        _stationRepository = stationRepository;
-
-        Id = 0;
-        Name = "";
-        Address = "";
+        throw new NotImplementedException();
     }
 
-    private StationEditViewModel()
+    protected override void ExecuteSave()
     {
-        SaveCommand = new RelayCommand(ExecuteSave, CanSave);
-        RemoveCommand = new RelayCommand(ExecuteRemove);
+        throw new NotImplementedException();
     }
 
-    public int Id { get; set; }
-    public string Name
+    protected override void ExecuteRemove()
     {
-        get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
-    }
-    public string Address
-    {
-        get => _address;
-        set { _address = value; NotifyPropertyChanged(); }
-    }
-
-    public bool CanSave()
-    {
-        return !string.IsNullOrWhiteSpace(Name) 
-               && !string.IsNullOrWhiteSpace(Address);
-    }
-
-    public void ExecuteSave()
-    {
-        Station createdStation = new Station()
-        {
-            Name = Name,
-            Address = Address,
-        };
-
-        try
-        {
-            if (Id == 0)
-            {
-                Id = _stationRepository.Create(createdStation);
-            }
-            else
-            {
-                _stationRepository.Update(Id, createdStation);
-            }
-            Save?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception e)
-        {
-            Error?.Invoke(this, e);
-        }
-    }
-
-    public void ExecuteRemove()
-    {
-        if (Id == 0) return;
-
-        try
-        {
-            _stationRepository.Remove(Id);
-            Remove?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception e)
-        {
-            Error?.Invoke(this, e);
-        }
+        throw new NotImplementedException();
     }
 }

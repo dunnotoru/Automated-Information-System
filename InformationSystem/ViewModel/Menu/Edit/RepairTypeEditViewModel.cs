@@ -1,96 +1,38 @@
 ﻿using System;
-using System.Windows.Input;
-using InformationSystem.Command;
-using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
+using InformationSystem.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.ViewModel.Books.EditViewModels;
+namespace InformationSystem.ViewModel.Menu.Edit;
 
-internal class RepairTypeEditViewModel : ViewModelBase
+public class RepairTypeEditViewModel : EditViewModel
 {
-    private readonly IRepairTypeRepository _repairTypeRepository;
-    private int _id;
-    private string _name;
+    private string _name = string.Empty;
 
-    public event EventHandler Save;
-    public event EventHandler Remove;
-    public event EventHandler<Exception> Error;
-
-    public ICommand SaveCommand { get; }
-    public ICommand RemoveCommand { get; }
-
-    public RepairTypeEditViewModel(RepairType repairType, IRepairTypeRepository brandRepository) : this(brandRepository)
+    public RepairTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
+    
+    public RepairTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory, string name) : base(contextFactory)
     {
-        Id = repairType.Id;
-        Name = repairType.Name;
+        _name = name;
     }
-    public RepairTypeEditViewModel(IRepairTypeRepository brandRepository) 
+    
+    protected override bool CanSave()
     {
-        ArgumentNullException.ThrowIfNull(brandRepository);
-        _repairTypeRepository = brandRepository;
-
-        Id = 0;
-        Name = "";
-
-        SaveCommand = new RelayCommand(ExecuteSave, CanSave);
-        RemoveCommand = new RelayCommand(ExecuteRemove);
+        throw new NotImplementedException();
     }
 
-    private bool CanSave()
+    protected override void ExecuteSave()
     {
-        return !string.IsNullOrWhiteSpace(Name);
+        throw new NotImplementedException();
     }
 
-    private void ExecuteSave()
+    protected override void ExecuteRemove()
     {
-        RepairType type = new RepairType()
-        {
-            Id = _id,
-            Name = _name,
-        };
-
-        try
-        {
-            if (Id == 0)
-            {
-                Id = _repairTypeRepository.Create(type);
-            }
-            else
-            {
-                _repairTypeRepository.Update(Id, type);
-            }
-            Save?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception e)
-        {
-            Error?.Invoke(this, e);
-        }
-
-    }
-    private void ExecuteRemove()
-    {
-        if (Id == 0) return;
-
-        try
-        {
-            _repairTypeRepository.Remove(Id);
-            Remove?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception e)
-        {
-            Error?.Invoke(this, e);
-        }
-    }
-
-    public int Id
-    {
-        get { return _id; }
-        set { _id = value; NotifyPropertyChanged(); }
+        throw new NotImplementedException();
     }
 
     public string Name
     {
-        get { return _name; }
+        get => _name;
         set { _name = value; NotifyPropertyChanged(); }
     }
 }

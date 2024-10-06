@@ -4,19 +4,19 @@ using InformationSystem.Data.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.ViewModel.Books.EditViewModels;
+namespace InformationSystem.ViewModel.Menu.Edit;
 
-internal sealed class BrandEditViewModel : EditViewModel
+public sealed class BrandEditViewModel : EditViewModel
 {
     private string _name = string.Empty;
+
+    public BrandEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
 
     public BrandEditViewModel(Brand brand, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
         Id = brand.Id;
         Name = brand.Name;
     }
-
-    public BrandEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
 
     protected override bool CanSave() => !string.IsNullOrWhiteSpace(Name);
 
@@ -34,11 +34,11 @@ internal sealed class BrandEditViewModel : EditViewModel
             context.Brands.Update(brand);
             context.SaveChanges();
             Id = brand.Id;
-            OnSave();
+            RaiseSaved();
         }
         catch (Exception ex)
         {
-            OnError(ex);
+            RaiseOnErrorOccured(ex);
         }
         finally
         {
@@ -56,11 +56,11 @@ internal sealed class BrandEditViewModel : EditViewModel
             Brand storedEntity = context.Brands.First(o => o.Id == this.Id);
             context.Brands.Remove(storedEntity);
             context.SaveChanges();
-            OnSave();
+            RaiseSaved();
         }
         catch (Exception ex)
         {
-            OnError(ex);
+            RaiseOnErrorOccured(ex);
         }
         finally
         {

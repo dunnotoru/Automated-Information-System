@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.ViewModel;
-using InformationSystem.ViewModel.Books;
-using InformationSystem.ViewModel.Dispatcher;
+using InformationSystem.ViewModel.Menu;
 using InformationSystem.ViewModel.Sales;
-using InformationSystem.ViewModel.Settings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InformationSystem.Services;
@@ -66,8 +64,8 @@ internal class MenuCompositor : IMenuCompositor
     {
         List<MenuItemViewModel> menuList = new List<MenuItemViewModel>()
         {
-            new MenuItemViewModel("Регистрация", () => _provider.GetRequiredService<AccountMenuViewModel>()),
-            new MenuItemViewModel("Смена пароля", () => _provider.GetRequiredService<UpdatePasswordViewModel>()),
+            // new MenuItemViewModel("Регистрация", () => _provider.GetRequiredService<AccountMenuViewModel>()),
+            // new MenuItemViewModel("Смена пароля", () => _provider.GetRequiredService<UpdatePasswordViewModel>()),
         };
         return menuList;
     }

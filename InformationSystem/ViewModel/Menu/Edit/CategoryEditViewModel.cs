@@ -1,97 +1,37 @@
 ﻿using System;
-using System.Windows.Input;
-using InformationSystem.Command;
+using InformationSystem.Data.Context;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.ViewModel.Books.EditViewModels;
+namespace InformationSystem.ViewModel.Menu.Edit;
 
-internal class CategoryEditViewModel : ViewModelBase
+public sealed class CategoryEditViewModel : EditViewModel
 {
-    private readonly ICategoryRepository _categoryRepository;
-    private string _name;
+    private string _name = string.Empty;
 
-    public event EventHandler Save;
-    public event EventHandler Remove;
-    public event EventHandler<Exception> Error;
-
-    public ICommand SaveCommand { get; }
-    public ICommand RemoveCommand { get; }
-
-    public CategoryEditViewModel(Category category, ICategoryRepository categoryRepository) : this()
+    public CategoryEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
+    
+    public CategoryEditViewModel(Category category, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        ArgumentNullException.ThrowIfNull(category);
-        ArgumentNullException.ThrowIfNull(categoryRepository);
-
         Id = category.Id;
         Name = category.Name;
-
-        _categoryRepository = categoryRepository;
     }
+    
+    protected override bool CanSave() => !string.IsNullOrWhiteSpace(Name);
 
-    public CategoryEditViewModel(ICategoryRepository categoryRepository) : this()
+    protected override void ExecuteSave()
     {
-        ArgumentNullException.ThrowIfNull(categoryRepository);
-
-        Id = 0;
-        Name = "";
-        _categoryRepository = categoryRepository;
+        throw new NotImplementedException();
     }
 
-    private CategoryEditViewModel()
+    protected override void ExecuteRemove()
     {
-        SaveCommand = new RelayCommand(ExecuteSave, () => CanSave());
-        RemoveCommand = new RelayCommand(ExecuteRemove);
+        throw new NotImplementedException();
     }
-
-    private bool CanSave()
-    {
-        return !string.IsNullOrWhiteSpace(Name);
-    }
-
-    public int Id { get; set; }
+    
     public string Name
     {
         get => _name;
         set { _name = value; NotifyPropertyChanged(); }
-    }
-
-    public void ExecuteSave()
-    {
-        Category createdStation = new Category()
-        {
-            Name = Name,
-        };
-        try
-        {
-            if (Id == 0)
-            {
-                Id = _categoryRepository.Create(createdStation);
-            }
-            else
-            {
-                _categoryRepository.Update(Id, createdStation);
-            }
-            Save?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception e)
-        {
-            Error?.Invoke(this, e);
-        }
-    }
-
-    public void ExecuteRemove()
-    {
-        if (Id == 0) return;
-        try
-        {
-            _categoryRepository.Remove(Id);
-            Remove?.Invoke(this, EventArgs.Empty);
-             
-        }
-        catch (Exception e)
-        {
-            Error?.Invoke(this, e);
-        }
     }
 }

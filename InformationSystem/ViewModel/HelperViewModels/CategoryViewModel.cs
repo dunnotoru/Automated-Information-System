@@ -1,22 +1,23 @@
-﻿using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
+﻿using InformationSystem.Data.Context;
+using InformationSystem.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
 public class CategoryViewModel : ViewModelBase
 {
-    private readonly ICategoryRepository _categoryRepository;
-    private string _name;
-    private bool _isSelected;
+    private readonly IDbContextFactory<DomainContext> _contextFactory;
+    private string _name = string.Empty;
+    private bool _isSelected = false;
 
-
-    public CategoryViewModel(Category category, ICategoryRepository categoryRepository)
+    public CategoryViewModel(Category category, IDbContextFactory<DomainContext> contextFactory)
     {
-        _categoryRepository = categoryRepository;
+        _contextFactory = contextFactory;
         Id = category.Id;
         Name = category.Name;
     }
     public int Id { get; }
+    
     public string Name
     {
         get { return _name; }
@@ -29,8 +30,13 @@ public class CategoryViewModel : ViewModelBase
         set { _isSelected = value; NotifyPropertyChanged(); }
     }
 
-    public Category GetCategory()
+    public Category? GetCategory()
     {
-        return _categoryRepository.GetById(Id);
+        Category? category = null;
+        using (DomainContext context = _contextFactory.CreateDbContext())
+        {
+            category = context.Categories.Find(Id);
+        }
+        return category;
     }
 }

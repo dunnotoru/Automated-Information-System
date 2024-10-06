@@ -2,18 +2,17 @@ using System;
 using System.Windows.Input;
 using InformationSystem.Command;
 using InformationSystem.Data.Context;
-using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.ViewModel;
+namespace InformationSystem.ViewModel.Menu;
 
 public abstract class EditViewModel : ViewModelBase
 {
     protected readonly IDbContextFactory<DomainContext> ContextFactory;
 
-    public event EventHandler? Save;
-    public event EventHandler? Remove;
-    public event EventHandler<Exception>? Error;
+    public event EventHandler? Saved;
+    public event EventHandler? Removed;
+    public event EventHandler<Exception>? ErrorOccured;
 
     public ICommand SaveCommand => new RelayCommand(ExecuteSave, CanSave);
     public ICommand RemoveCommand => new RelayCommand(ExecuteRemove);
@@ -27,19 +26,19 @@ public abstract class EditViewModel : ViewModelBase
     protected abstract void ExecuteSave();
     protected abstract void ExecuteRemove();
 
-    protected void OnSave()
+    protected void RaiseSaved()
     {
-        Save?.Invoke(this, EventArgs.Empty);
+        Saved?.Invoke(this, EventArgs.Empty);
     }
 
-    protected void OnRemove()
+    protected void RaiseRemoved()
     {
-        Remove?.Invoke(this, EventArgs.Empty);
+        Removed?.Invoke(this, EventArgs.Empty);
     }
 
-    protected void OnError(Exception e)
+    protected void RaiseOnErrorOccured(Exception e)
     {
-        Error?.Invoke(this, e);
+        ErrorOccured?.Invoke(this, e);
     }
 
     public int Id { get; protected set; }

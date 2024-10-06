@@ -1,10 +1,11 @@
 using System;
 using InformationSystem.Data.Context;
 using InformationSystem.Domain.Models;
-using InformationSystem.ViewModel.Books.EditViewModels;
+using InformationSystem.ViewModel.Menu;
+using InformationSystem.ViewModel.Menu.Edit;
 using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.ViewModel;
+namespace InformationSystem.ViewModel.Factories;
 
 public class EditViewModelFactory
 {

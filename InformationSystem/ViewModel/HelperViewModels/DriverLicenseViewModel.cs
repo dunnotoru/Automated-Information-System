@@ -1,53 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using InformationSystem.Data.Context;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-class DriverLicenseViewModel : ViewModelBase
+public class DriverLicenseViewModel : ViewModelBase
 {
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly IDbContextFactory<DomainContext> _contextFactory;
     private int _id;
     private string _licenseNumber;
     private DateTime _dateOfIssue;
     private DateTime _dateOfExpiration;
     private ObservableCollection<CategoryViewModel> _categories;
 
-    public DriverLicenseViewModel(DriverLicense license, ICategoryRepository categoryRepository)
+    public DriverLicenseViewModel(DriverLicense license, IDbContextFactory<DomainContext> contextFactory)
     {
-        ArgumentNullException.ThrowIfNull(license);
-
-        _categoryRepository = categoryRepository;
+        _contextFactory = contextFactory;
         Id = license.Id;
         LicenseNumber = license.LicenseNumber;
         DateOfIssue = license.DateOfIssue;
         DateOfExpiration = license.DateOfExpiration;
         Categories = new ObservableCollection<CategoryViewModel>();
-        foreach (Category item in _categoryRepository.GetAll())
-        {
-            CategoryViewModel vm = new CategoryViewModel(item, _categoryRepository);
-            if (license.Categories.Any(o => item.Id == o.Id))
-                vm.IsSelected = true;
-            Categories.Add(vm);
-        }
     }
 
-    public DriverLicenseViewModel(ICategoryRepository categoryRepository)
+    public DriverLicenseViewModel(IDbContextFactory<DomainContext> contextFactory)
     {
-        _categoryRepository = categoryRepository;
+        _contextFactory = contextFactory;
         Id = 0;
         LicenseNumber = "";
         DateOfIssue = DateTime.Now;
         DateOfExpiration = DateTime.Now;
         Categories = new ObservableCollection<CategoryViewModel>();
-        foreach (Category item in _categoryRepository.GetAll())
-        {
-            CategoryViewModel vm = new CategoryViewModel(item, _categoryRepository);
-            Categories.Add(vm);
-        }
+
     }
 
     public DriverLicense GetLicense()

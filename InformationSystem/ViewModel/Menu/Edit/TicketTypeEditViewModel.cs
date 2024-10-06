@@ -1,99 +1,26 @@
-﻿using System;
-using System.Windows.Input;
-using InformationSystem.Command;
-using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
+﻿using InformationSystem.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.ViewModel.Books.EditViewModels;
+namespace InformationSystem.ViewModel.Menu.Edit;
 
-internal class TicketTypeEditViewModel : ViewModelBase
+public class TicketTypeEditViewModel : EditViewModel
 {
-    private readonly ITicketTypeRepository _ticketTypeRepository;
-    private string _name;
-    private int _modifier;
-
-    public event EventHandler Save;
-    public event EventHandler Remove;
-    public event EventHandler<Exception> Error;
-
-    public ICommand SaveCommand { get; }
-    public ICommand RemoveCommand { get; }
-
-    public TicketTypeEditViewModel(TicketType ticketType, ITicketTypeRepository ticketTypeRepository) : this(ticketTypeRepository)
+    public TicketTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        ArgumentNullException.ThrowIfNull(ticketType);
-
-        Id = ticketType.Id;
-        Name = ticketType.Name;
-        Modifier = ticketType.PriceModifierInPercent;
     }
 
-    public TicketTypeEditViewModel(ITicketTypeRepository ticketTypeRepository)
+    protected override bool CanSave()
     {
-        ArgumentNullException.ThrowIfNull(ticketTypeRepository);
-        _ticketTypeRepository = ticketTypeRepository;
-
-        Id = 0;
-        Name = "";
-        Modifier = 100;
-
-        SaveCommand = new RelayCommand(ExecuteSave, CanSave);
-        RemoveCommand = new RelayCommand(ExecuteRemove);
+        throw new System.NotImplementedException();
     }
 
-    private bool CanSave()
+    protected override void ExecuteSave()
     {
-        return !string.IsNullOrWhiteSpace(Name);
+        throw new System.NotImplementedException();
     }
 
-    public int Id { get; set; }
-    public string Name
+    protected override void ExecuteRemove()
     {
-        get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
-    }
-    public int Modifier
-    {
-        get => _modifier;
-        set { _modifier = value; NotifyPropertyChanged(); }
-    }
-
-    public void ExecuteSave()
-    {
-        TicketType ticketType = new TicketType()
-        {
-            Name = Name,
-            PriceModifierInPercent = Modifier,
-        };
-        try
-        {
-            if (Id == 0)
-            {
-                Id = _ticketTypeRepository.Create(ticketType);
-            }
-            else
-            {
-                _ticketTypeRepository.Update(Id, ticketType);
-            }
-            Save?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception e)
-        {
-            Error?.Invoke(this, e);
-        }
-    }
-
-    public void ExecuteRemove()
-    {
-        if (Id == 0) return;
-        try
-        {
-            _ticketTypeRepository.Remove(Id);
-            Remove?.Invoke(this, EventArgs.Empty);
-        }
-        catch (Exception e)
-        {
-            Error?.Invoke(this, e);
-        }
+        throw new System.NotImplementedException();
     }
 }

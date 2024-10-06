@@ -2,10 +2,8 @@
 using System.IO;
 using System.Windows;
 using InformationSystem.Data.Context;
-using InformationSystem.Data.Repositories;
 using InformationSystem.Domain;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
 using InformationSystem.Domain.Services;
 using InformationSystem.Domain.Services.Abstractions;
 using InformationSystem.Services;
@@ -13,11 +11,9 @@ using InformationSystem.Services.Abstractions;
 using InformationSystem.Stores;
 using InformationSystem.View;
 using InformationSystem.ViewModel;
-using InformationSystem.ViewModel.Books;
-using InformationSystem.ViewModel.Dispatcher;
 using InformationSystem.ViewModel.Factories;
+using InformationSystem.ViewModel.Menu;
 using InformationSystem.ViewModel.Sales;
-using InformationSystem.ViewModel.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -107,29 +103,14 @@ public partial class App : Application
                 connection = "Data Source=" + Path.Join(Directory.GetCurrentDirectory(), connection);
                 builder.UseSqlite(connection);
             });
-
+        
         services
             .AddSingleton<IPasswordHasher, PasswordHasher>()
             .AddSingleton<IPasswordValidator, PasswordValidator>()
-            .AddSingleton<IAccountRepository, AccountRepository>()
-            .AddSingleton<IStationRepository, StationRepository>()
-            .AddSingleton<IRouteRepository, RouteRepository>()
-            .AddSingleton<IRunRepository, RunRepository>()
-            .AddSingleton<IVehicleRepository, VehicleRepository>()
-            .AddSingleton<IDriverRepository, DriverRepository>()
-            .AddSingleton<ITicketRepository, TicketRepository>()
-            .AddSingleton<ITicketTypeRepository, TicketTypeRepository>()
-            .AddSingleton<IPassportRepository, PassportRepository>()
-            .AddSingleton<ICategoryRepository, CategoryRepository>()
-            .AddSingleton<IVehicleModelRepository, VehicleModelRepository>()
-            .AddSingleton<IRepairTypeRepository, RepairTypeRepository>()
-            .AddSingleton<IFreighterRepository, FreighterRepository>()
-            .AddSingleton<IScheduleRepository, ScheduleRepository>();
-
-        services
             .AddSingleton<OrderStore>()
             .AddSingleton<AccountStore>()
             .AddSingleton<NavigationStore>()
+            .AddSingleton<EditViewModelFactory>()
             .AddSingleton<IViewModelFactory>(provider => new ViewModelFactory(provider))
             .AddSingleton<NavigationService>()
             .AddSingleton<IMessageBoxService, MessageBoxService>()
@@ -174,7 +155,6 @@ public partial class App : Application
             .AddTransient<FreighterMenuViewModel>()
             .AddTransient<RunSearchViewModel>()
             .AddTransient<PassengerRegistrationViewModel>()
-            .AddTransient<UpdatePasswordViewModel>()
             .AddTransient<ScheduleDataViewModel>();
         
         services.AddSingleton<ShellViewModel>(provider =>

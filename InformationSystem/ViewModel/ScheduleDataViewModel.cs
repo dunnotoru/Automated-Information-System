@@ -1,41 +1,44 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using InformationSystem.Command;
-using InformationSystem.Domain.RepositoryInterfaces;
+using InformationSystem.Data.Context;
 using InformationSystem.ViewModel.HelperViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel;
 
 internal class ScheduleDataViewModel : ViewModelBase
 {
-    private readonly IScheduleRepository _scheduleRepository;
+    private readonly IDbContextFactory<DomainContext> _contextFactory;
 
     private ObservableCollection<ScheduleViewModel> _items;
 
     public ICommand UpdateDataCommand { get; }
 
-    public ScheduleDataViewModel(IScheduleRepository scheduleRepository)
+    public ScheduleDataViewModel(IDbContextFactory<DomainContext> contextFactory)
     {
+        _contextFactory = contextFactory;
         Items = new ObservableCollection<ScheduleViewModel>();
-        _scheduleRepository = scheduleRepository;
         Update();
-
         UpdateDataCommand = new RelayCommand(Update);
     }
 
     private void Update()
     {
         Items.Clear();
-        foreach (var item in _scheduleRepository.GetAll())
+        using (DomainContext context = _contextFactory.CreateDbContext())
         {
-            ScheduleViewModel vm = new ScheduleViewModel(item);
-            Items.Add(vm);
+            foreach (var item in context.Schedules)
+            {
+                ScheduleViewModel vm = new ScheduleViewModel(item);
+                Items.Add(vm);
+            }
         }
     }
 
     public ObservableCollection<ScheduleViewModel> Items
     {
-        get { return _items; }
+        get => _items;
         set { _items = value; NotifyPropertyChanged(); }
     }
 }

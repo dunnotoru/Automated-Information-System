@@ -3,22 +3,22 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using InformationSystem.Command;
+using InformationSystem.Data.Context;
 using InformationSystem.Domain.Models;
-using InformationSystem.Domain.RepositoryInterfaces;
 using InformationSystem.Domain.Services;
 using InformationSystem.Services;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.Stores;
 using InformationSystem.ViewModel.HelperViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Sales;
 
 internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
 {
+    private readonly IDbContextFactory<DomainContext> _contextFactory;
+        
     private readonly IMessageBoxService _messageBoxService;
-    private readonly IRunRepository _runRepository;
-    private readonly IPassportRepository _passportRepository;
-    private readonly ITicketTypeRepository _ticketTypeRepository;
     private readonly OrderProcessService _orderProcessService;
     private readonly AccountStore _accountStore;
 
@@ -44,20 +44,14 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
         OrderStore orderStore,
         IMessageBoxService messageBoxService,
         AccountStore accountStore,
-        IRunRepository runRepository,
-        OrderProcessService orderProcessService,
-        IPassportRepository passportRepository,
-        ITicketTypeRepository ticketTypeRepository)
+        OrderProcessService orderProcessService)
     {
         _orderStore = orderStore;
         _orderStore.OrderCreated += OnOrderCreated;
         _navigationService = navigationService;
         _messageBoxService = messageBoxService;
         _accountStore = accountStore;
-        _runRepository = runRepository;
         _orderProcessService = orderProcessService;
-        _passportRepository = passportRepository;
-        _ticketTypeRepository = ticketTypeRepository;
 
         Passengers = new ObservableCollection<PassengerViewModel>();
 
@@ -71,18 +65,22 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
     private void CalcPrice()
     {
         _orderProcessService.Clear();
-        Run run = _runRepository.GetById(SelectedRun.Id);
+        
+        using DomainContext context = _contextFactory.CreateDbContext();
+        
+        Run run = context.Runs.First(r => r.Id == SelectedRun.Id);
+
         string cashierName = _accountStore.CurrentAccount.Username;
 
         foreach (PassengerViewModel item in Passengers)
         {
-            TicketType tt = _ticketTypeRepository.GetById(item.SelectedTicketType.Id);
+            TicketType tt = context.TicketTypes.First(t => t.Id == item.SelectedTicketType.Id);
             IdentityDocument document = item.GetDocument();
 
             bool isExist = false;
             try
             {
-                isExist = _passportRepository.IsExist(document);
+                isExist = context.TicketTypes.FirstOrDefault(t => t.Id == document.Id) is not null;
             }
             catch
             {
@@ -110,18 +108,21 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
     private void ProcessOrder()
     {
         _orderProcessService.Clear();
-        Run run = _runRepository.GetById(SelectedRun.Id);
+        using DomainContext context = _contextFactory.CreateDbContext();
+        Run run = context.Runs.First(r => r.Id == SelectedRun.Id);
+
         string cashierName = _accountStore.CurrentAccount.Username;
 
         foreach (PassengerViewModel item in Passengers)
         {
-            TicketType tt = _ticketTypeRepository.GetById(item.SelectedTicketType.Id);
+            TicketType tt = context.TicketTypes.First(t => t.Id == item.SelectedTicketType.Id);
             IdentityDocument document = item.GetDocument();
 
             bool isExist = false;
+            
             try
             {
-                isExist = _passportRepository.IsExist(document);
+                isExist = context.TicketTypes.FirstOrDefault(t => t.Id == document.Id) is not null;
             }
             catch
             {
@@ -132,9 +133,11 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
             {
                 if (!isExist)
                 {
-                    _passportRepository.Create(document);
+                    context.Passports.Add(document);
+                    context.SaveChanges();
                 }
-                _orderProcessService.AddTicket(_passportRepository.Get(document.Number, document.Series),
+                
+                _orderProcessService.AddTicket(context.Passports.First(p => p.Id == document.Id),
                     run, cashierName, tt);
             }
             catch(Exception e)
@@ -159,7 +162,17 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
     {
         DepartureStation = new StationViewModel(order.DepartureStation);
         ArrivalStation = new StationViewModel(order.ArrivalStation);
-        int freePlaces = _runRepository.GetFreePlaces(order.SelectedRun.Id);
+        int freePlaces = 0;
+        using (DomainContext context = _contextFactory.CreateDbContext())
+        {
+            int id = order.SelectedRun.Id;
+            int takenPlaces = context.Tickets.Count(o => o.RunId == id);
+            int allPlaces = context.Runs
+                .Include(o => o.Vehicle).ThenInclude(x => x.VehicleModel)
+                .First(o => o.Id == id).Vehicle.VehicleModel.Capacity;
+            
+            freePlaces = allPlaces - takenPlaces;
+        }
         SelectedRun = new RunViewModel(order.SelectedRun, freePlaces);
         DepartureDateTime = SelectedRun.DepartureDateTime;
         ArrivalDateTime = SelectedRun.EstimatedArrivalDateTime;
@@ -175,7 +188,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
                 return;
         }
 
-        Passengers.Add(new PassengerViewModel(_ticketTypeRepository) { });
+        //Passengers.Add(new PassengerViewModel(_ticketTypeRepository));
         SelectedPassenger = Passengers.Last();
     }
 

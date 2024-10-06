@@ -6,11 +6,12 @@ using InformationSystem.Command;
 using InformationSystem.Data.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.Services.Abstractions;
+using InformationSystem.ViewModel.Factories;
 using Microsoft.EntityFrameworkCore;
 
-namespace InformationSystem.ViewModel;
+namespace InformationSystem.ViewModel.Menu;
 
-public class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
+public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
     where TEditViewModel : EditViewModel
     where TEntity : EntityBase
 {
@@ -21,7 +22,7 @@ public class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
     private ObservableCollection<TEditViewModel> _items;
     private TEditViewModel? _selectedItem;
 
-    public ICommand AddCommand;
+    public ICommand AddCommand { get; }
 
     public MenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> factory, EditViewModelFactory vmFactory)
     {
@@ -30,50 +31,61 @@ public class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
         _vmFactory = vmFactory;
 
         _items = new ObservableCollection<TEditViewModel>();
+        using (DomainContext context = _factory.CreateDbContext())
+        {
+            foreach (TEntity entity in context.Set<TEntity>())
+            {
+                TEditViewModel vm = (TEditViewModel)_vmFactory.CreateEditViewModel(entity);
+                vm.Saved += OnSaved;
+                vm.ErrorOccured += OnErrorOccured;
+                vm.Removed += OnRemoved;
+                Items.Add(vm);
+            }
+        }
         
         AddCommand = new RelayCommand(Add);
     }
 
-    private void OnRemove(object? sender, EventArgs e)
+    private void OnRemoved(object? sender, EventArgs e)
     {
         if (sender is not TEditViewModel vm)
         {
             return;
         }
         
-        vm.Save -= OnSave;
-        vm.Error -= OnError;
-        vm.Remove -= OnRemove;
+        vm.Saved -= OnSaved;
+        vm.ErrorOccured -= OnErrorOccured;
+        vm.Removed -= OnRemoved;
 
         Items.Remove(vm);
         
         _messageBoxService.ShowMessage("data removed successfully");
     }
 
-    private void OnError(object? sender, Exception e)
+    private void OnErrorOccured(object? sender, Exception e)
     {
         _messageBoxService.ShowMessage(e.Message);
     }
     
-    private void OnSave(object? sender, EventArgs e)
+    private void OnSaved(object? sender, EventArgs e)
     {
         if (sender is not TEditViewModel vm)
         {
             return;
         }
         
-        vm.Save -= OnSave;
-        vm.Error -= OnError;
-        vm.Remove -= OnRemove;
+        vm.Saved -= OnSaved;
+        vm.ErrorOccured -= OnErrorOccured;
+        vm.Removed -= OnRemoved;
 
         using (DomainContext context = _factory.CreateDbContext())
         {
             TEntity entity = context.Set<TEntity>().First(o => o.Id == vm.Id);
             TEditViewModel updatedVm = (TEditViewModel)_vmFactory.CreateEditViewModel(entity);
             
-            updatedVm.Save += OnSave;
-            updatedVm.Error += OnError;
-            updatedVm.Remove += OnRemove;
+            updatedVm.Saved += OnSaved;
+            updatedVm.ErrorOccured += OnErrorOccured;
+            updatedVm.Removed += OnRemoved;
             
             int index = Items.IndexOf(vm);
             Items.Insert(index, updatedVm);
@@ -87,9 +99,9 @@ public class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
     {
         TEditViewModel vm = (TEditViewModel)_vmFactory.CreateEditViewModel<TEntity>();
         
-        vm.Save += OnSave;
-        vm.Error += OnError;
-        vm.Remove += OnRemove;
+        vm.Saved += OnSaved;
+        vm.ErrorOccured += OnErrorOccured;
+        vm.Removed += OnRemoved;
 
         Items.Add(vm);
         SelectedItem = vm;
