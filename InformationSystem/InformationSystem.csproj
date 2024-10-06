@@ -45,8 +45,4 @@
     <Resource Include="View\icon.ico" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\" />
-  </ItemGroup>
-
 </Project>

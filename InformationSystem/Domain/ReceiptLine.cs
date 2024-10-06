@@ -1,4 +1,4 @@
-﻿namespace InformationSystem.Domain.Models;
+﻿namespace InformationSystem.Domain;
 
 public class ReceiptLine
 {

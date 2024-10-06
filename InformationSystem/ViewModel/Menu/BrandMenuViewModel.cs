@@ -64,13 +64,14 @@ internal class BrandMenuViewModel : ViewModelBase
 		vm.Error -= OnError;
 		vm.Remove -= OnRemove;
 
-		Brand brand = _brandRepository.GetById(vm.Id);
-		BrandEditViewModel updatedVm = new BrandEditViewModel(brand, _brandRepository);
-		
+		Brand? brand = null;
 		using (DomainContext context = _contextFactory.CreateDbContext())
 		{
-			Brand brand = context.Brands.First(o => o.Id == id);
+			brand = context.Brands.First(o => o.Id == vm.Id);
 		}
+		//TODO: what if the brand is null
+		
+		BrandEditViewModel updatedVm = new BrandEditViewModel(brand, _contextFactory);
 
 		updatedVm.Remove += OnRemove;
 		updatedVm.Save += OnSave;
@@ -90,7 +91,7 @@ internal class BrandMenuViewModel : ViewModelBase
 
 	private void Add()
 	{
-		BrandEditViewModel vm = new BrandEditViewModel(_brandRepository);
+		BrandEditViewModel vm = new BrandEditViewModel(_contextFactory);
 		vm.Save += OnSave;
 		vm.Error += OnError;
 		vm.Remove += OnRemove;

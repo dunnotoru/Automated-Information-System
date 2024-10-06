@@ -7,12 +7,12 @@ internal class RelayCommand : CommandBase
 {
     public override event EventHandler? CanExecuteChanged
     {
-        add { CommandManager.RequerySuggested += value; }
-        remove { CommandManager.RequerySuggested -= value; }
+        add => CommandManager.RequerySuggested += value;
+        remove => CommandManager.RequerySuggested -= value;
     }
 
-    private Action _methodToExecute;
-    private Func<bool> _canExecuteEvaluator;
+    private readonly Action? _methodToExecute;
+    private readonly Func<bool>? _canExecuteEvaluator;
     public RelayCommand(Action methodToExecute, Func<bool> canExecuteEvaluator)
     {
         _methodToExecute = methodToExecute;

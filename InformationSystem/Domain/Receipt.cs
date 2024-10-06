@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace InformationSystem.Domain.Models;
+namespace InformationSystem.Domain;
 
 public class Receipt
 {

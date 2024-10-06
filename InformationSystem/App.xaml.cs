@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using InformationSystem.Data.Context;
 using InformationSystem.Data.Repositories;
+using InformationSystem.Domain;
 using InformationSystem.Domain.Models;
 using InformationSystem.Domain.RepositoryInterfaces;
 using InformationSystem.Domain.Services;

@@ -1,6 +1,6 @@
 ﻿namespace InformationSystem.Services.Abstractions;
 
-internal interface IMessageBoxService
+public interface IMessageBoxService
 {
     public void ShowMessage(string name);
 }
