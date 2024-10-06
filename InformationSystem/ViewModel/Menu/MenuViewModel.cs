@@ -46,6 +46,18 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
         AddCommand = new RelayCommand(Add);
     }
 
+    private void Add()
+    {
+        TEditViewModel vm = (TEditViewModel)_vmFactory.CreateEditViewModel<TEntity>();
+        
+        vm.Saved += OnSaved;
+        vm.ErrorOccured += OnErrorOccured;
+        vm.Removed += OnRemoved;
+
+        Items.Add(vm);
+        SelectedItem = vm;
+    }
+    
     private void OnRemoved(object? sender, EventArgs e)
     {
         if (sender is not TEditViewModel vm)
@@ -56,7 +68,7 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
         vm.Saved -= OnSaved;
         vm.ErrorOccured -= OnErrorOccured;
         vm.Removed -= OnRemoved;
-
+        
         Items.Remove(vm);
         
         _messageBoxService.ShowMessage("data removed successfully");
@@ -78,34 +90,22 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
         vm.ErrorOccured -= OnErrorOccured;
         vm.Removed -= OnRemoved;
 
-        using (DomainContext context = _factory.CreateDbContext())
-        {
-            TEntity entity = context.Set<TEntity>().First(o => o.Id == vm.Id);
-            TEditViewModel updatedVm = (TEditViewModel)_vmFactory.CreateEditViewModel(entity);
-            
-            updatedVm.Saved += OnSaved;
-            updatedVm.ErrorOccured += OnErrorOccured;
-            updatedVm.Removed += OnRemoved;
-            
-            int index = Items.IndexOf(vm);
-            Items.Insert(index, updatedVm);
-            Items.Remove(vm);
-            
-            _messageBoxService.ShowMessage("data saved successfully.");
-        }
-    }
-
-    private void Add()
-    {
-        TEditViewModel vm = (TEditViewModel)_vmFactory.CreateEditViewModel<TEntity>();
+        using DomainContext context = _factory.CreateDbContext();
         
-        vm.Saved += OnSaved;
-        vm.ErrorOccured += OnErrorOccured;
-        vm.Removed += OnRemoved;
-
-        Items.Add(vm);
-        SelectedItem = vm;
+        TEntity entity = context.Set<TEntity>().First(o => o.Id == vm.Id);
+        TEditViewModel updatedVm = (TEditViewModel)_vmFactory.CreateEditViewModel(entity);
+            
+        updatedVm.Saved += OnSaved;
+        updatedVm.ErrorOccured += OnErrorOccured;
+        updatedVm.Removed += OnRemoved;
+            
+        int index = Items.IndexOf(vm);
+        Items.Insert(index, updatedVm);
+        Items.Remove(vm);
+            
+        _messageBoxService.ShowMessage("data saved successfully.");
     }
+
     
     public bool IsRedactingEnabled => SelectedItem != null;
 

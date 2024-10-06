@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +22,54 @@ public sealed class CategoryEditViewModel : EditViewModel
 
     protected override void ExecuteSave()
     {
-        throw new NotImplementedException();
+        DomainContext context = ContextFactory.CreateDbContext();
+
+        try
+        {
+            Category category = new Category()
+            {
+                Id = this.Id,
+                Name = this.Name
+            };
+            context.Categories.Add(category);
+            context.SaveChanges();
+            Id = category.Id;
+            RaiseSaved();
+        }
+        catch (Exception ex)
+        {
+            RaiseOnErrorOccured(ex);
+        }
+        finally
+        {
+            context.Dispose();
+        }
     }
 
     protected override void ExecuteRemove()
     {
-        throw new NotImplementedException();
+        if (Id == 0)
+        {
+            return;
+        }
+        
+        DomainContext context = ContextFactory.CreateDbContext();
+        try
+        {
+            context.Categories
+                .Where(o => o.Id == Id)
+                .ExecuteDelete();
+            context.SaveChanges();
+            RaiseRemoved();
+        }
+        catch (Exception ex)
+        {
+            RaiseOnErrorOccured(ex);
+        }
+        finally
+        {
+            context.Dispose();
+        }
     }
     
     public string Name

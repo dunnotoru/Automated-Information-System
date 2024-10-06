@@ -48,15 +48,19 @@ public sealed class BrandEditViewModel : EditViewModel
     
     protected override void ExecuteRemove()
     {
-        if (Id == 0) return;
+        if (Id == 0)
+        {
+            return;
+        }
 
         DomainContext context = ContextFactory.CreateDbContext();
         try
         {
-            Brand storedEntity = context.Brands.First(o => o.Id == this.Id);
-            context.Brands.Remove(storedEntity);
+            context.Brands
+                .Where(o => o.Id == Id)
+                .ExecuteDelete();
             context.SaveChanges();
-            RaiseSaved();
+            RaiseRemoved();
         }
         catch (Exception ex)
         {

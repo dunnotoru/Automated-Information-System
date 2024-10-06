@@ -70,7 +70,6 @@
                 <Button Content="Удалить"
                     Margin="10"
                     Command="{Binding RemoveCommand}"/>
-
             </StackPanel>
         </Border>
     </Grid>
