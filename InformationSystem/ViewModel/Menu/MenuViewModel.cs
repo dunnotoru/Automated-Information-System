@@ -16,22 +16,22 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
     where TEntity : EntityBase
 {
     private readonly IMessageBoxService _messageBoxService;
-    private readonly IDbContextFactory<DomainContext> _factory;
-    private readonly EditViewModelFactory _vmFactory;
+    private readonly IDbContextFactory<DomainContext> _contextFactory;
+    private readonly IViewModelFactory _vmFactory;
 
     private ObservableCollection<TEditViewModel> _items;
     private TEditViewModel? _selectedItem;
 
     public ICommand AddCommand { get; }
 
-    public MenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> factory, EditViewModelFactory vmFactory)
+    public MenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory)
     {
         _messageBoxService = messageBoxService;
-        _factory = factory;
+        _contextFactory = contextFactory;
         _vmFactory = vmFactory;
 
         _items = new ObservableCollection<TEditViewModel>();
-        using (DomainContext context = _factory.CreateDbContext())
+        using (DomainContext context = _contextFactory.CreateDbContext())
         {
             foreach (TEntity entity in context.Set<TEntity>())
             {
@@ -90,7 +90,7 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
         vm.ErrorOccured -= OnErrorOccured;
         vm.Removed -= OnRemoved;
 
-        using DomainContext context = _factory.CreateDbContext();
+        using DomainContext context = _contextFactory.CreateDbContext();
         
         TEntity entity = context.Set<TEntity>().First(o => o.Id == vm.Id);
         TEditViewModel updatedVm = (TEditViewModel)_vmFactory.CreateEditViewModel(entity);

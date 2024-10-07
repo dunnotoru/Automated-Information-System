@@ -108,8 +108,9 @@ public partial class App : Application
             .AddSingleton<OrderStore>()
             .AddSingleton<AccountStore>()
             .AddSingleton<NavigationStore>()
-            .AddSingleton<EditViewModelFactory>()
-            .AddSingleton<IViewModelFactory>(provider => new ViewModelFactory(provider))
+            .AddSingleton<IViewModelFactory>(provider => 
+                new ViewModelFactory(provider, provider.GetRequiredService<IDbContextFactory<DomainContext>>())
+            )
             .AddSingleton<NavigationService>()
             .AddSingleton<IMessageBoxService, MessageBoxService>()
             .AddSingleton<IArrivalTimeCalculator, ArrivalTimeCalculator>()

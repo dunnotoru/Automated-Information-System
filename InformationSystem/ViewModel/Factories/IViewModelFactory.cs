@@ -1,7 +1,11 @@
-﻿namespace InformationSystem.ViewModel.Factories;
+﻿using InformationSystem.Domain.Models;
+using InformationSystem.ViewModel.Menu;
 
-internal interface IViewModelFactory
+namespace InformationSystem.ViewModel.Factories;
+
+public interface IViewModelFactory
 {
-    ViewModelBase CreateViewModel<TViewModel>()
-        where TViewModel : ViewModelBase;
+    ViewModelBase CreateViewModel<TViewModel>() where TViewModel : ViewModelBase;
+    EditViewModel CreateEditViewModel<TEntity>() where TEntity : EntityBase;
+    EditViewModel CreateEditViewModel<TEntity>(TEntity entity) where TEntity : EntityBase;
 }

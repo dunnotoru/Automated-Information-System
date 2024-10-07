@@ -89,8 +89,7 @@ internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
 
             try
             {
-                _orderProcessService.AddTicket(null,
-                    run, cashierName, tt);
+                _orderProcessService.AddTicket(null, run, cashierName, tt);
             }
             catch (Exception e)
             {
