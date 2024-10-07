@@ -1,33 +1,36 @@
 ﻿using System.Globalization;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace InformationSystem.View.ValidationRules;
 
 internal class PassportSeriesValidationRule : ValidationRule
 {
-    private int _length;
+    public int Length { get; set; }
 
-    public int Length
+    public override ValidationResult Validate(object? value, CultureInfo cultureInfo)
     {
-        get { return _length; }
-        set { _length = value; }
-    }
+        string? number = value as string;
 
-    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-    {
-        string number = value.ToString();
-        if (number.Length != Length)
-            return new ValidationResult(false, "Invalid length");
-
-        foreach (char c in number)
+        if (string.IsNullOrWhiteSpace(number))
         {
-            if (!char.IsDigit(c))
-                return new ValidationResult(false, "Invalid format");
+            return new ValidationResult(false, "empty string");
         }
 
-        int n = int.Parse(number);
-        if (n <= 101 || n > 999999)
+        if (number.Length != Length)
+        {
+            return new ValidationResult(false, "Invalid length");
+        }
+
+        if (number.Any(c => !char.IsDigit(c)))
+        {
+            return new ValidationResult(false, "Invalid format");
+        }
+
+        if (int.Parse(number) is <= 101 or > 999999)
+        {
             return new ValidationResult(false, "Invalid data");
+        }
 
         return ValidationResult.ValidResult;
     }

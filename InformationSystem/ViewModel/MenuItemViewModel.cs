@@ -9,7 +9,7 @@ namespace InformationSystem.ViewModel;
 internal class MenuItemViewModel : ViewModelBase
 {
     private string _name;
-    private Func<ViewModelBase> _getViewModel;
+    private readonly Func<ViewModelBase>? _getViewModel;
         
     public event EventHandler<Func<ViewModelBase>> ViewModelChanged;
         

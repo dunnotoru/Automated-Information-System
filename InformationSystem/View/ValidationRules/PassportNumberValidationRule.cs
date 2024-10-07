@@ -1,31 +1,26 @@
 ﻿using System.Globalization;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace InformationSystem.View.ValidationRules;
 
-internal class PassportNumberValidationRule : ValidationRule
+public class PassportNumberValidationRule : ValidationRule
 {
-    private int _length;
+    public int Length { get; set; }
 
-    public int Length
+    public override ValidationResult Validate(object? value, CultureInfo cultureInfo)
     {
-        get { return _length; }
-        set { _length = value; }
-    }
-
-    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-    {
-        string number = value.ToString();
-        if (number.Length != Length)
-            return new ValidationResult(false, "Invalid length");
-
-        foreach (char c in number)
+        string? number = value as string;
+        if (string.IsNullOrWhiteSpace(number))
         {
-            if (!char.IsDigit(c))
-                return new ValidationResult(false, "Invalid format");
+            return new ValidationResult(false, "string is empty");
+        }
+        
+        if (number.Any(c => !char.IsDigit(c)))
+        {
+            return new ValidationResult(false, "Invalid format");
         }
 
         return ValidationResult.ValidResult;
-
     }
 }

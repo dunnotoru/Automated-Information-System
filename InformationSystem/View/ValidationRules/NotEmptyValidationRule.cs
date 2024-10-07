@@ -7,10 +7,10 @@ public class NotEmptyValidationRule : ValidationRule
 {
     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
-        string? text = value as string;
-
-        if (string.IsNullOrWhiteSpace(text))
+        if (string.IsNullOrWhiteSpace(value as string))
+        {
             return new ValidationResult(false, "string is empty");
+        }
 
         return ValidationResult.ValidResult;
     }

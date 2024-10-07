@@ -10,8 +10,6 @@ internal class NavigationService
     private readonly NavigationStore _navigationStore;
     private readonly IViewModelFactory _viewModelFactory;
 
-    public event EventHandler? CanExecuteChanged;
-
     public NavigationService(NavigationStore navigationStore, IViewModelFactory viewModelFactory)
     {
         _navigationStore = navigationStore;

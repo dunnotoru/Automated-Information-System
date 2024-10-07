@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using InformationSystem.Domain;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.Services;
@@ -32,53 +31,6 @@ public partial class App : Application
         base.OnStartup(e);
     }
     
-    private static string GetOrCreateContentRoot()
-    {
-        string path = Path.Combine(Directory.GetCurrentDirectory(), "Data");
-        if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }
-        return path;
-    }
-
-    private void LoadLogin(IServiceProvider provider)
-    {
-        LoginViewModel vm = provider.GetRequiredService<LoginViewModel>();
-        EventHandler? handler = null;
-        handler = (sender, e) =>
-        {
-            SwitchWindowToMain(provider);
-            vm.AuthenticationDone -= handler;
-        };
-        
-        vm.AuthenticationDone += handler;
-        MainWindow = new LoginWindow
-        {
-            DataContext = vm,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen
-        };
-        MainWindow.Show();
-    }
-
-    private void LoadRegistration(IServiceProvider provider)
-    {
-        RegistrationViewModel vm = provider.GetRequiredService<RegistrationViewModel>();
-        EventHandler? handler = null;
-        handler = (sender, e) =>
-        {
-            SwitchWindowToMain(provider);
-            vm.RegistrationDone -= handler;
-        };
-        vm.RegistrationDone += handler;
-        MainWindow = new RegistrationWindow
-        {
-            DataContext = vm,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen
-        };
-        MainWindow.Show();
-    }
-
     private void SwitchWindowToMain(IServiceProvider provider)
     {
         ShellWindow window = new ShellWindow
@@ -160,7 +112,7 @@ public partial class App : Application
             MenuCompositor compositor = new MenuCompositor(provider);
 
             return new ShellViewModel(
-                provider.GetService<NavigationStore>() ?? throw new InvalidOperationException(),
+                provider.GetRequiredService<NavigationStore>(),
                 compositor.ComposeMenu());
         });
     }

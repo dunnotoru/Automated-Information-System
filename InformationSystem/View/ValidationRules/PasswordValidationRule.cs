@@ -6,23 +6,33 @@ namespace InformationSystem.View.ValidationRules;
 
 internal class PasswordValidationRule : ValidationRule
 {
-    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+    public override ValidationResult Validate(object? value, CultureInfo cultureInfo)
     {
-        string password = value as string;
-        if (password == null)
+        string? password = value as string;
+        if (string.IsNullOrWhiteSpace(password))
+        {
             return new ValidationResult(false, "empty string");
+        }
 
-        if(password.Length < 6)
+        if (password.Length < 6)
+        {
             return new ValidationResult(false, "too short");
+        }
 
         if (!password.Any(char.IsDigit) || !password.Any(char.IsLetter) || !password.Any(IsSpecialCharacter))
+        {
             return new ValidationResult(false, "too simple password");
+        }
 
         if (password.Contains("123") || password.Contains("qwe"))
+        {
             return new ValidationResult(false, "too simple password");
+        }
 
         if (AreAllCharactersSame(password))
+        {
             return new ValidationResult(false, "all characters are the same");
+        }
 
         return ValidationResult.ValidResult;
     }

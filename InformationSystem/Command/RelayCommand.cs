@@ -3,9 +3,9 @@ using System.Windows.Input;
 
 namespace InformationSystem.Command;
 
-internal class RelayCommand : CommandBase
+internal class RelayCommand : ICommand
 {
-    public override event EventHandler? CanExecuteChanged
+    public event EventHandler? CanExecuteChanged
     {
         add => CommandManager.RequerySuggested += value;
         remove => CommandManager.RequerySuggested -= value;
@@ -13,28 +13,25 @@ internal class RelayCommand : CommandBase
 
     private readonly Action? _methodToExecute;
     private readonly Func<bool>? _canExecuteEvaluator;
-    public RelayCommand(Action methodToExecute, Func<bool> canExecuteEvaluator)
+    
+    public RelayCommand(Action methodToExecute, Func<bool>? canExecuteEvaluator = null)
     {
         _methodToExecute = methodToExecute;
         _canExecuteEvaluator = canExecuteEvaluator;
     }
-    public RelayCommand(Action methodToExecute)
-        : this(methodToExecute, null)
+
+    public bool CanExecute(object? parameter)
     {
-    }
-    public override bool CanExecute(object? parameter)
-    {
-        if (_canExecuteEvaluator == null)
+        if (_canExecuteEvaluator is null)
         {
             return true;
         }
-        else
-        {
-            bool result = _canExecuteEvaluator.Invoke();
-            return result;
-        }
+
+        bool result = _canExecuteEvaluator.Invoke();
+        return result;
     }
-    public override void Execute(object? parameter)
+    
+    public void Execute(object? parameter)
     {
         _methodToExecute?.Invoke();
     }

@@ -1,49 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using InformationSystem.Services;
+using System.Linq;
 using InformationSystem.Stores;
 
 namespace InformationSystem.ViewModel;
 
-internal class ShellViewModel : ViewModelBase, IDisposable
+internal class ShellViewModel : ViewModelBase
 {
-    private NavigationStore _navigationStore;
+    private readonly NavigationStore _navigationStore;
 
-    public ObservableCollection<MenuItemViewModel> Items { get; private set; }
+    public ObservableCollection<MenuItemViewModel> Items { get; }
 
     public ViewModelBase CurrentViewModel
     {
         get => _navigationStore.CurrentViewModel;
-        set
-        {
-            _navigationStore.CurrentViewModel = value;
-            NotifyPropertyChanged(nameof(CurrentViewModel));
-        }
+        set => _navigationStore.CurrentViewModel = value;
     }
 
-    public NavigationStore NavigationStore
+    public ShellViewModel(NavigationStore navigationStore, List<MenuItemViewModel> menuItems)
     {
-        get => _navigationStore;
-        set
+        Items = new ObservableCollection<MenuItemViewModel>(menuItems.Select(itemViewModel =>
         {
-            _navigationStore = value;
-            NotifyPropertyChanged(nameof(NavigationStore));
-        }
-    }
-
-    public ShellViewModel(NavigationStore navigationStore,
-        List<MenuItemViewModel> menuItems)
-    {
-        Items = new ObservableCollection<MenuItemViewModel>();
-        foreach (var item in menuItems)
-        {
-            item.ViewModelChanged += OnViewModelChanged;
-            Items.Add(item);
-        }
-
+            itemViewModel.ViewModelChanged += OnViewModelChanged;
+            return itemViewModel;
+        }));
+        
         _navigationStore = navigationStore;
         _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+    }
+
+    ~ShellViewModel()
+    {
+        _navigationStore.CurrentViewModelChanged -= OnCurrentViewModelChanged;
     }
 
     private void OnViewModelChanged(object? sender, Func<ViewModelBase> getViewModel)
@@ -54,10 +43,5 @@ internal class ShellViewModel : ViewModelBase, IDisposable
     private void OnCurrentViewModelChanged()
     {
         NotifyPropertyChanged(nameof(CurrentViewModel));
-    }
-
-    public void Dispose()
-    {
-        _navigationStore.CurrentViewModelChanged -= OnCurrentViewModelChanged;
     }
 }

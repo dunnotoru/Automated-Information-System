@@ -6,7 +6,7 @@ namespace InformationSystem.View.ValidationRules;
 
 internal class DateTimeValidationRule : ValidationRule
 {
-    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+    public override ValidationResult Validate(object? value, CultureInfo cultureInfo)
     {
         if (TimeOnly.TryParse(value as string, out _))
         {

@@ -36,7 +36,7 @@
                 <Label Content="Id"/>
                 <TextBlock Text="{Binding Id}" Margin="10"/>
                 <Label Content="Название"/>
-                <TextBox Margin="10" Name="Name">
+                <TextBox Margin="10" x:Name="TextBoxName">
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -52,7 +52,7 @@
                                 <converters:MultiBoolConverter/>
                             </MultiBinding.Converter>
                             <MultiBinding.Bindings>
-                                <Binding ElementName="Name" Path="(Validation.HasError)"/>
+                                <Binding ElementName="TextBoxName" Path="(Validation.HasError)"/>
                             </MultiBinding.Bindings>
                         </MultiBinding>
                     </Button.IsEnabled>
