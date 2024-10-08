@@ -1,8 +1,9 @@
-﻿using InformationSystem.Domain.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.Sales;
 
-internal class OrderViewModel : ViewModelBase
+internal class OrderViewModel : ObservableObject
 {
     private Station _departureStation;
     private Station _arrivalStation;

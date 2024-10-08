@@ -1,5 +1,6 @@
 ﻿using System;
-using InformationSystem.Command;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Models;
 using InformationSystem.Services;
 using InformationSystem.Services.Abstractions;
@@ -7,7 +8,7 @@ using InformationSystem.Stores;
 
 namespace InformationSystem.ViewModel;
 
-internal class LoginViewModel : ViewModelBase
+internal class LoginViewModel : ObservableObject
 {
     private readonly AuthenticationService _authenticationService;
     private readonly AccountStore _accountStore;
@@ -21,13 +22,13 @@ internal class LoginViewModel : ViewModelBase
     public string Username
     {
         get => _username;
-        set { _username = value; NotifyPropertyChanged(); }
+        set { _username = value; OnPropertyChanged(); }
     }
     
     public string Password
     {
         get => _password;
-        set { _password = value; NotifyPropertyChanged(); }
+        set { _password = value; OnPropertyChanged(); }
     }
 
     public RelayCommand LoginCommand { get; }

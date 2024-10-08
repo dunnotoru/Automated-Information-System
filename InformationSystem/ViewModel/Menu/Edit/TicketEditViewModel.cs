@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using InformationSystem.Command;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ public sealed class TicketEditViewModel : EditViewModel
     private int _identityDocumentId = 0;
     private int _ticketTypeId = 0;
     
-    public override ICommand SaveCommand => new RelayCommand(() => 
+    public override IRelayCommand SaveCommand => new RelayCommand(() => 
         ExecuteSave(() => new Ticket
         {
             Id = this.Id,
@@ -27,7 +27,7 @@ public sealed class TicketEditViewModel : EditViewModel
             IdentityDocumentId = _identityDocumentId,
             TicketTypeId = _ticketTypeId
         }), CanSave);
-    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<TicketType>);
+    public override IRelayCommand RemoveCommand => new RelayCommand(ExecuteRemove<TicketType>);
     
     public TicketEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
     public TicketEditViewModel(Ticket ticket, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
@@ -48,36 +48,28 @@ public sealed class TicketEditViewModel : EditViewModel
     public int Price
     {
         get => _price;
-        set { _price = value; NotifyPropertyChanged();}
+        set => SetProperty(ref _price, value);
     }
 
     public DateTime BookDate
     {
         get => _bookDate;
-        set { _bookDate = value; NotifyPropertyChanged();}
+        set => SetProperty(ref _bookDate, value);
     }
 
     public string Cashier
     {
         get => _cashier;
-        set { _cashier = value; NotifyPropertyChanged();}
+        set => SetProperty(ref _cashier, value);
     }
 
     public int RunId
     {
         get => _runId;
-        set { _runId = value; NotifyPropertyChanged(); }
+        set => SetProperty(ref _runId, value);
     }
 
-    public int IdentityDocumentId
-    {
-        get => _identityDocumentId;
-        set { _identityDocumentId = value; NotifyPropertyChanged();}
-    }
+    public int IdentityDocumentId => _identityDocumentId;
 
-    public int TicketTypeId
-    {
-        get => _ticketTypeId;
-        set { _ticketTypeId = value; NotifyPropertyChanged();}
-    }
+    public int TicketTypeId => _ticketTypeId;
 }

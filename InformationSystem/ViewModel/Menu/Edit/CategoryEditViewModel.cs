@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
-using InformationSystem.Command;
-using InformationSystem.Domain.Context;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Models;
+using InformationSystem.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
@@ -10,13 +10,14 @@ public sealed class CategoryEditViewModel : EditViewModel
 {
     private string _name = string.Empty;
     
-    public override ICommand SaveCommand => new RelayCommand(() => 
+    public override IRelayCommand SaveCommand => new RelayCommand(() => 
         ExecuteSave(() => new Category
         {
             Id = this.Id,
             Name = _name
         }), CanSave);
-    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<Category>);
+    
+    public override IRelayCommand RemoveCommand => new RelayCommand(ExecuteRemove<Category>);
 
     public CategoryEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
     
@@ -31,6 +32,6 @@ public sealed class CategoryEditViewModel : EditViewModel
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set => SetProperty(ref _name, value);
     }
 }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-public class StationViewModel : ViewModelBase
+public class StationViewModel : ObservableObject
 {
     public int Id { get; }
     private string _name;
@@ -19,12 +19,12 @@ public class StationViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set { _name = value; OnPropertyChanged(); }
     }
 
     public string Address
     {
         get => _address;
-        set { _address = value; NotifyPropertyChanged(); }
+        set { _address = value; OnPropertyChanged(); }
     }
 }

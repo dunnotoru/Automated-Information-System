@@ -1,15 +1,15 @@
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
-using InformationSystem.Command;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu;
 
-public abstract class EditViewModel : ViewModelBase
+public abstract class EditViewModel : ObservableObject
 {
     protected readonly IDbContextFactory<DomainContext> ContextFactory;
 
@@ -17,15 +17,14 @@ public abstract class EditViewModel : ViewModelBase
     public event EventHandler? Removed;
     public event EventHandler<Exception>? ErrorOccured;
 
-    public abstract ICommand SaveCommand { get; }
-    public abstract ICommand RemoveCommand { get; }
+    public abstract IRelayCommand SaveCommand { get; }
+    public abstract IRelayCommand RemoveCommand { get; }
+    protected abstract bool CanSave();
 
     protected EditViewModel(IDbContextFactory<DomainContext> contextFactory)
     {
         ContextFactory = contextFactory;
     }
-    
-    protected abstract bool CanSave();
 
     protected void ExecuteSave<TEntity>(Func<TEntity> entityFactory)
         where TEntity : EntityBase

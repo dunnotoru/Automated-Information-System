@@ -1,8 +1,9 @@
-﻿using InformationSystem.Domain.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-public class VehicleViewModel : ViewModelBase
+public class VehicleViewModel : ObservableObject
 {
     private int _id;
     private string _licensePlateNumber;
@@ -28,6 +29,6 @@ public class VehicleViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; NotifyPropertyChanged(); }
+        set { _id = value; OnPropertyChanged(); }
     }
 }

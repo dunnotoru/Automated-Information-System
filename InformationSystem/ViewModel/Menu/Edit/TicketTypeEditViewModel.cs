@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using InformationSystem.Command;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,14 +11,14 @@ public sealed class TicketTypeEditViewModel : EditViewModel
     private string _name = string.Empty;
     private int _priceModifierInPercent = 100;
     
-    public override ICommand SaveCommand => new RelayCommand(() => 
+    public override IRelayCommand SaveCommand => new RelayCommand(() => 
         ExecuteSave(() => new TicketType
         {
             Id = this.Id,
             Name = _name,
             PriceModifierInPercent = _priceModifierInPercent
         }), CanSave);
-    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<TicketType>);
+    public override IRelayCommand RemoveCommand => new RelayCommand(ExecuteRemove<TicketType>);
     
     public TicketTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
     public TicketTypeEditViewModel(TicketType ticketType, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
@@ -36,12 +36,12 @@ public sealed class TicketTypeEditViewModel : EditViewModel
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set => SetProperty(ref _name, value);
     }
 
     public int PriceModifierInPercent
     {
         get => _priceModifierInPercent;
-        set { _priceModifierInPercent = value; NotifyPropertyChanged(); }
+        set => SetProperty(ref _priceModifierInPercent, value);
     }
 }

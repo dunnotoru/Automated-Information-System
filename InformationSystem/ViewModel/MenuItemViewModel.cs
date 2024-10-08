@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using InformationSystem.Command;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace InformationSystem.ViewModel;
 
-internal class MenuItemViewModel : ViewModelBase
+internal class MenuItemViewModel : ObservableObject
 {
     private string _name;
-    private readonly Func<ViewModelBase>? _getViewModel;
+    private readonly Func<ObservableObject>? _getViewModel;
         
-    public event EventHandler<Func<ViewModelBase>> ViewModelChanged;
+    public event EventHandler<Func<ObservableObject>> ViewModelChanged;
         
     public bool isReadRequired { get; }
     public bool isWriteRequired { get; }
@@ -39,12 +40,12 @@ internal class MenuItemViewModel : ViewModelBase
         isDeleteRequired = false;
     }
 
-    private void OnViewModelChanged(object sender, Func<ViewModelBase> e)
+    private void OnViewModelChanged(object sender, Func<ObservableObject> e)
     {
         ViewModelChanged?.Invoke(sender, e);
     }
 
-    public MenuItemViewModel(string name, Func<ViewModelBase> getViewModel)
+    public MenuItemViewModel(string name, Func<ObservableObject> getViewModel)
     {
         Items = new ObservableCollection<MenuItemViewModel>();
         _getViewModel = getViewModel;
@@ -70,7 +71,7 @@ internal class MenuItemViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set { _name = value; OnPropertyChanged(); }
     }
 
 }

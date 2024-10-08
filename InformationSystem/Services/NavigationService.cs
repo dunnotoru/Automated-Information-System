@@ -1,6 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using InformationSystem.Stores;
-using InformationSystem.ViewModel;
 using InformationSystem.ViewModel.Factories;
 
 namespace InformationSystem.Services;
@@ -16,7 +15,7 @@ internal class NavigationService
         _viewModelFactory = viewModelFactory;
     }
 
-    public void Navigate<TViewModel>() where TViewModel : ViewModelBase
+    public void Navigate<TViewModel>() where TViewModel : ObservableObject
     {
         _navigationStore.CurrentViewModel = _viewModelFactory.CreateViewModel<TViewModel>();
     }

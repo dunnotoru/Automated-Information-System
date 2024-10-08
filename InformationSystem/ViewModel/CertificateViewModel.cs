@@ -1,15 +1,16 @@
 ﻿using System.IO;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace InformationSystem.ViewModel;
 
-internal class CertificateViewModel : ViewModelBase
+internal class CertificateViewModel : ObservableObject
 {
     private string _certificate;
 
     public string Certificate
     {
         get { return _certificate; }
-        set { _certificate = value; NotifyPropertyChanged(); }
+        set { _certificate = value; OnPropertyChanged(); }
     }
 
     public CertificateViewModel(string path)

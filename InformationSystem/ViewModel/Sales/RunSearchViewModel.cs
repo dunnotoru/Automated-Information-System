@@ -2,7 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using InformationSystem.Command;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Services;
 using InformationSystem.Services.Abstractions;
@@ -12,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Sales;
 
-internal class RunSearchViewModel : ViewModelBase
+internal class RunSearchViewModel : ObservableObject
 {
     private readonly IMessageBoxService _messageBoxService;
     private readonly RunSearchService _runSearchService;
@@ -93,13 +94,13 @@ internal class RunSearchViewModel : ViewModelBase
     public int FreePlaces
     {
         get { return _freePlaces; }
-        set { _freePlaces = value; NotifyPropertyChanged(); }
+        set { _freePlaces = value; OnPropertyChanged(); }
     }
 
     public ObservableCollection<StationViewModel> DepartureStations
     {
         get { return _departureStations; }
-        set { _departureStations = value; NotifyPropertyChanged(); }
+        set { _departureStations = value; OnPropertyChanged(); }
     }
     public ObservableCollection<StationViewModel> ArrivalStations
     {
@@ -110,42 +111,42 @@ internal class RunSearchViewModel : ViewModelBase
     public ObservableCollection<RunViewModel> Runs
     {
         get => _runs;
-        set { _runs = value; NotifyPropertyChanged(); }
+        set { _runs = value; OnPropertyChanged(); }
     }
     public DateTime DepartureDateTimeMinimum
     {
         get => _departureDateTimeMinimum;
-        set { _departureDateTimeMinimum = value; NotifyPropertyChanged(); }
+        set { _departureDateTimeMinimum = value; OnPropertyChanged(); }
     }
     public DateTime DepartureDateTimeMaximum
     {
         get { return _departureDateTimeMaximum; }
-        set { _departureDateTimeMaximum = value; NotifyPropertyChanged(); }
+        set { _departureDateTimeMaximum = value; OnPropertyChanged(); }
     }
     public StationViewModel DepartureStation
     {
         get => _departureStation;
-        set { _departureStation = value; NotifyPropertyChanged();  }
+        set { _departureStation = value; OnPropertyChanged();  }
     }
     public StationViewModel ArrivalStation
     {
         get => _arrivalStation;
-        set { _arrivalStation = value; NotifyPropertyChanged();  }
+        set { _arrivalStation = value; OnPropertyChanged();  }
     }
     public RunViewModel SelectedRun
     {
         get => _selectedRun;
-        set { _selectedRun = value; NotifyPropertyChanged(); }
+        set { _selectedRun = value; OnPropertyChanged(); }
     }
 
     public string DepartureStationSearch
     {
         get { return _departureStationSearch; }
-        set { _departureStationSearch = value; NotifyPropertyChanged(); FilterStations(DepartureStations, _departureStationSearch); }
+        set { _departureStationSearch = value; OnPropertyChanged(); FilterStations(DepartureStations, _departureStationSearch); }
     }
     public string ArrivalStationSearch
     {
         get { return _arrivalStationSearch; }
-        set { _arrivalStationSearch = value; NotifyPropertyChanged(); FilterStations(ArrivalStations, _arrivalStationSearch); }
+        set { _arrivalStationSearch = value; OnPropertyChanged(); FilterStations(ArrivalStations, _arrivalStationSearch); }
     }
 }

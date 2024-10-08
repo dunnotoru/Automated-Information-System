@@ -1,4 +1,5 @@
 ﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.Menu;
@@ -19,10 +20,10 @@ public class ViewModelFactory : IViewModelFactory
         _factory = factory;
     }
 
-    public ViewModelBase CreateViewModel<TViewModel>()
-        where TViewModel : ViewModelBase
+    public ObservableObject CreateViewModel<TViewModel>()
+        where TViewModel : ObservableObject
     {
-        return (ViewModelBase)_provider.GetRequiredService<TViewModel>();
+        return (ObservableObject)_provider.GetRequiredService<TViewModel>();
     }
     
     public EditViewModel CreateEditViewModel<TEntity>() where TEntity : EntityBase => typeof(TEntity) switch

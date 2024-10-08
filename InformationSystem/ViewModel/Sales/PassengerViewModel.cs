@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.HelperViewModels;
 
 namespace InformationSystem.ViewModel.Sales;
 
-internal class PassengerViewModel : ViewModelBase
+internal class PassengerViewModel : ObservableObject
 {
     private string _name;
     private string _surname;
@@ -38,43 +39,43 @@ internal class PassengerViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set { _name = value; OnPropertyChanged(); }
     }
     public string Surname
     {
         get => _surname;
-        set { _surname = value; NotifyPropertyChanged(); }
+        set { _surname = value; OnPropertyChanged(); }
     }
     public string Patronymic
     {
         get => _patronymic;
-        set { _patronymic = value; NotifyPropertyChanged(); }
+        set { _patronymic = value; OnPropertyChanged(); }
     }
     public string Series
     {
         get => _series;
-        set { _series = value; NotifyPropertyChanged(); }
+        set { _series = value; OnPropertyChanged(); }
     }
     public string Number
     {
         get => _number;
-        set { _number = value; NotifyPropertyChanged(); }
+        set { _number = value; OnPropertyChanged(); }
     }
     public DateTime DateOfBirth
     {
         get => _dateOfBirth;
-        set { _dateOfBirth = value; NotifyPropertyChanged(); }
+        set { _dateOfBirth = value; OnPropertyChanged(); }
     }
 
     public TicketTypeViewModel SelectedTicketType
     {
         get { return _selectedTicketType; }
-        set { _selectedTicketType = value; NotifyPropertyChanged(); }
+        set { _selectedTicketType = value; OnPropertyChanged(); }
     }
 
     public ObservableCollection<TicketTypeViewModel> TicketTypes
     {
         get { return _ticketTypes; }
-        set { _ticketTypes = value; NotifyPropertyChanged(); }
+        set { _ticketTypes = value; OnPropertyChanged(); }
     }
 }

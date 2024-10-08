@@ -1,8 +1,9 @@
-﻿using InformationSystem.Domain.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-internal class RouteViewModel : ViewModelBase
+internal class RouteViewModel : ObservableObject
 {
     private int _id;
     private string _name;
@@ -22,12 +23,12 @@ internal class RouteViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; NotifyPropertyChanged(); }
+        set { _id = value; OnPropertyChanged(); }
     }
 
     public string Name
     {
         get { return _name; }
-        set { _name = value; NotifyPropertyChanged(); }
+        set { _name = value; OnPropertyChanged(); }
     }
 }

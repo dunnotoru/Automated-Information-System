@@ -1,27 +1,28 @@
-﻿using InformationSystem.Domain.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-internal class RepairTypeViewModel : ViewModelBase
+public class RepairTypeViewModel : ObservableObject
 {
     private int _id;
     private string _name;
 
     public RepairTypeViewModel(RepairType repairType)
     {
-        Id = repairType.Id;
-        Name = repairType.Name;
+        _id = repairType.Id;
+        _name = repairType.Name;
     }
 
     public int Id
     {
-        get { return _id; }
-        set { _id = value; NotifyPropertyChanged(); }
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
 
     public string Name
     {
-        get { return _name; }
-        set { _name = value; NotifyPropertyChanged(); }
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
 }

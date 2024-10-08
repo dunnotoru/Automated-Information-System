@@ -1,10 +1,11 @@
-﻿using InformationSystem.Domain.Context;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-public class CategoryViewModel : ViewModelBase
+public class CategoryViewModel : ObservableObject
 {
     private readonly IDbContextFactory<DomainContext> _contextFactory;
     private string _name = string.Empty;
@@ -21,13 +22,13 @@ public class CategoryViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set { _name = value; OnPropertyChanged(); }
     }
 
     public bool IsSelected
     {
         get => _isSelected;
-        set { _isSelected = value; NotifyPropertyChanged(); }
+        set { _isSelected = value; OnPropertyChanged(); }
     }
 
     public Category? GetCategory()

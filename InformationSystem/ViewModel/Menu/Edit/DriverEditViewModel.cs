@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.HelperViewModels;
@@ -15,10 +17,27 @@ public sealed class DriverEditViewModel : EditViewModel
     private string _patronymic = string.Empty;
     private DateTime _birthDate = DateTime.Now;
     private string _gender = string.Empty;
-    private DriverLicenseViewModel? _license = null;
+    private DriverLicenseViewModel _license;
     private string _driverClass = string.Empty;
     private string _professionalStandard = string.Empty;
     private string _employmentBookDetails = string.Empty;
+    
+    public override IRelayCommand SaveCommand => new RelayCommand(() => 
+        ExecuteSave(() => new Driver
+        {
+            Id = this.Id,
+            Name = _name,
+            Surname = _surname,
+            Patronymic = _patronymic,
+            BirthDate = _birthDate,
+            Gender = _gender,
+            DriverLicenseId = _license.Id,
+            DriverClass = _driverClass,
+            ProfessionalStandardDetails = _professionalStandard,
+            EmploymentBookDetails = _employmentBookDetails
+        }), CanSave);
+    
+    public override IRelayCommand RemoveCommand => new RelayCommand(ExecuteRemove<Freighter>);
 
     public DriverEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
     
@@ -35,12 +54,13 @@ public sealed class DriverEditViewModel : EditViewModel
         _driverClass = driver.DriverClass;
         _professionalStandard = driver.ProfessionalStandardDetails;
         _employmentBookDetails = driver.EmploymentBookDetails;
-        _license = null;
+        
+        DomainContext context = contextFactory.CreateDbContext();
+        _license = new DriverLicenseViewModel(
+            context.Licenses.First(l => l.Id == driver.DriverLicenseId),
+            contextFactory
+            );
     }
-
-
-    public override ICommand SaveCommand { get; }
-    public override ICommand RemoveCommand { get; }
 
     protected override bool CanSave() =>
         !string.IsNullOrWhiteSpace(PayrollNumber) &&
@@ -60,61 +80,61 @@ public sealed class DriverEditViewModel : EditViewModel
 
     public string Surname
     {
-        get { return _surname; }
-        set { _surname = value; NotifyPropertyChanged(); }
+        get => _surname;
+        set => SetProperty(ref _surname, value);
     }
 
     public string Patronymic
     {
-        get { return _patronymic; }
-        set { _patronymic = value; NotifyPropertyChanged(); }
+        get => _patronymic;
+        set => SetProperty(ref _patronymic, value);
+    }
+    
+    public string Name
+    {
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
     
     public string PayrollNumber
     {
-        get { return _payrollNumber; }
-        set { _payrollNumber = value; NotifyPropertyChanged(); }
-    }
-
-    public string Name
-    {
-        get { return _name; }
-        set { _name = value; NotifyPropertyChanged(); }
+        get => _payrollNumber;
+        set => SetProperty(ref _payrollNumber, value);
     }
 
     public DateTime BirthDate
     {
-        get { return _birthDate; }
-        set { _birthDate = value; NotifyPropertyChanged(); }
+        get => _birthDate;
+        set => SetProperty(ref _birthDate, value);
     }
 
     public string Gender
     {
-        get { return _gender; }
-        set { _gender = value; NotifyPropertyChanged(); }
+        get => _gender;
+        set => SetProperty(ref _gender, value);
     }
 
-    public DriverLicenseViewModel? License
+    public DriverLicenseViewModel License
     {
-        get { return _license; }
-        set { _license = value; NotifyPropertyChanged(); }
+        get => _license;
+        set => SetProperty(ref _license, value);
     }
 
     public string DriverClass
     {
-        get { return _driverClass; }
-        set { _driverClass = value; NotifyPropertyChanged(); }
+        get => _driverClass;
+        set => SetProperty(ref _driverClass, value);
     }
 
     public string ProfessionalStandardDetails
     {
-        get { return _professionalStandard; }
-        set { _professionalStandard = value; NotifyPropertyChanged(); }
+        get => _professionalStandard;
+        set => SetProperty(ref _professionalStandard, value);
     }
 
     public string EmploymentBookDetails
     {
-        get { return _employmentBookDetails; }
-        set { _employmentBookDetails = value; NotifyPropertyChanged(); }
+        get => _employmentBookDetails;
+        set => SetProperty(ref _employmentBookDetails, value);
     }
 }

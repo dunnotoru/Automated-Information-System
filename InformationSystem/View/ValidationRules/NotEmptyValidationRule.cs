@@ -5,7 +5,7 @@ namespace InformationSystem.View.ValidationRules;
 
 public class NotEmptyValidationRule : ValidationRule
 {
-    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+    public override ValidationResult Validate(object? value, CultureInfo cultureInfo)
     {
         if (string.IsNullOrWhiteSpace(value as string))
         {

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
 using System.Windows.Input;
-using InformationSystem.Command;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.Services.Abstractions;
@@ -12,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu;
 
-public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
+public abstract class MenuViewModel<TEditViewModel, TEntity> : ObservableObject
     where TEditViewModel : EditViewModel
     where TEntity : EntityBase
 {
@@ -113,12 +112,12 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
     public ObservableCollection<TEditViewModel> Items
     {
         get => _items;
-        set { _items = value; NotifyPropertyChanged(); }
+        set { _items = value; OnPropertyChanged(); }
     }
 
     public TEditViewModel? SelectedItem
     {
         get => _selectedItem;
-        set { _selectedItem = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(IsRedactingEnabled)); }
+        set { _selectedItem = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsRedactingEnabled)); }
     }
 }

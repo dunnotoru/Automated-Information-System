@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using InformationSystem.Stores;
 
 namespace InformationSystem.ViewModel;
 
-internal class ShellViewModel : ViewModelBase
+internal class ShellViewModel : ObservableObject
 {
     private readonly NavigationStore _navigationStore;
 
     public ObservableCollection<MenuItemViewModel> Items { get; }
 
-    public ViewModelBase CurrentViewModel
+    public ObservableObject CurrentViewModel
     {
         get => _navigationStore.CurrentViewModel;
         set => _navigationStore.CurrentViewModel = value;
@@ -35,13 +36,13 @@ internal class ShellViewModel : ViewModelBase
         _navigationStore.CurrentViewModelChanged -= OnCurrentViewModelChanged;
     }
 
-    private void OnViewModelChanged(object? sender, Func<ViewModelBase> getViewModel)
+    private void OnViewModelChanged(object? sender, Func<ObservableObject> getViewModel)
     {
         _navigationStore.CurrentViewModel = getViewModel();
     }
 
     private void OnCurrentViewModelChanged()
     {
-        NotifyPropertyChanged(nameof(CurrentViewModel));
+        OnPropertyChanged(nameof(CurrentViewModel));
     }
 }

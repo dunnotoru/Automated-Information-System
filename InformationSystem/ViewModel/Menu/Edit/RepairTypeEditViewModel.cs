@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using InformationSystem.Command;
+using CommunityToolkit.Mvvm.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,14 +10,14 @@ public class RepairTypeEditViewModel : EditViewModel
 {
     private string _name = string.Empty;
     
-    public override ICommand SaveCommand => new RelayCommand(() => 
+    public override IRelayCommand SaveCommand => new RelayCommand(() => 
         ExecuteSave(() => new RepairType
         {
             Id = this.Id,
             Name = _name
         }), CanSave);
     
-    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<RepairType>);
+    public override IRelayCommand RemoveCommand => new RelayCommand(ExecuteRemove<RepairType>);
 
     public RepairTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
 
@@ -27,14 +27,11 @@ public class RepairTypeEditViewModel : EditViewModel
         _name = repairType.Name;
     }
 
-    protected override bool CanSave()
-    {
-        return true;
-    }
+    protected override bool CanSave() => !string.IsNullOrEmpty(Name);
 
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set => SetProperty(ref _name, value);
     }
 }
