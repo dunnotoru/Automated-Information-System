@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using InformationSystem.Command;
 using InformationSystem.Domain.Context;
@@ -24,7 +25,7 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
 
     public ICommand AddCommand { get; }
 
-    public MenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory)
+    protected MenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory)
     {
         _messageBoxService = messageBoxService;
         _contextFactory = contextFactory;
@@ -68,7 +69,6 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
         vm.Saved -= OnSaved;
         vm.ErrorOccured -= OnErrorOccured;
         vm.Removed -= OnRemoved;
-        
         Items.Remove(vm);
         
         _messageBoxService.ShowMessage("data removed successfully");
@@ -92,7 +92,8 @@ public abstract class MenuViewModel<TEditViewModel, TEntity> : ViewModelBase
 
         using DomainContext context = _contextFactory.CreateDbContext();
         
-        TEntity entity = context.Set<TEntity>().First(o => o.Id == vm.Id);
+        TEntity? entity = context.Set<TEntity>().Find(vm.Id);
+        
         TEditViewModel updatedVm = (TEditViewModel)_vmFactory.CreateEditViewModel(entity);
             
         updatedVm.Saved += OnSaved;

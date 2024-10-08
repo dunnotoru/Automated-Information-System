@@ -1,34 +1,50 @@
-﻿using System;
+﻿using System.Windows.Input;
+using InformationSystem.Command;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
 
-public class StationEditViewModel : EditViewModel
+public sealed class StationEditViewModel : EditViewModel
 {
+    private string _name = string.Empty;
+    private string _address = string.Empty;
+    
+    public override ICommand SaveCommand => new RelayCommand(() => 
+        ExecuteSave(() => new Station
+        {
+            Id = this.Id,
+            Name = _name,
+            Address = _address
+        }), CanSave);
+    
+    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<Station>);
+    
+    public StationEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
+    
     public StationEditViewModel(Station station, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        
-    }
-    
-    public StationEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
-    {
-        
+        Id = station.Id;
+        _name = station.Name;
+        _address = station.Address;
     }
 
     protected override bool CanSave()
     {
-        throw new NotImplementedException();
+        return !string.IsNullOrWhiteSpace(_address) 
+               && !string.IsNullOrWhiteSpace(_name); 
     }
-
-    protected override void ExecuteSave()
+    
+    public string Name
     {
-        throw new NotImplementedException();
+        get => _name;
+        set { _name = value; NotifyPropertyChanged(); }
     }
-
-    protected override void ExecuteRemove()
+    
+    public string Address
     {
-        throw new NotImplementedException();
+        get => _address;
+        set { _address = value; NotifyPropertyChanged(); }
     }
 }

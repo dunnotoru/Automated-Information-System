@@ -14,19 +14,19 @@ public class CategoryViewModel : ViewModelBase
     {
         _contextFactory = contextFactory;
         Id = category.Id;
-        Name = category.Name;
+        _name = category.Name;
     }
     public int Id { get; }
     
     public string Name
     {
-        get { return _name; }
+        get => _name;
         set { _name = value; NotifyPropertyChanged(); }
     }
 
     public bool IsSelected
     {
-        get { return _isSelected; }
+        get => _isSelected;
         set { _isSelected = value; NotifyPropertyChanged(); }
     }
 

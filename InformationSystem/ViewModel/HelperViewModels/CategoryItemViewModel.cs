@@ -3,21 +3,17 @@
 public class CategoryItemViewModel : ViewModelBase
 {
     private bool _isSelected;
-    private CategoryViewModel _category;
+    public CategoryViewModel Category { get; }
 
     public CategoryItemViewModel(CategoryViewModel category)
     {
-        _category = category;
+        Category = category;
     }
 
     public bool IsSelected
     {
-        get { return _isSelected; }
+        get => _isSelected;
         set { _isSelected = value; NotifyPropertyChanged(); }
     }
 
-    public CategoryViewModel Category
-    {
-        get { return _category; }
-    }
 }

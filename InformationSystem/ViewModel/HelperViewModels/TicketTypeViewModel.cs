@@ -2,29 +2,29 @@
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-internal class TicketTypeViewModel : ViewModelBase
+public class TicketTypeViewModel : ViewModelBase
 {
+    public int Id { get; }
     private string _name;
     private int _modifier;
 
-    public int Id { get; }
+    public TicketTypeViewModel(TicketType ticketType)
+    {
+        Id = ticketType.Id;
+        _name = ticketType.Name;
+        _modifier = ticketType.PriceModifierInPercent;
+    }
 
     public string Name
     {
-        get { return _name; }
+        get => _name;
         set { _name = value; NotifyPropertyChanged(); }
     }
 
     public int Modifier
     {
-        get { return _modifier; }
+        get => _modifier;
         set { _modifier = value; NotifyPropertyChanged(); }
     }
 
-    public TicketTypeViewModel(TicketType ticketType)
-    {
-        Id = ticketType.Id;
-        Name = ticketType.Name;
-        Modifier = ticketType.PriceModifierInPercent;
-    }
 }

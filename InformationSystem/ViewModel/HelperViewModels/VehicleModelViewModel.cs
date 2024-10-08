@@ -5,42 +5,35 @@ namespace InformationSystem.ViewModel.HelperViewModels;
 
 internal class VehicleModelViewModel : ViewModelBase
 {
-    private int _id;
     private string _name;
     private int _capacity;
     private string _brandName;
 
     public VehicleModelViewModel(VehicleModel vehicleModel)
     {
-        ArgumentNullException.ThrowIfNull(vehicleModel);
-
         Id = vehicleModel.Id;
-        Name = vehicleModel.Name;
-        Capacity = vehicleModel.Capacity;
-        BrandName = vehicleModel.Brand.Name;
+        _name = vehicleModel.Name;
+        _capacity = vehicleModel.Capacity;
+        _brandName = vehicleModel.Brand.Name;
     }
 
-    public int Id
-    {
-        get { return _id; }
-        set { _id = value; NotifyPropertyChanged(); }
-    }
+    public int Id { get; }
 
     public string Name
     {
-        get { return _name; }
+        get => _name;
         set { _name = value; NotifyPropertyChanged(); }
     }
 
     public int Capacity
     {
-        get { return _capacity; }
+        get => _capacity;
         set { _capacity = value; NotifyPropertyChanged(); }
     }
 
     public string BrandName
     {
-        get { return _brandName; }
+        get => _brandName;
         set { _brandName = value; NotifyPropertyChanged(); }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.HelperViewModels;
@@ -37,7 +38,10 @@ public sealed class DriverEditViewModel : EditViewModel
         _license = null;
     }
 
-    
+
+    public override ICommand SaveCommand { get; }
+    public override ICommand RemoveCommand { get; }
+
     protected override bool CanSave() =>
         !string.IsNullOrWhiteSpace(PayrollNumber) &&
         !string.IsNullOrWhiteSpace(Name) &&
@@ -54,16 +58,6 @@ public sealed class DriverEditViewModel : EditViewModel
         License.Categories.Count > 0 &&
         !string.IsNullOrWhiteSpace(License.LicenseNumber);
 
-    protected override void ExecuteSave()
-    {
-        throw new NotImplementedException();
-    }
-
-    protected override void ExecuteRemove()
-    {
-        throw new NotImplementedException();
-    }
-    
     public string Surname
     {
         get { return _surname; }

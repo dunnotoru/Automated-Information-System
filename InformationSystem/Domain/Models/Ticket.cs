@@ -8,7 +8,6 @@ public class Ticket : EntityBase
     public DateTime BookDate { get; set; }
     public string Cashier { get; set; }
         
-
     public int RunId { get; set; }
     public int IdentityDocumentId { get; set; }
     public int TicketTypeId { get; set; }

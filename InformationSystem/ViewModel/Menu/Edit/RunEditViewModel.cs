@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,17 +18,10 @@ public class RunEditViewModel : EditViewModel
         
     }
 
+    public override ICommand SaveCommand { get; }
+    public override ICommand RemoveCommand { get; }
+
     protected override bool CanSave()
-    {
-        throw new NotImplementedException();
-    }
-
-    protected override void ExecuteSave()
-    {
-        throw new NotImplementedException();
-    }
-
-    protected override void ExecuteRemove()
     {
         throw new NotImplementedException();
     }

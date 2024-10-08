@@ -3,37 +3,28 @@ using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-internal class StationViewModel : ViewModelBase
+public class StationViewModel : ViewModelBase
 {
-    private int _id;
+    public int Id { get; }
     private string _name;
     private string _address;
 
-    public int Id
+    public StationViewModel(Station station)
     {
-        get { return _id; }
-        private set { _id = value; NotifyPropertyChanged(); }
+        Id = station.Id;
+        _name = station.Name;
+        _address = station.Address;
     }
 
     public string Name
     {
-        get { return _name; }
+        get => _name;
         set { _name = value; NotifyPropertyChanged(); }
     }
 
     public string Address
     {
-        get { return _address; }
+        get => _address;
         set { _address = value; NotifyPropertyChanged(); }
     }
-
-    public StationViewModel(Station station)
-    {
-        ArgumentNullException.ThrowIfNull(station);
-
-        Id = station.Id;
-        Name = station.Name ?? "";
-        Address = station.Address ?? "";
-    }
-
 }
