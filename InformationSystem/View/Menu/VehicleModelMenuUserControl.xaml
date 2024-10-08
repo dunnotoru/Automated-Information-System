@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:validationRules="clr-namespace:InformationSystem.View.ValidationRules"
+             xmlns:menu="clr-namespace:InformationSystem.ViewModel.Menu"
+             xmlns:edit="clr-namespace:InformationSystem.ViewModel.Menu.Edit"
              xmlns:converters="clr-namespace:InformationSystem.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=menu:VehicleModelMenuViewModel}">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="245*"/>
@@ -23,7 +25,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                     <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Марка" Binding="{Binding SelectedBrand.Name}"/>
+                    <DataGridTextColumn Header="Марка" Binding="{Binding SelectedBrand.Id}"/>
                     <DataGridTextColumn Header="Вместимость" Binding="{Binding Capacity}"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -50,7 +52,7 @@
                 </TextBox>
 
                 <Label Content="Марка"/>
-                <ComboBox ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand}" Margin="10"
+                <ComboBox ItemsSource="{Binding BrandViewModels}" SelectedItem="{Binding SelectedBrand}" Margin="10"
                           DisplayMemberPath="Name"/>
 
                 <Label Content="Вместимость (Кол-во человек)"/>
