@@ -4,26 +4,14 @@ namespace InformationSystem.ViewModel.HelperViewModels;
 
 public class StationViewModel : ViewModelBase
 {
-    public int Id { get; }
-    private string _name;
-    private string _address;
+    private readonly Station _station;
 
     public StationViewModel(Station station)
     {
-        Id = station.Id;
-        _name = station.Name;
-        _address = station.Address;
+        _station = station;
     }
 
-    public string Name
-    {
-        get => _name;
-        set { _name = value; RaisePropertyChanged(); }
-    }
-
-    public string Address
-    {
-        get => _address;
-        set { _address = value; RaisePropertyChanged(); }
-    }
+    public int Id => _station.Id;
+    public string Name => _station.Name;
+    public string Address => _station.Address;
 }

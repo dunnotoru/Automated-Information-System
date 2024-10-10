@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:InformationSystem.Converters"
+             xmlns:menu="clr-namespace:InformationSystem.ViewModel.Menu"
              xmlns:validationRules="clr-namespace:InformationSystem.View.ValidationRules"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance menu:RouteMenuViewModel}">
     <UserControl.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
     </UserControl.Resources>
@@ -19,8 +20,8 @@
 
         <Label Content="Маршруты" Padding="10"
                VerticalAlignment="Top" HorizontalAlignment="Center"/>
-        <DataGrid ItemsSource="{Binding Routes}" Margin="10,45,10,10"
-                  SelectedItem="{Binding SelectedRoute}">
+        <DataGrid ItemsSource="{Binding Items}" Margin="10,45,10,10"
+                  SelectedItem="{Binding SelectedItem}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="auto"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="auto"/>
@@ -35,7 +36,7 @@
         </StackPanel>
 
         <GroupBox  Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
-            <Grid DataContext="{Binding SelectedRoute}">
+            <Grid DataContext="{Binding SelectedItem}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="246*"/>
                     <ColumnDefinition Width="233*"/>
@@ -51,19 +52,17 @@
                              Text="{Binding Id}"/>
 
                     <TextBlock Padding="5" Text="Все станции"/>
-                        <ListView Margin="10" ItemsSource="{Binding AvailableStations}"
-                                  SelectedItem="{Binding SelectedAvailableStation}" SelectionMode="Single"
+                        <ListView Margin="10" ItemsSource="{Binding StationItems}"
+                                  SelectedItem="{Binding SelectedStation}" SelectionMode="Single"
                                   Height="300">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
-                                    <GridViewColumn Width="auto" Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
-                                </GridView>
-                            </ListView.View>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                         <Button Content="+"
-                                HorizontalAlignment="Center"
-                                Command="{Binding AddStationCommand}"/>
+                                HorizontalAlignment="Center"/>
 
                 </StackPanel>
 
@@ -80,7 +79,7 @@
                     </TextBox>
 
                     <TextBlock Padding="5" Text="Станции в этом маршурте"/>
-                    <ListView Margin="10" ItemsSource="{Binding Stations}" VerticalAlignment="Stretch"
+                    <ListView Margin="10" ItemsSource="{Binding StationItems}" VerticalAlignment="Stretch"
                               SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
                               Height="300">
                         <ListView.View>
@@ -92,9 +91,9 @@
                     </ListView>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Margin="5" Content="-" Command="{Binding RemoveStationCommand}"/>
-                        <Button Margin="5" Content="Up" Command="{Binding MoveUpCommand}"/>
-                        <Button Margin="5" Content="Down" Command="{Binding MoveDownCommand}"/>
+                        <Button Margin="5" Content="-"/>
+                        <Button Margin="5" Content="Up"/>
+                        <Button Margin="5" Content="Down"/>
                     </StackPanel>
                 </StackPanel>
 
