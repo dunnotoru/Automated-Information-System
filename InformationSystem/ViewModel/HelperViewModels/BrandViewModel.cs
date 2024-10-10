@@ -1,9 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using InformationSystem.Domain.Models;
+﻿using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-public class BrandViewModel : ObservableObject
+public class BrandViewModel : ViewModelBase
 {
     private string _name;
 
@@ -13,11 +12,11 @@ public class BrandViewModel : ObservableObject
         _name = brand.Name;
     }
 
-    public int Id { get; protected init; }
+    public int Id { get; }
 
     public string Name
     {
         get => _name;
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 }

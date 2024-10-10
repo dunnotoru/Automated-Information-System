@@ -4,12 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:edit="clr-namespace:InformationSystem.ViewModel.Menu.Edit"
-             xmlns:menu="clr-namespace:InformationSystem.ViewModel.Menu"
              xmlns:converters="clr-namespace:InformationSystem.Converters"
              xmlns:validationRules="clr-namespace:InformationSystem.View.ValidationRules"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=menu:VehicleMenuViewModel }">
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
     </UserControl.Resources>
@@ -22,20 +20,20 @@
 
         <Label Padding="10" Content="Транспорт" VerticalAlignment="Top"
                HorizontalAlignment="Center"/>
-        <DataGrid ItemsSource="{Binding Items}" Margin="10,45,10,10"
-          SelectedItem="{Binding SelectedItem}">
+        <DataGrid ItemsSource="{Binding Vehicles}" Margin="10,45,10,10"
+          SelectedItem="{Binding SelectedVehicle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Государственный номер" Width="auto" Binding="{Binding LicensePlateNumber}"/>
-                <DataGridTextColumn Header="Марка" Width="auto" Binding="{Binding SelectedVehicleModel.BrandName, FallbackValue='-'}" />
-                <DataGridTextColumn Header="Модель" Width="auto" Binding="{Binding SelectedVehicleModel.Name, FallbackValue='-'}"/>
-                <DataGridTextColumn Header="Вместимость" Width="auto" Binding="{Binding SelectedVehicleModel.Capacity, FallbackValue='-'}"/>
+                <DataGridTextColumn Header="Марка" Width="auto" Binding="{Binding SelectedVehicleModel.BrandName}" />
+                <DataGridTextColumn Header="Модель" Width="auto" Binding="{Binding SelectedVehicleModel.Name}"/>
+                <DataGridTextColumn Header="Вместимость" Width="auto" Binding="{Binding SelectedVehicleModel.Capacity}"/>
                 <DataGridTextColumn Header="Дата производства" Width="auto" Binding="{Binding Manufacture}" />
                 <DataGridTextColumn Header="Дата последнего ремонта" Width="auto" Binding="{Binding LastRepair}"/>
-                <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding SelectedRepairType.Name, FallbackValue='-'}"/>
+                <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding SelectedRepairTypeMenu.Name}"/>
                 <DataGridTextColumn Header="Прогон" Width="auto" Binding="{Binding Mileage}"/>
-                <DataGridTextColumn Header="Фото" Width="auto" Binding="{Binding Photo}"/>
-                <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding SelectedFreighter.Name, FallbackValue='-'}"/>
+                <DataGridTextColumn Header="Фото" Width="auto" Binding="{Binding Photography}"/>
+                <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding SelectedFreighterMenu.Name}"/>
                 <DataGridTextColumn Header="Номер страховки" Width="auto" Binding="{Binding InsuranceDetails}"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -55,9 +53,9 @@
 
             
             <GroupBox Grid.Column="0" Margin="2,2,2,2" Header="Модель">
-                <Grid Margin="1" DataContext="{Binding SelectedItem}">
+                <Grid Margin="1" DataContext="{Binding SelectedVehicle}">
                     <DataGrid IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False"
-                              ItemsSource="{Binding VehicleModelItems}" SelectedItem="{Binding SelectedVehicleModel}">
+                              ItemsSource="{Binding VehicleModels}" SelectedItem="{Binding SelectedVehicleModel}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Марка" Binding="{Binding BrandName}"/>
@@ -69,18 +67,18 @@
             </GroupBox>
 
             <ScrollViewer Grid.Column="1">
-                <StackPanel DataContext="{Binding SelectedItem}" Grid.Column="2" Margin="10 10 10 10">
+                <StackPanel DataContext="{Binding SelectedVehicle}" Grid.Column="2" Margin="10 10 10 10">
                     <Label Margin="5" Content="Id"/>
                     <TextBox Margin="5" Text="{Binding Id}" IsReadOnly="True"/>
 
                     <Label Margin="5" Content="Марка"/>
-                    <TextBlock Margin="5"  Text="{Binding  SelectedVehicleModel.BrandName, FallbackValue='-'}"/>
+                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.BrandName}"/>
 
                     <Label Margin="5" Content="Модель"/>
-                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.Name, FallbackValue='-'}"/>
+                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.Name}" />
 
                     <Label Margin="5" Content="Вместимость"/>
-                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.Capacity, FallbackValue='-'}"/>
+                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.Capacity}" />
 
                     <Label Margin="5" Content="Гос. номер"/>
                     <TextBox x:Name="LicensePlateNumberTextBox" Margin="5">
@@ -100,18 +98,18 @@
                     <DatePicker Margin="5"  SelectedDate="{Binding LastRepair}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
 
                     <Label Margin="5" Content="Тип последнего ремонта"/>
-                    <ComboBox Margin="5" ItemsSource="{Binding RepairTypeItems}" SelectedItem="{Binding SelectedRepairType}"
+                    <ComboBox Margin="5" ItemsSource="{Binding RepairTypes}" SelectedItem="{Binding SelectedRepairTypeMenu}"
                               DisplayMemberPath="Name"/>
 
                     <Label Margin="5" Content="Прогон"/>
                     <TextBox x:Name="MileageTextBox" Margin="5" Text="{Binding Mileage}" PreviewTextInput="NumberPreviewTextInput"/>
 
                     <Label Margin="5" Content="Фото"/>
-                    <TextBox Margin="5" Text="{Binding Photo}"/>
+                    <TextBox Margin="5" Text="{Binding Photography}"/>
 
                     <Label Margin="5" Content="Фрахтовщик"/>
-                    <ComboBox Margin="5" Text="{Binding SelectedFreighter.Name, FallbackValue='-'}" ItemsSource="{Binding FreighterItems}"
-                              SelectedItem="{Binding SelectedFreighter}" DisplayMemberPath="Name"/>
+                    <ComboBox Margin="5" Text="{Binding SelectedFreighterMenu.Name}" ItemsSource="{Binding Freighters}"
+                              SelectedItem="{Binding SelectedFreighterMenu}" DisplayMemberPath="Name"/>
 
                     <Label Margin="5" Content="Номер страховки"/>
                     <TextBox x:Name="InsuranceNumber" Margin="5">

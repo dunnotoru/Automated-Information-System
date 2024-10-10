@@ -1,10 +1,9 @@
 ﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
 using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.Sales;
 
-public class RunViewModel : ObservableObject
+public class RunViewModel : ViewModelBase
 {
     private int _id;
     private string _number;
@@ -15,6 +14,8 @@ public class RunViewModel : ObservableObject
 
     public RunViewModel(Run run, int freePlaces)
     {
+        ArgumentNullException.ThrowIfNull(run);
+
         Id = run.Id;
         Number = run.Number;
         RouteName = run.Route.Name;
@@ -36,21 +37,21 @@ public class RunViewModel : ObservableObject
     public string Number
     {
         get { return _number; }
-        set { _number = value; OnPropertyChanged(); }
+        set { _number = value; NotifyPropertyChanged(); }
     }
     public string RouteName
     {
         get { return _routeName; }
-        set { _routeName = value; OnPropertyChanged(); }
+        set { _routeName = value; NotifyPropertyChanged(); }
     }
     public DateTime DepartureDateTime
     {
         get { return _departureDateTime; }
-        set { _departureDateTime = value; OnPropertyChanged(); }
+        set { _departureDateTime = value; NotifyPropertyChanged(); }
     }
     public DateTime EstimatedArrivalDateTime
     {
         get { return _estimatedArrivalDateTime; }
-        set { _estimatedArrivalDateTime = value; OnPropertyChanged(); }
+        set { _estimatedArrivalDateTime = value; NotifyPropertyChanged(); }
     }
 }

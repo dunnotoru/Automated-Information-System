@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+using InformationSystem.Command;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,7 @@ public sealed class StationEditViewModel : EditViewModel
     private string _name = string.Empty;
     private string _address = string.Empty;
     
-    public override IRelayCommand SaveCommand => new RelayCommand(() => 
+    public override ICommand SaveCommand => new RelayCommand(() => 
         ExecuteSave(() => new Station
         {
             Id = this.Id,
@@ -19,7 +19,7 @@ public sealed class StationEditViewModel : EditViewModel
             Address = _address
         }), CanSave);
     
-    public override IRelayCommand RemoveCommand => new RelayCommand(ExecuteRemove<Station>);
+    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<Station>);
     
     public StationEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
     
@@ -39,12 +39,12 @@ public sealed class StationEditViewModel : EditViewModel
     public string Name
     {
         get => _name;
-        set => SetProperty(ref _name, value);
+        set { _name = value; NotifyPropertyChanged(); }
     }
     
     public string Address
     {
         get => _address;
-        set => SetProperty(ref _address, value);
+        set { _address = value; NotifyPropertyChanged(); }
     }
 }

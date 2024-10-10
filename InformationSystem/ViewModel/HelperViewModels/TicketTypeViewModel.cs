@@ -1,9 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using InformationSystem.Domain.Models;
+﻿using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-public class TicketTypeViewModel : ObservableObject
+public class TicketTypeViewModel : ViewModelBase
 {
     public int Id { get; }
     private string _name;
@@ -19,13 +18,13 @@ public class TicketTypeViewModel : ObservableObject
     public string Name
     {
         get => _name;
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
     public int Modifier
     {
         get => _modifier;
-        set { _modifier = value; OnPropertyChanged(); }
+        set { _modifier = value; NotifyPropertyChanged(); }
     }
 
 }

@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+﻿using System;
+using System.Windows.Input;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,15 +9,6 @@ namespace InformationSystem.ViewModel.Menu.Edit;
 public sealed class FreighterEditViewModel : EditViewModel
 {
     private string _name = string.Empty;
-    
-    public override IRelayCommand SaveCommand => new RelayCommand(() => 
-        ExecuteSave(() => new Freighter
-        {
-            Id = this.Id,
-            Name = _name
-        }), CanSave);
-    
-    public override IRelayCommand RemoveCommand => new RelayCommand(ExecuteRemove<Freighter>);
 
     public FreighterEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
 
@@ -27,12 +18,13 @@ public sealed class FreighterEditViewModel : EditViewModel
         Name = freighter.Name;
     }
     
-    protected override bool CanSave() => !string.IsNullOrEmpty(Name);
-    
     public string Name
     {
         get => _name;
-        set => SetProperty(ref _name, value);
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
+    public override ICommand SaveCommand { get; }
+    public override ICommand RemoveCommand { get; }
+    protected override bool CanSave() => !string.IsNullOrEmpty(Name);
 }

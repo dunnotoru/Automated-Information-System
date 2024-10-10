@@ -1,14 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using InformationSystem.Command;
 using InformationSystem.Domain.Context;
 using InformationSystem.ViewModel.HelperViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel;
 
-internal class ScheduleDataViewModel : ObservableObject
+internal class ScheduleDataViewModel : ViewModelBase
 {
     private readonly IDbContextFactory<DomainContext> _contextFactory;
     private ObservableCollection<ScheduleViewModel> _items;
@@ -36,6 +35,6 @@ internal class ScheduleDataViewModel : ObservableObject
     public ObservableCollection<ScheduleViewModel> Items
     {
         get => _items;
-        set { _items = value; OnPropertyChanged(); }
+        set { _items = value; NotifyPropertyChanged(); }
     }
 }

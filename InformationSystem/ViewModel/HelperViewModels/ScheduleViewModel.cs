@@ -1,10 +1,9 @@
 ﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
 using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-internal class ScheduleViewModel : ObservableObject
+internal class ScheduleViewModel : ViewModelBase
 {
     private int _id;
     private string _routeName;
@@ -31,37 +30,37 @@ internal class ScheduleViewModel : ObservableObject
     public int Id
     {
         get { return _id; }
-        set { _id = value; OnPropertyChanged(); }
+        set { _id = value; NotifyPropertyChanged(); }
     }
     public string RouteName
     {
         get { return _routeName; }
-        set { _routeName = value; OnPropertyChanged(); }
+        set { _routeName = value; NotifyPropertyChanged(); }
     }
     public string RunNumber
     {
         get { return _runNumber; }
-        set { _runNumber = value; OnPropertyChanged(); }
+        set { _runNumber = value; NotifyPropertyChanged(); }
     }
     public string DriverFullName
     {
         get { return _driverFullName; }
-        set { _driverFullName = value; OnPropertyChanged(); }
+        set { _driverFullName = value; NotifyPropertyChanged(); }
     }
     public string VehicleLicensePlate
     {
         get { return _vehicleLicensePlate; }
-        set { _vehicleLicensePlate = value; OnPropertyChanged(); }
+        set { _vehicleLicensePlate = value; NotifyPropertyChanged(); }
     }
         
     public DateTime DepartureDateTime
     {
         get { return _departureDateTime; }
-        set { _departureDateTime = value; OnPropertyChanged(); }
+        set { _departureDateTime = value; NotifyPropertyChanged(); }
     }
     public DateTime ArrivalDateTime
     {
         get { return _arrivalDateTime; }
-        set { _arrivalDateTime = value; OnPropertyChanged(); }
+        set { _arrivalDateTime = value; NotifyPropertyChanged(); }
     }
 }

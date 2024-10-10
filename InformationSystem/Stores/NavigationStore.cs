@@ -1,13 +1,13 @@
 ﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
+using InformationSystem.ViewModel;
 
 namespace InformationSystem.Stores;
 
 internal class NavigationStore
 {
-    private ObservableObject _currentViewModel;
+    private ViewModelBase _currentViewModel;
 
-    public ObservableObject CurrentViewModel
+    public ViewModelBase CurrentViewModel
     {
         get => _currentViewModel;
         set

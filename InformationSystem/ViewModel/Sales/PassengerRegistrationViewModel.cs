@@ -2,8 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using InformationSystem.Command;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.Services;
@@ -14,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Sales;
 
-internal class PassengerRegistrationViewModel : ObservableObject, IDisposable
+internal class PassengerRegistrationViewModel : ViewModelBase, IDisposable
 {
     private readonly IDbContextFactory<DomainContext> _contextFactory;
         
@@ -241,27 +240,27 @@ internal class PassengerRegistrationViewModel : ObservableObject, IDisposable
     public DateTime DepartureDateTime
     {
         get => _departureDateTime;
-        set { _departureDateTime = value; OnPropertyChanged(); }
+        set { _departureDateTime = value; NotifyPropertyChanged(); }
     }
     public DateTime ArrivalDateTime
     {
         get => _arrivalDateTime;
-        set { _arrivalDateTime = value; OnPropertyChanged(); }
+        set { _arrivalDateTime = value; NotifyPropertyChanged(); }
     }
     public StationViewModel DepartureStation
     {
         get => _departureStation;
-        set { _departureStation = value; OnPropertyChanged(); }
+        set { _departureStation = value; NotifyPropertyChanged(); }
     }
     public StationViewModel ArrivalStation
     {
         get => _arrivalStation;
-        set { _arrivalStation = value; OnPropertyChanged(); }
+        set { _arrivalStation = value; NotifyPropertyChanged(); }
     }
     public RunViewModel SelectedRun
     {
         get => _selectedRun;
-        set { _selectedRun = value; OnPropertyChanged(); }
+        set { _selectedRun = value; NotifyPropertyChanged(); }
     }
 
     public ObservableCollection<PassengerViewModel> Passengers { get; set; }
@@ -269,7 +268,7 @@ internal class PassengerRegistrationViewModel : ObservableObject, IDisposable
     public PassengerViewModel SelectedPassenger
     {
         get => _selectedPassenger;
-        set { _selectedPassenger = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsPassengerSelected)); }
+        set { _selectedPassenger = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(IsPassengerSelected)); }
     }
 
     public bool IsPassengerSelected => SelectedPassenger != null;
@@ -280,8 +279,8 @@ internal class PassengerRegistrationViewModel : ObservableObject, IDisposable
         set
         {
             _price = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(Change));
+            NotifyPropertyChanged();
+            NotifyPropertyChanged(nameof(Change));
         }
     }
     public int Cash
@@ -290,8 +289,8 @@ internal class PassengerRegistrationViewModel : ObservableObject, IDisposable
         set
         {
             _cash = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(Change));
+            NotifyPropertyChanged();
+            NotifyPropertyChanged(nameof(Change));
         }
     }
     public int Change => Cash - Price;

@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+using InformationSystem.Command;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.HelperViewModels;
@@ -11,22 +12,25 @@ namespace InformationSystem.ViewModel.Menu.Edit;
 
 public class VehicleModelEditViewModel : EditViewModel
 {
-    private ObservableCollection<BrandViewModel> _brandViewModels;
+    private ObservableCollection<BrandViewModel> _brandViewModels = new ObservableCollection<BrandViewModel>();
     private BrandViewModel? _selectedBrand = null;
     private string _name = string.Empty;
     private int _capacity = 0;
     private int _brandId = 0;
 
-    public override IRelayCommand SaveCommand => new RelayCommand(() => 
-        ExecuteSave(() => new VehicleModel
+    public override ICommand SaveCommand => new RelayCommand(() => 
+        ExecuteSave(() =>
         {
-            Id = this.Id,
-            Name = _name,
-            Capacity = _capacity,
-            BrandId = _selectedBrand.Id
+            return new VehicleModel
+            {
+                Id = this.Id,
+                Name = _name,
+                Capacity = _capacity,
+                BrandId = _selectedBrand.Id
+            };
         }), CanSave);
     
-    public override IRelayCommand RemoveCommand => new RelayCommand(ExecuteRemove<VehicleModel>);
+    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<VehicleModel>);
 
     public VehicleModelEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
@@ -55,24 +59,30 @@ public class VehicleModelEditViewModel : EditViewModel
     public ObservableCollection<BrandViewModel> BrandViewModels
     {
         get => _brandViewModels;
-        set => SetProperty(ref _brandViewModels, value);
+        set { _brandViewModels = value; NotifyPropertyChanged(); }
     }
 
     public BrandViewModel? SelectedBrand
     {
         get => _selectedBrand;
-        set => SetProperty(ref _selectedBrand, value);
+        set { _selectedBrand = value; NotifyPropertyChanged(); }
     }
     
     public string Name
     {
         get => _name;
-        set => SetProperty(ref _name, value);
+        set { _name = value; NotifyPropertyChanged();}
     }
 
     public int Capacity
     {
         get => _capacity;
-        set => SetProperty(ref _capacity, value);
+        set { _capacity = value; NotifyPropertyChanged();}
+    }
+
+    public int BrandId
+    {
+        get => _brandId;
+        set => _brandId = value;
     }
 }

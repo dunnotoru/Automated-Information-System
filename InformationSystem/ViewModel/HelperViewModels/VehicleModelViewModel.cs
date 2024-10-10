@@ -1,9 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
 using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-public class VehicleModelViewModel : ObservableObject
+internal class VehicleModelViewModel : ViewModelBase
 {
     private string _name;
     private int _capacity;
@@ -22,18 +22,18 @@ public class VehicleModelViewModel : ObservableObject
     public string Name
     {
         get => _name;
-        set { _name = value; OnPropertyChanged(); }
+        set { _name = value; NotifyPropertyChanged(); }
     }
 
     public int Capacity
     {
         get => _capacity;
-        set { _capacity = value; OnPropertyChanged(); }
+        set { _capacity = value; NotifyPropertyChanged(); }
     }
 
     public string BrandName
     {
         get => _brandName;
-        set { _brandName = value; OnPropertyChanged(); }
+        set { _brandName = value; NotifyPropertyChanged(); }
     }
 }

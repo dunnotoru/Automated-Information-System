@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using InformationSystem.Command;
 using InformationSystem.Services;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.Stores;
 
 namespace InformationSystem.ViewModel;
 
-internal class RegistrationViewModel : ObservableObject
+internal class RegistrationViewModel : ViewModelBase
 {
     private readonly RegistrationService _registrationService;
     private readonly AccountStore _accountStore;
@@ -53,18 +52,18 @@ internal class RegistrationViewModel : ObservableObject
     public string Username
     {
         get => _username;
-        set { _username = value; OnPropertyChanged(); }
+        set { _username = value; NotifyPropertyChanged(); }
     }
     
     public string Password
     {
         get => _password;
-        set { _password = value; OnPropertyChanged(); }
+        set { _password = value; NotifyPropertyChanged(); }
     }
     
     public string ConfirmPassport
     {
         get => _confirmPassport;
-        set { _confirmPassport = value; OnPropertyChanged(); }
+        set { _confirmPassport = value; NotifyPropertyChanged(); }
     }
 }
