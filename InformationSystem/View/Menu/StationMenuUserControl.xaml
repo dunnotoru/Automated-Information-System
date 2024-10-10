@@ -21,8 +21,8 @@
 
         <Label Content="Станции" HorizontalAlignment="Center" VerticalAlignment="Top"
                Padding="10" Height="43" Width="86"/>
-        <DataGrid ItemsSource="{Binding Stations}" Margin="10,45,10,10"
-                  SelectedItem="{Binding SelectedStation}">
+        <DataGrid ItemsSource="{Binding Items}" Margin="10,45,10,10"
+                  SelectedItem="{Binding SelectedItem}">
             <DataGrid.Columns>
                 <DataGridTextColumn CanUserResize="False" Header="Id" Width="auto" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding Name}"/>
@@ -38,7 +38,7 @@
         </StackPanel>
 
         <StackPanel Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
-            <StackPanel DataContext="{Binding SelectedStation}" Grid.Column="2" Margin="10,10,10,10">
+            <StackPanel DataContext="{Binding SelectedItem}" Grid.Column="2" Margin="10,10,10,10">
                 <Label Margin="10" Content="Id"/>
                 <TextBlock Margin="10"  Text="{Binding Id}"/>
 

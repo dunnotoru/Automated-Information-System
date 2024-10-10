@@ -10,7 +10,7 @@ public abstract class EditViewModel : ViewModelBase
 {
     protected readonly IDbContextFactory<DomainContext> ContextFactory;
 
-    public virtual int Id { get; protected set; }
+    public int Id { get; protected set; }
     
     public event EventHandler? Saved;
     public event EventHandler? Removed;

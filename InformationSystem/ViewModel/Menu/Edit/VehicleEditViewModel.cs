@@ -69,6 +69,7 @@ public sealed class VehicleEditViewModel : EditViewModel
     public VehicleEditViewModel(Vehicle vehicle, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
         _vehicle = vehicle;
+        Id = _vehicle.Id;
         
         using DomainContext context = contextFactory.CreateDbContext();
         _freighterItems = new ObservableCollection<FreighterViewModel>(
@@ -110,7 +111,7 @@ public sealed class VehicleEditViewModel : EditViewModel
         set { _vehicle.Mileage = value; RaisePropertyChanged(); }
     }
 
-    public string? Photo
+    public string? Photography
     {
         get => _vehicle.Photography;
         set { _vehicle.Photography = value; RaisePropertyChanged(); }
