@@ -1,40 +1,45 @@
-﻿using System.Windows.Input;
-using InformationSystem.Command;
-using InformationSystem.Domain.Context;
+﻿using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
 
-public class RepairTypeEditViewModel : EditViewModel
+public sealed class RepairTypeEditViewModel : EditViewModel
 {
-    private string _name = string.Empty;
-    
-    public override ICommand SaveCommand => new RelayCommand(() => 
-        ExecuteSave(() => new RepairType
-        {
-            Id = this.Id,
-            Name = _name
-        }), CanSave);
-    
-    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<RepairType>);
+    private readonly RepairType _repairType;
 
-    public RepairTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
+    protected override int? Save(DomainContext context)
+    {
+        context.RepairTypes.Update(_repairType);
+        context.SaveChanges();
+        return _repairType.Id;
+    }
+
+    protected override void Remove(DomainContext context)
+    {
+        context.RepairTypes.Remove(_repairType);
+        context.SaveChanges();
+    }
+    
+    public RepairTypeEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        _repairType = new RepairType();
+    }
 
     public RepairTypeEditViewModel(RepairType repairType, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        Id = repairType.Id;
-        _name = repairType.Name;
+        _repairType = repairType;
+        Id = _repairType.Id;
     }
 
     protected override bool CanSave()
     {
-        return true;
+        return !string.IsNullOrWhiteSpace(Name);
     }
 
     public string Name
     {
-        get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        get => _repairType.Name;
+        set { _repairType.Name = value; RaisePropertyChanged(); }
     }
 }

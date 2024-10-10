@@ -93,13 +93,13 @@ internal class RunSearchViewModel : ViewModelBase
     public int FreePlaces
     {
         get { return _freePlaces; }
-        set { _freePlaces = value; NotifyPropertyChanged(); }
+        set { _freePlaces = value; RaisePropertyChanged(); }
     }
 
     public ObservableCollection<StationViewModel> DepartureStations
     {
         get { return _departureStations; }
-        set { _departureStations = value; NotifyPropertyChanged(); }
+        set { _departureStations = value; RaisePropertyChanged(); }
     }
     public ObservableCollection<StationViewModel> ArrivalStations
     {
@@ -110,42 +110,42 @@ internal class RunSearchViewModel : ViewModelBase
     public ObservableCollection<RunViewModel> Runs
     {
         get => _runs;
-        set { _runs = value; NotifyPropertyChanged(); }
+        set { _runs = value; RaisePropertyChanged(); }
     }
     public DateTime DepartureDateTimeMinimum
     {
         get => _departureDateTimeMinimum;
-        set { _departureDateTimeMinimum = value; NotifyPropertyChanged(); }
+        set { _departureDateTimeMinimum = value; RaisePropertyChanged(); }
     }
     public DateTime DepartureDateTimeMaximum
     {
         get { return _departureDateTimeMaximum; }
-        set { _departureDateTimeMaximum = value; NotifyPropertyChanged(); }
+        set { _departureDateTimeMaximum = value; RaisePropertyChanged(); }
     }
     public StationViewModel DepartureStation
     {
         get => _departureStation;
-        set { _departureStation = value; NotifyPropertyChanged();  }
+        set { _departureStation = value; RaisePropertyChanged();  }
     }
     public StationViewModel ArrivalStation
     {
         get => _arrivalStation;
-        set { _arrivalStation = value; NotifyPropertyChanged();  }
+        set { _arrivalStation = value; RaisePropertyChanged();  }
     }
     public RunViewModel SelectedRun
     {
         get => _selectedRun;
-        set { _selectedRun = value; NotifyPropertyChanged(); }
+        set { _selectedRun = value; RaisePropertyChanged(); }
     }
 
     public string DepartureStationSearch
     {
         get { return _departureStationSearch; }
-        set { _departureStationSearch = value; NotifyPropertyChanged(); FilterStations(DepartureStations, _departureStationSearch); }
+        set { _departureStationSearch = value; RaisePropertyChanged(); FilterStations(DepartureStations, _departureStationSearch); }
     }
     public string ArrivalStationSearch
     {
         get { return _arrivalStationSearch; }
-        set { _arrivalStationSearch = value; NotifyPropertyChanged(); FilterStations(ArrivalStations, _arrivalStationSearch); }
+        set { _arrivalStationSearch = value; RaisePropertyChanged(); FilterStations(ArrivalStations, _arrivalStationSearch); }
     }
 }

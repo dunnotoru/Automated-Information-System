@@ -70,7 +70,7 @@ internal class MenuItemViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set { _name = value; RaisePropertyChanged(); }
     }
 
 }

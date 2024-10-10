@@ -52,18 +52,18 @@ internal class RegistrationViewModel : ViewModelBase
     public string Username
     {
         get => _username;
-        set { _username = value; NotifyPropertyChanged(); }
+        set { _username = value; RaisePropertyChanged(); }
     }
     
     public string Password
     {
         get => _password;
-        set { _password = value; NotifyPropertyChanged(); }
+        set { _password = value; RaisePropertyChanged(); }
     }
     
     public string ConfirmPassport
     {
         get => _confirmPassport;
-        set { _confirmPassport = value; NotifyPropertyChanged(); }
+        set { _confirmPassport = value; RaisePropertyChanged(); }
     }
 }

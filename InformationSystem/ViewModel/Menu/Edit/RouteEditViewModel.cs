@@ -6,22 +6,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
 
-public class RouteEditViewModel : EditViewModel
+public sealed class RouteEditViewModel : EditViewModel
 {
-    private string _name = string.Empty;
+    private readonly Route _route;
 
-    public RouteEditViewModel(Route route, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
-    {
-        
-    }
-    
     public RouteEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        
+        _route = new Route();
+    }
+    
+    public RouteEditViewModel(Route route, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        _route = route;
     }
 
-    public override ICommand SaveCommand { get; }
-    public override ICommand RemoveCommand { get; }
+    protected override int? Save(DomainContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void Remove(DomainContext context)
+    {
+        throw new NotImplementedException();
+    }
 
     protected override bool CanSave()
     {

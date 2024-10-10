@@ -30,37 +30,37 @@ internal class ScheduleViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; NotifyPropertyChanged(); }
+        set { _id = value; RaisePropertyChanged(); }
     }
     public string RouteName
     {
         get { return _routeName; }
-        set { _routeName = value; NotifyPropertyChanged(); }
+        set { _routeName = value; RaisePropertyChanged(); }
     }
     public string RunNumber
     {
         get { return _runNumber; }
-        set { _runNumber = value; NotifyPropertyChanged(); }
+        set { _runNumber = value; RaisePropertyChanged(); }
     }
     public string DriverFullName
     {
         get { return _driverFullName; }
-        set { _driverFullName = value; NotifyPropertyChanged(); }
+        set { _driverFullName = value; RaisePropertyChanged(); }
     }
     public string VehicleLicensePlate
     {
         get { return _vehicleLicensePlate; }
-        set { _vehicleLicensePlate = value; NotifyPropertyChanged(); }
+        set { _vehicleLicensePlate = value; RaisePropertyChanged(); }
     }
         
     public DateTime DepartureDateTime
     {
         get { return _departureDateTime; }
-        set { _departureDateTime = value; NotifyPropertyChanged(); }
+        set { _departureDateTime = value; RaisePropertyChanged(); }
     }
     public DateTime ArrivalDateTime
     {
         get { return _arrivalDateTime; }
-        set { _arrivalDateTime = value; NotifyPropertyChanged(); }
+        set { _arrivalDateTime = value; RaisePropertyChanged(); }
     }
 }

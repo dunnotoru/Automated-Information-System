@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Windows.Input;
-using InformationSystem.Command;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,75 +7,48 @@ namespace InformationSystem.ViewModel.Menu.Edit;
 
 public sealed class TicketEditViewModel : EditViewModel
 {
-    private int _price = 0;
-    private DateTime _bookDate = DateTime.Now;
-    private string _cashier = string.Empty;
-
-    private int _runId = 0;
-    private int _identityDocumentId = 0;
-    private int _ticketTypeId = 0;
+    private readonly Ticket _ticket;
     
-    public override ICommand SaveCommand => new RelayCommand(() => 
-        ExecuteSave(() => new Ticket
-        {
-            Id = this.Id,
-            BookDate = _bookDate,
-            Cashier = _cashier,
-            RunId = _runId,
-            IdentityDocumentId = _identityDocumentId,
-            TicketTypeId = _ticketTypeId
-        }), CanSave);
-    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<TicketType>);
-    
-    public TicketEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
-    public TicketEditViewModel(Ticket ticket, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    protected override int? Save(DomainContext context)
     {
-        _price = ticket.Price;
-        _bookDate = ticket.BookDate;
-        _cashier = ticket.Cashier;
-        _runId = ticket.RunId;
-        _identityDocumentId = ticket.IdentityDocumentId;
-        _ticketTypeId = ticket.TicketTypeId;
+        throw new NotImplementedException();
     }
 
+    protected override void Remove(DomainContext context)
+    {
+        throw new NotImplementedException();
+    }
+    
     protected override bool CanSave()
     {
         return true; // TODO: validate
     }
-    
+
+    public TicketEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        _ticket = new Ticket();
+    }
+    public TicketEditViewModel(Ticket ticket, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        _ticket = ticket;
+        Id = _ticket.Id;
+    }
+
     public int Price
     {
-        get => _price;
-        set { _price = value; NotifyPropertyChanged();}
+        get => _ticket.Price;
+        set { _ticket.Price = value; RaisePropertyChanged();}
     }
 
     public DateTime BookDate
     {
-        get => _bookDate;
-        set { _bookDate = value; NotifyPropertyChanged();}
+        get => _ticket.BookDate;
+        set { _ticket.BookDate = value; RaisePropertyChanged();}
     }
 
     public string Cashier
     {
-        get => _cashier;
-        set { _cashier = value; NotifyPropertyChanged();}
-    }
-
-    public int RunId
-    {
-        get => _runId;
-        set { _runId = value; NotifyPropertyChanged(); }
-    }
-
-    public int IdentityDocumentId
-    {
-        get => _identityDocumentId;
-        set { _identityDocumentId = value; NotifyPropertyChanged();}
-    }
-
-    public int TicketTypeId
-    {
-        get => _ticketTypeId;
-        set { _ticketTypeId = value; NotifyPropertyChanged();}
+        get => _ticket.Cashier;
+        set { _ticket.Cashier = value; RaisePropertyChanged();}
     }
 }

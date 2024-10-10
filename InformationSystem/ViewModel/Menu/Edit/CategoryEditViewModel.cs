@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-using InformationSystem.Command;
-using InformationSystem.Domain.Context;
+﻿using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,29 +6,37 @@ namespace InformationSystem.ViewModel.Menu.Edit;
 
 public sealed class CategoryEditViewModel : EditViewModel
 {
-    private string _name = string.Empty;
-    
-    public override ICommand SaveCommand => new RelayCommand(() => 
-        ExecuteSave(() => new Category
-        {
-            Id = this.Id,
-            Name = _name
-        }), CanSave);
-    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<Category>);
+    private readonly Category _category;
 
-    public CategoryEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
-    
-    public CategoryEditViewModel(Category category, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    protected override int? Save(DomainContext context)
     {
-        Id = category.Id;
-        Name = category.Name;
+        context.Categories.Update(_category);
+        context.SaveChanges();
+        return _category.Id;
+    }
+
+    protected override void Remove(DomainContext context)
+    {
+        context.Remove(_category);
+        context.SaveChanges();
     }
     
     protected override bool CanSave() => !string.IsNullOrWhiteSpace(Name);
 
+    public CategoryEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        _category = new Category();
+    }
+    
+    public CategoryEditViewModel(Category category, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        _category = category;
+        Id = _category.Id;
+    }
+    
     public string Name
     {
-        get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        get => _category.Name;
+        set { _category.Name = value; RaisePropertyChanged(); }
     }
 }

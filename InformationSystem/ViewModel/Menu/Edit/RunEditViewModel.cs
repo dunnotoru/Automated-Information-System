@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
 
-public class RunEditViewModel : EditViewModel
+public sealed class RunEditViewModel : EditViewModel
 {
     public RunEditViewModel(Run run, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
@@ -18,8 +18,15 @@ public class RunEditViewModel : EditViewModel
         
     }
 
-    public override ICommand SaveCommand { get; }
-    public override ICommand RemoveCommand { get; }
+    protected override int? Save(DomainContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void Remove(DomainContext context)
+    {
+        throw new NotImplementedException();
+    }
 
     protected override bool CanSave()
     {

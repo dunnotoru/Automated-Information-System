@@ -4,19 +4,13 @@ namespace InformationSystem.ViewModel.HelperViewModels;
 
 public class BrandViewModel : ViewModelBase
 {
-    private string _name;
+    private readonly Brand _brand;
 
     public BrandViewModel(Brand brand)
     {
-        Id = brand.Id;
-        _name = brand.Name;
+        _brand = brand;
     }
 
-    public int Id { get; }
-
-    public string Name
-    {
-        get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
-    }
+    public int Id => _brand.Id;
+    public string Name => _brand.Name;
 }

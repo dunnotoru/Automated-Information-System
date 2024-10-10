@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
+using System.Linq;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.HelperViewModels;
@@ -9,40 +10,45 @@ namespace InformationSystem.ViewModel.Menu.Edit;
 
 public sealed class DriverEditViewModel : EditViewModel
 {
-    private string _payrollNumber = string.Empty;
-    private string _name = string.Empty;
-    private string _surname = string.Empty;
-    private string _patronymic = string.Empty;
-    private DateTime _birthDate = DateTime.Now;
-    private string _gender = string.Empty;
-    private DriverLicenseViewModel? _license = null;
-    private string _driverClass = string.Empty;
-    private string _professionalStandard = string.Empty;
-    private string _employmentBookDetails = string.Empty;
+    private readonly Driver _driver;
+    private readonly DriverLicense _license;
+    private ObservableCollection<CategoryViewModel> _categories;
 
-    public DriverEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
+    protected override int? Save(DomainContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void Remove(DomainContext context)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public DriverEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        _license = new DriverLicense();
+        _driver = new Driver
+        {
+            DriverLicense = _license
+        };
+
+        using DomainContext context = contextFactory.CreateDbContext();
+        _categories = new ObservableCollection<CategoryViewModel>(
+            context.Categories.Select(c => new CategoryViewModel(c)));
+    }
     
     public DriverEditViewModel(Driver driver, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        Id = driver.Id;
-        _payrollNumber = driver.PayrollNumber;
-        _name = driver.Name;
-        _surname = driver.Surname;
-        _patronymic = driver.Patronymic;
-        _payrollNumber = driver.PayrollNumber;
-        _birthDate = driver.BirthDate;
-        _gender = driver.Gender;
-        _driverClass = driver.DriverClass;
-        _professionalStandard = driver.ProfessionalStandardDetails;
-        _employmentBookDetails = driver.EmploymentBookDetails;
-        _license = null;
+        _driver = driver;
+        _license = _driver.DriverLicense;
+        Id = _driver.Id;
+        
+        using DomainContext context = contextFactory.CreateDbContext();
+        _categories = new ObservableCollection<CategoryViewModel>(
+            context.Categories.Select(c => new CategoryViewModel(c)));
     }
 
-
-    public override ICommand SaveCommand { get; }
-    public override ICommand RemoveCommand { get; }
-
-    protected override bool CanSave() =>
+    protected override bool CanSave() => //TODO: add validator
         !string.IsNullOrWhiteSpace(PayrollNumber) &&
         !string.IsNullOrWhiteSpace(Name) &&
         !string.IsNullOrWhiteSpace(Surname) &&
@@ -51,70 +57,86 @@ public sealed class DriverEditViewModel : EditViewModel
         !string.IsNullOrWhiteSpace(DriverClass) &&
         !string.IsNullOrWhiteSpace(ProfessionalStandardDetails) &&
         !string.IsNullOrWhiteSpace(EmploymentBookDetails) &&
-        License != null &&
-        License.DateOfIssue.Year - BirthDate.Year > 16 &&
-        License.DateOfExpiration > License.DateOfIssue &&
-        License.Categories != null &&
-        License.Categories.Count > 0 &&
-        !string.IsNullOrWhiteSpace(License.LicenseNumber);
+        _license.DateOfIssue.Year - BirthDate.Year > 16 &&
+        _license.DateOfExpiration > _license.DateOfIssue &&
+        _license.Categories.Count > 0 &&
+        !string.IsNullOrWhiteSpace(_license.LicenseNumber);
 
     public string Surname
     {
-        get { return _surname; }
-        set { _surname = value; NotifyPropertyChanged(); }
+        get => _driver.Surname;
+        set { _driver.Surname = value; RaisePropertyChanged(); }
     }
 
     public string Patronymic
     {
-        get { return _patronymic; }
-        set { _patronymic = value; NotifyPropertyChanged(); }
+        get => _driver.Patronymic;
+        set { _driver.Patronymic = value; RaisePropertyChanged(); }
+    }
+    
+    public string Name
+    {
+        get => _driver.Name;
+        set { _driver.Name = value; RaisePropertyChanged(); }
     }
     
     public string PayrollNumber
     {
-        get { return _payrollNumber; }
-        set { _payrollNumber = value; NotifyPropertyChanged(); }
-    }
-
-    public string Name
-    {
-        get { return _name; }
-        set { _name = value; NotifyPropertyChanged(); }
+        get => _driver.PayrollNumber;
+        set { _driver.PayrollNumber = value; RaisePropertyChanged(); }
     }
 
     public DateTime BirthDate
     {
-        get { return _birthDate; }
-        set { _birthDate = value; NotifyPropertyChanged(); }
+        get => _driver.BirthDate;
+        set { _driver.BirthDate = value; RaisePropertyChanged(); }
     }
 
     public string Gender
     {
-        get { return _gender; }
-        set { _gender = value; NotifyPropertyChanged(); }
-    }
-
-    public DriverLicenseViewModel? License
-    {
-        get { return _license; }
-        set { _license = value; NotifyPropertyChanged(); }
+        get => _driver.Gender;
+        set { _driver.Gender = value; RaisePropertyChanged(); }
     }
 
     public string DriverClass
     {
-        get { return _driverClass; }
-        set { _driverClass = value; NotifyPropertyChanged(); }
+        get => _driver.DriverClass;
+        set { _driver.DriverClass = value; RaisePropertyChanged(); }
     }
 
     public string ProfessionalStandardDetails
     {
-        get { return _professionalStandard; }
-        set { _professionalStandard = value; NotifyPropertyChanged(); }
+        get => _driver.ProfessionalStandardDetails;
+        set { _driver.ProfessionalStandardDetails = value; RaisePropertyChanged(); }
     }
 
     public string EmploymentBookDetails
     {
-        get { return _employmentBookDetails; }
-        set { _employmentBookDetails = value; NotifyPropertyChanged(); }
+        get => _driver.EmploymentBookDetails;
+        set { _driver.EmploymentBookDetails = value; RaisePropertyChanged(); }
+    }
+    
+    public string LicenseNumber
+    {
+        get => _license.LicenseNumber;
+        set { _license.LicenseNumber = value; RaisePropertyChanged(); }
+    }
+
+    public DateTime DateOfIssue
+    {
+        get => _license.DateOfIssue;
+        set { _license.DateOfIssue = value; RaisePropertyChanged(); DateOfExpiration = DateOfIssue.AddYears(10); }
+    }
+
+    public DateTime DateOfExpiration
+    {
+        get => _license.DateOfExpiration;
+        set { _license.DateOfExpiration = value; RaisePropertyChanged(); }
+    }
+
+    public ObservableCollection<CategoryViewModel> Categories
+    {
+        get => _categories;
+        set { _categories = value; RaisePropertyChanged(); }
     }
 }

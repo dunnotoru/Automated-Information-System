@@ -38,43 +38,43 @@ internal class PassengerViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set { _name = value; RaisePropertyChanged(); }
     }
     public string Surname
     {
         get => _surname;
-        set { _surname = value; NotifyPropertyChanged(); }
+        set { _surname = value; RaisePropertyChanged(); }
     }
     public string Patronymic
     {
         get => _patronymic;
-        set { _patronymic = value; NotifyPropertyChanged(); }
+        set { _patronymic = value; RaisePropertyChanged(); }
     }
     public string Series
     {
         get => _series;
-        set { _series = value; NotifyPropertyChanged(); }
+        set { _series = value; RaisePropertyChanged(); }
     }
     public string Number
     {
         get => _number;
-        set { _number = value; NotifyPropertyChanged(); }
+        set { _number = value; RaisePropertyChanged(); }
     }
     public DateTime DateOfBirth
     {
         get => _dateOfBirth;
-        set { _dateOfBirth = value; NotifyPropertyChanged(); }
+        set { _dateOfBirth = value; RaisePropertyChanged(); }
     }
 
     public TicketTypeViewModel SelectedTicketType
     {
         get { return _selectedTicketType; }
-        set { _selectedTicketType = value; NotifyPropertyChanged(); }
+        set { _selectedTicketType = value; RaisePropertyChanged(); }
     }
 
     public ObservableCollection<TicketTypeViewModel> TicketTypes
     {
         get { return _ticketTypes; }
-        set { _ticketTypes = value; NotifyPropertyChanged(); }
+        set { _ticketTypes = value; RaisePropertyChanged(); }
     }
 }

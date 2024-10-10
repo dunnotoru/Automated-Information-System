@@ -1,39 +1,21 @@
-﻿using System;
-using InformationSystem.Domain.Models;
+﻿using InformationSystem.Domain.Models;
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-internal class VehicleModelViewModel : ViewModelBase
+public class VehicleModelViewModel : ViewModelBase
 {
-    private string _name;
-    private int _capacity;
-    private string _brandName;
+    private readonly VehicleModel _vehicleModel;
 
     public VehicleModelViewModel(VehicleModel vehicleModel)
     {
-        Id = vehicleModel.Id;
-        _name = vehicleModel.Name;
-        _capacity = vehicleModel.Capacity;
-        _brandName = vehicleModel.Brand.Name;
+        _vehicleModel = vehicleModel;
     }
 
-    public int Id { get; }
+    public int Id => _vehicleModel.Id;
 
-    public string Name
-    {
-        get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
-    }
+    public string Name => _vehicleModel.Name;
 
-    public int Capacity
-    {
-        get => _capacity;
-        set { _capacity = value; NotifyPropertyChanged(); }
-    }
+    public int Capacity => _vehicleModel.Capacity;
 
-    public string BrandName
-    {
-        get => _brandName;
-        set { _brandName = value; NotifyPropertyChanged(); }
-    }
+    public string BrandName => _vehicleModel.Brand.Name;
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using InformationSystem.Domain.Context;
+﻿using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,23 +6,38 @@ namespace InformationSystem.ViewModel.Menu.Edit;
 
 public sealed class FreighterEditViewModel : EditViewModel
 {
-    private string _name = string.Empty;
+    private readonly Freighter _freighter;
 
-    public FreighterEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory) { }
+    protected override int? Save(DomainContext context)
+    {
+        context.Freighters.Update(_freighter);
+        context.SaveChanges();
+        return _freighter.Id;
+    }
+
+    protected override void Remove(DomainContext context)
+    {
+        context.Freighters.Remove(_freighter);
+        context.SaveChanges();
+    }
+
+    protected override bool CanSave() => !string.IsNullOrEmpty(Name);
+
+    public FreighterEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
+    {
+        _freighter = new Freighter();
+    }
 
     public FreighterEditViewModel(Freighter freighter, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        Id = freighter.Id;
-        Name = freighter.Name;
+        _freighter = freighter;
+        Id = _freighter.Id;
     }
     
     public string Name
     {
-        get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        get => _freighter.Name;
+        set { _freighter.Name = value; RaisePropertyChanged(); }
     }
 
-    public override ICommand SaveCommand { get; }
-    public override ICommand RemoveCommand { get; }
-    protected override bool CanSave() => !string.IsNullOrEmpty(Name);
 }

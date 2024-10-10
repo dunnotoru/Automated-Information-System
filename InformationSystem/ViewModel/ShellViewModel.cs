@@ -42,6 +42,6 @@ internal class ShellViewModel : ViewModelBase
 
     private void OnCurrentViewModelChanged()
     {
-        NotifyPropertyChanged(nameof(CurrentViewModel));
+        RaisePropertyChanged(nameof(CurrentViewModel));
     }
 }

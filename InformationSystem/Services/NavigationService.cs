@@ -1,5 +1,4 @@
-﻿using System;
-using InformationSystem.Stores;
+﻿using InformationSystem.Stores;
 using InformationSystem.ViewModel;
 using InformationSystem.ViewModel.Factories;
 

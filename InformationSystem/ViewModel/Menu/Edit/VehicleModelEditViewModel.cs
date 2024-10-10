@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using InformationSystem.Command;
 using InformationSystem.Domain.Context;
 using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.HelperViewModels;
@@ -10,30 +7,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu.Edit;
 
-public class VehicleModelEditViewModel : EditViewModel
+public sealed class VehicleModelEditViewModel : EditViewModel
 {
-    private ObservableCollection<BrandViewModel> _brandViewModels = new ObservableCollection<BrandViewModel>();
-    private BrandViewModel? _selectedBrand = null;
-    private string _name = string.Empty;
-    private int _capacity = 0;
-    private int _brandId = 0;
-
-    public override ICommand SaveCommand => new RelayCommand(() => 
-        ExecuteSave(() =>
-        {
-            return new VehicleModel
-            {
-                Id = this.Id,
-                Name = _name,
-                Capacity = _capacity,
-                BrandId = _selectedBrand.Id
-            };
-        }), CanSave);
+    private ObservableCollection<BrandViewModel> _brandViewModels;
+    private BrandViewModel? _selectedBrand;
+    private readonly VehicleModel _vehicleModel;
     
-    public override ICommand RemoveCommand => new RelayCommand(ExecuteRemove<VehicleModel>);
+    protected override int? Save(DomainContext context)
+    {
+        _vehicleModel.BrandId = _selectedBrand!.Id;
+        context.VehicleModels.Update(_vehicleModel);
+        context.SaveChanges();
+        context.Entry(_vehicleModel).Reload();
+        return _vehicleModel.Id;
+    }
 
+    protected override void Remove(DomainContext context)
+    {
+        context.VehicleModels.Remove(_vehicleModel);
+        context.SaveChanges();
+    }
+    
     public VehicleModelEditViewModel(IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
+        _vehicleModel = new VehicleModel();
+        
         DomainContext context = contextFactory.CreateDbContext();
         _brandViewModels = new ObservableCollection<BrandViewModel>(context.Brands.Select(b => new BrandViewModel(b)));
         _selectedBrand = _brandViewModels.FirstOrDefault();
@@ -41,14 +39,13 @@ public class VehicleModelEditViewModel : EditViewModel
     
     public VehicleModelEditViewModel(VehicleModel vehicleModel, IDbContextFactory<DomainContext> contextFactory) : base(contextFactory)
     {
-        Id = vehicleModel.Id;
-        _name = vehicleModel.Name;
-        _capacity = vehicleModel.Capacity;
-        _brandId = vehicleModel.BrandId;
+        _vehicleModel = vehicleModel;
+        Id = _vehicleModel.Id;
         
         DomainContext context = contextFactory.CreateDbContext();
-        _brandViewModels = new ObservableCollection<BrandViewModel>(context.Brands.Select(b => new BrandViewModel(b)));
-        _selectedBrand = _brandViewModels.FirstOrDefault(b => b.Id == _brandId);
+        _brandViewModels = new ObservableCollection<BrandViewModel>(
+            context.Brands.Select(b => new BrandViewModel(b)));
+        _selectedBrand = _brandViewModels.FirstOrDefault(b => b.Id == _vehicleModel.BrandId);
     }
 
     protected override bool CanSave()
@@ -59,30 +56,24 @@ public class VehicleModelEditViewModel : EditViewModel
     public ObservableCollection<BrandViewModel> BrandViewModels
     {
         get => _brandViewModels;
-        set { _brandViewModels = value; NotifyPropertyChanged(); }
+        set { _brandViewModels = value; RaisePropertyChanged(); }
     }
 
     public BrandViewModel? SelectedBrand
     {
         get => _selectedBrand;
-        set { _selectedBrand = value; NotifyPropertyChanged(); }
+        set { _selectedBrand = value; RaisePropertyChanged(); }
     }
     
     public string Name
     {
-        get => _name;
-        set { _name = value; NotifyPropertyChanged();}
+        get => _vehicleModel.Name;
+        set { _vehicleModel.Name = value; RaisePropertyChanged();}
     }
 
     public int Capacity
     {
-        get => _capacity;
-        set { _capacity = value; NotifyPropertyChanged();}
-    }
-
-    public int BrandId
-    {
-        get => _brandId;
-        set => _brandId = value;
+        get => _vehicleModel.Capacity;
+        set { _vehicleModel.Capacity = value; RaisePropertyChanged();}
     }
 }

@@ -9,7 +9,7 @@ internal class CertificateViewModel : ViewModelBase
     public string Certificate
     {
         get { return _certificate; }
-        set { _certificate = value; NotifyPropertyChanged(); }
+        set { _certificate = value; RaisePropertyChanged(); }
     }
 
     public CertificateViewModel(string path)

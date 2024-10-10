@@ -1,10 +1,7 @@
 using System;
-using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using InformationSystem.Command;
 using InformationSystem.Domain.Context;
-using InformationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu;
@@ -13,31 +10,33 @@ public abstract class EditViewModel : ViewModelBase
 {
     protected readonly IDbContextFactory<DomainContext> ContextFactory;
 
+    public virtual int Id { get; protected set; }
+    
     public event EventHandler? Saved;
     public event EventHandler? Removed;
     public event EventHandler<Exception>? ErrorOccured;
+    
+    protected abstract int? Save(DomainContext context);
+    protected abstract void Remove(DomainContext context);
+    protected abstract bool CanSave();
 
-    public abstract ICommand SaveCommand { get; }
-    public abstract ICommand RemoveCommand { get; }
+    public ICommand SaveCommand { get; }
+    public ICommand RemoveCommand { get; }
 
     protected EditViewModel(IDbContextFactory<DomainContext> contextFactory)
     {
+        SaveCommand = new RelayCommand(SaveRoutine, CanSave);
+        RemoveCommand = new RelayCommand(RemoveRoutine, CanSave);
         ContextFactory = contextFactory;
     }
-    
-    protected abstract bool CanSave();
 
-    protected void ExecuteSave<TEntity>(Func<TEntity> entityFactory)
-        where TEntity : EntityBase
+    protected void SaveRoutine()
     {
         DomainContext context = ContextFactory.CreateDbContext();
-
+        
         try
         {
-            TEntity entity = entityFactory();
-            context.Update<TEntity>(entity);
-            context.SaveChanges();
-            Id = entity.Id;
+            Id = Save(context) ?? 0;
             RaiseSaved();
         }
         catch (Exception e)
@@ -50,17 +49,13 @@ public abstract class EditViewModel : ViewModelBase
         }
     }
     
-    protected void ExecuteRemove<TEntity>() where TEntity : EntityBase
+    protected void RemoveRoutine()
     {
         DomainContext context = ContextFactory.CreateDbContext();
         
         try
         {
-            context.Set<TEntity>()
-                .Where(o => o.Id == Id)
-                .ExecuteDelete();
-            context.SaveChanges();
-            
+            Remove(context);
             RaiseRemoved();
         }
         catch (Exception ex)
@@ -88,5 +83,4 @@ public abstract class EditViewModel : ViewModelBase
         ErrorOccured?.Invoke(this, e);
     }
 
-    public int Id { get; protected set; }
 }

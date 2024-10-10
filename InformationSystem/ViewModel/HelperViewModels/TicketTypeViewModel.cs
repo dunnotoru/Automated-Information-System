@@ -18,13 +18,13 @@ public class TicketTypeViewModel : ViewModelBase
     public string Name
     {
         get => _name;
-        set { _name = value; NotifyPropertyChanged(); }
+        set { _name = value; RaisePropertyChanged(); }
     }
 
     public int Modifier
     {
         get => _modifier;
-        set { _modifier = value; NotifyPropertyChanged(); }
+        set { _modifier = value; RaisePropertyChanged(); }
     }
 
 }

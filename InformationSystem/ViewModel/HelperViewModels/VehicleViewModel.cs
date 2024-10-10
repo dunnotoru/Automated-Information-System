@@ -28,6 +28,6 @@ public class VehicleViewModel : ViewModelBase
     public int Id
     {
         get { return _id; }
-        set { _id = value; NotifyPropertyChanged(); }
+        set { _id = value; RaisePropertyChanged(); }
     }
 }
