@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using InformationSystem.Command;
 using InformationSystem.Domain.Context;
+using InformationSystem.Domain.Models;
 using InformationSystem.ViewModel.HelperViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +26,7 @@ internal class ScheduleDataViewModel : ViewModelBase
     {
         Items.Clear();
         using DomainContext context = _contextFactory.CreateDbContext();
-        foreach (var item in context.Schedules)
+        foreach (Schedule item in context.Schedules)
         {
             ScheduleViewModel vm = new ScheduleViewModel(item);
             Items.Add(vm);

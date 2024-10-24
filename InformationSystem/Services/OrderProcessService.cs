@@ -56,7 +56,7 @@ public class OrderProcessService
     public List<Ticket> GetTickets()
     {
         List<Ticket> tickets = new List<Ticket>();
-        foreach (var ticket in _tickets)
+        foreach (Ticket? ticket in _tickets)
         {
             tickets.Add(ticket);
         }
@@ -95,7 +95,7 @@ public class OrderProcessService
     public int GetFullPrice()
     {
         int price = 0;
-        foreach (var item in _tickets)
+        foreach (Ticket? item in _tickets)
         {
             price += item.Price;
         }

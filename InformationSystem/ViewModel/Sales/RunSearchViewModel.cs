@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using InformationSystem.Command;
 using InformationSystem.Domain.Context;
+using InformationSystem.Domain.Models;
 using InformationSystem.Services;
 using InformationSystem.Services.Abstractions;
 using InformationSystem.Stores;
@@ -71,10 +72,10 @@ internal class RunSearchViewModel : ViewModelBase
     private void SellTicket()
     {
         OrderViewModel? order = null;
-        using (var context = _contextFactory.CreateDbContext())
+        using (DomainContext? context = _contextFactory.CreateDbContext())
         {
-            var departure = context.Stations.Find(DepartureStation.Id)!;
-            var arrival = context.Stations.Find(ArrivalStation.Id)!;
+            Station? departure = context.Stations.Find(DepartureStation.Id)!;
+            Station? arrival = context.Stations.Find(ArrivalStation.Id)!;
             order = new OrderViewModel(departure, arrival, context.Runs.Find(SelectedRun.Id)!);
         }
         _navigationService.Navigate<PassengerRegistrationViewModel>();
@@ -83,8 +84,8 @@ internal class RunSearchViewModel : ViewModelBase
     private void FilterStations(ObservableCollection<StationViewModel> stations, string substring)
     {
         stations.Clear();
-        foreach (var item in _stations.Where(o => o.Name.ToLower().Contains(substring.ToLower())
-                                                  || o.Address.ToLower().Contains(substring.ToLower())))
+        foreach (StationViewModel? item in _stations.Where(o => o.Name.ToLower().Contains(substring.ToLower())
+                                                                || o.Address.ToLower().Contains(substring.ToLower())))
         {
             stations.Add(item);
         }

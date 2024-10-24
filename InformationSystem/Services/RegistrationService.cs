@@ -23,7 +23,7 @@ public class RegistrationService
     {
         bool isExist = false;
 
-        using (var context = _contextFactory.CreateDbContext())
+        using (DomainContext? context = _contextFactory.CreateDbContext())
         {
             isExist = context.Accounts.FirstOrDefault(a => a.Username == username) is not null;
         }

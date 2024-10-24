@@ -9,7 +9,7 @@ internal class MultiBoolConverter : IMultiValueConverter
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
         bool result = true;
-        foreach (var item in values)
+        foreach (object? item in values)
         {
             result &= !(bool)item;
         }

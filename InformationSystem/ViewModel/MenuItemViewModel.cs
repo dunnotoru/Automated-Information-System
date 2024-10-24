@@ -11,14 +11,14 @@ internal class MenuItemViewModel : ViewModelBase
     private string _name;
     private readonly Func<ViewModelBase>? _getViewModel;
         
-    public event EventHandler<Func<ViewModelBase>> ViewModelChanged;
+    public event EventHandler<Func<ViewModelBase>>? ViewModelChanged;
         
-    public bool isReadRequired { get; }
-    public bool isWriteRequired { get; }
-    public bool isDeleteRequired { get; }
-    public bool isEditRequired { get; }
+    public bool IsReadRequired { get; }
+    public bool IsWriteRequired { get; }
+    public bool IsDeleteRequired { get; }
+    public bool IsEditRequired { get; }
 
-    public bool Visible { get => !isReadRequired; }
+    public bool Visible => !IsReadRequired;
 
     public ObservableCollection<MenuItemViewModel> Items { get; set; }
 
@@ -26,20 +26,20 @@ internal class MenuItemViewModel : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(subItems);
         Items = new ObservableCollection<MenuItemViewModel>();
-        foreach (var item in subItems)
+        _name = name;
+        foreach (MenuItemViewModel item in subItems)
         {
             item.ViewModelChanged += OnViewModelChanged;
             Items.Add(item);
         }
 
-        Name = name;
-        isReadRequired = false;
-        isWriteRequired = false;
-        isEditRequired = false;
-        isDeleteRequired = false;
+        IsReadRequired = false;
+        IsWriteRequired = false;
+        IsEditRequired = false;
+        IsDeleteRequired = false;
     }
 
-    private void OnViewModelChanged(object sender, Func<ViewModelBase> e)
+    private void OnViewModelChanged(object? sender, Func<ViewModelBase> e)
     {
         ViewModelChanged?.Invoke(sender, e);
     }
@@ -48,12 +48,12 @@ internal class MenuItemViewModel : ViewModelBase
     {
         Items = new ObservableCollection<MenuItemViewModel>();
         _getViewModel = getViewModel;
-        Name = name;
+        _name = name;
 
-        isReadRequired = false;
-        isWriteRequired = false;
-        isEditRequired = false;
-        isDeleteRequired = false;
+        IsReadRequired = false;
+        IsWriteRequired = false;
+        IsEditRequired = false;
+        IsDeleteRequired = false;
     }
 
     public ICommand MenuItemCommand

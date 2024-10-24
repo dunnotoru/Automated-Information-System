@@ -17,7 +17,7 @@ public class ReceiptFormatter : IDocumentFormatter<Receipt>
         sb.AppendLine($"Время: {document.OperationDateTime}");
         sb.AppendLine($"Кассир: {document.CashierName}");
         sb.AppendLine($"Товар Цена Кол-во Стоимость");
-        foreach (var item in document.ReceiptLines)
+        foreach (ReceiptLine? item in document.ReceiptLines)
         {
             sb.AppendLine($"{item.Header}  {item.Price}  {item.Count}  {item.FullPrice}");
         }

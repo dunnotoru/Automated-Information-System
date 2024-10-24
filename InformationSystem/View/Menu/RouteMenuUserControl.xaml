@@ -13,29 +13,31 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="179*"/>
-            <ColumnDefinition Width="123*"/>
-            <ColumnDefinition Width="498*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="Маршруты" Padding="10"
-               VerticalAlignment="Top" HorizontalAlignment="Center"/>
-        <DataGrid ItemsSource="{Binding Items}" Margin="10,45,10,10"
-                  SelectedItem="{Binding SelectedItem}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="auto"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="auto"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="50">
-            <Button Content="Добавить" 
+        <DockPanel >
+            <Label DockPanel.Dock="Top" Content="Маршруты" Padding="10"
+                   VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Button DockPanel.Dock="Bottom"
+                    Content="Добавить" 
                     Margin="10"
-                    Height="30"
+                    MaxHeight="50" MinHeight="30"
+                    MinWidth="50" MaxWidth="500"
                     Command="{Binding AddCommand}"/>
-        </StackPanel>
-
-        <GroupBox  Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
+            <DataGrid ItemsSource="{Binding Items}" 
+                      SelectedItem="{Binding SelectedItem}"
+                      SelectionMode="Single"
+                      Margin="10"
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="auto"/>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="auto"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+        <GroupBox Grid.Column="1" IsEnabled="{Binding IsRedactingEnabled}">
             <Grid DataContext="{Binding SelectedItem}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="246*"/>
@@ -46,58 +48,85 @@
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Margin="10 10 10 10" Grid.Column="0" >
-                    <Label Padding="10" Content="Id" />
-                    <TextBlock Margin="10"
-                             Text="{Binding Id}"/>
-
-                    <TextBlock Padding="5" Text="Все станции"/>
-                        <ListView Margin="10" ItemsSource="{Binding StationItems}"
-                                  SelectedItem="{Binding SelectedStation}" SelectionMode="Single"
-                                  Height="300">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Name}"></TextBlock>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
+                <DockPanel Margin="10" Grid.Column="0" >
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label DockPanel.Dock="Left" Padding="10" Content="Id" />
+                        <TextBlock MinWidth="50" Text="{Binding Id}"/>
+                    </DockPanel>
+                    <Button DockPanel.Dock="Bottom"
+                            Content="+"
+                            MinWidth="20" MaxWidth="50"
+                            MinHeight="20" MaxHeight="50"
+                            HorizontalAlignment="Center"
+                            Command="{Binding StationSelectionViewModel.UseStationCommand}"
+                            />
+                    <DockPanel>
+                        <Label DockPanel.Dock="Top" Padding="5" Content="Все станции"/>
+                        <ListView Margin="10"
+                                  ItemsSource="{Binding StationSelectionViewModel.AllStations}"
+                                  SelectedItem="{Binding StationSelectionViewModel.SelectedStationFromAll}"
+                                  SelectionMode="Single">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Width="auto" Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
+                                </GridView>
+                            </ListView.View>
                         </ListView>
-                        <Button Content="+"
-                                HorizontalAlignment="Center"/>
+                    </DockPanel>
+                </DockPanel>
 
-                </StackPanel>
-
-                <StackPanel Margin="10,10,10,10" Grid.Column="1">
-                    <TextBlock Padding="5" Text="Название"/>
-                    <TextBox Margin="10" x:Name="NameTextBox">
-                        <TextBox.Text>
-                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validationRules:NotEmptyValidationRule/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-
-                    <TextBlock Padding="5" Text="Станции в этом маршурте"/>
-                    <ListView Margin="10" ItemsSource="{Binding StationItems}" VerticalAlignment="Stretch"
-                              SelectionMode="Single" SelectedItem="{Binding SelectedStation}"
-                              Height="300">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
-                                <GridViewColumn Width="auto" Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Margin="5" Content="-"/>
-                        <Button Margin="5" Content="Up"/>
-                        <Button Margin="5" Content="Down"/>
+                <DockPanel Grid.Row="0" Margin="10" Grid.Column="1">
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label DockPanel.Dock="Left" Padding="10" Content="Название" Target="NameTextBox"/>
+                        <TextBox Margin="10" x:Name="NameTextBox">
+                            <TextBox.Text>
+                                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <validationRules:NotEmptyValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </DockPanel>
+                    <StackPanel DockPanel.Dock="Bottom" 
+                        Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Margin="5 0" Content="-"
+                                MinWidth="20" MaxWidth="50"
+                                MinHeight="20" MaxHeight="50"
+                                Command="{Binding StationSelectionViewModel.FreeStationCommand}"
+                                />
+                        <Button Margin="5 0" Content="Up"
+                                Command="{Binding StationSelectionViewModel.MoveUpCommand}"
+                                />
+                        <Button Margin="5 0" Content="Down"
+                                Command="{Binding StationSelectionViewModel.MoveDownCommand}"
+                                />
                     </StackPanel>
-                </StackPanel>
+                    <DockPanel>
+                        <Label DockPanel.Dock="Top" Padding="5" Content="Станции в этом маршурте"/>
+                        <ListView Margin="10" 
+                                  ItemsSource="{Binding StationSelectionViewModel.UsedStations}" 
+                                  SelectedItem="{Binding StationSelectionViewModel.SelectedStationFromUsed}"
+                                  SelectionMode="Single">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="auto" Header="Название" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Width="auto" Header="Адрес" DisplayMemberBinding="{Binding Address}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </DockPanel>
 
-                <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}">
+                </DockPanel>
+
+                <Button Grid.Column="0" Grid.Row="1"
+                        Command="{Binding SaveCommand}"
+                        Margin="10" 
+                        Content="Сохранить" 
+                        MinWidth="50" MaxWidth="200"
+                        MinHeight="20" MaxHeight="100"
+                        >
                     <Button.IsEnabled>
                         <MultiBinding>
                             <MultiBinding.Converter>
@@ -109,8 +138,13 @@
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
-                <Button Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" Content="Удалить" Command="{Binding RemoveCommand}"/>
-
+                <Button Grid.Column="1" Grid.Row="1" 
+                        Margin="10"
+                        Content="Удалить"
+                        Command="{Binding RemoveCommand}"
+                        MinWidth="50" MaxWidth="200"
+                        MinHeight="20" MaxHeight="100"
+                        />
             </Grid>
         </GroupBox>
     </Grid>

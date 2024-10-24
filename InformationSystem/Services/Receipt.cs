@@ -16,7 +16,7 @@ public class Receipt
         get
         {
             int result = 0;
-            foreach (var line in ReceiptLines)
+            foreach (ReceiptLine? line in ReceiptLines)
                 result += line.FullPrice;
             return result;
         }
