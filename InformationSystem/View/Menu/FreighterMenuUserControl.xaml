@@ -5,38 +5,42 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:validationRules="clr-namespace:InformationSystem.View.ValidationRules"
              xmlns:converters="clr-namespace:InformationSystem.Converters"
-             xmlns:menu="clr-namespace:InformationSystem.View.Menu"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="181*"/>
-            <ColumnDefinition Width="57*"/>
-            <ColumnDefinition Width="130*"/>
-            <ColumnDefinition Width="32*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Label Content="Фрахтовщики" Padding="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-            <DataGrid Margin="10,40,10,10"
-                  ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="auto"/>
-                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="auto"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="46">
-            <Button Content="Добавить" Command="{Binding AddCommand}" Margin="10" Height="25"/>
-        </StackPanel>
-
-        <Border Margin="10,10,10,10" IsEnabled="{Binding IsRedactingEnabled}" 
-            Grid.Column="2" BorderBrush="Gray" BorderThickness="1">
+        <DockPanel>
+            <Button DockPanel.Dock="Bottom"
+                    Content="Добавить"
+                    Command="{Binding AddCommand}"
+                    Margin="10"
+                    Height="25"/>
+            <DockPanel>
+                <Label DockPanel.Dock="Top"
+                       Content="Фрахтовщики"
+                       HorizontalAlignment="Center"/>
+                <DataGrid Margin="10"
+                      ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="auto"/>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+        <GroupBox Margin="10" Grid.Column="1"
+                  IsEnabled="{Binding IsRedactingEnabled}">
             <StackPanel DataContext="{Binding SelectedItem}">
-                <Label Content="Id"/>
-                <TextBlock Text="{Binding Id}" Margin="10"/>
+                <DockPanel>
+                    <Label DockPanel.Dock="Left" Content="Id"/>
+                    <TextBlock Text="{Binding Id}"/>
+                </DockPanel>
                 <Label Content="Название"/>
-                <TextBox Margin="10" x:Name="TextBoxName">
+                <TextBox Margin="10 0" x:Name="TextBoxName">
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -57,8 +61,10 @@
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
-                <Button Content="Удалить" Command="{Binding RemoveCommand}" Margin="10"/>
+                <Button Content="Удалить"
+                        Command="{Binding RemoveCommand}" 
+                        Margin="10"/>
             </StackPanel>
-        </Border>
+        </GroupBox>
     </Grid>
 </UserControl>

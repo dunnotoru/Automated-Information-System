@@ -9,34 +9,34 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="171*"/>
-            <ColumnDefinition Width="101*"/>
-            <ColumnDefinition Width="192*"/>
-            <ColumnDefinition Width="336*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Label Content="Типы ремонта" VerticalAlignment="Top" HorizontalAlignment="Center"
-                   Padding="10"/>
-            <DataGrid Margin="10,45,10,10"
-                  ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-                    <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="46">
-            <Button Content="Добавить" Command="{Binding AddCommand}" Margin="10" Height="25"/>
-        </StackPanel>
+        <DockPanel>
+            <Button DockPanel.Dock="Bottom" Content="Добавить" Command="{Binding AddCommand}" Margin="10" Height="25"/>
+            <DockPanel>
+                <Label DockPanel.Dock="Top" Content="Типы ремонта" VerticalAlignment="Top" HorizontalAlignment="Center"
+                       Padding="10"/>
+                <DataGrid Margin="10"
+                      ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
 
-        <Border Margin="10,10,10,10" IsEnabled="{Binding IsRedactingEnabled}" 
-            Grid.Column="2" BorderBrush="Gray" BorderThickness="1">
+        <GroupBox Margin="10" IsEnabled="{Binding IsRedactingEnabled}" 
+            Grid.Column="1">
             <StackPanel DataContext="{Binding SelectedItem}">
-                <Label Content="Id"/>
-                <TextBlock Text="{Binding Id}" Margin="10"/>
-                <Label Content="Название"/>
-                <TextBox x:Name="TextBoxName" Margin="10">
+                <DockPanel>
+                    <Label DockPanel.Dock="Left" Content="Id"/>
+                    <TextBlock Text="{Binding Id}" Margin="10"/>
+                </DockPanel>
+                <Label Target="TextBoxName" Content="Название"/>
+                <TextBox x:Name="TextBoxName" Margin="10 0">
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -59,6 +59,6 @@
                 </Button>
                 <Button Content="Удалить" Command="{Binding RemoveCommand}" Margin="10"/>
             </StackPanel>
-        </Border>
+        </GroupBox>
     </Grid>
 </UserControl>

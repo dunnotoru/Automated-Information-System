@@ -17,37 +17,51 @@
     
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="251*"/>
-            <ColumnDefinition Width="116*"/>
-            <ColumnDefinition Width="161*"/>
-            <ColumnDefinition Width="272*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="Рейсы" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10"/>
-        <DataGrid Margin="10,45,10,10" ItemsSource="{Binding Runs}" SelectedItem="{Binding SelectedRun}">
+        <DockPanel>
+            <Button DockPanel.Dock="Bottom"
+                Content="Добавить" 
+                Margin="10" Grid.Column="1"
+                Height="30"
+                Command="{Binding AddCommand}"/>
+            <DockPanel>
+                <Label DockPanel.Dock="Top" Content="Рейсы" HorizontalAlignment="Center"/>
+                <DataGrid Margin="10" 
+                          ItemsSource="{Binding Runs}" 
+                          SelectedItem="{Binding SelectedRun}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Width="auto" Header="Номер" Binding="{Binding Number}"/>
+                        <DataGridTextColumn Width="auto" Header="Маршрут" Binding="{Binding SelectedRoute.Name}"/>
+                        <DataGridTextColumn Width="auto" Header="Переодичность" Binding="{Binding Periodity}"/>
+                        <DataGridTextColumn Width="auto" Header="Транспорт" Binding="{Binding SelectedVehicle.LicensePlateNumber}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+
+        <DataGrid Grid.Column="1" Margin="10" DataContext="{Binding SelectedRun}"
+                  ItemsSource="{Binding Routes}" 
+                  SelectedItem="{Binding SelectedRoute}"
+                  SelectionMode="Single"
+                  >
             <DataGrid.Columns>
                 <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
-                <DataGridTextColumn Width="auto" Header="Номер" Binding="{Binding Number}"/>
-                <DataGridTextColumn Width="auto" Header="Маршрут" Binding="{Binding SelectedRoute.Name}"/>
-                <DataGridTextColumn Width="auto" Header="Переодичность" Binding="{Binding Periodity}"/>
-                <DataGridTextColumn Width="auto" Header="Транспорт" Binding="{Binding SelectedVehicle.LicensePlateNumber}"/>
+                <DataGridTextColumn Width="auto" Header="Название" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="50">
-            <Button Content="Добавить" 
-            Margin="10" Grid.Column="1"
-            Height="30"
-            Command="{Binding AddCommand}"/>
-        </StackPanel>
-
-
-        <GroupBox Grid.Column="3" IsEnabled="{Binding IsRedactingEnabled}">
+        
+        <GroupBox Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
             <ScrollViewer>
                 <StackPanel DataContext="{Binding SelectedRun}" Margin="10 10 10 10">
-                    <Label Content="Id"/>
-                    <TextBlock Text="{Binding Id}"/>
-
+                    <DockPanel>
+                        <Label DockPanel.Dock="Left" Content="Id"/>
+                        <TextBlock Text="{Binding Id}"/>
+                    </DockPanel>
                     <Label Content="Номер"/>
                     <TextBox x:Name="NumberTextBox">
                         <TextBox.Text>
@@ -58,11 +72,6 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-
-                   
-                    <Label Content="Маршрут" />
-                    <TextBlock Text="{Binding SelectedRoute.Name}"/>
-
                     <Label Content="Переодичность в минутах"/>
                     <TextBox Name="PeriodityTextBox"
                         PreviewTextInput="NumberPreviewTextInput">
@@ -74,11 +83,9 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-
                     <Label Content="Дата отправления"/>
                     <DatePicker SelectedDate="{Binding DepartureDateTime, StringFormat='{}{0:dd.MM.yyyy в hh:mm}'}"
                                 DisplayDateStart="{x:Static sys:DateTime.Now}"/>
-
                     <Label Content="Время отправления"/>
                     <TextBox x:Name="DepartureTimeTextBox"
                         PreviewTextInput="TextBox_PreviewTextInput">
@@ -91,7 +98,6 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-
                     <Label Content="Время прибытия"/>
                     <TextBlock Text="{Binding EstimatedArrivalDateTime, StringFormat='{}{0:dd.MM.yyyy в HH:mm}'}"/>
 
@@ -105,7 +111,8 @@
                               SelectedItem="{Binding SelectedDriver}"
                               DisplayMemberPath="FullName"/>
 
-                    <Button Grid.Row="1" Margin="10 10 10 10" Content="Сохранить" Command="{Binding SaveCommand}">
+                    <Button Margin="10" 
+                            Content="Сохранить" Command="{Binding SaveCommand}">
                         <Button.IsEnabled>
                             <MultiBinding>
                                 <MultiBinding.Converter>
@@ -119,17 +126,10 @@
                             </MultiBinding>
                         </Button.IsEnabled>
                     </Button>
-                    <Button Grid.Column="1" Grid.Row="1" Margin="10 10 10 10" Content="Удалить" Command="{Binding RemoveCommand}"/>
+                    <Button Margin="10 10 10 10" Content="Удалить" Command="{Binding RemoveCommand}"/>
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>
 
-        <DataGrid Grid.Column="2" Margin="10,10,10,10" DataContext="{Binding SelectedRun}"
-                  ItemsSource="{Binding Routes}" SelectedItem="{Binding SelectedRoute}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="auto" Header="Id" Binding="{Binding Id}"/>
-                <DataGridTextColumn Width="auto" Header="Название" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
     </Grid>
 </UserControl>

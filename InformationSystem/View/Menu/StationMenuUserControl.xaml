@@ -13,37 +13,39 @@
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="419*" MinWidth="50"/>
-            <ColumnDefinition Width="142*" MinWidth="50"/>
-            <ColumnDefinition Width="236*" MinWidth="130"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="6*" MinWidth="50"/>
+            <ColumnDefinition Width="5*" MinWidth="50"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="Станции" HorizontalAlignment="Center" VerticalAlignment="Top"
-               Padding="10" Height="43" Width="86"/>
-        <DataGrid ItemsSource="{Binding Items}" Margin="10,45,10,10"
-                  SelectedItem="{Binding SelectedItem}">
-            <DataGrid.Columns>
-                <DataGridTextColumn CanUserResize="False" Header="Id" Width="auto" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Адрес" Width="auto" Binding="{Binding Address}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="46">
-            <Button Content="Добавить" 
+        <DockPanel>
+            <Button DockPanel.Dock="Bottom"
+                    Content="Добавить" 
                     Margin="10"
                     Height="30"
                     Command="{Binding AddCommand}"/>
-        </StackPanel>
+            <DockPanel>
+                <Label DockPanel.Dock="Top" 
+                       Content="Станции" HorizontalAlignment="Center"
+                       Height="43" Width="86"/>
+                <DataGrid ItemsSource="{Binding Items}" Margin="10"
+                          SelectedItem="{Binding SelectedItem}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn CanUserResize="False" Header="Id" Width="auto" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Адрес" Width="auto" Binding="{Binding Address}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
 
-        <StackPanel Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
-            <StackPanel DataContext="{Binding SelectedItem}" Grid.Column="2" Margin="10,10,10,10">
-                <Label Margin="10" Content="Id"/>
-                <TextBlock Margin="10"  Text="{Binding Id}"/>
-
-                <Label Margin="10" Content="Название"/>
-                <TextBox Margin="10" x:Name="NameTextBox">
+        <GroupBox Grid.Column="1" IsEnabled="{Binding IsRedactingEnabled}">
+            <StackPanel DataContext="{Binding SelectedItem}" Margin="10">
+                <DockPanel>
+                    <Label DockPanel.Dock="Left" Content="Id"/>
+                    <TextBlock Text="{Binding Id}"/>
+                </DockPanel>
+                <Label Content="Название"/>
+                <TextBox x:Name="NameTextBox">
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -53,8 +55,8 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <Label Margin="10" Content="Адрес"/>
-                <TextBox Margin="10" x:Name="AddressTextBox">
+                <Label Content="Адрес"/>
+                <TextBox x:Name="AddressTextBox">
                     <TextBox.Text>
                         <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -85,6 +87,6 @@
                         Margin="10"
                         Command="{Binding RemoveCommand}"/>
             </StackPanel>
-        </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>

@@ -14,46 +14,41 @@
     </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="377*" MinWidth="50"/>
-            <ColumnDefinition Width="123*" MinWidth="50"/>
-            <ColumnDefinition Width="297*"/>
+            <ColumnDefinition Width="6*" MinWidth="50"/>
+            <ColumnDefinition Width="4*" MinWidth="50"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Padding="10" Content="Транспорт" VerticalAlignment="Top"
-               HorizontalAlignment="Center"/>
-        <DataGrid ItemsSource="{Binding Items}" Margin="10,45,10,10"
-          SelectedItem="{Binding SelectedItem}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Государственный номер" Width="auto" Binding="{Binding LicensePlateNumber}"/>
-                <DataGridTextColumn Header="Марка" Width="auto" Binding="{Binding SelectedVehicleModel.BrandName, FallbackValue='-'}" />
-                <DataGridTextColumn Header="Модель" Width="auto" Binding="{Binding SelectedVehicleModel.Name, FallbackValue='-'}"/>
-                <DataGridTextColumn Header="Вместимость" Width="auto" Binding="{Binding SelectedVehicleModel.Capacity, FallbackValue='-'}"/>
-                <DataGridTextColumn Header="Дата производства" Width="auto" Binding="{Binding Manufacture}"/>
-                <DataGridTextColumn Header="Дата последнего ремонта" Width="auto" Binding="{Binding LastRepair}"/>
-                <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding SelectedRepairType.Name, FallbackValue='-'}"/>
-                <DataGridTextColumn Header="Прогон" Width="auto" Binding="{Binding Mileage}"/>
-                <DataGridTextColumn Header="Фото" Width="auto" Binding="{Binding Photography}"/>
-                <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding SelectedFreighter.Name, FallbackValue='-'}"/>
-                <DataGridTextColumn Header="Номер страховки" Width="auto" Binding="{Binding InsuranceDetails}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="50" >
-            <Button Content="Добавить" 
-            Margin="10" Grid.Column="1"
-            Height="30"
-            Command="{Binding AddCommand}"/>
-        </StackPanel>
-
-        <Grid Grid.Column="2" IsEnabled="{Binding IsRedactingEnabled}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="23*"/>
-                <ColumnDefinition Width="25*"/>
-            </Grid.ColumnDefinitions>
-
-            
-            <GroupBox Grid.Column="0" Margin="2,2,2,2" Header="Модель">
+        <DockPanel>
+            <Button Content="Добавить"
+                    DockPanel.Dock="Bottom"
+                    Margin="10"
+                    Height="30"
+                    Command="{Binding AddCommand}"/>
+            <DockPanel>
+                <Label DockPanel.Dock="Top" 
+                       Content="Транспорт" VerticalAlignment="Top"
+                       HorizontalAlignment="Center"/>
+                <DataGrid ItemsSource="{Binding Items}" Margin="10"
+                          SelectedItem="{Binding SelectedItem}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Государственный номер" Width="auto" Binding="{Binding LicensePlateNumber}"/>
+                        <DataGridTextColumn Header="Марка" Width="auto" Binding="{Binding SelectedVehicleModel.BrandName, FallbackValue='-'}" />
+                        <DataGridTextColumn Header="Модель" Width="auto" Binding="{Binding SelectedVehicleModel.Name, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Вместимость" Width="auto" Binding="{Binding SelectedVehicleModel.Capacity, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Дата производства" Width="auto" Binding="{Binding Manufacture}"/>
+                        <DataGridTextColumn Header="Дата последнего ремонта" Width="auto" Binding="{Binding LastRepair}"/>
+                        <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding SelectedRepairType.Name, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Прогон" Width="auto" Binding="{Binding Mileage}"/>
+                        <DataGridTextColumn Header="Фото" Width="auto" Binding="{Binding Photography}"/>
+                        <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding SelectedFreighter.Name, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Номер страховки" Width="auto" Binding="{Binding InsuranceDetails}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+            <GroupBox Grid.Column="1" Margin="10" Header="Модель">
                 <Grid Margin="1" DataContext="{Binding SelectedItem}">
                     <DataGrid IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False"
                               ItemsSource="{Binding VehicleModelItems}" SelectedItem="{Binding SelectedVehicleModel}">
@@ -67,22 +62,24 @@
                 </Grid>
             </GroupBox>
 
-            <ScrollViewer Grid.Column="1">
-                <StackPanel DataContext="{Binding SelectedItem}" Grid.Column="2" Margin="10 10 10 10">
-                    <Label Margin="5" Content="Id"/>
-                    <TextBox Margin="5" Text="{Binding Id, Mode=OneWay}" IsReadOnly="True"/>
+            <ScrollViewer Grid.Column="2">
+                <StackPanel DataContext="{Binding SelectedItem}" Margin="10">
+                    <DockPanel>
+                        <Label DockPanel.Dock="Left" Margin="5" Content="Id"/>
+                        <TextBox Text="{Binding Id}"/>
+                    </DockPanel>
 
-                    <Label Margin="5" Content="Марка"/>
-                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.BrandName, FallbackValue='-'}"/>
+                    <Label Content="Марка"/>
+                    <TextBlock Text="{Binding SelectedVehicleModel.BrandName, FallbackValue='-'}"/>
 
-                    <Label Margin="5" Content="Модель"/>
-                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.Name, FallbackValue='-'}"/>
+                    <Label Content="Модель"/>
+                    <TextBlock Text="{Binding SelectedVehicleModel.Name, FallbackValue='-'}"/>
 
-                    <Label Margin="5" Content="Вместимость"/>
-                    <TextBlock Margin="5"  Text="{Binding SelectedVehicleModel.Capacity, FallbackValue='-'}"/>
+                    <Label Content="Вместимость"/>
+                    <TextBlock Text="{Binding SelectedVehicleModel.Capacity, FallbackValue='-'}"/>
 
-                    <Label Margin="5" Content="Гос. номер"/>
-                    <TextBox x:Name="LicensePlateNumberTextBox" Margin="5">
+                    <Label Content="Гос. номер"/>
+                    <TextBox x:Name="LicensePlateNumberTextBox">
                         <TextBox.Text>
                             <Binding Path="LicensePlateNumber" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -92,27 +89,27 @@
                         </TextBox.Text>
                     </TextBox>
 
-                    <Label Margin="5" Content="Дата производства"/>
-                    <DatePicker Margin="5" SelectedDate="{Binding Manufacture}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
+                    <Label  Content="Дата производства"/>
+                    <DatePicker  SelectedDate="{Binding Manufacture}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
 
-                    <Label Margin="5" Content="Дата последнего ремонта"/>
-                    <DatePicker Margin="5"  SelectedDate="{Binding LastRepair}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
+                    <Label  Content="Дата последнего ремонта"/>
+                    <DatePicker   SelectedDate="{Binding LastRepair}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
 
-                    <Label Margin="5" Content="Тип последнего ремонта"/>
-                    <ComboBox Margin="5" ItemsSource="{Binding RepairTypeItems}" SelectedItem="{Binding SelectedRepairType}"
+                    <Label  Content="Тип последнего ремонта"/>
+                    <ComboBox  ItemsSource="{Binding RepairTypeItems}" SelectedItem="{Binding SelectedRepairType}"
                               DisplayMemberPath="Name"/>
 
-                    <Label Margin="5" Content="Прогон"/>
-                    <TextBox x:Name="MileageTextBox" Margin="5" Text="{Binding Mileage}" PreviewTextInput="NumberPreviewTextInput"/>
+                    <Label  Content="Прогон"/>
+                    <TextBox x:Name="MileageTextBox"  Text="{Binding Mileage}" PreviewTextInput="NumberPreviewTextInput"/>
 
-                    <Label Margin="5" Content="Фото"/>
-                    <TextBox Margin="5" Text="{Binding Photography}"/>
+                    <Label  Content="Фото"/>
+                    <TextBox  Text="{Binding Photography}"/>
 
-                    <Label Margin="5" Content="Фрахтовщик"/>
-                    <ComboBox Margin="5" Text="{Binding SelectedFreighter.Name, FallbackValue='-'}" ItemsSource="{Binding FreighterItems}"
+                    <Label  Content="Фрахтовщик"/>
+                    <ComboBox  Text="{Binding SelectedFreighter.Name, FallbackValue='-'}" ItemsSource="{Binding FreighterItems}"
                               SelectedItem="{Binding SelectedFreighter, FallbackValue='-'}" DisplayMemberPath="Name"/>
 
-                    <Label Margin="5" Content="Номер страховки"/>
+                    <Label  Content="Номер страховки"/>
                     <TextBox x:Name="InsuranceNumber" Margin="5">
                         <TextBox.Text>
                             <Binding Path="InsuranceDetails" UpdateSourceTrigger="PropertyChanged">
@@ -142,5 +139,4 @@
             </ScrollViewer>
 
         </Grid>
-    </Grid>
 </UserControl>

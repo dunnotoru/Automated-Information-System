@@ -11,37 +11,44 @@
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=menu:VehicleModelMenuViewModel}">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="245*"/>
-            <ColumnDefinition Width="102*"/>
-            <ColumnDefinition Width="324*"/>
-            <ColumnDefinition Width="129*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Label Content="Модели транспорта" Padding="10"
-                   VerticalAlignment="Top" HorizontalAlignment="Center"/>
-            <DataGrid Margin="10,45,10,10"
-                      ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
-                    <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Марка" Binding="{Binding SelectedBrand.Id}"/>
-                    <DataGridTextColumn Header="Вместимость" Binding="{Binding Capacity}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="46">
-            <Button Content="Добавить" Command="{Binding AddCommand}" Margin="10" Height="25"/>
-        </StackPanel>
+        <DockPanel>
+            <Button DockPanel.Dock="Bottom" 
+                    Content="Добавить"
+                    Margin="10"
+                    Command="{Binding AddCommand}"/>
+            <DockPanel>
+                <Label DockPanel.Dock="Top" Content="Модели транспорта"
+                       HorizontalAlignment="Center"/>
+                <DataGrid Margin="10"
+                          ItemsSource="{Binding Items}" 
+                          SelectedItem="{Binding SelectedItem}"
+                          SelectionMode="Single"
+                          >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Марка" Binding="{Binding SelectedBrand.Id, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Вместимость" Binding="{Binding Capacity}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
 
-        <Border Margin="10,10,10,10" IsEnabled="{Binding IsRedactingEnabled}" 
-                Grid.Column="2" BorderBrush="Gray" BorderThickness="1">
+        <GroupBox Margin="10"
+                  IsEnabled="{Binding IsRedactingEnabled}" 
+                Grid.Column="1">
             <StackPanel DataContext="{Binding SelectedItem}">
-                <Label Content="Id"/>
-                <TextBlock Text="{Binding Id}" Margin="10"/>
+                <DockPanel>
+                    <Label DockPanel.Dock="Left" Content="Id"/>
+                    <TextBlock Text="{Binding Id}"/>
+                </DockPanel>
 
                 <Label Content="Название"/>
-                <TextBox x:Name="TextBoxName" Margin="10">
+                <TextBox x:Name="TextBoxName">
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -52,11 +59,12 @@
                 </TextBox>
 
                 <Label Content="Марка"/>
-                <ComboBox ItemsSource="{Binding BrandViewModels}" SelectedItem="{Binding SelectedBrand}" Margin="10"
+                <ComboBox ItemsSource="{Binding BrandViewModels}"
+                          SelectedItem="{Binding SelectedBrand}"
                           DisplayMemberPath="Name"/>
 
                 <Label Content="Вместимость (Кол-во человек)"/>
-                <TextBox PreviewTextInput="NumberTextBoxPreviewInput"  Margin="10">
+                <TextBox PreviewTextInput="NumberTextBoxPreviewInput">
                     <TextBox.Text>
                         <Binding Path="Capacity" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -80,6 +88,6 @@
                 </Button>
                 <Button Content="Удалить" Command="{Binding RemoveCommand}" Margin="10"/>
             </StackPanel>
-        </Border>
+        </GroupBox>
     </Grid>
 </UserControl>
