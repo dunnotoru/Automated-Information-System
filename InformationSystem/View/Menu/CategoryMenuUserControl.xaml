@@ -5,44 +5,47 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:validationRules="clr-namespace:InformationSystem.View.ValidationRules"
              xmlns:converters="clr-namespace:InformationSystem.Converters"
-             xmlns:menu="clr-namespace:InformationSystem.View.Menu"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="221*" MinWidth="50"/>
-            <ColumnDefinition Width="105*" MinWidth="50"/>
-            <ColumnDefinition Width="210*" MinWidth="130"/>
-            <ColumnDefinition Width="264*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Label Content="Справочник категорий" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10"/>
-            <DataGrid ItemsSource="{Binding Items}" Grid.Column="0" Margin="10,40,10,10"
-                  SelectedItem="{Binding SelectedItem}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn CanUserResize="False" Header="Id" Width="auto" Binding="{Binding Id}"/>
-                    <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding Name}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="46">
-            <Button Content="Добавить" 
+        <DockPanel>
+            <Button DockPanel.Dock="Bottom" 
+                Content="Добавить" 
                 Margin="10"
                 Height="30"
                 Command="{Binding AddCommand}"/>
-        </StackPanel>
+            <DockPanel>
+                <Label DockPanel.Dock="Top"
+                    Content="Справочник категорий" 
+                    HorizontalAlignment="Center"/>
+                <DataGrid ItemsSource="{Binding Items}" Margin="10"
+                      SelectedItem="{Binding SelectedItem}"
+                      SelectionMode="Single"
+                      >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn CanUserResize="False" Header="Id" Width="auto" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding Name}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+        <GroupBox Grid.Column="1" 
+                  Margin="10"
+                  IsEnabled="{Binding IsRedactingEnabled}">
+            <StackPanel DataContext="{Binding SelectedItem}" 
+                        Margin="10">
+                <DockPanel>
+                    <Label DockPanel.Dock="Left" Content="Id"/>
+                    <TextBlock Margin="10"  Text="{Binding Id}"/>
+                </DockPanel>
 
-        <Border Grid.Column="2" Margin="10"
-                BorderBrush="Gray" BorderThickness="1" IsEnabled="{Binding IsRedactingEnabled}">
-            <StackPanel DataContext="{Binding SelectedItem}" Grid.Column="2" Margin="10,10,10,10">
-                
-                <Label Margin="10" Content="Id"/>
-                <TextBlock Margin="10"  Text="{Binding Id}"/>
-
-                <Label Margin="10" Content="Название"/>
-                <TextBox x:Name="TextBoxName" Margin="10" >
+                <Label Target="TextBoxName" Content="Название"/>
+                <TextBox x:Name="TextBoxName" Margin="10 0">
                     <TextBox.Text>
                         <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -66,11 +69,10 @@
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
-
                 <Button Content="Удалить"
                     Margin="10"
                     Command="{Binding RemoveCommand}"/>
             </StackPanel>
-        </Border>
+        </GroupBox>
     </Grid>
 </UserControl>
