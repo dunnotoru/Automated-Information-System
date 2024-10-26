@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="InformationSystem.View.Menu.VehicleFormUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:menu="clr-namespace:InformationSystem.ViewModel.Menu"
+             xmlns:converters="clr-namespace:InformationSystem.Converters"
+             xmlns:validationRules="clr-namespace:InformationSystem.View.ValidationRules"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance menu:VehicleMenuViewModel }">
+    <UserControl.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverterKey"/>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*" MinWidth="50"/>
+            <ColumnDefinition Width="4*" MinWidth="50"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel>
+            <Button Content="Добавить"
+                    DockPanel.Dock="Bottom"
+                    Margin="10"
+                    Height="30"
+                    Command="{Binding AddCommand}"/>
+            <DockPanel>
+                <Label DockPanel.Dock="Top" 
+                       Content="Транспорт" VerticalAlignment="Top"
+                       HorizontalAlignment="Center"/>
+                <DataGrid ItemsSource="{Binding Items}" Margin="10"
+                          SelectedItem="{Binding SelectedItem}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Width="auto" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Государственный номер" Width="auto" Binding="{Binding LicensePlateNumber}"/>
+                        <DataGridTextColumn Header="Марка" Width="auto" Binding="{Binding SelectedVehicleModel.BrandName, FallbackValue='-'}" />
+                        <DataGridTextColumn Header="Модель" Width="auto" Binding="{Binding SelectedVehicleModel.Name, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Вместимость" Width="auto" Binding="{Binding SelectedVehicleModel.Capacity, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Дата производства" Width="auto" Binding="{Binding Manufacture}"/>
+                        <DataGridTextColumn Header="Дата последнего ремонта" Width="auto" Binding="{Binding LastRepair}"/>
+                        <DataGridTextColumn Header="Тип последнего ремонта" Width="auto" Binding="{Binding SelectedRepairType.Name, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Прогон" Width="auto" Binding="{Binding Mileage}"/>
+                        <DataGridTextColumn Header="Фото" Width="auto" Binding="{Binding Photography}"/>
+                        <DataGridTextColumn Header="Фрахтовщик" Width="auto" Binding="{Binding SelectedFreighter.Name, FallbackValue='-'}"/>
+                        <DataGridTextColumn Header="Номер страховки" Width="auto" Binding="{Binding InsuranceDetails}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+            <GroupBox Grid.Column="1" Margin="10" Header="Модель">
+                <Grid Margin="1" DataContext="{Binding SelectedItem}">
+                    <DataGrid IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False"
+                              ItemsSource="{Binding VehicleModelItems}" SelectedItem="{Binding SelectedVehicleModel}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Марка" Binding="{Binding BrandName}"/>
+                            <DataGridTextColumn Header="Модель" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Вместимость" Binding="{Binding Capacity}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </GroupBox>
+
+            <ScrollViewer Grid.Column="2">
+                <StackPanel DataContext="{Binding SelectedItem}" Margin="10">
+                    <DockPanel>
+                        <Label DockPanel.Dock="Left" Margin="5" Content="Id"/>
+                        <TextBlock Text="{Binding Id}"/>
+                    </DockPanel>
+
+                    <Label Content="Марка"/>
+                    <TextBlock Text="{Binding SelectedVehicleModel.BrandName, FallbackValue='-'}"/>
+
+                    <Label Content="Модель"/>
+                    <TextBlock Text="{Binding SelectedVehicleModel.Name, FallbackValue='-'}"/>
+
+                    <Label Content="Вместимость"/>
+                    <TextBlock Text="{Binding SelectedVehicleModel.Capacity, FallbackValue='-'}"/>
+
+                    <Label Content="Гос. номер"/>
+                    <TextBox x:Name="LicensePlateNumberTextBox">
+                        <TextBox.Text>
+                            <Binding Path="LicensePlateNumber" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationRules:LicensePlateNumberValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <Label  Content="Дата производства"/>
+                    <DatePicker  SelectedDate="{Binding Manufacture}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
+
+                    <Label  Content="Дата последнего ремонта"/>
+                    <DatePicker   SelectedDate="{Binding LastRepair}" DisplayDateEnd="{x:Static sys:DateTime.Now}"/>
+
+                    <Label  Content="Тип последнего ремонта"/>
+                    <ComboBox  ItemsSource="{Binding RepairTypeItems}" SelectedItem="{Binding SelectedRepairType}"
+                              DisplayMemberPath="Name"/>
+
+                    <Label  Content="Прогон"/>
+                    <TextBox x:Name="MileageTextBox"  Text="{Binding Mileage}" PreviewTextInput="NumberPreviewTextInput"/>
+
+                    <Label  Content="Фото"/>
+                    <TextBox  Text="{Binding Photography}"/>
+
+                    <Label  Content="Фрахтовщик"/>
+                    <ComboBox  Text="{Binding SelectedFreighter.Name, FallbackValue='-'}" ItemsSource="{Binding FreighterItems}"
+                              SelectedItem="{Binding SelectedFreighter, FallbackValue='-'}" DisplayMemberPath="Name"/>
+
+                    <Label  Content="Номер страховки"/>
+                    <TextBox x:Name="InsuranceNumber" Margin="5">
+                        <TextBox.Text>
+                            <Binding Path="InsuranceDetails" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validationRules:NotEmptyValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <Button Content="Сохранить" Margin="10" Command="{Binding SaveCommand}">
+                        <Button.IsEnabled>
+                            <MultiBinding>
+                                <MultiBinding.Converter>
+                                    <converters:MultiBoolConverter/>
+                                </MultiBinding.Converter>
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="LicensePlateNumberTextBox" Path="(Validation.HasError)"/>
+                                    <Binding ElementName="MileageTextBox" Path="(Validation.HasError)"/>
+                                    <Binding ElementName="InsuranceNumber" Path="(Validation.HasError)"/>
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
+                    <Button Content="Удалить" Margin="10" Command="{Binding RemoveCommand}"/>
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+</UserControl>

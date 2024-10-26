@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformationSystem.ViewModel.Menu;
 
-public class BrandMenuViewModel : MenuViewModel<BrandEditViewModel, Brand>
+public class BrandMenuViewModel : MenuViewModel<BrandFormViewModel, Brand>
 {
     public BrandMenuViewModel(IMessageBoxService messageBoxService,
         IDbContextFactory<DomainContext> contextFactory,
@@ -16,7 +16,7 @@ public class BrandMenuViewModel : MenuViewModel<BrandEditViewModel, Brand>
         vmFactory) { }
 }
 
-public class CategoryMenuViewModel : MenuViewModel<CategoryEditViewModel, Category>
+public class CategoryMenuViewModel : MenuViewModel<CategoryFormViewModel, Category>
 {
     public CategoryMenuViewModel(IMessageBoxService messageBoxService,
         IDbContextFactory<DomainContext> contextFactory,
@@ -25,7 +25,7 @@ public class CategoryMenuViewModel : MenuViewModel<CategoryEditViewModel, Catego
         vmFactory) { }
 }
 
-public class DriverMenuViewModel : MenuViewModel<DriverEditViewModel, Driver>
+public class DriverMenuViewModel : MenuViewModel<DriverFormViewModel, Driver>
 {
     public DriverMenuViewModel(IMessageBoxService messageBoxService,
         IDbContextFactory<DomainContext> contextFactory,
@@ -34,7 +34,7 @@ public class DriverMenuViewModel : MenuViewModel<DriverEditViewModel, Driver>
         vmFactory) { }
 }
 
-public class FreighterMenuViewModel : MenuViewModel<FreighterEditViewModel, Freighter>
+public class FreighterMenuViewModel : MenuViewModel<FreighterFormViewModel, Freighter>
 {
     public FreighterMenuViewModel(IMessageBoxService messageBoxService,
         IDbContextFactory<DomainContext> contextFactory,
@@ -43,7 +43,7 @@ public class FreighterMenuViewModel : MenuViewModel<FreighterEditViewModel, Frei
         vmFactory) { }
 }
 
-public class RepairTypeMenuViewModel : MenuViewModel<RepairTypeEditViewModel, RepairType>
+public class RepairTypeMenuViewModel : MenuViewModel<RepairFormEditViewModel, RepairType>
 {
     public RepairTypeMenuViewModel(IMessageBoxService messageBoxService,
         IDbContextFactory<DomainContext> contextFactory,
@@ -52,7 +52,7 @@ public class RepairTypeMenuViewModel : MenuViewModel<RepairTypeEditViewModel, Re
         vmFactory) { }
 }
 
-public class RouteMenuViewModel : MenuViewModel<RouteEditViewModel, Route>
+public class RouteMenuViewModel : MenuViewModel<RouteFormViewModel, Route>
 {
     public RouteMenuViewModel(IMessageBoxService messageBoxService,
         IDbContextFactory<DomainContext> contextFactory,
@@ -61,42 +61,42 @@ public class RouteMenuViewModel : MenuViewModel<RouteEditViewModel, Route>
         vmFactory) { }
 }
 
-public class RunMenuViewModel : MenuViewModel<RunEditViewModel, Run>
+public class RunMenuViewModel : MenuViewModel<RunFormViewModel, Run>
 {
     public RunMenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory) : base(messageBoxService, contextFactory, vmFactory)
     {
     }
 }
 
-public class VehicleMenuViewModel : MenuViewModel<VehicleEditViewModel, Vehicle>
+public class VehicleMenuViewModel : MenuViewModel<VehicleFormViewModel, Vehicle>
 {
     public VehicleMenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory) : base(messageBoxService, contextFactory, vmFactory)
     {
     }
 }
 
-public class VehicleModelMenuViewModel : MenuViewModel<VehicleModelEditViewModel, VehicleModel>
+public class VehicleModelMenuViewModel : MenuViewModel<VehicleModelFormViewModel, VehicleModel>
 {
     public VehicleModelMenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory) : base(messageBoxService, contextFactory, vmFactory)
     {
     }
 }
 
-public class StationMenuViewModel : MenuViewModel<StationEditViewModel, Station>
+public class StationMenuViewModel : MenuViewModel<StationFormViewModel, Station>
 {
     public StationMenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory) : base(messageBoxService, contextFactory, vmFactory)
     {
     }
 }
 
-public class TicketMenuViewModel : MenuViewModel<TicketEditViewModel, Ticket>
+public class TicketMenuViewModel : MenuViewModel<TicketFormViewModel, Ticket>
 {
     public TicketMenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory) : base(messageBoxService, contextFactory, vmFactory)
     {
     }
 }
 
-public class TicketTypeMenuViewModel : MenuViewModel<TicketTypeEditViewModel, Ticket>
+public class TicketTypeMenuViewModel : MenuViewModel<TicketTypeFormViewModel, Ticket>
 {
     public TicketTypeMenuViewModel(IMessageBoxService messageBoxService, IDbContextFactory<DomainContext> contextFactory, IViewModelFactory vmFactory) : base(messageBoxService, contextFactory, vmFactory)
     {

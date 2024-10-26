@@ -19,39 +19,39 @@
         </DataTemplate>
         
         <DataTemplate DataType="{x:Type vmmenu:StationMenuViewModel}">
-            <vmenu:StationMenuUserControl/>
+            <vmenu:StationFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:BrandMenuViewModel}">
-            <vmenu:BrandMenuUserControl/>
+            <vmenu:BrandFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:CategoryMenuViewModel}">
-            <vmenu:CategoryMenuUserControl/>
+            <vmenu:CategoryFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:DriverMenuViewModel}">
-            <vmenu:DriverMenuUserControl/>
+            <vmenu:DriverFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:FreighterMenuViewModel}">
-            <vmenu:FreighterMenuUserControl/>
+            <vmenu:FreighterFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:RepairTypeMenuViewModel}">
-            <vmenu:RepairTypeMenuUserControl/>
+            <vmenu:RepairTypeFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:RouteMenuViewModel}">
-            <vmenu:RouteMenuUserControl/>
+            <vmenu:RouteFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:RunMenuViewModel}">
-            <vmenu:RunMenuUserControl/>
+            <vmenu:RunFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:TicketMenuViewModel}">
-            <vmenu:TicketMenuUserControl/>
+            <vmenu:TicketFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:TicketTypeMenuViewModel}">
-            <vmenu:TicketTypeMenuUserControl/>
+            <vmenu:TicketTypeFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:VehicleMenuViewModel}">
-            <vmenu:VehicleMenuUserControl/>
+            <vmenu:VehicleFormUserControl/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmmenu:VehicleModelMenuViewModel}">
-            <vmenu:VehicleModelMenuUserControl/>
+            <vmenu:VehicleModelFormUserControl/>
         </DataTemplate>
 </ResourceDictionary>

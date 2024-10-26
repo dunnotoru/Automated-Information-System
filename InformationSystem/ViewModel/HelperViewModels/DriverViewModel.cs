@@ -2,7 +2,7 @@
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-internal class DriverViewModel : ViewModelBase
+public class DriverViewModel : ViewModelBase
 {
     private int _id;
     private string _fullName;

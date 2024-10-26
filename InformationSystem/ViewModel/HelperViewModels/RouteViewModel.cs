@@ -2,7 +2,7 @@
 
 namespace InformationSystem.ViewModel.HelperViewModels;
 
-internal class RouteViewModel : ViewModelBase
+public class RouteViewModel : ViewModelBase
 {
     private int _id;
     private string _name;

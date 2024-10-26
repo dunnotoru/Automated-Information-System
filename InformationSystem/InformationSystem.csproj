@@ -26,62 +26,62 @@
     <Page Remove="Resourses\Converters.xaml" />
     <Page Remove="Resourses\Styles.xaml" />
     <Page Remove="Resourses\Validations.xaml" />
-    <Page Update="View\Menu\BrandMenuUserControl.xaml">
+    <Page Update="View\Menu\BrandFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\CategoryMenuUserControl.xaml">
+    <Page Update="View\Menu\CategoryFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\FreighterMenuUserControl.xaml">
+    <Page Update="View\Menu\FreighterFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\RepairTypeMenuUserControl.xaml">
+    <Page Update="View\Menu\RepairTypeFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\TicketTypeMenuUserControl.xaml">
+    <Page Update="View\Menu\TicketTypeFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\VehicleModelMenuUserControl.xaml">
+    <Page Update="View\Menu\VehicleModelFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\DriverMenuUserControl.xaml">
+    <Page Update="View\Menu\DriverFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\RouteMenuUserControl.xaml">
+    <Page Update="View\Menu\RouteFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\RunMenuUserControl.xaml">
+    <Page Update="View\Menu\RunFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\StationMenuUserControl.xaml">
+    <Page Update="View\Menu\StationFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\TicketMenuUserControl.xaml">
+    <Page Update="View\Menu\TicketFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Menu\VehicleMenuUserControl.xaml">
+    <Page Update="View\Menu\VehicleFormUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>

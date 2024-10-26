@@ -8,7 +8,7 @@ namespace InformationSystem.ViewModel.Menu;
 
 public abstract class EditViewModel : ViewModelBase
 {
-    protected readonly IDbContextFactory<DomainContext> ContextFactory;
+    private readonly IDbContextFactory<DomainContext> _contextFactory;
 
     public int Id { get; protected set; }
     
@@ -27,12 +27,12 @@ public abstract class EditViewModel : ViewModelBase
     {
         SaveCommand = new RelayCommand(SaveRoutine, CanSave);
         RemoveCommand = new RelayCommand(RemoveRoutine, CanSave);
-        ContextFactory = contextFactory;
+        _contextFactory = contextFactory;
     }
 
     protected void SaveRoutine()
     {
-        DomainContext context = ContextFactory.CreateDbContext();
+        DomainContext context = _contextFactory.CreateDbContext();
         
         try
         {
@@ -51,7 +51,7 @@ public abstract class EditViewModel : ViewModelBase
     
     protected void RemoveRoutine()
     {
-        DomainContext context = ContextFactory.CreateDbContext();
+        DomainContext context = _contextFactory.CreateDbContext();
         
         try
         {
